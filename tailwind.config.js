@@ -123,7 +123,7 @@ export default {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      'branco': '#ffffff',
+      'branco': '#fffff',
       'preto': '#000',
       'rosa': {
         50: '#f5d0ff',
@@ -154,4 +154,3 @@ export default {
   },
   plugins: [],
 }
-
