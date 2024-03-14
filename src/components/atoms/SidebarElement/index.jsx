@@ -112,7 +112,7 @@ export function SidebarElement({ text, link, icon }) {
     <li>
       <Link
         to={link}
-        className={`flex items-center justify-start w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
+        className={`grid grid-cols-[auto,_1fr] gap-9 grid-flow-row items-center justify-between w-full px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
         
@@ -137,7 +137,7 @@ export function SidebarElement({ text, link, icon }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         {navIcon(icon)}
-        <span>{text}</span>
+        <span className="break-all">{text}</span>
       </Link>
     </li>
   );
