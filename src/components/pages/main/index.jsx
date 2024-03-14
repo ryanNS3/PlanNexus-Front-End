@@ -1,16 +1,14 @@
-import Header from "../../atoms/headerElement";
+import {Header} from "../../atoms/headerElement";
 import { Sidebar } from "../../molecules/Sidebar";
-import { Outlet } from "react-router-dom";
 
 
 export function Main() {
 
 
     return(
-        <main className="flex flex-row">
-            <Sidebar className='col-span-2'/>
-            <Header className='col-span-10'/>
-            <Outlet />
+        <main className="grid grid-cols-12 gap-4">
+            <Sidebar className="col-span-2" />
+            <Header className="col-span-10" />
         </main>
     )
-};
+}

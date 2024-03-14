@@ -4,7 +4,7 @@ import NotificationSvg from '../../../assets/header/notifications.svg';
 import ArrowDownSvg from '../../../assets/header/nav-arrow-down.svg';
 import ClearSvg from '../../../assets/header/xmark.svg'; 
 
-function Header() {
+export function Header() {
   const [searchTerm, setSearchTerm] = useState('');
   const [profileImage, setProfileImage] = useState(null); // Estado para armazenar a imagem de perfil
 
@@ -30,9 +30,9 @@ function Header() {
   };
 
   return (
-    <header>
-      <form className="mt-10 grid grid-cols-12 gap-2">
-        <div className="col-start-3 col-end-10 relative">
+    <header className='col-span-10'>
+      <form className="mt-10 grid grid-cols-12 gap-2 relative">
+        <div className="col-start-1 col-end-10">
           <input
             type="text"
             placeholder="Pesquisar"
@@ -87,5 +87,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;

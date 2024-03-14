@@ -1,16 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Sidebar } from "./components/molecules/Sidebar";
-import Header from "./components/atoms/headerElement";
-import { Main } from "./components/pages/main";
-import { StatisticCard } from "./components/molecules/StatisticCard";
+import {Header} from "./components/atoms/headerElement";
+import {Main} from "./components/pages/main";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" Component={Main}>
-          <Route path=":page" Component={StatisticCard} />
+          <Route path=":page" Component={<></>} />
         </Route>
       </Routes>
     </>
