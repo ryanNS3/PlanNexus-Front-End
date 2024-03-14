@@ -70,7 +70,7 @@ export default {
         fontWeight: '600',
       }],
       'h4': ['80px', {
-        lineHeight: '84px',
+        lineHeight: '40px',
         letterSpacing: '1%',
         fontWeight: '600',
         case: 'upper',
