@@ -3,7 +3,7 @@ import Logo from "../../../assets/logo.svg";
 
 export function Sidebar() {
   return (
-    <aside className=" py-10 px-9 flex flex-col gap-12 col-span-2 border border-indigo-600">
+    <aside className=" py-10 pr-9 pl-0 flex flex-col gap-12 col-span-2"> {/* border border-indigo-600*/}
       <a href="/">
         <img src={Logo} alt="" />
       </a>
