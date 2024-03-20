@@ -5,27 +5,32 @@ import { EstoqueIcon } from "../../assets/Estoque";
 import { FuncionarioIcon } from "../../assets/Funcionario";
 
 export function StatisticCard({ title, situation, value }) {
-  let icon;
+  let icon, bgColor;
 
   switch (title) {
     case "Associados":
       icon = <AssociadosIcon size={24} />;
+      bgColor = "bg-rosa-50";
       break;
 
     case "Ganhos":
       icon = <GanhosIcon size={24} />;
+      bgColor = "bg-[#C5EFA4]";
       break;
 
     case "Vendas":
       icon = <VendasIcon size={24} />;
+      bgColor = "bg-[#EFDFA4]";
       break;
 
     case "Estoque":
       icon = <EstoqueIcon size={24} />;
+      bgColor = "bg-[#A4D9EF]";
       break;
 
     case "Funcionário":
-      <FuncionarioIcon size={24} />;
+      icon = <FuncionarioIcon size={24} />;
+      bgColor = "bg-[#B8A4EF]";
       break;
 
     default:
@@ -35,7 +40,7 @@ export function StatisticCard({ title, situation, value }) {
   return (
     <div className="px-4 py-6 flex flex-col gap-12 border border-cinza-100 rounded-lg shadow-[0_4px_8px_0px_rgba(227,227,227)] absolute right-[0] top-96">
       <header className="flex justify-start items-center gap-2">
-        <div className="h-10 w-10 flex items-center justify-center rounded bg-rosa-200">
+        <div className={`h-10 w-10 flex items-center justify-center rounded ${bgColor}`}>
           {icon}
         </div>
 
@@ -45,7 +50,9 @@ export function StatisticCard({ title, situation, value }) {
       <div className="flex flex-col gap-4 text-xl">
         <p className="text-ct3">
           {situation >= 0 ? "aumento" : "Baixo"}
-          <span className="bg-rosa-50 p-1 rounded-md inline-block ml-[0.188rem]">
+          <span
+            className={`p-1 rounded-md inline-block ml-[0.188rem] ${bgColor}`}
+          >
             {(situation > 0 && `+${situation}`) || situation}
           </span>
         </p>
