@@ -2,18 +2,27 @@ import Logo from "../../assets/logo.svg";
 
 export function Sidebar() {
   return (
-    <aside className=" py-10 pr-9 pl-0 flex flex-col gap-12 col-span-2"> {/* border border-indigo-600*/}
+    <aside className=" py-10 pr-9 pl-0 flex flex-col gap-12 col-span-2">
+      {" "}
+      {/* border border-indigo-600*/}
       <a href="/">
         <img src={Logo} alt="" />
       </a>
-
       <nav>
         <ul className="flex flex-col gap-9">
           <SidebarElement text="Home" icon="Home" link="/" />
           <SidebarElement text="Estoque" icon="Estoque" link="estoque" />
           <SidebarElement text="Doação" icon="Doação" link="doacao" />
-          <SidebarElement text="Financeiro" icon="Financeiro" link="financeiro" />
-          <SidebarElement text="Calendário" icon="Calendário" link="calendario" />
+          <SidebarElement
+            text="Financeiro"
+            icon="Financeiro"
+            link="financeiro"
+          />
+          <SidebarElement
+            text="Calendário"
+            icon="Calendário"
+            link="calendario"
+          />
           <SidebarElement text="Histórico" icon="Histórico" link="historico" />
           <SidebarElement text="Gestão" icon="Gestão" link="gestao" />
         </ul>
@@ -24,14 +33,8 @@ export function Sidebar() {
 
 import { EstoqueIcon, EstoqueIconLight } from "../../assets/Estoque";
 import { DoacaoIcon, DoacaoIconLight } from "../../assets/Doacao";
-import {
-  FinanceiroIcon,
-  FinanceiroIconLight,
-} from "../../assets/Financeiro";
-import {
-  CalendarioIcon,
-  CalendarioIconLight,
-} from "../../assets/Calendario";
+import { FinanceiroIcon, FinanceiroIconLight } from "../../assets/Financeiro";
+import { CalendarioIcon, CalendarioIconLight } from "../../assets/Calendario";
 import { HistoricoIcon, HistoricoIconLight } from "../../assets/Historico";
 import { GestaoIcon, GestaoIconLight } from "../../assets/Gestao";
 import { HomeIcon, HomeIconLight } from "../../assets/Home";
@@ -50,8 +53,7 @@ export function SidebarElement({ text, link, icon }) {
 
   let { page } = useParams();
 
-  if (!page)
-    page = "/"
+  if (!page) page = "/";
 
   const navIcon = (icon) => {
     const isActive = page === link;
@@ -145,7 +147,8 @@ export function SidebarElement({ text, link, icon }) {
         // HOVER
         hover:from-[#BD3FD1] hover:to-[#9332AE] hover:bg-gradient-to-b hover:text-[#fff]
         
-        ${page === link
+        ${
+          page === link
             ? `
         shadow-[0_4px_16px_0px_rgba(245,208,255)]
 
@@ -155,7 +158,7 @@ export function SidebarElement({ text, link, icon }) {
         //GRADIENTE
         from-[#BD3FD1] to-[#9332AE] bg-gradient-to-b text-[#fff]`
             : `after:content-[''] after:h-0 after:w-0 after:absolute after:right-[-1rem] after:bg-rosa-300 after:rounded-lg`
-          }`}
+        }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

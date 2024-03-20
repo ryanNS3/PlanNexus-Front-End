@@ -40,7 +40,9 @@ export function StatisticCard({ title, situation, value }) {
   return (
     <div className="px-4 py-6 flex flex-col gap-12 border border-cinza-100 rounded-lg shadow-[0_4px_8px_0px_rgba(227,227,227)]">
       <header className="flex justify-start items-center gap-2">
-        <div className={`h-10 w-10 flex items-center justify-center rounded ${bgColor}`}>
+        <div
+          className={`h-10 w-10 flex items-center justify-center rounded ${bgColor}`}
+        >
           {icon}
         </div>
 
