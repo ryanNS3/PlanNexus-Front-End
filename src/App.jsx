@@ -9,7 +9,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route index path=":page" element={<StatisticCard />} />
+          <Route index path="/" element={<StatisticCard title={"Associados"} situation={-5} value={327} />} />
+          <Route index path=":page" element={<StatisticCard title={"Ganhos"} situation={16} value={327} />} />
         </Route>
       </Routes>
       <LineTable/>
