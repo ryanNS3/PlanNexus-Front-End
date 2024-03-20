@@ -10,7 +10,7 @@ export function LineTable() {
                 </div>
                 <div className="flex items-center justify-center gap-20">
                     <div className="bg-[#64B140] rounded px-4 py-2"><p className="text-[#fff]">Sim</p></div>
-                    <div className="flex gap-1 cursor-pointer p-2">
+                    <div className="flex gap-1 cursor-pointer p-2 hover:bg-cinza-100 rounded">
                         <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
                         <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
                         <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>

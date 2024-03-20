@@ -15,8 +15,6 @@ function App() {
         </Route>
       </Routes>
       <LineTable/>
-      <LineTable/>
-      <LineTable/>
     </>
   );
 }
