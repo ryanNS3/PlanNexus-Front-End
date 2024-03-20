@@ -60,71 +60,71 @@ export function SidebarElement({ text, link, icon }) {
       case "Home":
       case "home":
         return isActive ? (
-          <HomeIconLight />
+          <HomeIconLight size={24} />
         ) : isHovered ? (
-          <HomeIconLight />
+          <HomeIconLight size={24} />
         ) : (
-          <HomeIcon />
+          <HomeIcon size={24} />
         );
 
       case "estoque":
       case "Estoque":
         return isActive ? (
-          <EstoqueIconLight />
+          <EstoqueIconLight size={24} />
         ) : isHovered ? (
-          <EstoqueIconLight />
+          <EstoqueIconLight size={24} />
         ) : (
-          <EstoqueIcon />
+          <EstoqueIcon size={24} />
         );
 
       case "doação":
       case "Doação":
         return isActive ? (
-          <DoacaoIconLight />
+          <DoacaoIconLight size={24} />
         ) : isHovered ? (
-          <DoacaoIconLight />
+          <DoacaoIconLight size={24} />
         ) : (
-          <DoacaoIcon />
+          <DoacaoIcon size={24} />
         );
 
       case "financeiro":
       case "Financeiro":
         return isActive ? (
-          <FinanceiroIconLight />
+          <FinanceiroIconLight size={24} />
         ) : isHovered ? (
-          <FinanceiroIconLight />
+          <FinanceiroIconLight size={24} />
         ) : (
-          <FinanceiroIcon />
+          <FinanceiroIcon size={24} />
         );
 
       case "calendário":
       case "Calendário":
         return isActive ? (
-          <CalendarioIconLight />
+          <CalendarioIconLight size={24} />
         ) : isHovered ? (
-          <CalendarioIconLight />
+          <CalendarioIconLight size={24} />
         ) : (
-          <CalendarioIcon />
+          <CalendarioIcon size={24} />
         );
 
       case "histórico":
       case "Histórico":
         return isActive ? (
-          <HistoricoIconLight />
+          <HistoricoIconLight size={24} />
         ) : isHovered ? (
-          <HistoricoIconLight />
+          <HistoricoIconLight size={24} />
         ) : (
-          <HistoricoIcon />
+          <HistoricoIcon size={24} />
         );
 
       case "gestão":
       case "Gestão":
         return isActive ? (
-          <GestaoIconLight />
+          <GestaoIconLight size={24} />
         ) : isHovered ? (
-          <GestaoIconLight />
+          <GestaoIconLight size={24} />
         ) : (
-          <GestaoIcon />
+          <GestaoIcon size={24} />
         );
 
       default:
