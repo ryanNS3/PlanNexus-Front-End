@@ -2,95 +2,166 @@ import Logo from "../../assets/logo.svg";
 
 export function Sidebar() {
   return (
-    <aside className="w-fit py-10 px-9 flex flex-col gap-12 col-start-1 col-end-3">
+    <aside className=" py-10 pr-9 pl-0 flex flex-col gap-12 col-span-2"> {/* border border-indigo-600*/}
       <a href="/">
         <img src={Logo} alt="" />
       </a>
 
       <nav>
         <ul className="flex flex-col gap-9">
-          <SidebarElement text="Estoque" icon="Estoque" link="/estoque" />
-          <SidebarElement text="Doação" icon="Doação" link="/doacao" />
-          <SidebarElement text="Financeiro" icon="Financeiro" link="/financeiro" />
-          <SidebarElement text="Calendário" icon="Calendário" link="/calendario" />
-          <SidebarElement text="Histórico" icon="Histórico" link="/historico" />
-          <SidebarElement text="Gestão" icon="Gestão" link="/gestao" />
+          <SidebarElement text="Home" icon="Home" link="/" />
+          <SidebarElement text="Estoque" icon="Estoque" link="estoque" />
+          <SidebarElement text="Doação" icon="Doação" link="doacao" />
+          <SidebarElement text="Financeiro" icon="Financeiro" link="financeiro" />
+          <SidebarElement text="Calendário" icon="Calendário" link="calendario" />
+          <SidebarElement text="Histórico" icon="Histórico" link="historico" />
+          <SidebarElement text="Gestão" icon="Gestão" link="gestao" />
         </ul>
       </nav>
     </aside>
   );
 }
 
-import EstoqueIcon from "../../assets/estoque.svg";
-import DoacaoIcon from "../../assets/doacao.svg";
-import FinanceiroIcon from "../../assets/financeiro.svg";
-import CalendarioIcon from "../../assets/calendario.svg";
-import HistoricoIcon from "../../assets/historico.svg";
-import GestaoIcon from "../../assets/gestao.svg";
+import { EstoqueIcon, EstoqueIconLight } from "../../assets/Estoque";
+import { DoacaoIcon, DoacaoIconLight } from "../../assets/Doacao";
+import {
+  FinanceiroIcon,
+  FinanceiroIconLight,
+} from "../../assets/Financeiro";
+import {
+  CalendarioIcon,
+  CalendarioIconLight,
+} from "../../assets/Calendario";
+import { HistoricoIcon, HistoricoIconLight } from "../../assets/Historico";
+import { GestaoIcon, GestaoIconLight } from "../../assets/Gestao";
+import { HomeIcon, HomeIconLight } from "../../assets/Home";
+
+import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
 
 export function SidebarElement({ text, link, icon }) {
   /* PROPS
-    * text: STRING
-    * link: STRING
-    * icon: ENUM("estoque", "Estoque", "doação", "Doação", "financeiro", "Financeiro", "calendário", "Calendário", "histórico", "Histórico", "gestão", "Gestão")
-  */
+   * text: STRING
+   * link: STRING
+   * icon: ENUM("estoque", "Estoque", "doação", "Doação", "financeiro", "Financeiro", "calendário", "Calendário", "histórico", "Histórico", "gestão", "Gestão")
+   */
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  let { page } = useParams();
+
+  if (!page)
+    page = "/"
 
   const navIcon = (icon) => {
-    let iconComponent;
+    const isActive = page === link;
 
     switch (icon) {
+      case "Home":
+      case "home":
+        return isActive ? (
+          <HomeIconLight />
+        ) : isHovered ? (
+          <HomeIconLight />
+        ) : (
+          <HomeIcon />
+        );
+
       case "estoque":
       case "Estoque":
-        iconComponent = EstoqueIcon;
-        break;
+        return isActive ? (
+          <EstoqueIconLight />
+        ) : isHovered ? (
+          <EstoqueIconLight />
+        ) : (
+          <EstoqueIcon />
+        );
 
       case "doação":
       case "Doação":
-        iconComponent = DoacaoIcon;
-        break;
+        return isActive ? (
+          <DoacaoIconLight />
+        ) : isHovered ? (
+          <DoacaoIconLight />
+        ) : (
+          <DoacaoIcon />
+        );
 
       case "financeiro":
       case "Financeiro":
-        iconComponent = FinanceiroIcon;
-        break;
+        return isActive ? (
+          <FinanceiroIconLight />
+        ) : isHovered ? (
+          <FinanceiroIconLight />
+        ) : (
+          <FinanceiroIcon />
+        );
 
       case "calendário":
       case "Calendário":
-        iconComponent = CalendarioIcon;
-        break;
+        return isActive ? (
+          <CalendarioIconLight />
+        ) : isHovered ? (
+          <CalendarioIconLight />
+        ) : (
+          <CalendarioIcon />
+        );
 
       case "histórico":
       case "Histórico":
-        iconComponent = HistoricoIcon;
-        break;
+        return isActive ? (
+          <HistoricoIconLight />
+        ) : isHovered ? (
+          <HistoricoIconLight />
+        ) : (
+          <HistoricoIcon />
+        );
 
       case "gestão":
       case "Gestão":
-        iconComponent = GestaoIcon;
-        break;
+        return isActive ? (
+          <GestaoIconLight />
+        ) : isHovered ? (
+          <GestaoIconLight />
+        ) : (
+          <GestaoIcon />
+        );
 
       default:
-        break;
+        return null;
     }
-
-    return iconComponent;
   };
 
   return (
     <li>
-      <a
-        href={link}
-        className="flex items-center justify-start w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium text-[#fff] relative 
+      <Link
+        to={link}
+        className={`grid grid-cols-[auto,_1fr] gap-9 grid-flow-row items-center justify-between w-full px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
 
-        // ESTILOS DO PSEUDO ELEMENTO AFTER (Font-weight: 500 não está funcionando)
-        after:content-[''] after:h-3/5 after:w-1.5 after:absolute after:right-[-1rem] after:bg-rosa-300 after:rounded-lg
+        // ESTILOS DO PSEUDO ELEMENTO AFTER
         
+        hover:after:content-[''] hover:after:h-3/5 hover:after:w-1.5 hover:after:absolute hover:after:right-[-1rem] hover:after:bg-rosa-300 hover:after:rounded-lg
+
+        // HOVER
+        hover:from-[#BD3FD1] hover:to-[#9332AE] hover:bg-gradient-to-b hover:text-[#fff]
+        
+        ${page === link
+            ? `
+        shadow-[0_4px_16px_0px_rgba(245,208,255)]
+
+        // ESTILOS DO PSEUDO ELEMENTO AFTER
+        after:content-[''] after:h-3/5 after:w-1.5 after:absolute after:right-[-1rem] after:bg-rosa-300 after:rounded-lg
+
         //GRADIENTE
-        from-[#BD3FD1] to-[#9332AE] bg-gradient-to-b"
+        from-[#BD3FD1] to-[#9332AE] bg-gradient-to-b text-[#fff]`
+            : `after:content-[''] after:h-0 after:w-0 after:absolute after:right-[-1rem] after:bg-rosa-300 after:rounded-lg`
+          }`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <img src={navIcon(icon)} alt="" />
-        <span>{text}</span>
-      </a>
+        {navIcon(icon)}
+        <span className="break-all">{text}</span>
+      </Link>
     </li>
   );
 }
