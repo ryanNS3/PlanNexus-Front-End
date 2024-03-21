@@ -8,6 +8,7 @@ import {Home} from "../src/pages/Home";
 import { Login } from "../src/pages/login";
 import { LineTable } from "./components/LineTable";
 import { Statistic } from "./components/Statistic";
+import { Main } from "./components/Main";
 
 function App() {
   return (
@@ -17,7 +18,6 @@ function App() {
           <Route path=":page" element={<Statistic />} />
         </Route>  
       </Routes>
-      <Statistic />
     </>
   );
 }
