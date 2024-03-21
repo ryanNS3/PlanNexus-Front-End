@@ -7,6 +7,7 @@ import { CardEvents } from "./components/Cards/cardEvents";
 import {Home} from "../src/pages/Home";
 import { Login } from "../src/pages/login";
 import { LineTable } from "./components/LineTable";
+import { NavBarGestao } from "./components/NavBarGestao";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path=":page" Component={<></>} />
         </Route>
       </Routes>
+      <NavBarGestao/>
     </>
   );
 }
