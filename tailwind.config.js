@@ -140,7 +140,7 @@ export default {
         'destaque': '#cb6ce6'
       },
       'cinza': {
-        50: '#F2F2F2',
+        50: '#F9F9F9',
         100: '#E6E6E6',
         200: '#CCCCCC',
         300: '#999999',
@@ -149,7 +149,24 @@ export default {
         700: '#333333',
         800: '#1A1A1A',
         950: '#0A0A0A'
-      }
+      },
+      'roxo': {
+        50: '#F5ECFF',
+        100: '#EBD8FF',
+        200: '#D6B4F8',
+        400: '#A979DA',
+        500: '#905EC2',
+        600: '#7251B3',
+        700: '#5E38A7',
+        750: '#4C2499',
+        800: '#2E0879',
+        850: '#190245',
+        900: '#120132',
+        1000: '#080018',
+      },
+      backgroundImage: {
+        'gradiente-enfase': 'linear-gradient(to right, #BD3FD1, #9332AE)',
+      },
     },
   },
   plugins: [],
