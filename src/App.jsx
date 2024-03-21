@@ -7,15 +7,17 @@ import { CardEvents } from "./components/Cards/cardEvents";
 import {Home} from "../src/pages/Home";
 import { Login } from "../src/pages/login";
 import { LineTable } from "./components/LineTable";
+import { Statistic } from "./components/Statistic";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" Component={Home}>
-          <Route path=":page" Component={<></>} />
-        </Route>
+        <Route path="/" element={<Home />}>
+          <Route path=":page" element={<Statistic />} />
+        </Route>  
       </Routes>
+      <Statistic />
     </>
   );
 }
