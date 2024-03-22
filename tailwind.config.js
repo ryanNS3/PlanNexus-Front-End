@@ -123,8 +123,9 @@ export default {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      'branco': '#fffff',
+      'branco': '#FFFFFF',
       'preto': '#000',
+      'vermelho': '#E95050',
       'rosa': {
         50: '#f5d0ff',
         100: '#eba5ff',
