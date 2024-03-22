@@ -22,8 +22,13 @@ export function Login() {
   };
 
   const handleSubmit = (event) => {
+    if (email.endsWith('@senaisp.edu.br')) {
+      setEmail(email); // Mantém o email intacto se já contém o domínio
+    } else {
+      setEmail(email + '@senaisp.edu.br'); // Adiciona o domínio se não estiver presente
+    }
+
     event.preventDefault();
-    email = email + '@senaisp.edu.br'
     console.log(`email: ${email} password: ${password}`)
   };
 
@@ -34,7 +39,7 @@ export function Login() {
         <h1 className="text-h5 text-cinza-50 pt-20">Bem-vindo(a)</h1>
         <p className="text-cp2 text-cinza-50 pt-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione commodi quisquam cum, ut maiores quasi eos! Tempore, error fuga dolore ut illo sequi fugiat quasi nesciunt nulla laborum. Nesciunt!</p>
 
-        <iframe class="w-full aspect-video mt-10 pr-2" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+        <iframe className="w-full aspect-video mt-10 pr-2" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
 
       </div>
 
@@ -68,10 +73,10 @@ export function Login() {
               placeholder="Senha"
             />
             <div className="text-start">
-              <a href="#" className="text-rosa-300 text-fun2">Esqueci a senha</a>
+              <a href="#" className="text-rosa-400 text-fun2">Esqueci a senha</a>
             </div>
 
-            <PinkButton className="" text="Entrar" size="medio" action={console.log('hi')}/>
+            <PinkButton text="Entrar" size="medium" action={() => console.log('hi')} align='end'/>
           </form>
         </div>
       </div>
