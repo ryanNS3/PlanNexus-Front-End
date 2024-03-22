@@ -2,15 +2,17 @@ import { useState } from 'react';
 import { PinkButton } from '../../components/Buttons/pinkButton';
 
 export function Login() {
-  let [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [emailSemArroba, setEmailSemArroba] = useState('')
+
 
   const handleEmailChange = (event) => {
-    const value = event.target.value;
-    setEmail(value);
+    setEmailSemArroba(event.target.value)
+    setEmail(event.target.value);
 
-    if (value.includes('@')) {
+    if (email.includes('@')) {
       setErrorMessage('Domínio inválido');
     } else {
       setErrorMessage(''); 
@@ -21,16 +23,18 @@ export function Login() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    if (email.endsWith('@senaisp.edu.br')) {
-      setEmail(email); // Mantém o email intacto se já contém o domínio
-    } else {
-      setEmail(email + '@senaisp.edu.br'); // Adiciona o domínio se não estiver presente
-    }
-
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`email: ${email} password: ${password}`)
+    
+    let finalEmail = email;
+    if (!email.endsWith('@senaisp.edu.br')) {
+      finalEmail = email + '@senaisp.edu.br';
+      await setEmail(finalEmail);
+    }
+  
+    console.log(`email: ${finalEmail} password: ${password}`);
   };
+  
 
   return (
     <div className="flex flex-col min-h-screen md:h-screen md:flex-row bg-preto">
@@ -46,37 +50,49 @@ export function Login() {
       <div className="min-h-screen w-full mt-12 pt-10 md:pt-0 pl-6 md:pl-12 md:mt-0 bg-cinza-50 flex flex-col justify-center items-center md:items-start rounded-t-[16px] md:rounded-l-[16px]">
         <h3 className="text-h3 mb-8">Login</h3>
         <div className="w-3/4">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <div className="relative">
-              <p className='block text-fun1'>Email</p>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                value={email}
-                onChange={handleEmailChange}
-                className="appearance-none border border-2 border-cinza-50 rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-16"
-                placeholder="Ex: marlene"
-              />
-              <span className="absolute inset-y-0 right-2 top-10 flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-rosa-destaque rounded-lg w-auto h-8">@senaisp.edu.br</span>
+
+              <label htmlFor="email">
+                <span className='block text-fun1'>Email</span>
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  value={emailSemArroba}
+                  onChange={handleEmailChange}
+                  className="appearance-none border border-2 border-cinza-100 rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-16"
+                  placeholder="Ex: marlene"
+                  required
+                />
+              </label>
+              
+
+
+              <span className="absolute inset-y-0 right-2 top-11 flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-rosa-destaque rounded-lg w-auto h-8">@senaisp.edu.br</span>
             </div>
             {errorMessage && <p className="text-vermelho text-fun2">{errorMessage}</p>}
 
-            <p className='block text-fun1 mt-8'>Senha</p>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handlePasswordChange}
-              className="appearance-none border border-2 border-cinza-50 rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-12 md:h-16"
-              placeholder="Senha"
-            />
+
+            <label htmlFor='password'>
+              <span className='block text-fun1 mt-8'>Senha</span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+                className="appearance-none border border-2 border-cinza-100 rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-12 md:h-16"
+                placeholder="Senha"
+                required
+              />
+            </label>
+            
             <div className="text-start">
               <a href="#" className="text-rosa-400 text-fun2">Esqueci a senha</a>
             </div>
 
-            <PinkButton text="Entrar" size="medium" action={() => console.log('hi')} align='end'/>
+            <PinkButton text="Entrar" size="medium" action={null} align='end'/>
           </form>
         </div>
       </div>
