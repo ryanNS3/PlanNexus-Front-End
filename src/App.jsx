@@ -9,13 +9,14 @@ import { Login } from "../src/pages/login";
 import { LineTable } from "./components/LineTable";
 import { NavBarGestao } from "./components/NavBarGestao";
 
+
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" Component={Home}>
-          <Route path=":page" Component={<></>} />
-        </Route>
+        <Route path="/" element={<Home />}>
+          <Route path=":page" element={<Statistic />} />
+        </Route>  
       </Routes>
       <NavBarGestao/>
     </>
