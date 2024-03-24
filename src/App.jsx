@@ -7,10 +7,18 @@ import { CardEvents } from "./components/Cards/cardEvents";
 import {Home} from "../src/pages/Home";
 import { Login } from "../src/pages/login";
 import { LineTable } from "./components/LineTable";
+import { Statistic } from "./components/Statistic";
 import { NavBarGestao } from "./components/NavBarGestao";
+
+import { useEffect } from "react";
+import { AcessibilityReporter } from "./utils/acessibility/Acessibility";
 
 
 function App() {
+  useEffect(() =>{
+   AcessibilityReporter()
+  },[])
+
   return (
     <>
       <Routes>

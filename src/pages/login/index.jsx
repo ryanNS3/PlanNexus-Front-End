@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PinkButton } from '../../components/Buttons/pinkButton';
 import { Link } from 'react-router-dom';
-import loginimage from '../../assets/50cent-smile.gif'
+
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -57,7 +57,7 @@ export function Login() {
       <div className="flex flex-col w-full min-h-screen bg-preto justify-start pl-10">
         <h1 className="text-h5 text-cinza-50 pt-20">Bem-vindo(a)</h1>
         <p className="text-cp2 text-cinza-50 pt-6 w-3/4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione commodi quisquam cum, ut maiores quasi eos! Tempore, error fuga dolore ut illo sequi fugiat quasi nesciunt nulla laborum. Nesciunt!</p>
-        <img src={loginimage} className='w-full aspect-video mt-10 relative right-6 top-20 md:top-0' alt='Login Image' />
+        {/* <img src={loginimage} className='w-full aspect-video mt-10 relative right-6 top-20 md:top-0' alt='Login Image' /> */}
       </div>
 
       <div className="min-h-screen w-full mt-12 pt-10 md:pt-0 pl-6 md:pl-12 md:mt-0 bg-cinza-50 flex flex-col justify-center items-center md:items-start rounded-t-[16px] md:rounded-l-[16px]">
