@@ -4,41 +4,45 @@ export function NavBarGestao() {
   const url = window.location;
   const turmasStyle =
     url.pathname === "/home/turmas"
-      ? "bg-cinza-800 text-cinza-50"
+      ? "bg-cinza-800 text-cinza-50 rounded-lg"
       : "bg-cinza-100";
 
   const funcionariosStyle =
     url.pathname === "/home/funcionarios"
-      ? "bg-cinza-800 text-cinza-50"
+      ? "bg-cinza-800 text-cinza-50 rounded-lg"
       : "bg-cinza-100";
   const armariosStyle =
     url.pathname === "/home/armarios"
-      ? "bg-cinza-800 text-cinza-50"
+      ? "bg-cinza-800 text-cinza-50 rounded-lg"
       : "bg-cinza-100";
+
+  const hoverTurmas = url.pathname === "/home/turmas" ? "" : "hover:border-b-2 hover:border-dashed"
+  const hoverFuncionarios = url.pathname === "/home/funcionarios" ? "" : "hover:border-b-2 hover:border-dashed"
+  const hoverArmarios = url.pathname === "/home/armarios" ? "" : "hover:border-b-2 hover:border-dashed"
 
   return (
     <>
-      <nav className="flex bg-cinza-100 rounded-[0.25rem] text-cinza-800 text-fun2 w-[1143px]">
+      <nav className="flex bg-cinza-100 rounded-lg text-cinza-800 text-fun2 w-full max-w-[71.438rem] min-w-[23.813rem]">
         <ul className="flex gap-2">
-          <li>
+          <li className={`py-4 px-5 ${turmasStyle}`}>
             <a
-              className={`hover:bg-cinza-800 hover:text-[#f9f9f9] block py-4 px-5 rounded-lg ${turmasStyle}`}
+              className={`${hoverTurmas} block`}
               href="/home/turmas"
             >
               Turmas
             </a>
           </li>
-          <li>
+          <li className={`py-4 px-5 ${funcionariosStyle}`}>
             <a
-              className={`hover:bg-cinza-800 hover:text-[#f9f9f9] block py-4 px-5 rounded-lg ${funcionariosStyle}`}
+              className={`${hoverFuncionarios} block`}
               href="/home/funcionarios"
             >
               Funcionários
             </a>
           </li>
-          <li>
+          <li className={`py-4 px-5 ${armariosStyle}`}>
             <a
-              className={`hover:bg-cinza-800 hover:text-[#f9f9f9] block py-4 px-5 rounded-lg ${armariosStyle}`}
+              className={`${hoverArmarios} block`}
               href="/home/armarios"
             >
               Armários

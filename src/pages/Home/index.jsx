@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { Main } from "../../components/Main";
+import { NavBarGestao } from "../../components/NavBarGestao";
 
 export function Home() {
   return (
@@ -10,6 +11,7 @@ export function Home() {
       <Header className="col-span-10" />
       <Main>
         <Outlet />
+        <NavBarGestao />
       </Main>
     </div>
   );
