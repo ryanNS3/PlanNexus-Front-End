@@ -43,7 +43,7 @@ export function PinkButton({ text, size, action, align }) {
     <button
       type="submit"
       onClick={action}
-      className={`flex justify-center bg-rosa-destaque hover:bg-rosa-300 hover:scale-105 active:scale-100 transform transition duration-300 rounded-sm text-branco text-fun1 py-1 px-1 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
+      className={`flex justify-center bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] hover:bg-rosa-300 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-branco text-fun1 py-1 px-1 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
     >
       {text}
     </button>
