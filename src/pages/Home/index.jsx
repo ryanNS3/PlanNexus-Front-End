@@ -17,8 +17,6 @@ export function Home() {
         <Outlet/>
         <SalesChart/>
         <Grafico/>
-        {/* <NavBarGestao/> */}
-
       </Main>
     </div>
   );
