@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export function Statistic() {
   const { current } = useParams();
@@ -28,10 +28,10 @@ export function Statistic() {
 }
 
 /*************************************************************************************************/
-// import { useParams } from "react-router-dom"; IMPORTED ON TOP
+// import { useParams, Link } from "react-router-dom"; IMPORTED ON TOP
 
 function StatisticHeader() {
-  //   const { current } = useParams();
+  const { period } = useParams();
 
   return (
     <header className="flex justify-between items-center">
@@ -39,24 +39,30 @@ function StatisticHeader() {
       <nav>
         <ul className="flex bg-cinza-100 rounded-lg text-fun2">
           <li>
-            <a
-              className=" block px-4 py-[1.25rem] bg-cinza-800 rounded-lg text-cinza-50"
-              href="/"
+            <Link
+              className={`block px-4 py-[1.25rem] ${
+                period === "day" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
+              }`}
+              to="day"
             >
               Hoje
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a className=" block px-4 py-[1.25rem]" href="/">
+            <Link className={`block px-4 py-[1.25rem] ${
+                period === "week" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
+              }`} to="week">
               Essa semana
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a className=" block px-4 py-[1.25rem]" href="/">
+            <Link className={`block px-4 py-[1.25rem] ${
+                period === "month" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
+              }`} to="month">
               Esse mês
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
