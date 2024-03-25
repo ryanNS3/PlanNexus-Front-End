@@ -9,7 +9,6 @@ import { Login } from "../src/pages/login";
 import { LineTable } from "./components/LineTable";
 import { Statistic } from "./components/Statistic";
 import { NavBarGestao } from "./components/NavBarGestao";
-import { Statistic } from "./components/Statistic";
 import { useEffect } from "react";
 import { AcessibilityReporter } from "./utils/acessibility/Acessibility";
 
@@ -27,7 +26,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
-      <NavBarGestao />
+      {/* <NavBarGestao /> */}
     </>
   );
 }
