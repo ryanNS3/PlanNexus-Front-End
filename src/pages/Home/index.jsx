@@ -3,6 +3,9 @@ import { Sidebar } from "../../components/Sidebar";
 import { Grafico } from "../../components/GraphicBar"
 import { Main } from "../../components/Main";
 import { SalesChart } from "../../components/SalesChart";
+import { Outlet } from "react-router-dom";
+import { NavBarGestao } from "../../components/NavBarGestao";
+import { Statistic } from "../../components/Statistic";
 
 export function Home() {
   return (
@@ -10,8 +13,12 @@ export function Home() {
       <Sidebar/>
       <Main>
         <Header/>
+        <Statistic/>
+        <Outlet/>
         <SalesChart/>
         <Grafico/>
+        {/* <NavBarGestao/> */}
+
       </Main>
     </div>
   );
