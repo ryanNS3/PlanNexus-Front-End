@@ -11,6 +11,7 @@ import { NavBarGestao } from "./components/NavBarGestao";
 import { Statistic } from "./components/Statistic";
 import { useEffect } from "react";
 import { AcessibilityReporter } from "./utils/acessibility/Acessibility";
+import { Router } from "./routes/Routes";
 
 function App() {
   useEffect(() =>{
@@ -19,13 +20,7 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route path=":page" element={<></>}>
-            <Route path=":period" />
-          </Route>
-        </Route>
-      </Routes>
+      <Router />
     </>
   );
 }
