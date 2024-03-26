@@ -1,20 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 
 export function Statistic() {
-  const { current } = useParams();
+  const [period, setPeriod] = useState("dia");
 
-  //   Lógica para que os valores dos cards sejam referentes ao:
-  current === "hoje"
-    ? /* dia atual */ ""
-    : current === "semana"
-    ? /* semana atual */ ""
-    : current === "mes"
-    ? /* mes atual */ ""
-    : null;
+  // Construir lógica para mostrar valores de acordo com o período selecionado
 
   return (
-    <>
-      <StatisticHeader />
+    <section className="flex flex-col gap-5">
+      <StatisticHeader period={period} setPeriod={setPeriod} />
 
       <div className="grid grid-cols-5 gap-5">
         <StatisticOverview title="Associados" situation={16} value={354} />
@@ -23,54 +16,52 @@ export function Statistic() {
         <StatisticOverview title="Estoque" situation={-16} value={354} />
         <StatisticOverview title="Funcionário" situation={16} value={354} />
       </div>
-    </>
+    </section>
   );
 }
 
 /*************************************************************************************************/
 // import { useParams, Link } from "react-router-dom"; IMPORTED ON TOP
 
-function StatisticHeader() {
-  const { period } = useParams();
-
+function StatisticHeader({ period, setPeriod }) {
   return (
     <header className="flex justify-between items-center">
       <h5 className="text-h5">Estatística:</h5>
       <nav>
         <ul className="flex bg-cinza-100 rounded-lg text-fun2">
           <li>
-            <Link
+            <button
               className={`block px-4 py-[1.25rem] ${
                 period === "dia" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
               }`}
-              to="dia"
+              onClick={() => setPeriod("dia")}
             >
               Hoje
-            </Link>
+            </button>
           </li>
 
           <li>
-            <Link
+            <button
               className={`block px-4 py-[1.25rem] ${
                 period === "semana"
                   ? "bg-cinza-800 rounded-lg text-cinza-50"
                   : ""
               }`}
-              to="semana"
+              onClick={() => setPeriod("semana")}
             >
               Essa semana
-            </Link>
+            </button>
           </li>
 
           <li>
-            <Link
+            <button
               className={`block px-4 py-[1.25rem] ${
                 period === "mes" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
               }`}
-              to="mes"
+              onClick={() => setPeriod("mes")}
             >
               Esse mês
-            </Link>
+            </button>
           </li>
         </ul>
       </nav>
@@ -85,6 +76,7 @@ import { GanhosIcon } from "../../assets/Ganhos";
 import { VendasIcon } from "../../assets/Vendas";
 import { EstoqueIcon } from "../../assets/Estoque";
 import { FuncionarioIcon } from "../../assets/Funcionario";
+import { useState } from "react";
 
 function StatisticOverview({ title, situation, value }) {
   let icon, bgColor;
