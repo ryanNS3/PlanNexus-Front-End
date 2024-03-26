@@ -41,9 +41,9 @@ function StatisticHeader() {
           <li>
             <Link
               className={`block px-4 py-[1.25rem] ${
-                period === "day" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
+                period === "dia" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
               }`}
-              to="day"
+              to="dia"
             >
               Hoje
             </Link>
@@ -51,16 +51,16 @@ function StatisticHeader() {
 
           <li>
             <Link className={`block px-4 py-[1.25rem] ${
-                period === "week" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
-              }`} to="week">
+                period === "semana" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
+              }`} to="semana">
               Essa semana
             </Link>
           </li>
 
           <li>
             <Link className={`block px-4 py-[1.25rem] ${
-                period === "month" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
-              }`} to="month">
+                period === "mes" ? "bg-cinza-800 rounded-lg text-cinza-50" : ""
+              }`} to="mes">
               Esse mês
             </Link>
           </li>
