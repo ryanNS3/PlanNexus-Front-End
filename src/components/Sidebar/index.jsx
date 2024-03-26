@@ -13,7 +13,7 @@ import { useState } from "react";
 
 export function Sidebar() {
   return (
-    <aside className="py-10 pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center">
+    <aside className="py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center">
       <Link to="/">
         <img className="max-[1471px]:hidden" src={Logo} alt="" />
         <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />
@@ -170,7 +170,7 @@ export function SidebarElement({ text, href, icon }) {
         </span>
         
         {isHovered ? (
-          <span className="max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco">
+          <span className="min-[1471px]:hidden max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco">
             {text}
           </span>
         ) : (
