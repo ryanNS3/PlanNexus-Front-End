@@ -1,3 +1,3 @@
 export function Main({ children }) {
-  return <main className="col-start-3 col-end-[12]">{children}</main>;
+  return <main className="col-start-2 min-[1471px]:col-start-3 col-end-[13]">{children}</main>;
 }
