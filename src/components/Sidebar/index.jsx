@@ -136,10 +136,9 @@ export function SidebarElement({ text, href, icon }) {
     <li>
       <Link
         to={href}
-        className={`flex items-center justify-start w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
+        className={`flex items-center justify-start m-auto w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
 
         // RESPONSIVE SIZES
-        
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
         
@@ -168,7 +167,7 @@ export function SidebarElement({ text, href, icon }) {
         <span className="max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 max-[1471px]:hidden rounded-md">
           {text}
         </span>
-        
+
         {isHovered ? (
           <span className="min-[1471px]:hidden max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco">
             {text}
