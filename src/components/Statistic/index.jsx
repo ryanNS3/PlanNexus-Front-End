@@ -25,7 +25,7 @@ export function Statistic() {
 
 function StatisticHeader({ period, setPeriod }) {
   return (
-    <header className="flex justify-between items-center">
+    <header className="flex justify-between items-center flex-wrap gap-5">
       <h5 className="text-h5">Estatística:</h5>
       <nav>
         <ul className="flex bg-cinza-100 rounded-lg text-fun2">
