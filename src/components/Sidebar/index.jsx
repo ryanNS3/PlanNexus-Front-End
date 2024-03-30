@@ -1,129 +1,130 @@
 import { EstoqueIcon, EstoqueIconLight } from "../../assets/Estoque";
 import { DoacaoIcon, DoacaoIconLight } from "../../assets/Doacao";
-import {
-  FinanceiroIcon,
-  FinanceiroIconLight,
-} from "../../assets/Financeiro";
-import {
-  CalendarioIcon,
-  CalendarioIconLight,
-} from "../../assets/Calendario";
+import { FinanceiroIcon, FinanceiroIconLight } from "../../assets/Financeiro";
+import { CalendarioIcon, CalendarioIconLight } from "../../assets/Calendario";
 import { HistoricoIcon, HistoricoIconLight } from "../../assets/Historico";
 import { GestaoIcon, GestaoIconLight } from "../../assets/Gestao";
 import { HomeIcon, HomeIconLight } from "../../assets/Home";
 import Logo from "../../assets/logo.svg";
+import CompactLogo from "../../assets/compactLogo.svg";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export function Sidebar() {
   return (
-    <aside className="w-fit py-10 px-9 flex flex-col gap-12 col-start-1 col-end-3">
-      <a href="/">
-        <img src={Logo} alt="" />
-      </a>
+    <aside className="py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center">
+      <Link to="/">
+        <img className="max-[1471px]:hidden" src={Logo} alt="" />
+        <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />
+      </Link>
 
       <nav>
         <ul className="flex flex-col gap-9">
-          <SidebarElement text="Home" icon="Home" link="/" />
-          <SidebarElement text="Estoque" icon="Estoque" link="estoque" />
-          <SidebarElement text="Doação" icon="Doação" link="doacao" />
-          <SidebarElement text="Financeiro" icon="Financeiro" link="financeiro" />
-          <SidebarElement text="Calendário" icon="Calendário" link="calendario" />
-          <SidebarElement text="Histórico" icon="Histórico" link="historico" />
-          <SidebarElement text="Gestão" icon="Gestão" link="gestao" />
+          <SidebarElement text="Home" icon="Home" href="/" />
+          <SidebarElement text="Estoque" icon="Estoque" href="/estoque" />
+          <SidebarElement text="Doação" icon="Doação" href="/doacao" />
+          <SidebarElement
+            text="Financeiro"
+            icon="Financeiro"
+            href="/financeiro"
+          />
+          <SidebarElement
+            text="Calendário"
+            icon="Calendário"
+            href="/calendario"
+          />
+          <SidebarElement text="Histórico" icon="Histórico" href="/historico" />
+          <SidebarElement text="Gestão" icon="Gestão" href="/gestao" />
         </ul>
       </nav>
     </aside>
   );
 }
 
-export function SidebarElement({ text, link, icon }) {
+import { useMatch, useResolvedPath } from "react-router-dom";
+
+export function SidebarElement({ text, href, icon }) {
   /* PROPS
    * text: STRING
-   * link: STRING
+   * href: STRING
    * icon: ENUM("estoque", "Estoque", "doação", "Doação", "financeiro", "Financeiro", "calendário", "Calendário", "histórico", "Histórico", "gestão", "Gestão")
    */
 
   const [isHovered, setIsHovered] = useState(false);
-
-  let { page } = useParams();
-
-  if (!page)
-    page = "/"
+  const resolvedPath = useResolvedPath(href);
+  const isActive = useMatch({ path: resolvedPath.pathname });
 
   const navIcon = (icon) => {
-    const isActive = page === link;
-
     switch (icon) {
       case "Home":
       case "home":
         return isActive ? (
-          <HomeIconLight />
+          <HomeIconLight size={32} />
         ) : isHovered ? (
-          <HomeIconLight />
+          <HomeIconLight size={32} />
         ) : (
-          <HomeIcon />
+          <HomeIcon size={32} />
         );
 
       case "estoque":
       case "Estoque":
         return isActive ? (
-          <EstoqueIconLight />
+          <EstoqueIconLight size={32} />
         ) : isHovered ? (
-          <EstoqueIconLight />
+          <EstoqueIconLight size={32} />
         ) : (
-          <EstoqueIcon />
+          <EstoqueIcon size={32} />
         );
 
       case "doação":
       case "Doação":
         return isActive ? (
-          <DoacaoIconLight />
+          <DoacaoIconLight size={32} />
         ) : isHovered ? (
-          <DoacaoIconLight />
+          <DoacaoIconLight size={32} />
         ) : (
-          <DoacaoIcon />
+          <DoacaoIcon size={32} />
         );
 
       case "financeiro":
       case "Financeiro":
         return isActive ? (
-          <FinanceiroIconLight />
+          <FinanceiroIconLight size={32} />
         ) : isHovered ? (
-          <FinanceiroIconLight />
+          <FinanceiroIconLight size={32} />
         ) : (
-          <FinanceiroIcon />
+          <FinanceiroIcon size={32} />
         );
 
       case "calendário":
       case "Calendário":
         return isActive ? (
-          <CalendarioIconLight />
+          <CalendarioIconLight size={32} />
         ) : isHovered ? (
-          <CalendarioIconLight />
+          <CalendarioIconLight size={32} />
         ) : (
-          <CalendarioIcon />
+          <CalendarioIcon size={32} />
         );
 
       case "histórico":
       case "Histórico":
         return isActive ? (
-          <HistoricoIconLight />
+          <HistoricoIconLight size={32} />
         ) : isHovered ? (
-          <HistoricoIconLight />
+          <HistoricoIconLight size={32} />
         ) : (
-          <HistoricoIcon />
+          <HistoricoIcon size={32} />
         );
 
       case "gestão":
       case "Gestão":
         return isActive ? (
-          <GestaoIconLight />
+          <GestaoIconLight size={32} />
         ) : isHovered ? (
-          <GestaoIconLight />
+          <GestaoIconLight size={32} />
         ) : (
-          <GestaoIcon />
+          <GestaoIcon size={32} />
         );
 
       default:
@@ -134,8 +135,10 @@ export function SidebarElement({ text, link, icon }) {
   return (
     <li>
       <Link
-        to={link}
-        className={`flex items-center justify-start w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
+        to={href}
+        className={`flex items-center justify-start m-auto w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
+
+        // RESPONSIVE SIZES
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
         
@@ -145,7 +148,7 @@ export function SidebarElement({ text, link, icon }) {
         hover:from-[#BD3FD1] hover:to-[#9332AE] hover:bg-gradient-to-b hover:text-[#fff]
         
         ${
-          page === link
+          isActive
             ? `
         shadow-[0_4px_16px_0px_rgba(245,208,255)]
 
@@ -160,7 +163,18 @@ export function SidebarElement({ text, link, icon }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         {navIcon(icon)}
-        <span>{text}</span>
+
+        <span className="max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 max-[1471px]:hidden rounded-md">
+          {text}
+        </span>
+
+        {isHovered ? (
+          <span className="min-[1471px]:hidden max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco">
+            {text}
+          </span>
+        ) : (
+          ""
+        )}
       </Link>
     </li>
   );
