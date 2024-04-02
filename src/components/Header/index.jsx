@@ -32,7 +32,7 @@ export function Header() {
   return (
     <header className="col-span-10 mb-8">
       <form className="mt-10 grid grid-cols-12 gap-2 relative">
-        <div className="col-start-1 col-end-10">
+        <div className="col-start-1 col-end-11">
           <input
             type="text"
             placeholder="Pesquisar"
