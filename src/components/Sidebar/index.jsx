@@ -29,11 +29,6 @@ export function Sidebar() {
             icon="Financeiro"
             href="/financeiro"
           />
-          <SidebarElement
-            text="Calendário"
-            icon="Calendário"
-            href="/calendario"
-          />
           <SidebarElement text="Histórico" icon="Histórico" href="/historico" />
           <SidebarElement text="Gestão" icon="Gestão" href="/gestao" />
         </ul>
