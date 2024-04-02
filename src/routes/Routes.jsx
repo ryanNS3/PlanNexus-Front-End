@@ -10,7 +10,6 @@ export function Router() {
       <Route path="/estoque" element={<Home />}/>
       <Route path="/doacao" element={<Home />}/>
       <Route path="/financeiro" element={<Home />}/>
-      <Route path="/calendario" element={<Home />}/>
       <Route path="/historico" element={<Home />}/>
       <Route path="/gestao" element={<Management />}/>
 
