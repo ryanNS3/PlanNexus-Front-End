@@ -16,9 +16,9 @@ export function NavBarGestao() {
       ? "bg-cinza-800 text-cinza-50 rounded-lg"
       : "bg-cinza-100";
 
-  const hoverTurmas = url.pathname === "/gestao/turmas" ? "" : "hover:border-b-2 hover:border-dashed"
-  const hoverFuncionarios = url.pathname === "/gestao/funcionarios" ? "" : "hover:border-b-2 hover:border-dashed"
-  const hoverArmarios = url.pathname === "/gestao/armarios" ? "" : "hover:border-b-2 hover:border-dashed"
+  const hoverTurmas = url.pathname === "/gestao/turmas" ? "border-b-2 border-transparent" : "hover:border-b-2 hover:border-dashed"
+  const hoverFuncionarios = url.pathname === "/gestao/funcionarios" ? "border-b-2 border-transparent" : "hover:border-b-2 hover:border-dashed"
+  const hoverArmarios = url.pathname === "/gestao/armarios" ? "border-b-2 border-transparent" : "hover:border-b-2 hover:border-dashed"
 
   return (
     <>
