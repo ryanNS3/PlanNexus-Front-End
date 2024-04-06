@@ -3,9 +3,9 @@ import SearchSvg from "../../assets/header/search.svg";
 import NotificationSvg from "../../assets/header/notifications.svg";
 import ArrowDownSvg from "../../assets/header/nav-arrow-down.svg";
 import ClearSvg from "../../assets/header/xmark.svg";
+import { SearchBar } from "../searchBar";
 
 export function Header() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [profileImage, setProfileImage] = useState(null); // Estado para armazenar a imagem de perfil
 
   const handleChange = (event) => {
@@ -24,38 +24,11 @@ export function Header() {
     }
   };
 
-  // Função para limpar o campo de pesquisa
-  const clearSearch = () => {
-    setSearchTerm("");
-  };
-
   return (
     <header className="col-span-10">
       <form className="mt-10 grid grid-cols-12 gap-2 relative">
-        <div className="col-start-1 col-end-10">
-          <input
-            type="text"
-            placeholder="Pesquisar"
-            value={searchTerm}
-            onChange={handleChange}
-            className="w-full py-2 pl-10 pr-4 border-2 border-cinza-50 rounded-lg focus:outline-none focus:border-rosa-destaque"
-          />
-
-          {searchTerm && (
-            <img
-              className="w-4 h-4 absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer"
-              src={ClearSvg}
-              alt="Ícone de limpar"
-              onClick={clearSearch}
-            />
-          )}
-
-          <img
-            className="w-4 h-4 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-500 "
-            src={SearchSvg}
-            alt="Ícone de pesquisar"
-          />
-        </div>
+        
+        <SearchBar/>
 
         <div className="col-span-1 flex justify-center items-center">
           <img
