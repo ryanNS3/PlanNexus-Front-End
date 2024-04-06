@@ -2,8 +2,8 @@ import avatar from "../../assets/avatar.jpg";
 
 export function LineTable() {
   return (
-    <>
-      <div className="rounded-lg w-full py-[0.875rem] pr-9 pl-4 border-2 border-cinza-100 bg-white flex justify-between">
+    <section className="grid col-start-1 col-end-12">
+      <div className="rounded-lg py-[0.875rem] pr-9 pl-4 border-2 border-cinza-100 bg-white flex justify-between">
         <div className="flex items-center justify-center gap-[0.781rem]">
           <img src={avatar} className="rounded-full" height={36} width={36} />
           <p className="text-xs tracking-[0.01em] ">Aluno</p>
@@ -19,6 +19,6 @@ export function LineTable() {
           </div>
         </div>
       </div>
-    </>
+      </section>
   );
 }
