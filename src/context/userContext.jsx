@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [error, setError] = useState(null);
 
-  const userLoginRequest = async (email, password) => {
+  const userLoginRequest = async ({email, password}) => {
     setLoading(true);
     try {
       const response = await requisicao(
