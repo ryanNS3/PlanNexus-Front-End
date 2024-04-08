@@ -125,7 +125,10 @@ export default {
       current: 'currentColor',
       'branco': '#FFFFFF',
       'preto': '#000',
-      'vermelho': '#E95050',
+      'vermelho': {
+        300: '#D93131',
+
+      },
       'rosa': {
         50: '#f5d0ff',
         100: '#eba5ff',
