@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from "react";
 import { PinkButton } from '../../components/Buttons/pinkButton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import { UserGlobal } from "../../context/userContext";
 
 
 export function Login() {
+  const { userLoginRequest, loading, error } = useContext(UserGlobal);
+  const navegar = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailSemArroba, setEmailSemArroba] = useState('');
@@ -33,13 +37,13 @@ export function Login() {
     if (email.length === 0  || password.length === 0) {
       setErrorMessage('Todos os campos devem ser preenchidos!')
       setInputError(true);
-      return;
+      return; // Impedir envio se houver campos vazios
     }
     
     if (inputError || !email || !password) {
       setErrorMessage('Preencha corretamente todos os campos.');
       setInputError(true);
-      return; // Impedir envio se houver erro de entrada ou campos vazios
+      return; // Impedir envio se houver erro de entrada
     }
     
     let finalEmail = email;
@@ -47,16 +51,24 @@ export function Login() {
       finalEmail = email + '@senaisp.edu.br';
       setEmail(finalEmail);
     }
-  
-    console.log(`email: ${finalEmail} password: ${password}`);
 
+    const success = await userLoginRequest({ email: finalEmail, senha: password });
+
+    if (success) {
+      navegar('/')
+      console.log('Login bem-sucedido');
+    } else {
+      console.log('Erro durante o login:', error);
+      setErrorMessage(error || 'Erro durante o login. Por favor, tente novamente.');
+      setInputError(true);
+    }
   };
 
   return (
     <div className="flex flex-col min-h-screen md:h-screen md:flex-row bg-preto">
       <div className="flex flex-col w-full min-h-screen bg-preto justify-start pl-10">
         <h1 className="text-h5 text-cinza-50 pt-20">Bem-vindo(a)</h1>
-        <p className="text-cp2 text-cinza-50 pt-6 w-3/4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione commodi quisquam cum, ut maiores quasi eos! Tempore, error fuga dolore ut illo sequi fugiat quasi nesciunt nulla laborum. Nesciunt!</p>
+        <p className="text-cp2 text-cinza-50 pt-6 w-3/4">Com o nosso ERP, você poderá gerenciar suas finanças, controlar o estoque, acompanhar o desempenho das vendas e muito mais, tudo em um só lugar!</p>
         {/* <img src={loginimage} className='w-full aspect-video mt-10 relative right-6 top-20 md:top-0' alt='Login Image' /> */}
       </div>
 
@@ -73,7 +85,7 @@ export function Login() {
                 name="email"
                 value={emailSemArroba}
                 onChange={handleEmailChange}
-                className={`appearance-none border border-2 ${inputError ? 'border-vermelho' : 'border-cinza-100'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-16`}
+                className={`appearance-none border border-2 ${inputError ? 'border-vermelho' : 'border-cinza-200'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-16`}
                 placeholder="Ex: marlene"
                 required
               />
@@ -91,7 +103,7 @@ export function Login() {
               name="password"
               value={password}
               onChange={handlePasswordChange}
-              className={`appearance-none border border-2 ${inputError ? 'border-vermelho' : 'border-cinza-100'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-12 md:h-16`}
+              className={`appearance-none border border-2 ${inputError ? 'border-vermelho' : 'border-cinza-200'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-12 md:h-16`}
               placeholder="Senha"
               required
             />
@@ -101,7 +113,8 @@ export function Login() {
 
           <Link to="/forgot" className="text-start text-rosa-400 text-fun2">Esqueci a senha </Link>
 
-          <PinkButton text="Entrar" size="medium" action={null} align='end'/>
+          <PinkButton text="Entrar" size="medium" action={null} align='end' loading={loading}/>
+
         </form>
       </div>
   </div>
