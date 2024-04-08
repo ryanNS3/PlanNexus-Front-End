@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { PinkButton } from '../../components/Buttons/pinkButton';
 import { Link, useNavigate } from "react-router-dom";
 import { UserGlobal } from "../../context/userContext";
+import { InputText } from "../../components/Inputs/input-text/inputTextComp";
 
 
 export function Login() {
@@ -75,40 +76,22 @@ export function Login() {
       <div className="min-h-screen w-full mt-12 pt-10 md:pt-0 pl-6 md:pl-12 md:mt-0 bg-cinza-50 flex flex-col justify-center items-center md:items-start rounded-t-[16px] md:rounded-l-[16px]">
         <h3 className="text-h3 mb-8">Login</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-3/4" noValidate>
-          <div className={`relative ${inputError ? 'border-vermelho' : ''}`}>
+          <div className={`relative ${inputError ? 'border-vermelho-300' : ''}`}>
 
             <label id='input' htmlFor="email">
               <span className='block text-fun1'>Email</span>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                value={emailSemArroba}
-                onChange={handleEmailChange}
-                className={`appearance-none border border-2 ${inputError ? 'border-vermelho' : 'border-cinza-200'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-16`}
-                placeholder="Ex: marlene"
-                required
-              />
+              <InputText id='email' type='text' name='email' value={emailSemArroba} onChange={handleEmailChange} placeholder='Ex: marlene' required={true} disabled={loading} error={inputError} />
             </label>
 
-              <span className="absolute inset-y-0 right-2 top-11 flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8">@senaisp.edu.br</span>
+              <span className={`absolute inset-y-0 ${inputError ? 'right-8' : 'right-4'}  top-11 flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
           </div>
           
 
           <label id='input' htmlFor='password'>
             <span className='block text-fun1 mt-8'>Senha</span>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handlePasswordChange}
-              className={`appearance-none border border-2 ${inputError ? 'border-vermelho' : 'border-cinza-200'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:outline-none focus:shadow-outline h-12 md:h-16`}
-              placeholder="Senha"
-              required
-            />
+            <InputText id='password' type='password' name='password' value={password} onChange={handlePasswordChange} placeholder='Senha' required={true} disabled={loading} error={inputError} />
           </label>
-          {errorMessage && <p className="text-vermelho text-fun2">{errorMessage}</p>}
+          {errorMessage && <p className="text-vermelho-300 text-fun2">{errorMessage}</p>}
 
 
           <Link to="/forgot" className="text-start text-rosa-400 text-fun2">Esqueci a senha </Link>
