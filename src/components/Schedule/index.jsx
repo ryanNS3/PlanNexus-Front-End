@@ -1,6 +1,106 @@
 import React from "react";
 
 export function Schedule() {
+  const events = [
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+    {
+      text: "Entrega da camiseta",
+      time: "10:00",
+      name: "Ryan",
+      picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
+    },
+  ];
   return (
     <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] rounded-lg">
       <h2 className="text-sub2 mb-7">Agenda</h2>
@@ -55,7 +155,10 @@ function Task({ text, time, name, picture }) {
       </span>
 
       <div className="flex justify-between gap-3 items-center rounded-lg border-2 border-cinza-200 px-4 py-6 w-full">
-        <p className="text-fun2">{text.length <= 14 ? text : text.slice(0, 14) + "..."}</p> {/*11 */}
+        <p className="text-fun2">
+          {text.length <= 14 ? text : text.slice(0, 14) + "..."}
+        </p>{" "}
+        {/*11 */}
         <div className="flex gap-2">
           <button type="button" className="py-1 px-3 bg-[#71d16e] rounded">
             <svg
