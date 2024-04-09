@@ -10,7 +10,7 @@ import { Statistic } from "../../components/Statistic";
 
 export function Home() {
   return (
-    <div className="grid grid-cols-12 gap-5 mx-8 " style={{margin: 'auto'}}>
+    <div className="grid grid-cols-12 gap-5 mx-8 ">
       <Sidebar />
       <Main>
         <Header />
