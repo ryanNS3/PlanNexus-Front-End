@@ -53,16 +53,18 @@ export function Login() {
       setEmail(finalEmail);
     }
 
-    const success = await userLoginRequest({ email: finalEmail, senha: password });
+    const success = await userLoginRequest(finalEmail,password );
 
     if (success) {
       navegar('/')
       console.log('Login bem-sucedido');
     } else {
-      console.log('Erro durante o login:', error);
+      console.log(error);
       setErrorMessage(error || 'Erro durante o login. Por favor, tente novamente.');
       setInputError(true);
     }
+
+    console.log(finalEmail, password)
   };
 
   return (
