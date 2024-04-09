@@ -5,12 +5,12 @@ import { Main } from "../../components/Main";
 import { SalesChart } from "../../components/SalesChart";
 import { Outlet } from "react-router-dom";
 import { NavBarGestao } from "../../components/NavBarGestao";
-import { Agenda } from "../../components/Agenda";
+import { Schedule } from "../../components/Schedule";
 import { Statistic } from "../../components/Statistic";
 
 export function Home() {
   return (
-    <div className="grid grid-cols-12 gap-5 mx-8 max-w-[90rem]" style={{margin: 'auto'}}>
+    <div className="grid grid-cols-12 gap-5 mx-8 " style={{margin: 'auto'}}>
       <Sidebar />
       <Main>
         <Header />
@@ -22,7 +22,7 @@ export function Home() {
             <SalesChart />
             <Grafico />
           </div>
-          <Agenda />
+          <Schedule />
         </div>
 
       </Main>
