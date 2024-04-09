@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
 import useAxios from "../hooks/useAxios";
+import axios from "axios";
 
 export const UserGlobal = createContext();
 
@@ -11,14 +12,26 @@ export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [error, setError] = useState(null);
 
-  const userLoginRequest = async ({email, password}) => {
+  async function userLoginRequest(email, password)  {
+
     setLoading(true);
+    
     try {
-      const response = await requisicao(
-        "http://172.16.3.83:3333/funcionario/login",
-        { email, senha: password },
-        "POST"
-      );
+      // const response = await requisicao(
+      //   "http://172.16.3.83:3333/funcionario/login",
+      //   { email, senha: password },
+      //   "POST"
+      // );
+      console.log(email)
+      console.log(password)
+      
+      
+      const response = await axios.post("http://172.16.3.83:3333/funcionario/login", {
+        email: email,
+        senha: password
+      })
+      console.log(response)
+
 
       if (response && response.status === 200) {
         setToken(response.data.token);
