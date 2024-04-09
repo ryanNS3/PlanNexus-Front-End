@@ -18,7 +18,7 @@ export function Home() {
 
         <div className="grid grid-cols-[1fr_auto] mt-18 gap-6">
           <h5 className="col-span-full text-h5">Geral</h5>
-          <div className="gap-6">
+          <div className=" flex flex-col gap-6">
             <SalesChart />
             <Grafico />
           </div>
