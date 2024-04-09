@@ -102,7 +102,7 @@ export function Schedule() {
     },
   ];
   return (
-    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] rounded-lg">
+    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg">
       <h2 className="text-sub2 mb-7">Agenda</h2>
 
       <nav>
