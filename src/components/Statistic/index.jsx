@@ -9,7 +9,7 @@ export function Statistic() {
     <section className="flex flex-col gap-5">
       <StatisticHeader period={period} setPeriod={setPeriod} />
 
-      <div className="grid grid-cols-[repeat(5,_minmax(220px,_1fr))] max-w-full gap-5 max-[1289px]:grid-cols-[repeat(4,_minmax(220px,_1fr))] max-[1027px]:grid-cols-[repeat(3,_minmax(220px,_1fr))] max-[765px]:grid-cols-[repeat(2,_minmax(220px,_1fr))]">
+      <div className="grid grid-cols-5 gap-5">
         <StatisticOverview title="Associados" situation={16} value={354} />
         <StatisticOverview title="Ganhos" situation={16} value={"R$ 3200"} />
         <StatisticOverview title="Vendas" situation={16} value={85} />

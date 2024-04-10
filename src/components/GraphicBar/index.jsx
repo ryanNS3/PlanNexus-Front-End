@@ -41,7 +41,7 @@ export function Grafico() {
 
   return (
     // chamando o componente do grafico e passando o objeto data
-    <section className="shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg p-6">
+    <section className="shadow-[0_4px_8px_0px_rgba(227,227,227)] rounded-lg p-6">
       <figure>
         <h2 className="col-span-full text-sub2">Estoque</h2>
         <Bar data={data} />

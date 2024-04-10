@@ -57,28 +57,29 @@ export default {
       'h1': ['5rem', {
         lineHeight: '84px',
         letterSpacing: '0',
-        fontWeight: '600',
+        fontWeight: '800',
       }],
       'h2': ['4.5rem', {
         lineHeight: '94px',
         letterSpacing: '0',
-        fontWeight: '700',
+        fontWeight: '600',
       }],
       'h3': ['3.5rem', {
         lineHeight: '67px',
-        letterSpacing: '0',
+        letterSpacing: '1%',
         fontWeight: '600',
+
       }],
       'h4': ['2.5rem', {
-        lineHeight: '84px',
-        letterSpacing: '1%',
+        lineHeight: '48px',
+        letterSpacing: '-1%',
         fontWeight: '600',
         case: 'upper',
       }],
       'h5': ['2rem', {
         lineHeight: '38px',
-        letterSpacing: '0',
-        fontWeight: '500',
+        letterSpacing: '2%',
+        fontWeight: '600',
       }],
       'sub1': ['1.5rem', {
         lineHeight: '31px',
@@ -100,7 +101,7 @@ export default {
       'fun2': ['0.938rem', {
         lineHeight: '21px',
         letterSpacing: '2%',
-        fontWeight: '500',
+        fontWeight: '600',
         case: 'upper',
       }],
       'ct1': ['1.375rem', {

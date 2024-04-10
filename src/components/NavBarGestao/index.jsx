@@ -22,9 +22,9 @@ export function NavBarGestao() {
 
   return (
     <>
-      <nav className="flex bg-cinza-100 rounded-lg text-cinza-800 text-fun2 w-full mt-12 max-w-[74.188] min-w-[23.813rem]">
+      <nav className="flex bg-cinza-100 rounded-lg text-cinza-800 text-fun2  w-full mt-12 max-w-[74.188] min-w-[23.813rem]">
         <ul className="flex gap-2">
-          <li className={`py-4 px-5 ${turmasStyle}`}>
+          <li className={` rounded-md py-4 px-5 ${turmasStyle}`}>
             <a
               className={`${hoverTurmas} block`}
               href="/gestao/turmas"
