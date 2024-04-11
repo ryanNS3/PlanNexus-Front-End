@@ -24,6 +24,7 @@ export function Router() {
         <Route path="/login" element={<Login />}/>
         <Route path="/gestao/turmas" element={<Management/>}/>
         <Route path="/gestao/funcionarios" element={<Management/>}/>
+        <Route path="/gestao/armarios" element={<Management/>}/>      
       </Routes>
     </UserProvider>
     
