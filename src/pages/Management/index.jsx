@@ -12,6 +12,7 @@ export function Management(){
                     <Header/>
                     <NavBarGestao/>
                     <TemplateView/>
+                    
                 </Main>
         </div>
 

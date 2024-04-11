@@ -12,8 +12,8 @@ import { Statistic } from "./components/Statistic";
 import { useEffect } from "react";
 import { AcessibilityReporter } from "./utils/acessibility/Acessibility";
 import { Router } from "./routes/Routes";
-import BasicModal from "./components/Modal";
-import { CloseModalIcon } from "./assets/CloseModal";
+
+
 
 function App() {
   useEffect(() =>{
@@ -23,8 +23,6 @@ function App() {
   return (
     <>
       <Router />
-      <BasicModal />
-      <img src={CloseModalIcon} alt="" />
     </>
   );
 }

@@ -17,12 +17,15 @@ export default {
 
     extend: {
       animation:{
-        modalAnimation: "rightToLeft 4s ease-in-out"
+        modalAnimation: "rightToLeft 0.3s ease-in-out forwards"
       },
     
       keyframes:{
         rightToLeft:{
-          "100%": {transform: 'translateX(32px)'}
+          "100%": {
+            transform: 'translateX(10px)',
+            opacity: 1
+          }
         }
       },
       spacing: {

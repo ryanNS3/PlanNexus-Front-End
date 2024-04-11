@@ -3,27 +3,39 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { Close } from "../../assets/Close";
+import { CalendarioIcon } from "../../assets/Calendario";
+import { PinkButton } from "../Buttons/pinkButton";
 
 const modalStyle = {
   display: 'flex',
   width: "100%",
+  padding: "",
   backdropFilter: "blur(10px)",
-  transition: "0.6s"
+  transition: "0.6s",
   
 };
 
 const InnerModal = {
-  padding: "2rem"
+  width: "100%",
+  display: 'flex',
+  padding: "2.5rem",
+  justifyContent: "end"
+    
 }
 
-export default function BasicModal({ children }) {
+export default function BasicModal({ children, TextButton }) {
   const [open, setOpen] = React.useState(false);
+  const [isHoverButton, setIsHoverButton] = React.useState(false)
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setIsHoverButton(false)
+    setOpen(false)
+  };
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <PinkButton action={handleOpen} text={TextButton}/>
       <Modal
         open={open}
         onClose={handleClose}
@@ -32,9 +44,13 @@ export default function BasicModal({ children }) {
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className=" w-2/4 h-3/4 my-4 -translate-x-8 duration-500  bg-branco rounded-2xl absolute right-0 items-end">
-            <Button onClick={handleClose}>X</Button>
-
+          <div className="flex flex-col gap-4 w-full h[90%] py-14 px-10 md:w-2/5 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco      rounded-2xl justify-end items-end">
+            <button className="self end-0" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
+              <Close isHover={isHoverButton}/>
+            </button>
+            <main className="w-full h-full">
+              {children}
+            </main>
           </div>
           
         </Box>

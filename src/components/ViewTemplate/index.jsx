@@ -3,6 +3,7 @@ import { PinkButton } from "../Buttons/pinkButton";
 import SearchSvg from "../../assets/header/search.svg";
 import ClearSvg from "../../assets/header/xmark.svg"
 import { useState } from "react";
+import BasicModal from "../Modal";
 
 export function TemplateView(){
 
@@ -26,6 +27,11 @@ export function TemplateView(){
 
             <div className="flex justify-between my-4" >
             <h1 className="text-h5" >Todos os {typeUser}: </h1>
+            <BasicModal TextButton={`Adicionar ${typeUser}`}>
+                <h1 className=" text-h4">Adicionar funcionários</h1>
+
+            </BasicModal>
+
             <PinkButton text={`Adicionar ${typeUser}`} size={"small"} align={"end"} />
             </div>
 
