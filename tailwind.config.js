@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+
+  
+  
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -13,6 +16,15 @@ export default {
     },
 
     extend: {
+      animation:{
+        modalAnimation: "rightToLeft 4s ease-in-out"
+      },
+    
+      keyframes:{
+        rightToLeft:{
+          "100%": {transform: 'translateX(32px)'}
+        }
+      },
       spacing: {
         '1': '0.25rem',
         '2': '0.50rem',
