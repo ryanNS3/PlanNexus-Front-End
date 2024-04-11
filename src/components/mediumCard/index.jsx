@@ -5,7 +5,7 @@ import { useState } from "react";
 export function MediumCard({children}){
 
     return(
-        <div className="mt-20 w-80 h-56 bg-gradient-to-r from-{#000} from-97% to-{#F6F4F4} to-3% shadow-md border-2 border-cinza-100 rounded-lg p-4" >
+        <div className="mt-20 w-80 h-56 bg-gradient-to-br from-[#FFF] from-3% to-[#F6F4F4] to-96% shadow-lg border-2 border-cinza-100 rounded-lg p-4" >
             {children}
         </div>
     )
