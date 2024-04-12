@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
+import { Statistic } from "../components/Statistic";
 import { Management } from "../pages/Management";
 import { Login } from "../pages/login";
 import { UserProvider } from "../context/userContext";
@@ -9,58 +10,21 @@ export function Router() {
   return (
     <UserProvider>
       <Routes>
-        <Route path="/login" element={<Login />}/>
-        <Route path="/" element={
-          <ProtectRouter>
-            <Home />
-          </ProtectRouter>
-        }/>
-        <Route path="/estoque" element={
-          <ProtectRouter>
-            <Home />
-          </ProtectRouter>
-        }/>
-
-        <Route path="/doacao" element={
-          <ProtectRouter>
-            <Home />
-          </ProtectRouter>
-        }/>
-
-        <Route path="/financeiro" element={
-          <ProtectRouter>
-            <Home />
-          </ProtectRouter>
-        }/>
-
+        <Route path="/" element={<Home />} />
+        <Route path="/estoque" element={<Home />}/>
+        <Route path="/doacao" element={<Home />}/>
+        <Route path="/financeiro" element={<Home />}/>
         <Route path="/calendario" element={
-          <ProtectRouter>
-            <Home />
-          </ProtectRouter>
+        <ProtectRouter>
+          <Home />
+        </ProtectRouter>
         }/>
-
-        <Route path="/historico" element={
-          <ProtectRouter>
-            <Home />
-          </ProtectRouter>
-        }/>
-
-        <Route path="/gestao" element={
-          <ProtectRouter>
-            <Management />
-          </ProtectRouter>
-        }/>
-
-        <Route path="/gestao/turmas" element={
-          <ProtectRouter>
-            <Management/>
-          </ProtectRouter>
-        }/>
-        <Route path="/gestao/funcionarios" element={
-          <ProtectRouter>
-            <Management/>
-          </ProtectRouter>
-        }/>
+        <Route path="/historico" element={<Home />}/>
+        <Route path="/gestao" element={<Management />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/gestao/turmas" element={<Management/>}/>
+        <Route path="/gestao/funcionarios" element={<Management/>}/>
+        <Route path="/gestao/armarios" element={<Management/>}/>      
       </Routes>
     </UserProvider>
     

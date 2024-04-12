@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function NavBarGestao() {
   const url = window.location;
@@ -22,31 +23,31 @@ export function NavBarGestao() {
 
   return (
     <>
-      <nav className="flex bg-cinza-100 rounded-lg text-cinza-800 text-fun2  w-full mt-12 max-w-[74.188] min-w-[23.813rem]">
-        <ul className="flex gap-2">
-          <li className={` rounded-md py-4 px-5 ${turmasStyle}`}>
-            <a
+      <nav className="flex bg-cinza-100 rounded-lg text-cinza-800 text-fun2 w-full mt-12 max-w-[74.188] min-w-[23.813rem]">
+        <ul className="flex gap-2 ">
+          <li className={`py-4 px-5 rounded-lg ${turmasStyle}`}>
+            <Link
               className={`${hoverTurmas} block`}
-              href="/gestao/turmas"
+              to="/gestao/turmas"
             >
               Turmas
-            </a>
+            </Link>
           </li>
           <li className={`py-4 px-5 ${funcionariosStyle}`}>
-            <a
+            <Link
               className={`${hoverFuncionarios} block`}
-              href="/gestao/funcionarios"
+              to="/gestao/funcionarios"
             >
               Funcionários
-            </a>
+            </Link>
           </li>
           <li className={`py-4 px-5 ${armariosStyle}`}>
-            <a
+            <Link
               className={`${hoverArmarios} block`}
-              href="/gestao/armarios"
+              to="/gestao/armarios"
             >
               Armários
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

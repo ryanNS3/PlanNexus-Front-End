@@ -1,8 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-
-  
-  
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -16,18 +13,6 @@ export default {
     },
 
     extend: {
-      animation:{
-        modalAnimation: "rightToLeft 0.3s ease-in-out forwards"
-      },
-    
-      keyframes:{
-        rightToLeft:{
-          "100%": {
-            transform: 'translateX(10px)',
-            opacity: 1
-          }
-        }
-      },
       spacing: {
         '1': '0.25rem',
         '2': '0.50rem',
@@ -72,29 +57,28 @@ export default {
       'h1': ['5rem', {
         lineHeight: '84px',
         letterSpacing: '0',
-        fontWeight: '800',
+        fontWeight: '600',
       }],
       'h2': ['4.5rem', {
         lineHeight: '94px',
         letterSpacing: '0',
-        fontWeight: '600',
+        fontWeight: '700',
       }],
       'h3': ['3.5rem', {
         lineHeight: '67px',
-        letterSpacing: '1%',
+        letterSpacing: '0',
         fontWeight: '600',
-
       }],
       'h4': ['2.5rem', {
-        lineHeight: '48px',
-        letterSpacing: '-1%',
+        lineHeight: '84px',
+        letterSpacing: '1%',
         fontWeight: '600',
         case: 'upper',
       }],
       'h5': ['2rem', {
         lineHeight: '38px',
-        letterSpacing: '2%',
-        fontWeight: '600',
+        letterSpacing: '0',
+        fontWeight: '500',
       }],
       'sub1': ['1.5rem', {
         lineHeight: '31px',
@@ -116,7 +100,7 @@ export default {
       'fun2': ['0.938rem', {
         lineHeight: '21px',
         letterSpacing: '2%',
-        fontWeight: '600',
+        fontWeight: '500',
         case: 'upper',
       }],
       'ct1': ['1.375rem', {
