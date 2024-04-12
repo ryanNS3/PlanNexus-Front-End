@@ -24,4 +24,3 @@ export function CampWhite() {
          fill="#1C1B1F"/>
       </svg>
     );
-  }
