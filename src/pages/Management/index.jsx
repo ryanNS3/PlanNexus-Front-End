@@ -4,6 +4,7 @@ import { NavBarGestao } from "../../components/NavBarGestao";
 import { Main } from "../../components/Main";
 import { Header } from "../../components/Header";
 import BasicModal from "../../components/Modal";
+import { EmployeeForm } from "../../components/Form/employee";
 
 export function Management(){
     return(
@@ -12,8 +13,10 @@ export function Management(){
                 <Main>
                     <Header/>
                     <NavBarGestao/>
-                    <TemplateView/>
-                   
+                    <TemplateView>
+                        <EmployeeForm/>
+                    </TemplateView>
+
                 </Main>
         </div>
 
