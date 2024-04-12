@@ -38,7 +38,7 @@ export function Header() {
             placeholder="Pesquisar"
             value={searchTerm}
             onChange={handleChange}
-            className="w-full py-2 pl-10 pr-4 border-2 border-cinza-50 rounded-lg focus:outline-none focus:border-rosa-destaque"
+            className="w-full py-4 pl-10 pr-4 border-2 border-cinza-50 rounded-lg focus:outline-none focus:border-rosa-destaque"
           />
 
           {searchTerm && (

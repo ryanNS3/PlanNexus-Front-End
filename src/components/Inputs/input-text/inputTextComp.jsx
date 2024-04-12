@@ -3,6 +3,7 @@ import Close from '../../../assets/close_small.svg'
 
 export function InputText({id, type, name, value, onChange, placeholder, required, disabled, error}) {
 
+    
     return(
         <div className='flex'>
             <input
