@@ -97,4 +97,5 @@ function Locker({numero, status, onClick}){
   return(
     <div onClick={onClick} className={`col-span-1 ${ status == 'ocupado'  ? "bg-[#A0E29E]" : "bg-cinza-100" } w-24 h-24 flex items-center justify-center rounded-lg`}><p className="text-h5 active:">{numero}</p></div>
   )
+
 }
