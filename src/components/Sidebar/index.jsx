@@ -131,17 +131,18 @@ export function SidebarElement({ text, href, icon }) {
     <li>
       <Link
         to={href}
-        className={`flex items-center justify-start m-auto w-full gap-10 px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150
+        className={`flex items-center justify-start m-auto w-full px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150 bg-transparent
 
         // RESPONSIVE SIZES
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
         
-        hover:after:content-[''] hover:after:h-3/5 hover:after:w-1.5 hover:after:absolute hover:after:right-[-1rem] hover:after:bg-rosa-300 hover:after:rounded-lg
+        hover:after:content-[''] hover:after:h-3/5 hover:after:w-1.5 hover:after:absolute hover:after:right-[-1rem] hover:after:bg-rosa-300 hover:after:rounded-lg z-30
 
         // HOVER
         hover:from-[#BD3FD1] hover:to-[#9332AE] hover:bg-gradient-to-b hover:text-[#fff]
-        
+      
+
         ${
           isActive
             ? `
@@ -160,7 +161,7 @@ export function SidebarElement({ text, href, icon }) {
         {navIcon(icon)}
 
         <span className="max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 max-[1471px]:hidden rounded-md">
-          {text}
+            {text}
         </span>
 
         {isHovered ? (
