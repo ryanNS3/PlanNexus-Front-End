@@ -28,7 +28,7 @@ function StatisticHeader({ period, setPeriod }) {
     <header className="flex justify-between items-center flex-wrap gap-5">
       <h5 className="text-h5">Estatística:</h5>
       <nav>
-        <ul className="flex bg-cinza-100 rounded-lg text-fun2">
+        <ul className="flex border border-cinza-100 rounded-lg text-fun2">
           <li>
             <button
               className={`block px-4 py-[1.25rem] ${
