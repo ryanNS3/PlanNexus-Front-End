@@ -7,12 +7,7 @@ import { SearchBar } from "../searchBar";
 import { NavBarGestao } from "../NavBarGestao";
 
 
-export function TemplateView(){
-
-    const url = window.location;
-    // vai precisar de alteração
-    const statusUser = url.pathname === "/gestao/turmas" ? "AAPM" :  "Status"
-    const typeUser = url.pathname ===  "/gestao/turmas" ? "alunos" : "funcionários"
+export function TemplateView({typeUser, statusUser, role}){
 
     return(
         <main className="grid grid-cols-10 p-2 max-w-[74.188] min-w-[23.813rem]" aria-label="conteúdo principal na tela gestão" >  
@@ -31,6 +26,8 @@ export function TemplateView(){
             aria-label="informações principais sobre os usuários">
                 <p className="mx-14 px-1 fun-2 text-cinza-700" >Nome</p>
                 <div className="flex justify-between" >
+                    {/*role só vai ser aplicado para a tab de funcionário */}
+                    <p className="mx-5 px-8 fun-2 text-cinza-700" >{role}</p>
                     <p className="mx-5 px-8 fun-2 text-cinza-700" >{statusUser}</p>
                     <p className="text-center mx-5 px-4 fun-2 text-cinza-700" >Ações</p>
                 </div>
