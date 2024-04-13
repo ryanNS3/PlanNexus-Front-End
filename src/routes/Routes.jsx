@@ -51,16 +51,6 @@ export function Router() {
           </ProtectRouter>
         }/>
 
-        <Route path="/gestao/turmas" element={
-          <ProtectRouter>
-            <Management/>
-          </ProtectRouter>
-        }/>
-        <Route path="/gestao/funcionarios" element={
-          <ProtectRouter>
-            <Management/>
-          </ProtectRouter>
-        }/>
       </Routes>
     </UserProvider>
     
