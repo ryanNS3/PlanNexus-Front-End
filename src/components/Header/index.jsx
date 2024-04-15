@@ -106,9 +106,9 @@ export function Header() {
               <div className="absolute top-full border border-cinza-100 mt-4 rounded-lg bg-branco right-1 w-36 h-auto ">
                 <ul className="divide-y divide-cinza-100">
                   <li className="px-2 py-2 flex text-fun2 text-preto w-36 ">Ver perfil</li>
-                  <li className="px-2 py-2 flex gap-1 w-36 ">
+                  <li className="px-2 py-2 flex gap-1 w-36 " onClick={handleLogout} >
                     <img src={LogoutSvg} alt="logout" className="" />
-                    <button className="text-fun2 text-vermelho-300" onClick={handleLogout} >Sair</button>
+                    <span className="text-fun2 text-vermelho-300">Sair</span>
                   </li>
                   
                 </ul>
