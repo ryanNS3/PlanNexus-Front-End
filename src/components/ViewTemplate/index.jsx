@@ -4,6 +4,7 @@ import SearchSvg from "../../assets/header/search.svg";
 import ClearSvg from "../../assets/header/xmark.svg"
 import { Children, useState } from "react";
 import BasicModal from "../Modal";
+import { Filter } from "../../components/Filter"
 
 export function TemplateView({children}){
 
@@ -33,7 +34,8 @@ export function TemplateView({children}){
             </div>
 
             {/* BARRA DE PESQUISA */}
-            <form className="w-full flex align-center py-2 my-5" aria-label="Barra de pesquisa de usuário">
+            <div className="flex">
+                <form className="w-full flex align-center py-2 my-5" aria-label="Barra de pesquisa de usuário">
 
                 <input
                     className="w-full py-2 pl-10 pr-4 focus:outline-none border-2 focus:border-rosa-destaque border-cinza-100 rounded-lg"
@@ -52,7 +54,10 @@ export function TemplateView({children}){
                 )}
 
                 <img src={SearchSvg} className="px-4 absolute transform mt-3 z-0" alt="ícone de pesquisa"/>
-            </form>
+                </form>
+                <Filter/>
+            </div>
+            
             
 
             {/* HEADER DO TEMPLATE DE TABELAS */}
