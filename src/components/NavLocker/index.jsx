@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 export function NavLocker() {
   const url = window.location;
@@ -38,44 +39,44 @@ export function NavLocker() {
       <nav className="flex rounded-lg text-fun2 w-full mt-12 max-w-[74.188] min-w-[23.813rem]">
         <ul className="flex gap-2">
           <li className={`py-4 px-5 ${armarios1Style}`}>
-            <a
+            <Link
               className={`${hoverArmarios1} block`}
-              href="/gestao/armarios"
+              href="/gestao/armarios/"
             >
               1 a 28
-            </a>
+            </Link>
           </li>
           <li className={`py-4 px-5 ${armarios2Style}`}>
-            <a
+            <Link
               className={`${hoverArmarios2} block`}
-              href="/gestao/armarios" 
+              href="/gestao/armarios/" 
             >
               29 a 56
-            </a>
+            </Link>
           </li>
           <li className={`py-4 px-5 ${armarios3Style}`}>
-            <a
+            <Link
               className={`${hoverArmarios3} block`}
-              href="/gestao/armarios"
+              href="/gestao/armarios/"
             >
               57 a 84 
-            </a>
+            </Link>
           </li>
-          <li className={`py-4 px-5 ${armarios3Style}`}>
-            <a
-              className={`${hoverArmarios3} block`}
-              href="/gestao/armarios"
+          <li className={`py-4 px-5 ${armarios4Style}`}>
+            <Link
+              className={`${hoverArmarios4} block`}
+              href="/gestao/armarios/"
             >
               85 a 112 
-            </a>
+            </Link>
           </li>
-          <li className={`py-4 px-5 ${armarios3Style}`}>
-            <a
-              className={`${hoverArmarios3} block`}
-              href="/gestao/armarios"
+          <li className={`py-4 px-5 ${armarios5Style}`}>
+            <Link
+              className={`${hoverArmarios5} block`}
+              href="/gestao/armarios/"
             >
               113 a 140
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
