@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from "react";
 import useAxios from "../hooks/useAxios";
 import axios from "axios";
 
+
 export const UserGlobal = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -12,6 +13,8 @@ export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [error, setError] = useState(null);
 
+  const BASE_URL = import.meta.env.VITE_API_URL
+
   async function userLoginRequest(email, password)  {
 
     setLoading(true);
@@ -20,13 +23,13 @@ export const UserProvider = ({ children }) => {
       // const response = await requisicao(
       //   "http://172.16.3.83:3333/funcionario/login",
       //   { email, senha: password },
-      //   "POST"
+      //   "POST",
       // );
       console.log(email)
       console.log(password)
       
       
-      const response = await axios.post("http://172.16.3.83:3333/funcionario/login", {
+      const response = await axios.post(`${BASE_URL}/funcionario/login`, {
         email: email,
         senha: password
       })
@@ -56,14 +59,50 @@ export const UserProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
+    console.log(user)
   };
+
+  async function userLogoutRequest() {
+    setLoading(true)
+    
+    try {
+      const response = await requisicao(
+        `${BASE_URL}/funcionario/token`,
+        null,
+        "POST",
+        { NIF: user.data.NIF, token: token}
+      );
+      
+
+      if (response && response.status === 200) {
+        localStorage.removeItem('token');
+        setUserLogin(false);
+        console.log('Logout deu certo.');
+        return true;
+      }
+    } catch (error) {
+        if (error.response && error.response.status === 400) {
+            console.log('Logout falhou.');
+        }
+         else if (
+            error.response &&
+            error.response.status >= 400 &&
+            error.response.status <= 500
+        ) {
+            console.log('Sistema logout falhou.');
+            return false;
+        }
+    } finally {
+      setLoading(false);
+    }
+    }
 
   return (
     <UserGlobal.Provider
-      value={{ user, token, userLogin, setUserLogin, loading, error, userLoginRequest }}
+      value={{ user, token, userLogin, setUserLogin, loading, error, userLoginRequest, userLogoutRequest }}
     >
       {children}
     </UserGlobal.Provider>
   );
-};
+}
 
