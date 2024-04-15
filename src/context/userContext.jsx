@@ -1,12 +1,13 @@
 import React, { createContext, useState, useContext } from "react";
 import useAxios from "../hooks/useAxios";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 export const UserGlobal = createContext();
 
 export const UserProvider = ({ children }) => {
   const { requisicao } = useAxios();
+  const navegar = useNavigate();
   const [user, setUser] = useState(null);
   const [userLogin, setUserLogin] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,9 +22,9 @@ export const UserProvider = ({ children }) => {
     
     try {
       // const response = await requisicao(
-      //   "http://172.16.3.83:3333/funcionario/login",
-      //   { email, senha: password },
-      //   "POST",
+        //   "http://172.16.3.83:3333/funcionario/login",
+        //   { email, senha: password },
+        //   "POST",
       // );
       console.log(email)
       console.log(password)
@@ -39,7 +40,7 @@ export const UserProvider = ({ children }) => {
       if (response && response.status === 200) {
         setToken(response.data.token);
         localStorage.setItem('token', response.data.token);
-        setUser(response.data.usuario);
+        setUser(response.data.NIF);
         setUserLogin(true);
         return true;
       }
@@ -59,30 +60,31 @@ export const UserProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-    console.log(user)
   };
 
   async function userLogoutRequest() {
     setLoading(true)
-    
+
     try {
-      const response = await requisicao(
-        `${BASE_URL}/funcionario/token`,
-        null,
-        "POST",
-        { NIF: user.data.NIF, token: token}
-      );
-      
+      const response = await axios.post(`${BASE_URL}/funcionario/deslogar`, null, {
+        headers: {
+          nif: user,
+          token: token
+        },
+      })
+      console.log(response)
+
 
       if (response && response.status === 200) {
         localStorage.removeItem('token');
         setUserLogin(false);
+        navegar('/login')
         console.log('Logout deu certo.');
         return true;
       }
     } catch (error) {
+      console.log('Logout falhou.');
         if (error.response && error.response.status === 400) {
-            console.log('Logout falhou.');
         }
          else if (
             error.response &&
