@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useState } from "react";
+import React from "react";
 
 const useAxios = () => {
-  const [dados, setDados] = useState(null);
-  const [erro, setErro] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [dados, setDados] = React.useState(null);
+  const [erro, setErro] = React.useState(null);
+  const [loading, setLoading] = React.useState(null);
 
-  const requisicao = async (url, dados, metodo, headers) => {
+  const requisicao =  React.useCallback(async (url, dados, metodo, headers) => {
     try {
       setErro(null);
       setLoading(true);
@@ -18,12 +18,14 @@ const useAxios = () => {
       });
       setDados(res.data);
       return { res, json: res.data };
-    } catch (err) {
+    } 
+    catch (err) {
       setErro(err.message);
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
-  };
+  },[]);
 
   return { dados, loading, erro, requisicao };
 };
