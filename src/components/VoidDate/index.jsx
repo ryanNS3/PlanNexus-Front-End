@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { CalenBlack } from "../../assets/CalenIcon";
 
-
 export function VoidDate(){
+
+  const [value, setDate] = useState()
+
     return (
         <>
       <div className="col-span-2 col-start-3 w-52 h-24 p-4 mt-8 shadow-lg flex-col flex justify-between">
@@ -10,7 +12,7 @@ export function VoidDate(){
           <p className="text-fun2">Esvaziamento</p>
         <CalenBlack/>
         </div>
-         <p className="text-fun2">13/05/2023</p>
+         <input type="date" name="calendar" id="data" value={value} />
       </div>
         </>
     )

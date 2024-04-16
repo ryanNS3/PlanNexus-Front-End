@@ -3,7 +3,7 @@ import { Home } from "../pages/Home";
 import { Management } from "../pages/Management";
 import { Login } from "../pages/login";
 import { UserProvider } from "../context/userContext";
-import { ProtectRouter } from "../components/protectRouter/protectRouter";
+// import { ProtectRouter } from "../components/protectRouter/protectRouter";
 
 export function Router() {
   return (
@@ -11,55 +11,60 @@ export function Router() {
       <Routes>
         <Route path="/login" element={<Login />}/>
         <Route path="/" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Home />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
         <Route path="/estoque" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Home />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
 
         <Route path="/doacao" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Home />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
 
         <Route path="/financeiro" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Home />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
 
         <Route path="/calendario" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Home />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
 
         <Route path="/historico" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Home />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
 
         <Route path="/gestao" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Management />
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
 
         <Route path="/gestao/turmas" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Management/>
-          </ProtectRouter>
+          // </ProtectRouter>
         }/>
         <Route path="/gestao/funcionarios" element={
-          <ProtectRouter>
+          // <ProtectRouter>
             <Management/>
-          </ProtectRouter>
+          // </ProtectRouter>
+        }/>
+        <Route path="/gestao/armarios" element={
+          // <ProtectRouter>
+            <Management/>
+          // </ProtectRouter>
         }/>
       </Routes>
     </UserProvider>
