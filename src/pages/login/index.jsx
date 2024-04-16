@@ -79,12 +79,9 @@ export function Login() {
         <h3 className="text-h3 mb-8">Login</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-3/4" noValidate>
           <div className={`relative ${inputError ? 'border-vermelho-300' : ''}`}>
-          <span className={`absolute inset-y-0 ${inputError ? 'right-8' : 'right-4'}  top-11 flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
-
+          <span className={`absolute inset-y-0 ${inputError ? 'right-8' : 'right-4'}  top-[33px] flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
 
             <InputText id='email' type='text' name='email' value={emailSemArroba} onChange={handleEmailChange} placeholder='Ex: marlene' required={true} disabled={loading} error={inputError} />
-
-
             
           </div>
           

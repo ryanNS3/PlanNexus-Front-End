@@ -4,8 +4,8 @@ import Close from '../../../assets/close_small.svg'
 export function InputText({id, type, name, value, onChange, placeholder, required, disabled, error}) {
 
     return(
-        <>
-            <label  htmlFor={id} className='flex flex-col text-fun2' >
+        <div className='flex'>
+            <label  htmlFor={id} className='flex flex-col text-fun2 w-full' >
                 {name}
                 <input
                     id={id}
@@ -18,11 +18,9 @@ export function InputText({id, type, name, value, onChange, placeholder, require
                     required={required}
                     disabled={disabled}
                 />
-                {error ? <img className='w-6 mt-4' src={Close} /> : null}
 
             </label>
-            
-        
-        </>
+                {error ? <img className='w-6 mt-9' src={Close} /> : null}
+        </div>
     )
 }
