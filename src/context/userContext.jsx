@@ -41,6 +41,7 @@ export const UserProvider = ({ children }) => {
         setToken(response.data.token);
         localStorage.setItem('token', response.data.token);
         setUser(response.data.NIF);
+        localStorage.setItem('user', response.data.NIF);
         setUserLogin(true);
         return true;
       }
