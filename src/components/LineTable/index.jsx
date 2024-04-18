@@ -11,6 +11,7 @@ export function LineTable() {
   const token = window.localStorage.getItem('token');
   const user =  window.localStorage.getItem('user');
 
+<<<<<<< HEAD
   console.log(user)
 
   async function requisicao1() {
@@ -31,6 +32,28 @@ export function LineTable() {
     }, []);
   
   if (!dados){
+=======
+  // console.log(user)
+
+  // async function requisicao1() {
+  //       const res = await requisicao(`${BASE_URL}/funcionario/todos`, null , `GET`,
+        
+  //         {
+  //           token: token,
+  //           nif: user
+  //         }
+        
+  //     )
+  //     setEmployees(dados)
+
+  // }
+
+  // useEffect(() => {
+  //     requisicao1();
+  //   }, []);
+  
+  // if (!dados){
+>>>>>>> e086db8865d1da653825afce95eed202b41b45fa
     return (
       <>
         {Employees.map((employee, key) => (
@@ -54,8 +77,14 @@ export function LineTable() {
           
         ))}
       </>
+<<<<<<< HEAD
     );
   }
 
   else return null
+=======
+    )
+  // }
+ return null
+>>>>>>> e086db8865d1da653825afce95eed202b41b45fa
 }

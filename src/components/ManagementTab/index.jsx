@@ -13,8 +13,18 @@ import React,{useState} from 'react'
 import { BadgeIcon } from "../../assets/Gestao/badge";
 import { BalconyIcon } from "../../assets/Gestao/balcony";
 import { SchoolIcon } from "../../assets/Gestao/school";
+import { ThemeProvider } from "@material-tailwind/react";
+import withMT from "@material-tailwind/react/utils/withMT";
 
 export function ManagementTab() {
+  const customTheme = withMT({
+        theme: {
+          
+            // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
+            
+          },
+        })
+  
   const content = [
     {
       label: "Turmas",
@@ -40,9 +50,10 @@ export function ManagementTab() {
 
 
   const [activeTab, setActiveTab] = React.useState("turmas");
-  return(
+  return <ThemeProvider value={customTheme} >
+    
     <Tabs value={activeTab}>
-      <TabsHeader className="w-full mx-5 gap-4 mt-12 bg-cinza-100 text-black rounded-lg h-[2.75rem] p-0 " 
+      <TabsHeader className="w-full mx-5 gap-4 mt-12 bg-cinza-100 text-preto rounded-lg h-[2.75rem] p-0 " 
       indicatorProps={{
           className:
             "w-[8rem] bg-gradient-to-r from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
@@ -63,5 +74,5 @@ export function ManagementTab() {
         ))}
       </TabsBody>
     </Tabs>
-  )
+  </ThemeProvider>
 }

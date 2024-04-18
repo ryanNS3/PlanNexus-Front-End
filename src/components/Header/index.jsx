@@ -1,15 +1,19 @@
+<<<<<<< HEAD
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserGlobal } from "../../context/userContext";
+=======
+>>>>>>> e086db8865d1da653825afce95eed202b41b45fa
 import { SearchBar } from "../searchBar";
+import { useContext, useState } from "react";
+import { UserGlobal } from "../../context/userContext";
 import NotificationSvg from "../../assets/header/notifications.svg";
-import ArrowDownSvg from "../../assets/header/nav-arrow-down.svg";
-
+import ArrowDownSvg  from "../../assets/header/nav-arrow-down.svg"
+import { Navigate } from "react-router-dom";
+ 
 export function Header() {
-
-  const [profileImage, setProfileImage] = useState(null); // Estado para armazenar a imagem de perfil
+  const [profileImage, setProfileImage] = useState(null); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
  
   // Função para lidar com o upload da imagem de perfil
   // const handleProfileImageUpload = (event) => {
@@ -32,6 +36,15 @@ export function Header() {
   const toggleDropdown = (event) => {
     event.preventDefault()
     setIsDropdownOpen(!isDropdownOpen);
+<<<<<<< HEAD
+=======
+  };
+ 
+  const logout = () => {
+    localStorage.removeItem('token');
+    <Navigate to='login' />
+   
+>>>>>>> e086db8865d1da653825afce95eed202b41b45fa
   };
 
  

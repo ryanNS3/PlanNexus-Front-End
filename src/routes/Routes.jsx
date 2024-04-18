@@ -16,11 +16,11 @@ export function Router() {
         <ModalProvider>
           <ToastContainer/>
           <Routes>
-            <Route path="/" element={<Login />}/>
-              <Route path="/login" element={
+            <Route path="/login" element={<Login />}/>
+              <Route path="/" element={
+                <ProtectRouter>
                   <Home />
-                // <ProtectRouter>
-                // </ProtectRouter>
+                </ProtectRouter>
               }/>
               <Route path="/estoque" element={
                 <ProtectRouter>
