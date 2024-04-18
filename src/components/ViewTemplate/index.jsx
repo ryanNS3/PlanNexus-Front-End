@@ -1,6 +1,9 @@
 import { LineTable } from "../LineTable";
+import { PinkButton } from "../Buttons/pinkButton";
 import { SearchBar } from "../searchBar";
 import BasicModal from "../Modal";
+import { useState } from "react";
+import { Filter } from './../Filter/index';
 
 export function TemplateView({children, typeUser, statusUser, role}){
 
@@ -14,7 +17,6 @@ export function TemplateView({children, typeUser, statusUser, role}){
                     {children}
                 </BasicModal>
             </div>
-            
             <SearchBar/>
 
             {/* HEADER DO TEMPLATE DE TABELAS */}
@@ -28,7 +30,9 @@ export function TemplateView({children, typeUser, statusUser, role}){
                     <p className="mx-5 px-8 fun-2 text-cinza-700" >{statusUser}</p>
                     <p className="text-center mx-5 px-4 fun-2 text-cinza-700" >Ações</p>
                 </div>
+                <Filter/>
             </section>
+
             <LineTable/>
 
         </main>

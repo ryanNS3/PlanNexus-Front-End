@@ -1,13 +1,13 @@
-import { useState } from "react";
 import { SearchBar } from "../searchBar";
+import { useContext, useState } from "react";
+import { UserGlobal } from "../../context/userContext";
 import NotificationSvg from "../../assets/header/notifications.svg";
-import ArrowDownSvg from "../../assets/header/nav-arrow-down.svg";
-
+import ArrowDownSvg  from "../../assets/header/nav-arrow-down.svg"
+import { Navigate } from "react-router-dom";
+ 
 export function Header() {
-
-  const [profileImage, setProfileImage] = useState(null); // Estado para armazenar a imagem de perfil
+  const [profileImage, setProfileImage] = useState(null); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
  
   // Função para lidar com o upload da imagem de perfil
   const handleProfileImageUpload = (event) => {
@@ -24,7 +24,6 @@ export function Header() {
   const toggleDropdown = (event) => {
     event.preventDefault()
     setIsDropdownOpen(!isDropdownOpen);
-    console.log(isDropdownOpen)
   };
  
   const logout = () => {
@@ -67,10 +66,14 @@ export function Header() {
              
             />
            {isDropdownOpen && (
-              <div className="absolute top-full bg-branco mt-1 lg:right-4 w-auto h-auto">
-                <ul>
-                  <li className="text-fun2 text-preto">Ver perfil</li>
-                  <button className="text-fun2 text-vermelho-300" onClick={logout}>Sair</button>
+              <div className="absolute top-full border border-cinza-100 mt-4 rounded-lg bg-branco right-1 w-36 h-auto ">
+                <ul className="divide-y divide-cinza-100">
+                  <li className="px-2 py-2 flex text-fun2 text-preto w-36 ">Ver perfil</li>
+                  <li className="px-2 py-2 flex gap-1 w-36 " onClick={handleLogout} >
+                    <img src={LogoutSvg} alt="logout" className="" />
+                    <span className="text-fun2 text-vermelho-300">Sair</span>
+                  </li>
+                  
                 </ul>
               </div>
             )}
