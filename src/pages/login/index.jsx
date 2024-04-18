@@ -79,20 +79,16 @@ export function Login() {
         <h3 className="text-h3 mb-8">Login</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-3/4" noValidate>
           <div className={`relative ${inputError ? 'border-vermelho-300' : ''}`}>
+          <span className={`absolute inset-y-0 ${inputError ? 'right-8' : 'right-4'}  top-[33px] flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
 
-            <label id='input' htmlFor="email">
-              <span className='block text-fun1'>Email</span>
-              <InputText id='email' type='text' name='email' value={emailSemArroba} onChange={handleEmailChange} placeholder='Ex: marlene' required={true} disabled={loading} error={inputError} />
-            </label>
-
-              <span className={`absolute inset-y-0 ${inputError ? 'right-8' : 'right-4'}  top-11 flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
+            <InputText id='email' type='text' name='email' value={emailSemArroba} onChange={handleEmailChange} placeholder='Ex: marlene' required={true} disabled={loading} error={inputError} />
+            
           </div>
           
 
-          <label id='input' htmlFor='password'>
-            <span className='block text-fun1 mt-8'>Senha</span>
-            <InputText id='password' type='password' name='password' value={password} onChange={handlePasswordChange} placeholder='Senha' required={true} disabled={loading} error={inputError} />
-          </label>
+
+            <InputText id='password' type='password' name='senha' value={password} onChange={handlePasswordChange} placeholder='Senha' required={true} disabled={loading} error={inputError} />
+
           {errorMessage && <p className="text-vermelho-300 text-fun2">{errorMessage}</p>}
 
 

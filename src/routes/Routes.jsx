@@ -8,6 +8,7 @@ import { ModalProvider } from "../context/modalContext";
 import { ToastifyProvider } from "../context/toastifyContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 export function Router() {
   return (
     <UserProvider>
@@ -71,7 +72,5 @@ export function Router() {
             </Routes>
         </ModalProvider>
       </ToastifyProvider>
-    </UserProvider>
-    
-  );
-}
+  )
+};
