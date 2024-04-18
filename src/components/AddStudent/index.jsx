@@ -13,7 +13,9 @@ export function AddStudent() {
   const [cpf, setCpf] = React.useState();
   const [email, setEmail] = React.useState();
   const [phone, setPhone] = React.useState();
-  const [course, setCourse] = React.useState("Análise e Desenvolvimento de Sistemas");
+  const [course, setCourse] = React.useState(
+    "Análise e Desenvolvimento de Sistemas"
+  );
 
   const [currentStep, setCurrentStep] = React.useState(1);
   const [fic, setFic] = React.useState(false);
@@ -26,8 +28,8 @@ export function AddStudent() {
   return (
     <>
       <div>
-        <h4 className="text-h4 uppercase">Adicionar Aluno</h4>
-        <nav>
+        <h4 className="text-h4 uppercase mb-11">Adicionar Aluno</h4>
+        <nav className="mb-9">
           <ul className="flex justify-between">
             {steps?.map((step, index) => (
               <React.Fragment>
@@ -65,47 +67,49 @@ export function AddStudent() {
         </nav>
 
         <Step currentStep={currentStep} step={1}>
-          <InputText
-            id="name"
-            type="text"
-            name="Nome Completo"
-            placeholder="ex:000.000.000-00"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
-          <InputText
-            id="cpf"
-            type="text"
-            name="CPF"
-            placeholder="ex:marlene"
-            onChange={(e) => setCpf(e.target.value)}
-            value={cpf}
-          />
-          <InputText
-            id="email"
-            type="email"
-            name="Email"
-            placeholder="ex:marlene@gmail.com"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <InputText
-            id="phone"
-            type="text"
-            name="phone"
-            placeholder="ex: 55 11 9999999"
-            onChange={(e) => setPhone(e.target.value)}
-            value={phone}
-          />
+          <div className="flex flex-col gap-6">
+            <InputText
+              id="name"
+              type="text"
+              name="Nome Completo"
+              placeholder="ex:000.000.000-00"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
+            <InputText
+              id="cpf"
+              type="text"
+              name="CPF"
+              placeholder="ex:marlene"
+              onChange={(e) => setCpf(e.target.value)}
+              value={cpf}
+            />
+            <InputText
+              id="email"
+              type="email"
+              name="Email"
+              placeholder="ex:marlene@gmail.com"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+            <InputText
+              id="phone"
+              type="text"
+              name="phone"
+              placeholder="ex: 55 11 9999999"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
+            />
 
-          <PinkButton
-            text="Continuar"
-            action={() =>
-              name && cpf && email && phone
-                ? setCurrentStep(currentStep + 1)
-                : null
-            }
-          />
+            <PinkButton
+              text="Continuar"
+              action={() =>
+                name && cpf && email && phone
+                  ? setCurrentStep(currentStep + 1)
+                  : null
+              }
+            />
+          </div>
         </Step>
 
         <Step currentStep={currentStep} step={2}>
