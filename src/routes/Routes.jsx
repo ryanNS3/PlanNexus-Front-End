@@ -72,5 +72,6 @@ export function Router() {
             </Routes>
         </ModalProvider>
       </ToastifyProvider>
+    </UserProvider>
   )
 };
