@@ -32,6 +32,7 @@ export function NavBarGestao() {
             >
               Turmas
             </Link>
+            
           </li>
           <li className={`py-4 px-5 ${funcionariosStyle}`}>
             <Link
