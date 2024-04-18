@@ -107,6 +107,8 @@ export const UserProvider = ({ children }) => {
       if (response && response.status === 200) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        navegar("/login");
+        console.log("Logout deu certo.");
         return true;
       }
     } catch (error) {
