@@ -3,8 +3,9 @@ import { Sidebar } from "../../components/Sidebar";
 import { ManagementTab } from "../../components/ManagementTab";
 import { Main } from "../../components/Main";
 import { Header } from "../../components/Header";
-
-import { AllLocker } from "../../components/AllLocker";
+import React from "react";
+import BasicModal from "../../components/Modal";
+import { AddStudent } from "./../../components/AddStudent/index";
 
 
 export function Management(){
@@ -20,3 +21,5 @@ export function Management(){
 
     )
 }
+
+

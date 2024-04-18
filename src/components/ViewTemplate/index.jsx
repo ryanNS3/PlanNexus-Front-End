@@ -1,6 +1,7 @@
 import { LineTable } from "../LineTable";
 import { SearchBar } from "../searchBar";
 import BasicModal from "../Modal";
+import { Filter } from "../../components/Filter"
 
 export function TemplateView({children, typeUser, statusUser, role}){
 

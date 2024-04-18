@@ -42,7 +42,7 @@ export function ManagementTab() {
   const [activeTab, setActiveTab] = React.useState("turmas");
   return(
     <Tabs value={activeTab}>
-      <TabsHeader className="w-full mx-5 gap-4 mt-12 bg-cinza-100 text-cinza-50 rounded-lg h-[2.75rem] p-0 " 
+      <TabsHeader className="w-full mx-5 gap-4 mt-12 bg-cinza-100 text-black rounded-lg h-[2.75rem] p-0 " 
       indicatorProps={{
           className:
             "w-[8rem] bg-gradient-to-r from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
