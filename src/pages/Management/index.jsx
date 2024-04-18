@@ -7,7 +7,6 @@ import { Header } from "../../components/Header";
 import { EmployeeForm } from "../../components/Form/employee";
 import React from "react";
 import BasicModal from "../../components/Modal";
-import { EmployeeForm } from "../../components/Form/employee";
 import { AddStudent } from "./../../components/AddStudent/index";
 
 
