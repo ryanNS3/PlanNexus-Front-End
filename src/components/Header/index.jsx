@@ -1,27 +1,19 @@
+<<<<<<< HEAD
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserGlobal } from "../../context/userContext";
-
-
-import SearchSvg from "../../assets/header/search.svg";
+=======
+>>>>>>> e086db8865d1da653825afce95eed202b41b45fa
+import { SearchBar } from "../searchBar";
+import { useContext, useState } from "react";
+import { UserGlobal } from "../../context/userContext";
 import NotificationSvg from "../../assets/header/notifications.svg";
-import ArrowDownSvg from "../../assets/header/nav-arrow-down.svg";
-import ClearSvg from "../../assets/header/xmark.svg";
-import LogoutSvg from '../../assets/header/logout.svg'
+import ArrowDownSvg  from "../../assets/header/nav-arrow-down.svg"
+import { Navigate } from "react-router-dom";
  
 export function Header() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { userLogoutRequest } = useContext(UserGlobal)
- 
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
- 
-  const handleLogout = async () => {
-    await userLogoutRequest(); 
-  };
  
   // Função para lidar com o upload da imagem de perfil
   // const handleProfileImageUpload = (event) => {
@@ -44,37 +36,24 @@ export function Header() {
   const toggleDropdown = (event) => {
     event.preventDefault()
     setIsDropdownOpen(!isDropdownOpen);
+<<<<<<< HEAD
+=======
+  };
+ 
+  const logout = () => {
+    localStorage.removeItem('token');
+    <Navigate to='login' />
+   
+>>>>>>> e086db8865d1da653825afce95eed202b41b45fa
   };
 
  
   return (
-    <header className="col-span-10 mb-8">
-      <form className="mt-10 grid grid-cols-12 gap-2">
-        <div className="col-start-1 col-end-11 relative">
-          <input
-            type="text"
-            placeholder="Pesquisar"
-            value={searchTerm}
-            onChange={handleChange}
-            className="w-full py-2 pl-10 pr-4 border-2 border-cinza-50 rounded-lg focus:outline-none focus:border-rosa-destaque"
-          />
- 
-          {searchTerm && (
-            <img
-              className="w-4 h-4 absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer"
-              src={ClearSvg}
-              alt="Ícone de limpar"
-              onClick={clearSearch}
-            />
-          )}
- 
-          <img
-            className="w-4 h-4 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-500 "
-            src={SearchSvg}
-            alt="Ícone de pesquisar"
-          />
-        </div>
- 
+    <header className="col-span-10">
+      <form className="mt-10 grid grid-cols-12 gap-2 relative">
+                
+      <SearchBar/>
+
         <div className="col-span-1 flex justify-center items-center">
           <img
             className="w-6 h-6 cursor-pointer"

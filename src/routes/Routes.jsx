@@ -58,19 +58,8 @@ export function Router() {
                 // </ProtectRouter>
               }/>
 
-              <Route path="/gestao/turmas" element={
-                <Management/>
-                // <ProtectRouter>
-                // </ProtectRouter>
-              }/>
-              <Route path="/gestao/funcionarios" element={
-                  <Management/>
-                // <ProtectRouter>
-                // </ProtectRouter>
-              }/>  
-          
-            </Routes>
-        </ModalProvider>
+      </Routes>
+      </ModalProvider>
       </ToastifyProvider>
     </UserProvider>
   )
