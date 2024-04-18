@@ -34,5 +34,6 @@ export function InputText({
                 {error ? <img className='w-6 mt-4' src={Close} /> : null}
                 {errorValidacao && <p className=' text-ct3 capitalize text-vermelho-300'>{errorValidacao}</p>}
             </label>
+        </div>
     )
 }
