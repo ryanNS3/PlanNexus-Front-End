@@ -21,17 +21,6 @@ export function Header() {
     }
   };
 
-  const toggleDropdown = (event) => {
-    event.preventDefault()
-    setIsDropdownOpen(!isDropdownOpen);
-    console.log(isDropdownOpen)
-  };
- 
-  const logout = () => {
-    localStorage.removeItem('token');
-    <Navigate to='login' />
-   
-  };
 
   return (
     <header className="col-span-10">
