@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Close } from "../../assets/Close";
 import { PinkButton } from "../Buttons/pinkButton";
+import { modalContext } from "../../context/modalContext";
 
 const modalStyle = {
   display: 'flex',
@@ -22,19 +23,20 @@ const InnerModal = {
 }
 
 export default function BasicModal({ children, TextButton }) {
-  const [open, setOpen] = React.useState(false);
   const [isHoverButton, setIsHoverButton] = React.useState(false)
-  const handleOpen = () => setOpen(true);
+  const {isOpenModal, setIsOpenModal} = React.useContext(modalContext)
+
+  const handleOpen = () => setIsOpenModal(true);
   const handleClose = () => {
     setIsHoverButton(false)
-    setOpen(false)
+    setIsOpenModal(false)
   };
 
   return (
     <>
       <PinkButton action={handleOpen} text={TextButton} size="big"/>
       <Modal
-        open={open}
+        open={isOpenModal}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

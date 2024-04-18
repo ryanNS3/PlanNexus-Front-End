@@ -13,7 +13,7 @@ import { useState } from "react";
 
 export function Sidebar() {
   return (
-    <aside className="py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center">
+    <aside className="fixed py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center">
       <Link to="/">
         <img className="max-[1471px]:hidden" src={Logo} alt="" />
         <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />

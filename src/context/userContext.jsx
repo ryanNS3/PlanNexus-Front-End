@@ -1,69 +1,145 @@
-import React, { createContext, useState, useContext } from "react";
-import useAxios from "../hooks/useAxios";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const UserGlobal = createContext();
 
 export const UserProvider = ({ children }) => {
-  const { requisicao } = useAxios();
-  const [user, setUser] = useState(null);
-  const [userLogin, setUserLogin] = useState(false);
+  const [user, setUser] = useState(localStorage.getItem("user"));
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(null);
+  const userLogin = useMemo(() => !!user, [user]);
 
-  async function userLoginRequest(email, password)  {
+  const navegar = useNavigate();
+  const url = useLocation()
 
-    setLoading(true);
-    
-    try {
-      // const response = await requisicao(
-      //   "http://172.16.3.83:3333/funcionario/login",
-      //   { email, senha: password },
-      //   "POST"
-      // );
-      console.log(email)
-      console.log(password)
-      
-      
-      const response = await axios.post("http://172.16.3.83:3333/funcionario/login", {
-        email: email,
-        senha: password
-      })
-      console.log(response)
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
+  useEffect(() => {
+    async function validateToken() {
+      if (!!token && !!user) {
+        setLoading(true);
+        try {
+          const response = await axios.post(
+            `${BASE_URL}/funcionario/token`,
+            null,
+            {
+              headers: {
+                nif: user,
+                token: token,
+              },
+            }
+          );
 
-      if (response && response.status === 200) {
-        setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.usuario);
-        setUserLogin(true);
-        return true;
-      }
-    } catch (error) {
-        if (error.response && error.response.status === 400) {
-            setError('Email ou senha inválidos. Tente novamente.');
-        }
-         else if (
+          if (response && response.status === 200) {
+            url.pathname === '/login' ? navegar('/') : null
+            console.log("Token validado");
+          }
+        } catch (error) {
+          if (error.response && error.response.status === 403) {
+            console.log("Sem token / token inválido.");
+            navegar('/login')
+          } else if (
             error.response &&
             error.response.status >= 400 &&
             error.response.status <= 500
-        ) {
-            setUserLogin(false)
-            setError(error.response.data.message || 'Erro durante o login. Por favor, tente novamente.');
-            return false;
+          ) {
+            console.log("Sistema validação falhou.");
+          }
+        } finally {
+          setLoading(false);
         }
+      }
+    }
+
+    validateToken();
+  }, [token]);
+
+  async function userLoginRequest(email, password) {
+    setLoading(true);
+    try {
+      const response = await axios.post(`${BASE_URL}/funcionario/login`, {
+        email: email,
+        senha: password,
+      });
+
+      if (response && response.status === 200) {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        setUser(response.data.NIF);
+        localStorage.setItem("user", response.data.NIF);
+        return true;
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError("Email ou senha inválidos. Tente novamente.");
+      } else if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        setError(
+          error.response.data.message ||
+            "Erro durante o login. Por favor, tente novamente."
+        );
+        return false;
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  async function userLogoutRequest() {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/funcionario/deslogar`,
+        null,
+        {
+          headers: {
+            nif: user,
+            token: token,
+          },
+        }
+      );
+
+      if (response && response.status === 200) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navegar("/login");
+        console.log("Logout deu certo.");
+        return true;
+      }
+    } catch (error) {
+      console.log("Logout falhou.");
+      if (error.response && error.response.status === 400) {
+      } else if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        console.log("Sistema logout falhou.");
+        return false;
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <UserGlobal.Provider
-      value={{ user, token, userLogin, setUserLogin, loading, error, userLoginRequest }}
+      value={{
+        user,
+        token,
+        userLogin,
+        loading,
+        error,
+        userLoginRequest,
+        userLogoutRequest,
+      }}
     >
       {children}
     </UserGlobal.Provider>
   );
 };
-
