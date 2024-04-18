@@ -14,63 +14,90 @@ export function Router() {
     <UserProvider>
       <ToastifyProvider>
         <ModalProvider>
-          <ToastContainer/>
+          <ToastContainer />
           <Routes>
-            <Route path="/login" element={<Login />}/>
-              <Route path="/" element={
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/"
+              element={
                 <ProtectRouter>
                   <Home />
                 </ProtectRouter>
-              }/>
-              <Route path="/estoque" element={
+              }
+            />
+            <Route
+              path="/estoque"
+              element={
                 <ProtectRouter>
                   <Home />
                 </ProtectRouter>
-              }/>
+              }
+            />
 
-              <Route path="/doacao" element={
+            <Route
+              path="/doacao"
+              element={
                 <ProtectRouter>
                   <Home />
                 </ProtectRouter>
-              }/>
+              }
+            />
 
-              <Route path="/financeiro" element={
+            <Route
+              path="/financeiro"
+              element={
                 <ProtectRouter>
                   <Home />
                 </ProtectRouter>
-              }/>
+              }
+            />
 
-              <Route path="/calendario" element={
+            <Route
+              path="/calendario"
+              element={
                 <ProtectRouter>
                   <Home />
                 </ProtectRouter>
-              }/>
+              }
+            />
 
-              <Route path="/historico" element={
+            <Route
+              path="/historico"
+              element={
                 <ProtectRouter>
                   <Home />
                 </ProtectRouter>
-              }/>
+              }
+            />
 
-              <Route path="/gestao" element={
+            <Route
+              path="/gestao"
+              element={
                 <Management />
                 // <ProtectRouter>
                 // </ProtectRouter>
-              }/>
+              }
+            />
 
-              <Route path="/gestao/turmas" element={
-                <Management/>
+            <Route
+              path="/gestao/turmas"
+              element={
+                <Management />
                 // <ProtectRouter>
                 // </ProtectRouter>
-              }/>
-              <Route path="/gestao/funcionarios" element={
-                  <Management/>
+              }
+            />
+            <Route
+              path="/gestao/funcionarios"
+              element={
+                <Management />
                 // <ProtectRouter>
                 // </ProtectRouter>
-              }/>  
-          
-            </Routes>
+              }
+            />
+          </Routes>
         </ModalProvider>
       </ToastifyProvider>
-  )
+    </UserProvider>
+  );
 };

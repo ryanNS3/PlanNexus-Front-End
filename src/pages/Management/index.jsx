@@ -4,9 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { NavBarGestao } from "../../components/NavBarGestao";
 import { Main } from "../../components/Main";
 import { Header } from "../../components/Header";
-import { EmployeeForm } from "../../components/Form/employee";
 import React from "react";
-import BasicModal from "../../components/Modal";
 import { EmployeeForm } from "../../components/Form/employee";
 import { AddStudent } from "./../../components/AddStudent/index";
 
