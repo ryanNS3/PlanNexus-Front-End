@@ -9,10 +9,12 @@ export function AddStudent() {
     "Pré-visualização",
   ];
 
-  const [name, setName] = React.useState();
-  const [cpf, setCpf] = React.useState();
-  const [email, setEmail] = React.useState();
-  const [phone, setPhone] = React.useState();
+  const [name, setName] = React.useState(null);
+  const [cpf, setCpf] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [secondEmail, setSecondEmail] = React.useState()
+  const [phone, setPhone] = React.useState([]);
+  const [secondPhone, setSecondPhone] = React.useState()
   const [course, setCourse] = React.useState(
     "Análise e Desenvolvimento de Sistemas"
   );
@@ -97,7 +99,7 @@ export function AddStudent() {
               type="text"
               name="phone"
               placeholder="ex: 55 11 9999999"
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhone((prev) => [...prev, e.target.value])}
               value={phone}
             />
 
@@ -192,22 +194,60 @@ export function AddStudent() {
               Não
             </label>
           </div>
-          <PinkButton
-            text="Voltar"
-            action={() => setCurrentStep(currentStep - 1)}
-          />
-          <PinkButton
-            text="Continuar"
-            action={() => setCurrentStep(currentStep + 1)}
-          />
+
+          <div className="flex gap-4">
+            <PinkButton
+              text="Voltar"
+              action={() => setCurrentStep(currentStep - 1)}
+            />
+            <PinkButton
+              text="Continuar"
+              action={() => setCurrentStep(currentStep + 1)}
+            />
+          </div>
         </Step>
 
         <Step currentStep={currentStep} step={3}>
           <h3 className="text-sub1">Informações Pessoais</h3>
-          <p className="text-ct2">Nome: {name}</p>
-          <p className="text-ct2">CPF: {cpf}</p>
-          <p className="text-ct2">Email: {email}</p>
-          <p className="text-ct2">phone: {phone || "N/A"}</p>
+          <InputText
+            id="name"
+            type="text"
+            name="Nome Completo"
+            placeholder="ex:000.000.000-00"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            disabled={true}
+          />
+          <InputText
+            id="cpf"
+            type="text"
+            name="CPF"
+            placeholder="ex:marlene"
+            onChange={(e) => setCpf(e.target.value)}
+            value={cpf}
+            disabled={true}
+          />
+          <InputText
+            id="email"
+            type="email"
+            name="Email"
+            placeholder="ex:marlene@gmail.com"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            disabled={true}
+          />
+
+          {phone.map((phoneNumber, index) => (
+            <InputText
+              key={index}
+              id={`phone-${index}`}
+              type="text"
+              name="phone"
+              placeholder="ex: 55 11 9999999"
+              value={phoneNumber}
+              disabled={true}
+            />
+          ))}
           <h3 className="text-sub1">Informações de cursos</h3>
           <p className="text-ct2">Curso: {course}</p>
           <p className="text-ct2">Sócio da AAPM: {partner ? "Sim" : "Não"}</p>
