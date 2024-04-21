@@ -3,8 +3,10 @@ import { NavLocker } from "../NavLocker"
 import { Notice } from "../Notice"
 import { Percentage } from "../Percentage"
 import { VoidDate } from "../VoidDate"
+import BasicModal from "../Modal"
+import { LockerForm } from "../Form/locker"
 
-export function AllLocker() {
+export function AllLocker({ typeUser}) {
 
   const data = [
     {
@@ -152,19 +154,24 @@ export function AllLocker() {
     },
   ]
 
-  function Ops() {
-    return (
-      console.log("abri as opções")
-    )
-  }
-
   return (
     <>
-      <div className="grid grid-cols-10 col-span-10 gap-x-4 gap-y-4">
-        <Percentage /> <VoidDate />
-        <h2 className="text-h5 mt-8 mb-7 col-span-8">Todos os armários: </h2><Notice />
+
+      <div className="flex flex-wrap mt-8 gap-5">
+        <Percentage /><VoidDate />
+      </div>
+
+      <div className="col-start-1 col-end-12 flex justify-between mt-10" >
+        <h1 className="text-h5" >Todos os {typeUser}: </h1>
+        <BasicModal TextButton={<Notice />}>
+          <LockerForm/>
+
+        </BasicModal>
+      </div>
+
+      <div className="grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-3 sm:col-span-12 md:grid-cols-6 md:col-span-12 lg:grid-cols-9 lg:col-span-12 xl:grid-cols-12 xl:col-span-12">
         {data.map((element) => {
-          return <Locker key={element.id} numero={element.numero} status={element.status} onClick={Ops} />
+          return <Locker key={element.id} numero={element.numero} status={element.status} />
         }
         )
         }
@@ -175,8 +182,8 @@ export function AllLocker() {
   )
 }
 
-function Locker({ id, numero, status, onClick }) {
+function Locker({ id, numero, status }) {
   return (
-    <div key={id} onClick={onClick} className={` col-span-1 ${status == 'ocupado' ? "bg-[#A0E29E]" : "bg-cinza-100"} w-24 h-24 flex items-center justify-center rounded-lg`}><p className="text-h5 active:">{numero}</p></div>
+    <div key={id} className={`col-span-1 ${status == 'ocupado' ? "bg-[#A0E29E]" : "bg-cinza-100"} h-24 flex items-center justify-center rounded-lg`}><p className="text-h5">{numero}</p></div>
   )
 }

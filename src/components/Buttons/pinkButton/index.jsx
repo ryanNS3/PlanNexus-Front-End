@@ -44,6 +44,9 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
     case 'secondary':
       buttonColour = 'bg-gradient-to-r from-[#494747] to-[#1A1A1A]';
       break;
+    case 'tertiary':
+      buttonColour = 'border-2 border-[#999999] text-preto';
+      break;
     default:
       buttonColour = 'bg-gradient-to-r from-[#BD3FD1] to-[#9332AE]';
   }
