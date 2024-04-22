@@ -13,7 +13,7 @@ export function AddStudent() {
   const [cpf, setCpf] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [secondEmail, setSecondEmail] = React.useState()
-  const [phone, setPhone] = React.useState([]);
+  const [phone, setPhone] = React.useState();
   const [secondPhone, setSecondPhone] = React.useState()
   const [course, setCourse] = React.useState(
     "Análise e Desenvolvimento de Sistemas"
@@ -99,7 +99,7 @@ export function AddStudent() {
               type="text"
               name="phone"
               placeholder="ex: 55 11 9999999"
-              onChange={(e) => setPhone((prev) => [...prev, e.target.value])}
+              onChange={(e) => setPhone(e.target.value)}
               value={phone}
             />
 
@@ -237,17 +237,14 @@ export function AddStudent() {
             disabled={true}
           />
 
-          {phone.map((phoneNumber, index) => (
             <InputText
-              key={index}
-              id={`phone-${index}`}
+              id="phone"
               type="text"
               name="phone"
               placeholder="ex: 55 11 9999999"
-              value={phoneNumber}
+              value={phone}
               disabled={true}
             />
-          ))}
           <h3 className="text-sub1">Informações de cursos</h3>
           <p className="text-ct2">Curso: {course}</p>
           <p className="text-ct2">Sócio da AAPM: {partner ? "Sim" : "Não"}</p>
