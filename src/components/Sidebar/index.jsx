@@ -13,13 +13,13 @@ import { useState } from "react";
 
 export function Sidebar() {
   return (
-    <aside className="fixed py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center">
+    <aside className="fixed h-screen py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center max-[1024px]:absolute max-[1024px]:left-[-100%]">
       <Link to="/">
         <img className="max-[1471px]:hidden" src={Logo} alt="" />
         <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />
       </Link>
 
-      <nav>
+      <nav className="overflow-auto" style={{ scrollbarWidth: "none" }}>
         <ul className="flex flex-col gap-9">
           <SidebarElement text="Home" icon="Home" href="/" />
           <SidebarElement text="Estoque" icon="Estoque" href="/estoque" />
