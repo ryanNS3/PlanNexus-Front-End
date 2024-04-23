@@ -25,9 +25,6 @@ export function Management(){
                       </TemplateView>
                     )}
             <AddStudent />
-                    <TemplateView>
-                        <EmployeeForm/>
-                    </TemplateView>
                 </Main>
         </div>
 
