@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { UserGlobal } from "../../context/userContext";
-=======
->>>>>>> e086db8865d1da653825afce95eed202b41b45fa
 import { SearchBar } from "../searchBar";
 import { useContext, useState } from "react";
 import { UserGlobal } from "../../context/userContext";
@@ -36,15 +30,11 @@ export function Header() {
   const toggleDropdown = (event) => {
     event.preventDefault()
     setIsDropdownOpen(!isDropdownOpen);
-<<<<<<< HEAD
-=======
   };
  
   const logout = () => {
     localStorage.removeItem('token');
     <Navigate to='login' />
-   
->>>>>>> e086db8865d1da653825afce95eed202b41b45fa
   };
 
  
