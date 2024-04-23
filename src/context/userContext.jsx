@@ -27,10 +27,12 @@ export const UserProvider = ({ children }) => {
             {
               headers: {
                 nif: user,
-                token: token,
+                authorization: `bearer ${token}`,
               },
             }
           );
+
+          console.log(response)
 
           if (response && response.status === 200) {
             url.pathname === '/login' ? navegar('/') : null
@@ -64,14 +66,16 @@ export const UserProvider = ({ children }) => {
         senha: password,
       });
 
+
       if (response && response.status === 200) {
-        setToken(response.data.token);
-        localStorage.setItem("token", response.data.token);
-        setUser(response.data.NIF);
-        localStorage.setItem("user", response.data.NIF);
+        setToken(response.data.response.token);
+        localStorage.setItem("token", response.data.response.token);
+        setUser(response.data.response.NIF);
+        localStorage.setItem("user", response.data.response.NIF);
         return true;
       }
     } catch (error) {
+      console.log(error)
       if (error.response && error.response.status === 400) {
         setError("Email ou senha inválidos. Tente novamente.");
       } else if (
