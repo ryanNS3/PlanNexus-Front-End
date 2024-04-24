@@ -74,7 +74,7 @@ export function AddStudent() {
               id="name"
               type="text"
               name="Nome Completo"
-              placeholder="ex:000.000.000-00"
+              placeholder="ex:marlene"
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
@@ -82,7 +82,7 @@ export function AddStudent() {
               id="cpf"
               type="text"
               name="CPF"
-              placeholder="ex:marlene"
+              placeholder="ex:000.000.000-00"
               onChange={(e) => setCpf(e.target.value)}
               value={cpf}
             />
