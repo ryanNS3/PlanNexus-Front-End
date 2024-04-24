@@ -5,8 +5,20 @@ import { Percentage } from "../Percentage"
 import { VoidDate } from "../VoidDate"
 import BasicModal from "../Modal"
 import { LockerForm } from "../Form/locker"
+import { Options } from "../Options"
+import { LockerContext } from "../../context/lockerContext"
 
-export function AllLocker({ typeUser}) {
+export function AllLocker({ typeUser }) {
+
+  const { dado } = React.useContext(LockerContext)
+  console.log(dado)
+
+  const [isOpenOptions, setIsOpenOptions] = React.useState(false)
+
+  function handleFocusAllLocker(event) {
+    event.preventDefault()
+    setIsOpenOptions(false)
+  }
 
   const data = [
     {
@@ -155,7 +167,7 @@ export function AllLocker({ typeUser}) {
   ]
 
   return (
-    <>
+    <div onFocus={handleFocusAllLocker}>
 
       <div className="flex flex-wrap mt-8 gap-5">
         <Percentage /><VoidDate />
@@ -164,26 +176,48 @@ export function AllLocker({ typeUser}) {
       <div className="col-start-1 col-end-12 flex justify-between mt-10" >
         <h1 className="text-h5" >Todos os {typeUser}: </h1>
         <BasicModal TextButton={<Notice />}>
-          <LockerForm/>
+          <LockerForm />
 
         </BasicModal>
       </div>
 
       <div className="grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-3 sm:col-span-12 md:grid-cols-6 md:col-span-12 lg:grid-cols-9 lg:col-span-12 xl:grid-cols-12 xl:col-span-12">
         {data.map((element) => {
-          return <Locker key={element.id} numero={element.numero} status={element.status} />
+          return <Locker key={element.id} id={`#e${element.id}`} numero={element.numero} status={element.status} />
         }
         )
         }
       </div>
 
       <NavLocker />
-    </>
+    </div>
   )
 }
 
 function Locker({ id, numero, status }) {
+  const [isOpenOptions, setIsOpenOptions] = React.useState(false)
+  function onClickRight(event) {
+    event.preventDefault();
+    setIsOpenOptions(!isOpenOptions)
+    console.log(event)
+  }
+
   return (
-    <div key={id} className={`col-span-1 ${status == 'ocupado' ? "bg-[#A0E29E]" : "bg-cinza-100"} h-24 flex items-center justify-center rounded-lg`}><p className="text-h5">{numero}</p></div>
+    <>
+      <div onContextMenuCapture={onClickRight} key={id} id={id} className={` relative col-span-1 ${status == 'ocupado' ? "bg-[#A0E29E]" : "bg-cinza-100"} h-24 flex items-center justify-center rounded-lg`}>
+        <p className="text-h5">{numero}</p>
+
+        <div className="absolute top-0 -right-2">
+          {isOpenOptions ? <Options /> : null}
+        </div>
+
+      </div>
+    </>
   )
 }
+
+// function Locker({ id, numero, status }) {
+//   return (
+//     <div key={id} className={`col-span-1 ${status == 'ocupado' ? "bg-[#A0E29E]" : "bg-cinza-100"} h-24 flex items-center justify-center rounded-lg`}><p className="text-h5">{numero}</p></div>
+//   )
+// }
