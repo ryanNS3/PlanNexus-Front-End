@@ -5,6 +5,8 @@ import { Main } from "../../components/Main";
 import { SalesChart } from "../../components/SalesChart";
 import { Agenda } from "../../components/Agenda";
 import { Statistic } from "../../components/Statistic";
+import BasicModal from "../../components/Modal";
+import { AddStudent } from "../../components/AddStudent";
 
 export function Home() {
   return (
@@ -21,6 +23,11 @@ export function Home() {
             <Grafico />
           </div>
           <Agenda />
+
+          {/* Esse modal foi colocado na Home apenas para teste e será removido posteriormente */}
+          <BasicModal TextButton="Adicionar Aluno">
+            <AddStudent/>
+          </BasicModal>
         </div>
 
       </Main>
