@@ -47,6 +47,10 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
     case 'tertiary':
       buttonColour = 'border-2 border-[#999999] text-preto';
       break;
+    case 'fourth':
+      buttonColour = 'border-2 border-cinza-500 text-branco bg-cinza-700 hover:border-rosa-300';
+      break;
+
     default:
       buttonColour = 'bg-gradient-to-r from-[#BD3FD1] to-[#9332AE]';
   }
@@ -67,7 +71,7 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
       </svg>
     ) : (
       <div className='flex gap-2'>
-        <img src={icon} />
+        {icon}
         <span className='uppercase'>{text}</span>
       </div>
     )}
