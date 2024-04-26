@@ -1,6 +1,7 @@
-import React, { Children } from "react";
+import React from "react";
 import { PinkButton } from "../Buttons/pinkButton";
 import { InputText } from "../Inputs/input-text/inputTextComp";
+import useAxios from "../../hooks/useAxios";
 
 export function AddStudent() {
   const steps = [
@@ -18,14 +19,67 @@ export function AddStudent() {
   const [course, setCourse] = React.useState(
     "Análise e Desenvolvimento de Sistemas"
   );
-
-  const [currentStep, setCurrentStep] = React.useState(1);
   const [fic, setFic] = React.useState(false);
   const [partner, setPartner] = React.useState(false);
 
+  // Multi-Step Form
+  const [currentStep, setCurrentStep] = React.useState(1);
   function setStep(step) {
     setCurrentStep(step);
   }
+
+  // Consumo da API - POST (cadastrar/adicionar alunos)
+  const { requisicao, dados } = useAxios();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = window.localStorage.getItem("token");
+  const user = window.localStorage.getItem("user");
+
+  const handleSubmit = () => {
+    // cpf, nome, email partner
+    const data = {
+      CPF: cpf,
+      nome: name,
+      email: email,
+      fk_curso: "206", //Alterar para a variável course
+      socioAapm: true,
+      telefone: "000000000",
+      celular: "000000000",
+    };
+
+    const res = requisicao(
+      `${BASE_URL}/aluno/cadastro/unico`,
+      { data },
+      "POST",
+      {
+        token,
+        nif: user,
+      }
+    );
+
+    console.log(res);
+  };
+
+  // const [Employees, setEmployees] = useState([]);
+  // const BASE_URL = import.meta.env.VITE_API_URL;
+  // const { requisicao, dados } = useAxios();
+  // const token = window.localStorage.getItem("token");
+  // const user = window.localStorage.getItem("user");
+
+  // console.log(user);
+
+  // async function requisicao1() {
+  //   const res = await requisicao(
+  //     `${BASE_URL}/funcionario/todos`,
+  //     null,
+  //     `GET`,
+
+  //     {
+  //       token: token,
+  //       nif: user,
+  //     }
+  //   );
+  //   setEmployees(dados);
+  // }
 
   return (
     <>
@@ -34,7 +88,7 @@ export function AddStudent() {
         <nav className="mb-9">
           <ul className="flex justify-between">
             {steps?.map((step, index) => (
-              <React.Fragment>
+              <React.Fragment key={index}>
                 <li
                   key={index}
                   className="flex flex-col items-center cursor-pointer gap-2"
@@ -76,7 +130,7 @@ export function AddStudent() {
               name="Nome Completo"
               placeholder="ex:marlene"
               onChange={(e) => setName(e.target.value)}
-              value={name}
+              value={name ? name : ""}
             />
             <InputText
               id="cpf"
@@ -84,7 +138,7 @@ export function AddStudent() {
               name="CPF"
               placeholder="ex:000.000.000-00"
               onChange={(e) => setCpf(e.target.value)}
-              value={cpf}
+              value={cpf ? cpf : ""}
             />
             <InputText
               id="email"
@@ -92,7 +146,7 @@ export function AddStudent() {
               name="Email"
               placeholder="ex:marlene@gmail.com"
               onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              value={email ? email : ""}
             />
             <InputText
               id="phone"
@@ -100,8 +154,8 @@ export function AddStudent() {
               name="phone"
               placeholder="ex: 55 11 9999999"
               onChange={(e) => setPhone(e.target.value)}
-              value={phone}
-            />
+              value={phone ? phone : ""}
+            />  
 
             <div className="flex justify-end mt-8">
               <PinkButton
@@ -145,7 +199,7 @@ export function AddStudent() {
                 type="radio"
                 name="socioTrue"
                 id="socioTrue"
-                checked={partner}
+                checked={partner === false}
                 onClick={() => setPartner(true)}
               />
               Sim
@@ -159,7 +213,7 @@ export function AddStudent() {
                 type="radio"
                 name="socioFalse"
                 id="socioFalse"
-                checked={!partner}
+                checked={partner === false}
                 onClick={() => setPartner(false)}
               />
               Não
@@ -176,7 +230,7 @@ export function AddStudent() {
                 type="radio"
                 name="ficTrue"
                 id="ficTrue"
-                checked={fic}
+                checked={fic === true}
                 onClick={() => setFic(true)}
               />
               Sim
@@ -190,7 +244,7 @@ export function AddStudent() {
                 type="radio"
                 name="ficFalse"
                 id="ficFalse"
-                checked={!fic}
+                checked={fic === false}
                 onClick={() => setFic(false)}
               />
               Não
@@ -255,6 +309,7 @@ export function AddStudent() {
               text="Voltar"
               action={() => setCurrentStep(currentStep - 1)}
             />
+            <PinkButton text="Cadastrar" action={handleSubmit} />
           </div>
         </Step>
       </div>
