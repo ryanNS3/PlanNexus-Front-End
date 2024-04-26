@@ -17,8 +17,8 @@ export function EmployeeProvider({ children }) {
         null,
         `GET`,
         {
-          authorization: `bearer ${token}`,
-          nif: user,
+          authorization: `bearer ${localStorage.getItem('token')}`,
+          nif: localStorage.getItem('user'),
         }
       );
       console.log(res)
