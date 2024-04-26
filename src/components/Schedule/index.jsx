@@ -101,13 +101,38 @@ export function Schedule() {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
     },
   ];
+  const [currentStep, setCurrentStep] = React.useState(1);
+  const steps = ["S", "T", "Q", "Q", "S", "S", "D"];
+
   return (
-    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg">
+    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[838px]">
       <h2 className="text-sub2 mb-7">Agenda</h2>
 
       <nav>
-        <ul className="flex gap-6">
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-rosa-300 text-fun2 text-branco">
+        <ul className="flex gap-6 justify-between">
+          {steps?.map((step, index) => (
+            <React.Fragment>
+              <li
+                key={index}
+                className="flex flex-col items-center cursor-pointer gap-2"
+                onClick={() =>
+                  setCurrentStep(index + 1)
+                }
+              >
+                <div
+                  className={`flex rounded-full w-11 h-11 text-fun2 items-center justify-center hover:bg-rosa-300 ${
+                    currentStep == index + 1
+                      ? "bg-rosa-300"
+                      : "bg-[#D9D9D9] text-cinza-700"
+                  }`}
+                >
+                  {step}
+                </div>
+              </li>
+            </React.Fragment>
+          ))}
+
+          {/* <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-rosa-300 text-fun2 text-branco">
             S
           </li>
           <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
@@ -127,21 +152,47 @@ export function Schedule() {
           </li>
           <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
             D
-          </li>
+          </li> */}
         </ul>
       </nav>
 
-      <div className="flex flex-col mt-9 gap-11">
-        {events.map((task, index) => (
-          <React.Fragment index={index}>
-            <Task
-              text={task.text}
-              time={task.time}
-              name={task.name}
-              picture={task.picture}
-            />
-          </React.Fragment>
-        ))}
+      <div className="flex flex-col mt-9 gap-11 overflow-auto">
+        <Step currentStep={currentStep} step={1}>
+          {events.map((task, index) => (
+            <React.Fragment index={index}>
+              <Task
+                text={task.text}
+                time={task.time}
+                name={task.name}
+                picture={task.picture}
+              />
+            </React.Fragment>
+          ))}
+        </Step>
+        <Step currentStep={currentStep} step={2}>                                                                                                   
+          {events.map((task, index) => (
+            <React.Fragment index={index}>
+              <Task
+                text={task.text}
+                time={task.time}
+                name={task.name}
+                picture={task.picture}
+              />
+            </React.Fragment>
+          ))}
+        </Step>
+        <Step currentStep={currentStep} step={3}>                                                                                                         }>
+          {events.map((task, index) => (
+            <React.Fragment index={index}>
+              <Task
+                text={task.text}
+                time={task.time}
+                name={task.name}
+                picture={task.picture}
+              />
+            </React.Fragment>
+          ))}
+        </Step>
       </div>
     </section>
   );
@@ -156,7 +207,7 @@ function Task({ text, time, name, picture }) {
 
       <div className="flex justify-between gap-3 items-center rounded-lg border-2 border-cinza-200 px-4 py-6 w-full">
         <p className="text-fun2">
-          {text.length <= 14 ? text : text.slice(0, 14) + "..."}
+          {text.length <= 25 ? text : text.slice(0, 25) + "..."}
         </p>{" "}
         {/*11 */}
         <div className="flex gap-2">
@@ -195,4 +246,10 @@ function Task({ text, time, name, picture }) {
       </div>
     </div>
   );
+}
+
+function Step({ currentStep, step, children }) {
+  const show = currentStep === step;
+
+  return show ? <>{children}</> : null;
 }
