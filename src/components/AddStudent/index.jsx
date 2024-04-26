@@ -12,9 +12,9 @@ export function AddStudent() {
   const [name, setName] = React.useState(null);
   const [cpf, setCpf] = React.useState(null);
   const [email, setEmail] = React.useState(null);
-  const [secondEmail, setSecondEmail] = React.useState()
+  const [secondEmail, setSecondEmail] = React.useState();
   const [phone, setPhone] = React.useState();
-  const [secondPhone, setSecondPhone] = React.useState()
+  const [secondPhone, setSecondPhone] = React.useState();
   const [course, setCourse] = React.useState(
     "Análise e Desenvolvimento de Sistemas"
   );
@@ -29,7 +29,7 @@ export function AddStudent() {
 
   return (
     <>
-      <div>
+      <div className="pb-5">
         <h4 className="text-h4 uppercase mb-11">Adicionar Aluno</h4>
         <nav className="mb-9">
           <ul className="flex justify-between">
@@ -103,14 +103,16 @@ export function AddStudent() {
               value={phone}
             />
 
-            <PinkButton
-              text="Continuar"
-              action={() =>
-                name && cpf && email && phone
-                  ? setCurrentStep(currentStep + 1)
-                  : null
-              }
-            />
+            <div className="flex justify-end mt-8">
+              <PinkButton
+                text="Continuar"
+                action={() =>
+                  name && cpf && email && phone
+                    ? setCurrentStep(currentStep + 1)
+                    : null
+                }
+              />
+            </div>
           </div>
         </Step>
 
@@ -195,7 +197,7 @@ export function AddStudent() {
             </label>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-end mt-8">
             <PinkButton
               text="Voltar"
               action={() => setCurrentStep(currentStep - 1)}
@@ -237,21 +239,23 @@ export function AddStudent() {
             disabled={true}
           />
 
-            <InputText
-              id="phone"
-              type="text"
-              name="phone"
-              placeholder="ex: 55 11 9999999"
-              value={phone}
-              disabled={true}
-            />
+          <InputText
+            id="phone"
+            type="text"
+            name="phone"
+            placeholder="ex: 55 11 9999999"
+            value={phone}
+            disabled={true}
+          />
           <h3 className="text-sub1">Informações de cursos</h3>
           <p className="text-ct2">Curso: {course}</p>
           <p className="text-ct2">Sócio da AAPM: {partner ? "Sim" : "Não"}</p>
-          <PinkButton
-            text="Voltar"
-            action={() => setCurrentStep(currentStep - 1)}
-          />
+          <div className="flex justify-end mt-8">
+            <PinkButton
+              text="Voltar"
+              action={() => setCurrentStep(currentStep - 1)}
+            />
+          </div>
         </Step>
       </div>
     </>
