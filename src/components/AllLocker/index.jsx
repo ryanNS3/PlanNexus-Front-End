@@ -10,8 +10,8 @@ import { LockerContext } from "../../context/lockerContext"
 
 export function AllLocker({ typeUser }) {
 
-  const { dado } = React.useContext(LockerContext)
-  console.log(dado)
+  // const { dado } = React.useContext(LockerContext)
+  // console.log(dado)
 
   const [isOpenOptions, setIsOpenOptions] = React.useState(false)
 
