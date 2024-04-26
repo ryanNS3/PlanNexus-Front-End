@@ -3,10 +3,10 @@ import { useEffect, useContext } from "react";
 import { EmployeeContext } from "../../context/Employee";
 
 export function LineTable() {
-  const { GetEmployee, EmployeeData } = useContext(EmployeeContext);
+  const { GetAllEmployees, EmployeeData } = useContext(EmployeeContext);
 
   useEffect(() => {
-    GetEmployee();
+    GetAllEmployees();
   }, []);
 
   if (EmployeeData && EmployeeData.length > 0) {
