@@ -1,42 +1,20 @@
 import avatar from "../../assets/avatar.jpg";
-import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import useAxios from "../../hooks/useAxios";
-import { UserGlobal } from "../../context/userContext";
+import { useEffect, useContext } from "react";
+import { EmployeeContext } from "../../context/Employee";
 
 export function LineTable() {
-  const [Employees, setEmployees] = useState([]);
-  const BASE_URL = import.meta.env.VITE_API_URL;
-  const { requisicao, dados } = useAxios();
-  const token = window.localStorage.getItem("token");
-  const user = window.localStorage.getItem("user");
-
-  console.log(user);
-
-  async function requisicao1() {
-    const res = await requisicao(
-      `${BASE_URL}/funcionario/todos`,
-      null,
-      `GET`,
-
-      {
-        token: token,
-        nif: user,
-      }
-    );
-    setEmployees(dados);
-  }
+  const { GetEmployee, EmployeeData } = useContext(EmployeeContext);
 
   useEffect(() => {
-    requisicao1();
+    GetEmployee();
   }, []);
 
-  if (!dados) {
+  if (EmployeeData && EmployeeData.length > 0) {
     return (
       <>
-        {Employees.map((employee, key) => (
+        {EmployeeData.map((employee, key) => (
           <div
-            key={employee.NIF}
+            key={key}
             className="rounded-lg w-full py-[0.875rem] pr-9 pl-4 border-2 border-cinza-100 bg-white flex justify-between"
           >
             <div className="flex items-center justify-center gap-[0.781rem]">
@@ -46,7 +24,7 @@ export function LineTable() {
                 height={36}
                 width={36}
               />
-              <p className="text-xs tracking-[0.01em] ">{NIF}</p>
+              <p className="text-xs tracking-[0.01em] ">{employee.nome}</p>
             </div>
             <div className="flex items-center justify-center gap-20">
               <div className="bg-[#64B140] rounded px-4 py-2">
