@@ -33,7 +33,9 @@ export function TemplateView({children, typeUser, statusUser, role}){
                 <Filter/>
             </section>
 
-            <LineTable/>
+            <section className="flex flex-col col-span-10 gap-2">
+                <LineTable/>
+            </section>
 
         </main>
     )
