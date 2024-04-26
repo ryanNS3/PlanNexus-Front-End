@@ -111,7 +111,7 @@ export function Schedule() {
       <nav>
         <ul className="flex gap-6 justify-between">
           {steps?.map((step, index) => (
-            <React.Fragment>
+            <React.Fragment key={index}>
               <li
                 key={index}
                 className="flex flex-col items-center cursor-pointer gap-2"
@@ -159,7 +159,7 @@ export function Schedule() {
       <div className="flex flex-col mt-9 gap-11 overflow-auto">
         <Step currentStep={currentStep} step={1}>
           {events.map((task, index) => (
-            <React.Fragment index={index}>
+            <React.Fragment key={index}>
               <Task
                 text={task.text}
                 time={task.time}
@@ -171,7 +171,7 @@ export function Schedule() {
         </Step>
         <Step currentStep={currentStep} step={2}>                                                                                                   
           {events.map((task, index) => (
-            <React.Fragment index={index}>
+            <React.Fragment key={index}>
               <Task
                 text={task.text}
                 time={task.time}
@@ -183,7 +183,7 @@ export function Schedule() {
         </Step>
         <Step currentStep={currentStep} step={3}>                                                                                                         }>
           {events.map((task, index) => (
-            <React.Fragment index={index}>
+            <React.Fragment key={index}>
               <Task
                 text={task.text}
                 time={task.time}
