@@ -30,7 +30,7 @@ export function EmployeeProvider({ children }) {
     }
   }, []);
  
-  const GetlEmployee = React.useCallback(async () => {
+  const GetEmployee = React.useCallback(async () => {
     try {
       const res = await requisicao(
         `${BASE_URL}/funcionario/${user}`,
@@ -109,7 +109,7 @@ export function EmployeeProvider({ children }) {
  
   return (
     <EmployeeContext.Provider
-      value={{ GetAllEmployees, GetlEmployee, DeleteEmployee, AddEmployee, EditEmployee, EmployeeData }}
+      value={{ GetAllEmployees, GetEmployee, DeleteEmployee, AddEmployee, EditEmployee, EmployeeData }}
     >
       {children}
     </EmployeeContext.Provider>
