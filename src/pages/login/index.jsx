@@ -21,7 +21,7 @@ export function Login() {
     setInputError(false); 
 
     if (event.target.value.includes('@')) {
-      setErrorMessage('O e-mail não pode conter "@".');
+      setErrorMessage('Não é necessário inserir o "@".');
       setInputError(true); 
     } else {
       setErrorMessage('');
