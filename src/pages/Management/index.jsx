@@ -12,10 +12,8 @@ import { AddStudent } from "./../../components/AddStudent/index";
 export function Management(){
     const url = window.location;
     return(
-            <div className="grid grid-cols-12 gap-5  mx-8 max-w-[90rem]" style={{margin: 'auto'}}>
-                <Sidebar/>
+            <>
                 <Main>
-                    <Header/>
                     <NavBarGestao/>
                      {url.pathname === "/gestao/armarios" ? (
                       <AllLocker />
@@ -24,9 +22,9 @@ export function Management(){
                         <EmployeeForm />
                       </TemplateView>
                     )}
-            <AddStudent />
+                <AddStudent />
                 </Main>
-        </div>
+        </>
 
     )
 }

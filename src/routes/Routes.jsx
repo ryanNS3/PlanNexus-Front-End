@@ -25,9 +25,9 @@ export function Router() {
                 <Route
                   path="/"
                   element={
-                    <ProtectRouter>
+                    // <ProtectRouter>
                       <Home />
-                    </ProtectRouter>
+                    // </ProtectRouter>
                   }
                   />
 
@@ -75,32 +75,35 @@ export function Router() {
                     </ProtectRouter>
                   }
                   />
-
-                <Route
-                  path="/gestao"
-                  element={
-                    <Management />
-                    // <ProtectRouter>
-                    // </ProtectRouter>
-                  }
-                />
-
-                <Route
-                  path="/gestao/turmas"
-                  element={
-                    <Management />
-                    // <ProtectRouter>
-                    // </ProtectRouter>
-                  }
+                <Route path="/gestao">
+                  
+                  <Route
+                    path="/gestao"
+                    element={
+                      <Management />
+                      // <ProtectRouter>
+                      // </ProtectRouter>
+                    }
                   />
-                <Route
-                  path="/gestao/funcionarios"
-                  element={
-                    <Management />
-                    // <ProtectRouter>
-                    // </ProtectRouter>
-                  }
-                  />
+
+                  <Route
+                    path="/gestao/turmas"
+                    element={
+                      <Management />
+                      // <ProtectRouter>
+                      // </ProtectRouter>
+                    }
+                    />
+                  <Route
+                    path="/gestao/funcionarios"
+                    element={
+                      <Management />
+                      // <ProtectRouter>
+                      // </ProtectRouter>
+                    }
+                    />
+                </Route>  
+
               </Route>
               <Route path="/login" element={<Login />} />
             </Routes>
