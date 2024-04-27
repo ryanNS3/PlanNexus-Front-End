@@ -18,7 +18,7 @@ export function Management(){
                      {url.pathname === "/gestao/armarios" ? (
                       <AllLocker />
                     ) : (
-                      <TemplateView>
+                      <TemplateView formModal={<EmployeeForm/>}>
                         <EmployeeForm />
                       </TemplateView>
                     )}

@@ -1,21 +1,21 @@
 import { LineTable } from "../LineTable";
+import React from "react";
 import { PinkButton } from "../Buttons/pinkButton";
 import SearchSvg from "../../assets/header/search.svg";
 import ClearSvg from "../../assets/header/xmark.svg"
-import { Children, useState } from "react";
-import BasicModal from "../Modal";
+import { useState } from "react";
+import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter"
 
-export function TemplateView({children}){
-
+export function TemplateView({name, formModal, isExtendModal=false, dadosLineTbale}){
+    const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
     const url = window.location;
     // vai precisar de alteração
     const statusUser = url.pathname === "/gestao/turmas" ? "AAPM" :  "Status"
-    const typeUser = url.pathname ===  "/gestao/turmas" ? "alunos" : "funcionários"
 
     const [searchTerm, setSearchTerm] = useState("")
-    
-    
+    let isModal = formModal 
+
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
     }
@@ -26,17 +26,25 @@ export function TemplateView({children}){
 
     return(
         <main className="grid w-full p-2 max-w-[74.188] min-w-[23.813rem]" aria-label="conteúdo principal na tela gestão" >  
-            <div className="flex justify-between my-4" >
-                <h1 className="text-h5" >Todos os {typeUser}: </h1>
-                <BasicModal TextButton={`Adicionar ${typeUser}`}>
-                    <h1 className=" text-h5">Adicionar {typeUser}</h1>
-                    {children}
+            <header  className="flex justify-between my-4" >
+                <h1 className="text-h5" >Todos os {name}: </h1>
+                {!isExtendModal &&
+                <BasicModal isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm } TextButton={`Adicionar ${name}`}>
+                    <h1 className=" text-h5">Adicionar {name}</h1>
+                    {formModal}
                 </BasicModal>
-            </div>
+                }
+
+                {isExtendModal &&
+                   <ExtendModal TextButton={name} isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm}>
+                        {formModal}
+                   </ExtendModal>
+                }
+            </header>
 
             {/* BARRA DE PESQUISA */}
             <div className="flex">
-                <form className="w-full flex align-center py-2 my-5" aria-label="Barra de pesquisa de usuário">
+                <form className="w-full flex align-center py-2 my-5" aria-label={`Pesquisar ${name}`}>
 
                 <input
                     className="w-full py-2 pl-10 pr-4 focus:outline-none border-2 focus:border-rosa-destaque border-cinza-100 rounded-lg"
@@ -71,6 +79,7 @@ export function TemplateView({children}){
                     <p className="text-center mx-5 px-4 fun-2 text-cinza-700" >Ações</p>
                 </div>
             </section>
+
             <LineTable/>
         </main>
     )
