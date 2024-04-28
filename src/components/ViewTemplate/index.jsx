@@ -7,7 +7,7 @@ import { useState } from "react";
 import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter"
 
-export function TemplateView({name, formModal, isExtendModal=false, dadosLineTbale}){
+export function TemplateView({name, role, formModal, isExtendModal=false, dadosLineTbale}){
     const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
     const url = window.location;
     // vai precisar de alteração
@@ -26,7 +26,7 @@ export function TemplateView({name, formModal, isExtendModal=false, dadosLineTba
 
     return(
         <main className="grid w-full p-2 max-w-[74.188] min-w-[23.813rem]" aria-label="conteúdo principal na tela gestão" >  
-            <header  className="flex justify-between my-4" >
+            <header  className="flex justify-between my-4 col-span-12" >
                 <h1 className="text-h5" >Todos os {name}: </h1>
                 {!isExtendModal &&
                 <BasicModal isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm } TextButton={`Adicionar ${name}`}>
@@ -43,8 +43,8 @@ export function TemplateView({name, formModal, isExtendModal=false, dadosLineTba
             </header>
 
             {/* BARRA DE PESQUISA */}
-            <div className="flex">
-                <form className="w-full flex align-center py-2 my-5" aria-label={`Pesquisar ${name}`}>
+          
+                <form className="w-full flex align-center py-2 my-5 col-span-12" aria-label={`Pesquisar ${name}`}>
 
                 <input
                     className="w-full py-2 pl-10 pr-4 focus:outline-none border-2 focus:border-rosa-destaque border-cinza-100 rounded-lg"
@@ -64,10 +64,7 @@ export function TemplateView({name, formModal, isExtendModal=false, dadosLineTba
 
                 <img src={SearchSvg} className="px-4 absolute transform mt-3 z-0" alt="ícone de pesquisa"/>
                 </form>
-                <Filter/>
-            </div>
-
-
+          
             {/* HEADER DO TEMPLATE DE TABELAS */}
             <section 
             className="flex justify-between col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2" 

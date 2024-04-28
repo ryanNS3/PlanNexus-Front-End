@@ -31,7 +31,7 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} typeUser={'alunos'} children={'formulario'} />,
+      element: <TemplateView statusUser={'AAPM'} role={"teste"} typeUser={'alunos'} children={'formulario'} />,
     },
     {
       label: "Funcionários",

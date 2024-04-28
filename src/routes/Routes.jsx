@@ -9,7 +9,6 @@ import { ToastifyProvider } from "../context/toastifyContext";
 import { ToastContainer, toast } from 'react-toastify';
 import { EmployeeProvider } from "../context/Employee";
 import 'react-toastify/dist/ReactToastify.css';
-import { EmployeeProvider } from "../context/Employee";
 import { Stock } from "../pages/Stock";
 import { Layout } from "../Layout/Layout";
 
