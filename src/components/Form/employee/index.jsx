@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { PinkButton } from '../../Buttons/pinkButton'
 import { InputText } from '../../Inputs/input-text/inputTextComp'
 
@@ -9,7 +9,7 @@ import { toastifyContext } from '../../../context/toastifyContext';
 
 
 export const EmployeeForm = () => {
-    const {setIsOpenModal} = useContext(modalContext)
+    const {setIsOpenModal} = React.useContext(modalContext)
     const {Notification} = React.useContext(toastifyContext)
 
     const [finishForm, setFinishForm] = React.useState(false)

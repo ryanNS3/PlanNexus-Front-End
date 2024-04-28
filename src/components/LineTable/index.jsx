@@ -1,4 +1,5 @@
 import avatar from "../../assets/avatar.jpg";
+
 import { useEffect, useContext } from "react";
 import { EmployeeContext } from "../../context/Employee";
 
@@ -7,6 +8,7 @@ export function LineTable() {
 
   useEffect(() => {
     GetAllEmployees();
+
   }, []);
 
   if (EmployeeData && EmployeeData.length > 0) {
