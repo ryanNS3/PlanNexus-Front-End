@@ -1,14 +1,14 @@
 import avatar from "../../assets/avatar.jpg";
-import { useState, useEffect, useContext, useMemo } from "react";
-import { UserGlobal } from "../../context/userContext";
+
+import { useEffect, useContext } from "react";
 import { EmployeeContext } from "../../context/Employee";
 
 export function LineTable() {
-  const { user, token } = useContext(UserGlobal);
-  const { GetEmployee, EmployeeData } = useContext(EmployeeContext);
+  const { GetAllEmployees, EmployeeData } = useContext(EmployeeContext);
 
   useEffect(() => {
-    GetEmployee();
+    GetAllEmployees();
+
   }, []);
 
   if (EmployeeData && EmployeeData.length > 0) {

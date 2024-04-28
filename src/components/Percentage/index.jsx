@@ -10,17 +10,17 @@ function PercentageTwo(props) {
   // Essa props é uma exceção de uso, Ryan está ciente!
 
   return (
-    <div className="col-span-2 w-52 h-24 p-4 mt-8 shadow-lg flex-col flex gap-y-5 ">
+    <div className="w-52 h-24 p-4 shadow-lg flex-col flex gap-y-5 ">
       <div className="flex justify-between">
         <p className="text-fun2">Utilizados</p>
         <CampBlack />
       </div>
 
-      <Box className="flex gap-x-2 align-center items-center">
-        <Box className=" w-full">
+      <Box className="flex justify-between items-center">
+        <Box className="w-32">
           <LinearProgress variant="determinate" {...props} />
         </Box>
-        <Box className="min-w-8">
+        <Box className="flex">
           <Typography className='text-fun2'>{`${Math.round(
             props.value,
           )}%`}</Typography>

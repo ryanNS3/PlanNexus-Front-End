@@ -66,21 +66,24 @@ export function TemplateView({name, formModal, isExtendModal=false, dadosLineTba
                 </form>
                 <Filter/>
             </div>
-            
-            
+
 
             {/* HEADER DO TEMPLATE DE TABELAS */}
             <section 
-            className="flex justify-between border-b-2 border-cinza-100 my-2 w-full" 
+            className="flex justify-between col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2" 
             aria-label="informações principais sobre os usuários">
                 <p className="mx-14 px-1 fun-2 text-cinza-700" >Nome</p>
-                <div className="flex" >
+                <div className="flex justify-between" >
+                    {/*role só vai ser aplicado para a tab de funcionário */}
+                    <p className="mx-5 px-8 fun-2 text-cinza-700" >{role}</p>
                     <p className="mx-5 px-8 fun-2 text-cinza-700" >{statusUser}</p>
                     <p className="text-center mx-5 px-4 fun-2 text-cinza-700" >Ações</p>
                 </div>
+                <Filter/>
             </section>
-
-            <LineTable/>
+            <section className="flex flex-col col-span-10 gap-2">
+                <LineTable/>
+            </section>
         </main>
     )
 }
