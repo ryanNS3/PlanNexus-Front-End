@@ -304,7 +304,7 @@ export function AddStudent() {
           <h3 className="text-sub1">Informações de cursos</h3>
           <p className="text-ct2">Curso: {course}</p>
           <p className="text-ct2">Sócio da AAPM: {partner ? "Sim" : "Não"}</p>
-          <div className="flex justify-end mt-8">
+          <div className="flex justify-end mt-8 gap-4">
             <PinkButton
               text="Voltar"
               action={() => setCurrentStep(currentStep - 1)}

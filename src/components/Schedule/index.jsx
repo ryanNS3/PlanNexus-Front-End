@@ -105,7 +105,7 @@ export function Schedule() {
   const steps = ["S", "T", "Q", "Q", "S", "S", "D"];
 
   return (
-    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[838px]">
+    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[838px] overflow-auto max-[1024px]:col-span-full" style={{scrollbarWidth: "none"}}>
       <h2 className="text-sub2 mb-7">Agenda</h2>
 
       <nav>
@@ -120,9 +120,9 @@ export function Schedule() {
                 }
               >
                 <div
-                  className={`flex rounded-full w-11 h-11 text-fun2 items-center justify-center hover:bg-rosa-300 ${
+                  className={`flex rounded-full w-11 h-11 text-fun2 items-center justify-center hover:bg-rosa-300 hover:text-branco ${
                     currentStep == index + 1
-                      ? "bg-rosa-300"
+                      ? "bg-rosa-300 text-branco"
                       : "bg-[#D9D9D9] text-cinza-700"
                   }`}
                 >
@@ -156,7 +156,7 @@ export function Schedule() {
         </ul>
       </nav>
 
-      <div className="flex flex-col mt-9 gap-11 overflow-auto">
+      <div className="flex flex-col mt-9 gap-11 overflow-auto pt-3">
         <Step currentStep={currentStep} step={1}>
           {events.map((task, index) => (
             <React.Fragment key={index}>
@@ -181,7 +181,7 @@ export function Schedule() {
             </React.Fragment>
           ))}
         </Step>
-        <Step currentStep={currentStep} step={3}>                                                                                                         }>
+        <Step currentStep={currentStep} step={3}>                                                                         
           {events.map((task, index) => (
             <React.Fragment key={index}>
               <Task
@@ -211,7 +211,7 @@ function Task({ text, time, name, picture }) {
         </p>{" "}
         {/*11 */}
         <div className="flex gap-2">
-          <button type="button" className="py-1 px-3 bg-[#71d16e] rounded">
+          <button type="button" className="py-1 px-3 bg-[#71d16e] hover:opacity-85 rounded">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="20"
@@ -225,7 +225,7 @@ function Task({ text, time, name, picture }) {
             </svg>
           </button>
 
-          <button type="button" className="px-3 py-1 bg-cinza-500 rounded">
+          <button type="button" className="px-3 py-1 bg-cinza-500 hover:opacity-85 rounded">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="20"
