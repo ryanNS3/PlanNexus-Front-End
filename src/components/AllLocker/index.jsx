@@ -14,6 +14,7 @@ export function AllLocker({ typeUser }) {
   // console.log(dado)
 
   const [isOpenOptions, setIsOpenOptions] = React.useState(false)
+  const [isOpenModal, setIsOpenModal] = React.useState(false)
 
   function handleFocusAllLocker(event) {
     event.preventDefault()
@@ -175,7 +176,7 @@ export function AllLocker({ typeUser }) {
 
       <div className="col-start-1 col-end-12 flex justify-between mt-10" >
         <h1 className="text-h5" >Todos os {typeUser}: </h1>
-        <BasicModal TextButton={<Notice />}>
+        <BasicModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} TextButton={<Notice />}>
           <LockerForm />
 
         </BasicModal>
