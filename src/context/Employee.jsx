@@ -24,9 +24,11 @@ export function EmployeeProvider({ children }) {
       console.log(res)
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
@@ -44,29 +46,32 @@ export function EmployeeProvider({ children }) {
       console.log(res)
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
   const AddEmployee = React.useCallback(async (NIF, nome, email, nivel_acesso) => {
     try {
+
       const res = await requisicao(
         `${BASE_URL}/funcionario/`,
         {NIF, nome, email, nivel_acesso},
         `POST`,
         {
-          authorization: `bearer ${token}`,
-          nif: user,
+          authorization: `bearer ${localStorage.getItem('token')}`,
+          nif: localStorage.getItem('user'),
         }
       );
-      if (res && res.res.status === 200) {
-        console.log('Funcionário criado com sucesso')
-        // setEmployeeData(res.json.response);
+      if (res && res.res.status === 201) {
+        return true;;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
@@ -83,9 +88,11 @@ export function EmployeeProvider({ children }) {
       );
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
@@ -102,9 +109,11 @@ export function EmployeeProvider({ children }) {
       );
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
