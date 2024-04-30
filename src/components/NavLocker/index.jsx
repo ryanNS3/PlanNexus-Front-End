@@ -1,33 +1,138 @@
-import { Link } from "react-router-dom"
-import { AllLocker } from "../../components/AllLocker/index"
-import { Locker } from "../../components/AllLocker/index"
-import { Lockers, data } from "../../components/AllLocker/index"
+import {
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+import React,{useState} from 'react'
+import { ThemeProvider } from "@material-tailwind/react";
+import withMT from "@material-tailwind/react/utils/withMT";
 
-export function NavLocker(resu) {
+export function NavLocker() {
+  const customTheme = withMT({
+        theme: {
+            // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
+          },
+        })
+  
+  const content = [
+    {
+      label: "0 a 28",
+      value: "pag1",
+    },
+    {
+      label: "29 a 56",
+      value: "pag2",
+    },
+    {
+      label: "57 a 84",
+      value: "pag3"
+    },
+    {
+      label: "85 a 112",
+      value: "pag4",
+    },
+    {
+      label: "113 a 140",
+      value: "pag5",
+    },
+    {
+      label: "141 a 168",
+      value: "page6",
+    },
+    {
+      label: "169 a 196",
+      value: "page7"
+    },
+    {
+      label: "197 a 224",
+      value: "page8",
+    },
+    {
+      label: "225 a 252",
+      value: "page9",
+    },
+    {
+      label: "253 a 280",
+      value: "page10",
+    },
+  ];
 
-  let divid = data.length
-  let num = data
+  const listaArmarios = Array.from( (_,i) => i + 1);
+  const teste = paginacao(10, listaArmarios);
+  console.log(listaArmarios + 'aqui sua lista')
 
-  if(data.numero < 29){
-    resu = num
-  }
 
-  console.log(divid)
-  console.log(num)
-  return(
-    <>
-    <nav>
-      <ul>
-        <li>
-          <Link resu={num}>
-            1 a 28
-          </Link>
-        </li>
-      </ul>
-    </nav>
-    </>
-  )
+  const [activeTab, setActiveTab] = React.useState("armarios");
+  return <ThemeProvider value={customTheme} >
+    
+    <Tabs value={activeTab}>
+      <TabsHeader className="w-full mx-5 gap-4 mt-12 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 " 
+      indicatorProps={{
+          className:
+            "w-[8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
+        }}>
+        {teste.map(({ label, value}) =>(
+          <Tab key={value} value={value}
+          onClick={() => setActiveTab(value)}
+          className={activeTab === value ? "text-cinza-50 z-[9]   w-[8rem] h-[2.75rem] py-0" : "w-[8rem] py-4"} >
+            <p className=" text-fun2 relative z-[5]"> {label}</p>
+          </Tab>
+        ))}
+      </TabsHeader>
+      <TabsBody>
+        {teste.map(({value}) => (
+          <TabPanel key={i} value={value}>
+
+          </TabPanel>
+        ))}
+      </TabsBody>
+    </Tabs>
+  </ThemeProvider>
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   let divid = data.length
+    
+//   // if(data. < 29){
+//   //   resu = num
+//   // }
+
+//   console.log(divid)
+
+//   return(
+//     <>
+//     <nav>
+//       <ul>
+//         <li>
+//           <Link resu={num}>
+//             1 a 28
+//           </Link>
+//         </li>
+//       </ul>
+//     </nav>
+//     </>
+//   )
+// }
 
 
 
