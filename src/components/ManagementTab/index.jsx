@@ -18,6 +18,7 @@ import withMT from "@material-tailwind/react/utils/withMT";
 import { AllLocker } from '../AllLocker/index'
 import { LockerForm } from "../Form/locker";
 import { AddStudent } from "../AddStudent";
+import { AapmManage } from "../aapmManagement";
 
 export function ManagementTab() {
   const customTheme = withMT({
@@ -42,7 +43,7 @@ export function ManagementTab() {
     {
       label: "AAPM",
       value: "AAPM",
-      element:  <TemplateView statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" />,
+      element: <AapmManage/> ,
     },
     {
       label: "Armários",
