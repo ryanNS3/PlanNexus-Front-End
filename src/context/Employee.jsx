@@ -50,11 +50,11 @@ export function EmployeeProvider({ children }) {
     }
   }, []);
  
-  const AddEmployee = React.useCallback(async () => {
+  const AddEmployee = React.useCallback(async (NIF, nome, email, nivel_acesso) => {
     try {
       const res = await requisicao(
         `${BASE_URL}/funcionario/`,
-        null,
+        {NIF, nome, email, nivel_acesso},
         `POST`,
         {
           authorization: `bearer ${token}`,
@@ -62,7 +62,8 @@ export function EmployeeProvider({ children }) {
         }
       );
       if (res && res.res.status === 200) {
-        setEmployeeData(res.json.response);
+        console.log('Funcionário criado com sucesso')
+        // setEmployeeData(res.json.response);
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
