@@ -7,9 +7,11 @@ import {
 } from "@material-tailwind/react";
 import React,{useState} from 'react'
 import { ThemeProvider } from "@material-tailwind/react";
-import withMT from "@material-tailwind/react/utils/withMT";
+import withMT from "@material-tailwind/react/utils/withMT";  
+import { data } from '../../components/AllLocker'
 
-export function NavLocker() {
+
+export function NavLocker({data}) {
   const customTheme = withMT({
         theme: {
             // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
@@ -19,7 +21,7 @@ export function NavLocker() {
   const content = [
     {
       label: "0 a 28",
-      value: "pag1",
+      value: "",
     },
     {
       label: "29 a 56",
@@ -59,31 +61,32 @@ export function NavLocker() {
     },
   ];
 
-  const listaArmarios = Array.from( (_,i) => i + 1);
-  const teste = paginacao(10, listaArmarios);
-  console.log(listaArmarios + 'aqui sua lista')
+
+  // const listaArmarios = Array.from( (_,i) => i + 1);
+  // const teste = paginacao(10, listaArmarios);
+  // console.log(listaArmarios + 'aqui sua lista')
 
 
   const [activeTab, setActiveTab] = React.useState("armarios");
   return <ThemeProvider value={customTheme} >
     
     <Tabs value={activeTab}>
-      <TabsHeader className="w-full mx-5 gap-4 mt-12 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 " 
+      <TabsHeader className="w-full justify-between gap-x-5 gap-y-2 flex-wrap mt-5 bg-cinza-50 text-preto rounded-lg p-0 " 
       indicatorProps={{
           className:
-            "w-[8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
+            "w-[5.8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
         }}>
-        {teste.map(({ label, value}) =>(
+        {content.map(({ label, value }) =>(
           <Tab key={value} value={value}
           onClick={() => setActiveTab(value)}
-          className={activeTab === value ? "text-cinza-50 z-[9]   w-[8rem] h-[2.75rem] py-0" : "w-[8rem] py-4"} >
+          className={activeTab === value ? "text-cinza-50 z-[9] w-[5.65rem] h-[2.5rem] py-0" : "w-[5.65rem] py-2.5" } >
             <p className=" text-fun2 relative z-[5]"> {label}</p>
           </Tab>
         ))}
       </TabsHeader>
       <TabsBody>
-        {teste.map(({value}) => (
-          <TabPanel key={i} value={value}>
+        {content.map(({value}) => (
+          <TabPanel key={value} value={value}>
 
           </TabPanel>
         ))}
@@ -102,60 +105,8 @@ export function NavLocker() {
 
 
 
-
-
-
-
-
-
-
-
-
 //   let divid = data.length
     
-//   // if(data. < 29){
-//   //   resu = num
-//   // }
-
-//   console.log(divid)
-
-//   return(
-//     <>
-//     <nav>
-//       <ul>
-//         <li>
-//           <Link resu={num}>
-//             1 a 28
-//           </Link>
-//         </li>
-//       </ul>
-//     </nav>
-//     </>
-//   )
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
