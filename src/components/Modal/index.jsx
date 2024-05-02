@@ -7,21 +7,19 @@ import { modalContext } from "../../context/modalContext";
 import { iconButton } from "@material-tailwind/react";
 
 const modalStyle = {
-  display: 'flex',
+  display: "flex",
   width: "100%",
   padding: "",
   backdropFilter: "blur(10px)",
   transition: "0.6s",
-  
 };
 
 const InnerModal = {
   display: 'flex',
   width: "100%",
   padding: " 1.5rem",
-  justifyContent: "end"
-    
-}
+  justifyContent: "end",
+};
 
 export default function BasicModal({ children, TextButton, labelButton, Button, isOpenModal, setIsOpenModal }) {
   const [isHoverButton, setIsHoverButton] = React.useState(false)
@@ -63,11 +61,10 @@ export default function BasicModal({ children, TextButton, labelButton, Button, 
 export function ExtendModal({children, TextButton, isOpenModal, setIsOpenModal}){
   
   const [isHoverButton, setIsHoverButton] = React.useState(false)
-
   const handleOpen = () => setIsOpenModal(true);
   const handleClose = () => {
-    setIsHoverButton(false)
-    setIsOpenModal(false)
+    setIsHoverButton(false);
+    setIsOpenModal(false);
   };
   
   return (
@@ -109,7 +106,7 @@ export function DuoModal({contentOne, contentDuo, TextButton, isOpenModal, setIs
   
   return (
     <>
-      <PinkButton action={handleOpen} text={TextButton} size="big"/>
+      <PinkButton action={handleOpen} text={TextButton} size="big" />
       <Modal
         open={isOpenModal}
         onClose={handleClose}
@@ -129,9 +126,6 @@ export function DuoModal({contentOne, contentDuo, TextButton, isOpenModal, setIs
               {contentDuo}
             </main>
           </div>
-        
-
-          
         </Box>
       </Modal>
     </>
