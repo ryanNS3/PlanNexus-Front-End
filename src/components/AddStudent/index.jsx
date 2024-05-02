@@ -293,8 +293,24 @@ export function AddStudent() {
               disabled={true}
             />
             <h3 className='text-sub1'>Informações de cursos</h3>
-            <p className='text-ct2'>Curso: {course}</p>
-            <p className='text-ct2'>Sócio da AAPM: {partner ? 'Sim' : 'Não'}</p>
+            <InputText
+              id='curso'
+              type='text'
+              name='curso'
+              placeholder='Curso'
+              value={phone}
+              disabled={true}
+            />
+            <InputText
+              id='curso'
+              type='text'
+              name='Sócio da AAPM:'
+              placeholder='Associado'
+              value={partner ? 'Sim' : 'Não'}
+              disabled={true}
+            />
+            {/* <p className='text-ct2'>Curso: {course}</p>
+            <p className='text-ct2'>Sócio da AAPM: {partner ? 'Sim' : 'Não'}</p> */}
             <div className='flex justify-end mt-8 gap-4'>
               <PinkButton
                 text='Voltar'
