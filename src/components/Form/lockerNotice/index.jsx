@@ -3,7 +3,7 @@ import { PinkButton } from "../../Buttons/pinkButton"
 export function LockerForm() {
     return (
 
-        < form className="flex flex-col w-full h-full justify-between" >
+        < form action="submit" className="flex flex-col w-full h-full justify-between" >
 
             <div className="flex flex-col">
                 <h1 className="text-h4">ENVIAR AVISO</h1>
