@@ -16,8 +16,9 @@ import { SchoolIcon } from "../../assets/Gestao/school";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 import { AllLocker } from '../AllLocker/index'
-import { LockerForm } from "../Form/locker";
+import { LockerForm } from "../Form/lockerNotice";
 import { AddStudent } from "../AddStudent";
+import { LockerInfo } from "../Form/lockerInfo";
 
 export function ManagementTab() {
   const customTheme = withMT({
@@ -47,7 +48,7 @@ export function ManagementTab() {
     {
       label: "Armários",
       value: "armarios",
-      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} children={<LockerForm/>}/>,
+      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>}/>,
     },
   ];
 
