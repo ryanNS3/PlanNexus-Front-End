@@ -22,8 +22,8 @@ export function LockerProvider({ children }) {
     }
 
     return (
-        // deserializa os valores que passo para ele
-        <LockerContext.Provider value={{ dados,dataLocker,  GetLocker }}>
+        // desserializa os valores que passo para ele
+        <LockerContext.Provider value={{ dados, dataLocker,  GetLocker }}>
             {children}
         </LockerContext.Provider>
     )
