@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import { Close } from "../../assets/Close";
 import { PinkButton } from "../Buttons/pinkButton";
 import { modalContext } from "../../context/modalContext";
+import { iconButton } from "@material-tailwind/react";
 
 const modalStyle = {
   display: 'flex',
@@ -138,5 +139,36 @@ export function DuoModal({contentOne, contentDuo, TextButton, isOpenModal, setIs
   
 }
 
+export function ModalOptions({ children, Button, isOpenModal, setIsOpenModal }) {
+  const [isHoverButton, setIsHoverButton] = React.useState(false)
+  
+  const handleOpen = () => setIsOpenModal(true);
+  const handleClose = () => {
+    setIsHoverButton(false)
+    setIsOpenModal(false)
+  };
 
+  return (
+    <>
+      <button onClick={handleOpen}>{Button}</button>
+      <Modal
+        open={isOpenModal}
+        onClose={handleClose}
+        sx={modalStyle}
+      >
+        <Box sx={InnerModal}>
+          <div className="flex flex-col gap-4 w-full h[90%] py-10 px-10 md:w-1/2 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
+            <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
+              <Close isHover={isHoverButton}/>
+            </button>
+            <main className="flex w-full h-full">
+              {children}
+            </main>
+          </div>
+          
+        </Box>
+      </Modal>
+    </>
+  );
+}
 
