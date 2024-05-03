@@ -142,9 +142,11 @@ export function ModalOptions({ children, Button, isOpenModal, setIsOpenModal }) 
     setIsOpenModal(false)
   };
 
+  
+
   return (
     <>
-      <button onClick={handleOpen}>{Button}</button>
+      <div onClick={handleOpen}>{Button}</div>
       <Modal
         open={isOpenModal}
         onClose={handleClose}
