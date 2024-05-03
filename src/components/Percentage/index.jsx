@@ -4,10 +4,17 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { CampBlack } from '../../assets/CampIcon'
+import { LockerContext } from '../../context/lockerContext';
+
 
 function PercentageTwo(props) {
 
+  const { dataLocker }= React.useContext(LockerContext)
+
+  // const all = dataLocker / dataLocker.response.status
+
   // Essa props é uma exceção de uso, Ryan está ciente!
+
 
   return (
     <div className="w-52 h-24 p-4 shadow-lg flex-col flex gap-y-5 ">

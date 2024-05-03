@@ -18,7 +18,7 @@ export function NavLocker({ setPagination }) {
 
   const content = [
     {
-      label: "0 a 28",
+      label: "1 a 28",
       value: 0,
     },
     {
@@ -59,12 +59,12 @@ export function NavLocker({ setPagination }) {
     },
   ];
 
-  const [activeTab, setActiveTab] = React.useState("armarios");
+  const [activeTab, setActiveTab] = React.useState(0);
   return (
     <ThemeProvider value={customTheme}>
       <Tabs value={activeTab}>
-        <TabsHeade
-          className="w-full justify-between gap-x-5 gap-y-2 flex-wrap mt-5 bg-cinza-50 text-preto rounded-lg p-0 "
+        <TabsHeader
+          className="w-full gap-x-5 gap-y-2 flex-wrap mt-5 text-preto rounded-lg p-0 "
           indicatorProps={{
             className:
               "w-[5.8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
