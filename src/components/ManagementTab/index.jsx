@@ -33,22 +33,22 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas"  />,
+      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas" header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: <TemplateView statusUser={'Status'} formModal={<EmployeeForm/>} name="AAPM"  role={'cargo'} />,
+      element: <TemplateView statusUser={'Status'} formModal={<EmployeeForm/>} name="AAPM"  role={'cargo'} header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element:  <TemplateView statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" />,
+      element:  <TemplateView statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
     },
     {
       label: "Armários",
       value: "armarios",
-      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>}/>,
+      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>} header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
     },
   ];
 
