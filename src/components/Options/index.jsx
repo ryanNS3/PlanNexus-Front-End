@@ -12,7 +12,7 @@ export function Options() {
 
   return (
     <>
-      <div className="absolute flex flex-col z-50 gap-y-1 ">
+      <div className="absolute flex flex-col z-10 gap-y-1 ">
         <SecundaryButton text={"Trancar"} icon={<Lock />} />
 
         <div>

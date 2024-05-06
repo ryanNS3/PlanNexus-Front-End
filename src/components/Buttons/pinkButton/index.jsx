@@ -14,7 +14,7 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
         buttonSize = 'w-1/2';
       break;
     default:
-        buttonSize = 'w-1/3';
+        buttonSize = 'w-full';
   }
 
     // Definir o posicionamento do botão

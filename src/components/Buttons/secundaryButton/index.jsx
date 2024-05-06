@@ -14,7 +14,7 @@ export function SecundaryButton({ text, size, action, align, loading, disabled, 
         buttonSize = 'w-1/2';
       break;
     default:
-        buttonSize = 'w-fit';
+        buttonSize = 'w-full';
   }
 
     // Definir o posicionamento do botão
