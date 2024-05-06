@@ -88,9 +88,9 @@ export function ProductForm(){
           <div className=' grid  max-h-[500px]'>
             <InputImage value={ImageLink[0]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
             <div className='flex gap-3 max-h-6'>
-              <InputImage value={ImageLink[1]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
-              <InputImage value={ImageLink[2]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
-              <InputImage value={ImageLink[3]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
+              <InputImage small value={ImageLink[1]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
+              <InputImage small value={ImageLink[2]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
+              <InputImage small value={ImageLink[3]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
 
             </div>
           </div>
