@@ -6,9 +6,10 @@ export const EmployeeContext = React.createContext();
  
 export function EmployeeProvider({ children }) {
   const { requisicao } = useAxios();
-  const { token, user } = useContext(UserGlobal);
   const [EmployeeData, setEmployeeData] = React.useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem('token')
+  const user = localStorage.getItem('user')
  
   const GetAllEmployees = React.useCallback(async () => {
     try {
@@ -17,8 +18,8 @@ export function EmployeeProvider({ children }) {
         null,
         `GET`,
         {
-          authorization: `bearer ${localStorage.getItem('token')}`,
-          nif: localStorage.getItem('user'),
+          authorization: `bearer ${token}`,
+          nif: user,
         }
       );
       console.log(res)
@@ -32,10 +33,10 @@ export function EmployeeProvider({ children }) {
     }
   }, []);
  
-  const GetEmployee = React.useCallback(async () => {
+  const GetEmployee = React.useCallback(async (Id) => {
     try {
       const res = await requisicao(
-        `${BASE_URL}/funcionario/${user}`,
+        `${BASE_URL}/funcionario/unico/${Id}`,
         null,
         `GET`,
         {
@@ -62,8 +63,8 @@ export function EmployeeProvider({ children }) {
         {NIF, nome, email, nivel_acesso},
         `POST`,
         {
-          authorization: `bearer ${localStorage.getItem('token')}`,
-          nif: localStorage.getItem('user'),
+          authorization: `bearer ${token}`,
+          nif: user,
         }
       );
       if (res && res.res.status === 201) {
