@@ -10,9 +10,7 @@ import { LockerContext } from '../../context/lockerContext';
 function PercentageTwo(props) {
 
   const { dataLocker }= React.useContext(LockerContext)
-
   // const all = dataLocker / dataLocker.response.status
-
   // Essa props é uma exceção de uso, Ryan está ciente!
 
 
