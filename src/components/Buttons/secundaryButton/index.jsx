@@ -39,13 +39,13 @@ export function SecundaryButton({ text, size, action, align, loading, disabled, 
         alignment = 'auto'
     }
 
-  let buttonColour = 'bg-gradient-to-r from-[#494747] to-[#1A1A1A]';
+  let buttonColour = 'bg-gradient-to-r from-[#494747] to-[#1A1A1A] border-2 border-rosa-300';
 
   return (
     <button
     type="submit"
     onClick={action}
-    className={`flex justify-center items-center ${disabled || loading ? type === 'secondary' ? 'bg-cinza-100 text-cinza-950' : 'bg-rosa-50 text-rosa-400' : buttonColour} py-2 px-2 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-cinza-50 text-fun2 max-w-44 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
+    className={`flex justify-center ${disabled || loading ? type === 'secondary' ? 'bg-cinza-100 text-cinza-950' : 'bg-rosa-50 text-rosa-400' : buttonColour} py-2 px-2 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-cinza-50 text-fun2 max-w-44 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
     disabled={loading || disabled}
   >
 
@@ -55,9 +55,9 @@ export function SecundaryButton({ text, size, action, align, loading, disabled, 
         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
       </svg>
     ) : (
-      <div className='flex gap-2'>
+      <div className='flex gap-x-1'>
         {icon}
-        <span className=' uppercase'>{text}</span>
+        <span className='self-end uppercase'>{text}</span>
       </div>
     )}
   </button>
