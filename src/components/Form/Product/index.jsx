@@ -17,10 +17,9 @@ export function ProductForm(){
     const [pricProduct, setPriceProduct] = React.useState(null);
     const [descriptionProduct, setDescriptionProduct] = React.useState(null);
     const [sizeProduct, setSizeProduct] = React.useState([])
-    const [colorsProduct, setColorsProduct] = React.useState(["nova cor"])
+    const [colorsProduct, setColorsProduct] = React.useState([])
     const [ImageLink, setImageLink] = React.useState([])
     const [dataProduct,setDataProduct] = React.useState([])
-    console.log(colorsProduct.map(( item) => console.log(item)))
     const [isSizeOptions, setIsSizeOptions] = React.useState(false)
 
 
@@ -43,6 +42,7 @@ export function ProductForm(){
         setDataProduct([{
           name:  nameProduct,
           cores: colorsProduct,
+          tamanhos: sizeProduct,
           fotos:{
             ...ImageLink
           },
@@ -50,6 +50,16 @@ export function ProductForm(){
         }])
 
         console.log(dataProduct)
+    }
+    
+    function handleSize({target}){
+      if (target.checked){
+        setSizeProduct([...sizeProduct, target.value])
+      }
+      
+      else{
+        setSizeProduct(sizeProduct.filter((size) => size !== target.value))
+      }
     }
 
     function handleColor({target}){
@@ -111,8 +121,9 @@ export function ProductForm(){
               {isSizeOptions && 
                 <section className='flex flex-wrap gap-4 mb-4 '>
                   {sizes.map((size) =>{
+              
                     return(
-                      <SquareCheckBox name={size.size} value="500"/>
+                      <SquareCheckBox name={size.size} value={size.size} check={sizeProduct.includes(size.size)} onChange={handleSize}/>
                     )
                   })}
                 </section>
@@ -128,14 +139,14 @@ export function ProductForm(){
                     {colorsProduct.map((color, index) =>{
                       return(
                         <>
-                          <InputText id={index} onChange={handleColor} value={color}/>
+                          <InputText placeholder="Digite o nome da cor" id={index} onChange={handleColor} value={color}/>
                           <button id={index} onClick={() => setColorsProduct() }>-</button>
                         </>
                       )
                     })}
                   </section>
                 }
-              <AddItemsGhost onclick={() => setColorsProduct([...colorsProduct, "nova cor"])}  Text="Adicionar cor"/>
+              <AddItemsGhost onclick={() => setColorsProduct([...colorsProduct, ""])}  Text="Adicionar cor"/>
             </div>
 
             <nav className='flex gap-4' aria-label='Prosseguir ou cancelar'>
