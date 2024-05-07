@@ -1,15 +1,20 @@
 import avatar from "../../assets/avatar.jpg";
-
-import { useEffect, useContext } from "react";
+import { UniqueModal } from "../Modal";
+import { useEffect, useContext, useState } from "react";
 import { EmployeeContext } from "../../context/Employee";
+import { EmployeeDetails } from "../EmployeeDetails";
 
 export function LineTable() {
   const { GetAllEmployees, EmployeeData } = useContext(EmployeeContext);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
 
   useEffect(() => {
     GetAllEmployees();
 
   }, []);
+  console.log()
+
 
   if (EmployeeData && EmployeeData.length > 0) {
     return (
@@ -32,11 +37,10 @@ export function LineTable() {
               <div className="bg-[#64B140] rounded px-4 py-2">
                 <p className="text-[#fff]">Sim</p>
               </div>
-              <div className="flex gap-1 cursor-pointer p-2 hover:bg-cinza-100 rounded">
-                <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-                <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-                <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-              </div>
+
+              <UniqueModal setSelectedId={setSelectedEmployee} SelectedId={employee.NIF}>
+                 <EmployeeDetails employee={employee} />
+              </UniqueModal>
             </div>
           </div>
         ))}
