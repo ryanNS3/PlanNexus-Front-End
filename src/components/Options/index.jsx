@@ -8,7 +8,6 @@ import React from "react";
 import { LockerVolunteer } from "../../components/Form/lockerVolunteer";
 
 export function Options() {
-  const [isOpenModal, setIsOpenModal] = React.useState(false);
 
   return (
     <>
@@ -17,8 +16,6 @@ export function Options() {
 
         <div>
           <ModalOptions
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
             Button={<SecundaryButton text={"Doar"} icon={<Volunteer />} />}
           >
             <LockerVolunteer />
@@ -27,8 +24,6 @@ export function Options() {
 
         <div>
           <ModalOptions
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
             Button={<SecundaryButton text={"Informações"} icon={<Door />} />}
           >
             <LockerInfo />
