@@ -18,7 +18,7 @@ export function ProductForm(){
     const [descriptionProduct, setDescriptionProduct] = React.useState(null);
     const [sizeProduct, setSizeProduct] = React.useState([])
     const [colorsProduct, setColorsProduct] = React.useState([])
-    const [ImageLink, setImageLink] = React.useState([])
+    const [ImageLink, setImageLink] = React.useState([null],[null],[null],[null])
     const [dataProduct,setDataProduct] = React.useState([])
     const [isSizeOptions, setIsSizeOptions] = React.useState(false)
 
@@ -67,32 +67,19 @@ export function ProductForm(){
       colorsChange[target.id] = target.value  
       setColorsProduct(colorsChange)
     }
-
-  const handleProfileImageUpload = (event) => {
-    const image = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageLink(reader.result);
-    };
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  };
-
-
   return (
     <form className='grid md:grid-cols-2 max-h-full' onSubmit={handleCreateProduct}>
         <section  aria-label='Visualização do produto' className=' max-h-[90%] rounded-lg '>
           <h1 className=' text-h4'>{nameProduct}</h1>
           {/* <input onChange={handleProfileImageUpload} type='file'/> */}
-          <div className=' grid  max-h-[500px]'>
-            <InputImage value={ImageLink[0]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
+          <div className=' grid grid-cols-[1fr 2fr] max-h-[500px]'>
             <div className='flex gap-3 max-h-6'>
-              <InputImage small value={ImageLink[1]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
-              <InputImage small value={ImageLink[2]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
-              <InputImage small value={ImageLink[3]}  setValue={setImageLink} onChange={handleProfileImageUpload}/>
+              <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
+              <InputImage value={ImageLink[2]}  setValue={setImageLink} />
+              <InputImage value={ImageLink[3]}  setValue={setImageLink}/>
 
             </div>
+            <InputImage value={ImageLink[0]}  setValue={setImageLink} />
           </div>
 
           <img src={ImageLink}/>

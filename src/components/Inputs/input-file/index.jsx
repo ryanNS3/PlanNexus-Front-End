@@ -3,11 +3,12 @@ import { UploadImageIcon } from '../../../assets/uploadImage';
 import { useDropzone } from 'react-dropzone';
 
 
-export function InputImage({value, small=false, setValue,file, id , ...props} ) {
+export function InputImage({value, small=false, setValue, file, id , ...props} ) {
 
   const onDrop = React.useCallback((file) =>{
-    setValue(file[0])
-  })
+    setValue([file[0]])
+    console.log(value)
+  },[])
 
   
 
@@ -22,25 +23,43 @@ export function InputImage({value, small=false, setValue,file, id , ...props} ) 
   })
  
 
-  
+    if (value) return <RenderImage file={value[0]}/>
     return (
       <>
         <label htmlFor={id} className=' flex flex-col justify-center h-[500px] roudend items-center bg-cinza-100'  {...dropzone.getRootProps()}>
-          <input  className='opacity-0 hidden' id={id}   type='file' {...dropzone.getInputProps()} {...props}/>
-            {!small &&
+          <input  className='opacity-0 hidden' id={id} {...dropzone.getInputProps()} {...props}/>
             <>
-              <UploadImageIcon/>
-              <p>Adicionar imagem</p>
+            <UploadImageIcon/>
+            {!small &&
+            <p>Adicionar imagem</p>
+            }
             
             </>
             
-            }
         </label>
       </>
       )
       
 
 
+  }
+
+  export function RenderImage({file}){
+    const [imageLink, setImageLink] = React.useState();
+  
+      const image = file;
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageLink(reader.result);
+      };
+      if (image) {
+        reader.readAsDataURL(image);
+      }
+  
+
+    return(
+      <img className='max-w-full object-cover' src={imageLink}/>
+    )
   }
 
 
