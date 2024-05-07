@@ -576,6 +576,16 @@ export function Lockers() {
   ];
 
   const [activeTab, setActiveTab] = React.useState(0); {/* Ativa o hover na primeira paginação do tab de armários*/}
+  const [locker, setLocker] = React.useState();
+
+  const handleLocker = (numero)=> {
+    locker()
+
+
+  }
+
+
+
 
   return (
     <>
@@ -673,7 +683,7 @@ export function Locker({ id, nome, numero, status }) {
         <p className="text-h5">{numero}</p>
 
         <div className='absolute z-10 top-0 -right-2' ref={menuRef}>
-          {isOpenOptions && <Options />}
+          {isOpenOptions && <Options numero={numero}/>}
         </div>
       </div>
     </>

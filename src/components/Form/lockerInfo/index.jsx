@@ -1,4 +1,3 @@
-
 import { Locker } from "../../AllLocker";
 import { AllLocker } from "../../AllLocker";
 import { PinkButton } from "../../Buttons/pinkButton";
@@ -6,10 +5,7 @@ import { SecundaryButton } from "../../Buttons/secundaryButton";
 import { Volunteer } from "../../../assets/Volunteer";
 import { Lock } from "../../../assets/Lock";
 
-
 export function LockerInfo({ numero }) {
-
-    // const Locker = { key, name, status}
 
     return (
         <form action="submit" className="flex flex-col w-full h-full justify-between">
