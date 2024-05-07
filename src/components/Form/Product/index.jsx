@@ -3,14 +3,13 @@ import { InputText } from '../../Inputs/input-text/inputTextComp'
 import { Label } from '../../Inputs/Label';
 import { InputNumber } from '../../Inputs/input-number';
 import { TextArea } from '../../Inputs/TextArea';
-import { AddItems, AddItemsGhost } from '../../Buttons/AddItems';
+import { AddItemsGhost } from '../../Buttons/AddItems';
 import { PinkButton } from '../../Buttons/pinkButton';
 import { GhostButton } from '../../Buttons/ghostButton';
-import { Checkbox } from '@mui/material';
 import { SquareCheckBox } from '../../Inputs/input-CheckBox';
 import { InputImage } from '../../Inputs/input-file';
-import { Input } from 'postcss';
-import { Colors } from 'chart.js';
+import { Link } from 'react-router-dom';
+
 
 export function ProductForm(){
     const [nameProduct, setNameProduct] = React.useState(" ");
@@ -18,7 +17,7 @@ export function ProductForm(){
     const [descriptionProduct, setDescriptionProduct] = React.useState(null);
     const [sizeProduct, setSizeProduct] = React.useState([])
     const [colorsProduct, setColorsProduct] = React.useState([])
-    const [ImageLink, setImageLink] = React.useState([null],[null],[null],[null])
+    const [ImageLink, setImageLink] = React.useState([],["eeeee", "aaaaaa"],['', '', '', ''],['','','','', ''])
     const [dataProduct,setDataProduct] = React.useState([])
     const [isSizeOptions, setIsSizeOptions] = React.useState(false)
 
@@ -49,8 +48,35 @@ export function ProductForm(){
           brinde: false
         }])
 
-        console.log(dataProduct)
+        // console.log(dataProduct)
     }
+
+    let image = ImageLink
+    image[0] =  {nome:{
+      link: "teste",
+    },
+    nome:{
+      link: "teste"
+    },
+    nome:{
+      link: "teste"
+    },
+    nome3:{
+      link: "teste"
+    }
+    },
+  
+    
+  
+  
+    
+    console.log(ImageLink.filter((item) => item))
+    // setImageLink([...ImageLink, ImageLink[0]])
+
+    
+    // console.log(ImageLink.map((item) => item))
+    
+    
     
     function handleSize({target}){
       if (target.checked){
@@ -74,12 +100,12 @@ export function ProductForm(){
           {/* <input onChange={handleProfileImageUpload} type='file'/> */}
           <div className=' grid grid-cols-[1fr 2fr] max-h-[500px]'>
             <div className='flex gap-3 max-h-6'>
-              <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
+              {/* <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
               <InputImage value={ImageLink[2]}  setValue={setImageLink} />
-              <InputImage value={ImageLink[3]}  setValue={setImageLink}/>
+              <InputImage value={ImageLink[3]}  setValue={setImageLink}/> */}
 
             </div>
-            <InputImage value={ImageLink[0]}  setValue={setImageLink} />
+            {/* <InputImage value={ImageLink[0]}  setValue={setImageLink} /> */}
           </div>
 
           <img src={ImageLink}/>
@@ -146,3 +172,4 @@ export function ProductForm(){
     </form>
   )
 }
+
