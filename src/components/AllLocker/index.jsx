@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Percentage } from "../Percentage";
 import { VoidDate } from "../VoidDate";
-import { ModalOptions } from "../Modal";
+import { DuoModalOptions } from "../Modal";
+import { LockerForm } from "../Form/lockerNotice";
+import { SelectLocker } from "../SelectLocker";
 import { Options } from "../Options";
 import { LockerContext } from "../../context/lockerContext";
 import { PinkButton } from "../Buttons/pinkButton";
@@ -471,7 +473,7 @@ import withMT from "@material-tailwind/react/utils/withMT";
 //   },
 // ]
 
-export function AllLocker({ typeUser, formModal }) {
+export function AllLocker({ typeUser }) {
   const { dados, dataLocker, GetLocker } = React.useContext(LockerContext);
   const [pagination, setPagination] = React.useState(0)
 
@@ -482,7 +484,7 @@ export function AllLocker({ typeUser, formModal }) {
   const currentLockers = dataLocker[pagination]
 
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
-  const [isOpenModal, setIsOpenModal] = React.useState(false);
+
 
   function handleFocusAllLocker(event) {
     event.preventDefault();
@@ -499,13 +501,13 @@ export function AllLocker({ typeUser, formModal }) {
 
         <div className="col-start-1 col-end-12 flex justify-between mt-10">
           <h1 className="text-h5">Todos os {typeUser}: </h1>
-          <ModalOptions
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
+          <DuoModalOptions
+            contentOne={<SelectLocker />}
+            contentDuo={<LockerForm />}
             Button={<PinkButton icon={<CampWhite />} text={'Enviar Aviso'} />}
           >
-            {formModal}
-          </ModalOptions>
+            
+          </DuoModalOptions>
         </div>
 
         <Lockers />
@@ -575,14 +577,14 @@ export function Lockers() {
     },
   ];
 
-  const [activeTab, setActiveTab] = React.useState(0); {/* Ativa o hover na primeira paginação do tab de armários*/}
-  const [locker, setLocker] = React.useState();
+  const [activeTab, setActiveTab] = React.useState(0); {/* Ativa o hover na primeira paginação do tab de armários*/ }
+  // const [locker, setLocker] = React.useState();
 
-  const handleLocker = (numero)=> {
-    locker()
+  // const handleLocker = (numero) => {
+  //   locker()
 
 
-  }
+  // }
 
 
 
@@ -647,7 +649,7 @@ export function Lockers() {
 
 export function Locker({ id, nome, numero, status }) {
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
-  
+
   let menuRef = useRef();
 
   useEffect(() => {
@@ -663,7 +665,7 @@ export function Locker({ id, nome, numero, status }) {
     return () => {
       document.removeEventListener("mousedown", handler);
     }
-  },[])
+  }, [])
 
   function onClickRight(event) {
     event.preventDefault();
@@ -680,10 +682,10 @@ export function Locker({ id, nome, numero, status }) {
         className={`relative col-span-1 ${status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
           } h-24 flex items-center justify-center rounded-lg`}
       >
-        <p className="text-h5">{numero}</p>
+        <p className={"text-h5"}>{numero}</p>
 
         <div className='absolute z-10 top-0 -right-2' ref={menuRef}>
-          {isOpenOptions && <Options numero={numero}/>}
+          {isOpenOptions && <Options numero={numero} />}
         </div>
       </div>
     </>

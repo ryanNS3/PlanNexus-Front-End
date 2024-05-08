@@ -19,6 +19,7 @@ import { AllLocker } from '../AllLocker/index'
 import { LockerForm } from "../Form/lockerNotice";
 import { AddStudent } from "../AddStudent";
 import { LockerInfo } from "../Form/lockerInfo";
+import { SelectLocker } from "../SelectLocker";
 
 export function ManagementTab() {
   const customTheme = withMT({
@@ -48,7 +49,7 @@ export function ManagementTab() {
     {
       label: "Armários",
       value: "armarios",
-      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>}/>,
+      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} contentOne={<LockerForm/>} contentDuo={<SelectLocker/>}/>,
     },
   ];
 
