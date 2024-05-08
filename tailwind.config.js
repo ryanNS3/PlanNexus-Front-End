@@ -188,5 +188,20 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({addUtilities}) {
+      const noScrollBar = {
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+      },
+
+      ".no-scrollbar": {
+          "-ms-overflow-style": "none", 
+          "scrollbar-width": "none",  
+      },
+      }
+
+      addUtilities(noScrollBar)
+    }
+  ],
 }
