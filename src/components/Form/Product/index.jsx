@@ -12,71 +12,44 @@ import { Link } from 'react-router-dom';
 
 
 export function ProductForm(){
-    const [nameProduct, setNameProduct] = React.useState(" ");
-    const [pricProduct, setPriceProduct] = React.useState(null);
-    const [descriptionProduct, setDescriptionProduct] = React.useState(null);
-    const [sizeProduct, setSizeProduct] = React.useState([])
-    const [colorsProduct, setColorsProduct] = React.useState([])
-    const [ImageLink, setImageLink] = React.useState([],["eeeee", "aaaaaa"],['', '', '', ''],['','','','', ''])
-    const [dataProduct,setDataProduct] = React.useState([])
-    const [isSizeOptions, setIsSizeOptions] = React.useState(false)
+  const [nameProduct, setNameProduct] = React.useState(" ");
+  const [pricProduct, setPriceProduct] = React.useState(null);
+  const [descriptionProduct, setDescriptionProduct] = React.useState(null);
+  const [sizeProduct, setSizeProduct] = React.useState([])
+  const [colorsProduct, setColorsProduct] = React.useState([])
+  // cada array representa uma posição de cada imagem
+  const [ImageLink, setImageLink] = React.useState([],[],[],[])
+  const [teste, setTeste] = React.useState(null)
+  const [dataProduct,setDataProduct] = React.useState([])
+  const [isSizeOptions, setIsSizeOptions] = React.useState(false)
 
-
-    const sizes = [
-      {
-        size: "P"
-      } ,
-      {
-        size: "M"
-      } ,
-      {
-        size : "G"
-      },
-      
-    ]
+  const sizes = [
+    {
+      size: "P"
+    } ,
+    {
+      size: "M"
+    } ,
+    {
+      size : "G"
+    },
     
+  ]
 
     function handleCreateProduct(event){
+      
         event.preventDefault()
+
         setDataProduct([{
           name:  nameProduct,
           cores: colorsProduct,
           tamanhos: sizeProduct,
-          fotos:{
-            ...ImageLink
-          },
+          fotos: ImageLink.flat(),
           brinde: false
         }])
 
-        // console.log(dataProduct)
+        console.log(dataProduct)
     }
-
-    let image = ImageLink
-    image[0] =  {nome:{
-      link: "teste",
-    },
-    nome:{
-      link: "teste"
-    },
-    nome:{
-      link: "teste"
-    },
-    nome3:{
-      link: "teste"
-    }
-    },
-  
-    
-  
-  
-    
-    console.log(ImageLink.filter((item) => item))
-    // setImageLink([...ImageLink, ImageLink[0]])
-
-    
-    // console.log(ImageLink.map((item) => item))
-    
-    
     
     function handleSize({target}){
       if (target.checked){
@@ -97,15 +70,13 @@ export function ProductForm(){
     <form className='grid md:grid-cols-2 max-h-full' onSubmit={handleCreateProduct}>
         <section  aria-label='Visualização do produto' className=' max-h-[90%] rounded-lg '>
           <h1 className=' text-h4'>{nameProduct}</h1>
-          {/* <input onChange={handleProfileImageUpload} type='file'/> */}
           <div className=' grid grid-cols-[1fr 2fr] max-h-[500px]'>
-            <div className='flex gap-3 max-h-6'>
-              {/* <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
+            <InputImage indice={0} value={ImageLink}  setValue={setImageLink} />
+            <div className='grid grid-cols-2 gap-6 max-h-6'>
+              <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
               <InputImage value={ImageLink[2]}  setValue={setImageLink} />
-              <InputImage value={ImageLink[3]}  setValue={setImageLink}/> */}
-
+              <InputImage value={ImageLink[3]}  setValue={setImageLink}/>
             </div>
-            {/* <InputImage value={ImageLink[0]}  setValue={setImageLink} /> */}
           </div>
 
           <img src={ImageLink}/>
@@ -121,7 +92,7 @@ export function ProductForm(){
             
             <div>
               <Label text="Preço" id="preco">Preço</Label>
-              <InputNumber name="preco" />
+              <InputNumber steps={0.1} name="preco" />
             </div>
 
             <div>
@@ -163,7 +134,7 @@ export function ProductForm(){
             </div>
 
             <nav className='flex gap-4' aria-label='Prosseguir ou cancelar'>
-              <PinkButton aria-label="continuar" text="continuar"/>
+              <PinkButton onClick={handleCreateProduct} aria-label="continuar" text="continuar"/>
               <GhostButton text="cancelar"/>
             </nav>
 
