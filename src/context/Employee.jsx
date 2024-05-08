@@ -76,11 +76,11 @@ export function EmployeeProvider({ children }) {
     }
   }, []);
  
- const EditEmployee = React.useCallback(async ({Id,NIF, nome, email, nivel_acesso, foto}) => {
+ const EditEmployee = React.useCallback(async (editedData) => {
     try {
       const res = await requisicao(
         `${BASE_URL}/funcionario/atualizar`,
-        {Id, NIF, nome, email, nivel_acesso, foto},
+        {editedData},
         `PATCH`,
         {
           authorization: `bearer ${token}`,
