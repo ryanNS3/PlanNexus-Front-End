@@ -1,6 +1,7 @@
 export function FinanceiroIcon({ size }) {
   return (
     <svg
+      className="max-[1471px]:w-6 max-[1471px]:h-6 max-[1471px]:m-auto"
       xmlns="http://www.w3.org/2000/svg"
       height={`${size}`}
       viewBox="0 -960 960 960"
@@ -14,6 +15,7 @@ export function FinanceiroIcon({ size }) {
 export function FinanceiroIconLight({ size }) {
   return (
     <svg
+      className="max-[1471px]:w-6 max-[1471px]:h-6 max-[1471px]:m-auto" 
       xmlns="http://www.w3.org/2000/svg"
       height={`${size}`}
       viewBox="0 -960 960 960"
