@@ -3,12 +3,15 @@ import { UploadImageIcon } from '../../../assets/uploadImage';
 import { useDropzone } from 'react-dropzone';
 
 
-export function InputImage({value, small=false, setValue, file, id , ...props} ) {
+export function InputImage({value, small=false, setValue, file, id , indice, ...props} ) {
 
   const onDrop = React.useCallback((file) =>{
-    setValue([file[0]])
-    console.log(value)
+    let files = [...value];
+    files[indice] = {file}  
+    setValue(files)
+    console.log(files)
   },[])
+
 
   
 
@@ -23,7 +26,7 @@ export function InputImage({value, small=false, setValue, file, id , ...props} )
   })
  
 
-    if (value) return <RenderImage file={value[0]}/>
+    // if (value) return <RenderImage file={value[0]}/>
     return (
       <>
         <label htmlFor={id} className=' flex flex-col justify-center h-[500px] roudend items-center bg-cinza-100'  {...dropzone.getRootProps()}>
