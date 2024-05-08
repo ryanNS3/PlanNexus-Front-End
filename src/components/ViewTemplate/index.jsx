@@ -24,8 +24,6 @@ export function TemplateView({ name, role, formModal, isExtendModal = false, hea
         setSearchTerm("");
     };
 
-    const size = header_data.length + 1
-
     return (
         <main className=" w-full p-2 max-w-[74.188] min-w-[23.813rem]" aria-label="conteúdo principal na tela gestão" >
             <header className="flex justify-between my-4 col-span-12" >
@@ -70,12 +68,13 @@ export function TemplateView({ name, role, formModal, isExtendModal = false, hea
 
             {/* HEADER DO TEMPLATE DE TABELAS */}
             <section
-                className={`grid grid-cols-[minmax(0px,_67px)_1fr_repeat(5,_100px)] gap-4 col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2`}
-                aria-label="informações principais sobre os usuários">
+                className={`grid gap-4 col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2`}
+                aria-label="informações principais sobre os usuários"
+                style={{ gridTemplateColumns: `minmax(0px, 67px) 1fr repeat(${header_data.length}, 100px)` }}>
                 <p></p>
                     <p className="w-full text-fun2 text-cinza-700 m-auto" >Nome</p>
                     {header_data?.map(element => (
-                        <p className="text-center text-fun2 text-cinza-700 m-auto">{element}</p>
+                        <p key={element} className="text-center text-fun2 text-cinza-700 m-auto">{element}</p>
                     ))}
             </section>
             <section className="flex flex-col col-span-10 gap-2">
