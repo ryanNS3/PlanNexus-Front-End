@@ -70,15 +70,13 @@ export function TemplateView({ name, role, formModal, isExtendModal = false, hea
 
             {/* HEADER DO TEMPLATE DE TABELAS */}
             <section
-                className={`grid grid-cols-4 grid-cols-[minmax(0px,_67px)_repeat(6, 100px)] col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2 border`}
+                className={`grid grid-cols-[minmax(0px,_67px)_1fr_repeat(5,_100px)] gap-4 col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2`}
                 aria-label="informações principais sobre os usuários">
-                <p> </p>
-                <p className="text-center text-fun2 text-cinza-700 m-auto" >Nome</p>
-                <div className={`flex gap-16`} >
+                <p></p>
+                    <p className="w-full text-fun2 text-cinza-700 m-auto" >Nome</p>
                     {header_data?.map(element => (
                         <p className="text-center text-fun2 text-cinza-700 m-auto">{element}</p>
                     ))}
-                </div>
             </section>
             <section className="flex flex-col col-span-10 gap-2">
                 <LineTable />
@@ -86,19 +84,3 @@ export function TemplateView({ name, role, formModal, isExtendModal = false, hea
         </main>
     )
 }
-
-// {/* <section
-// className="flex justify-between col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-2"
-// aria-label="informações principais sobre os usuários">
-//     <p className="mx-14 px-1 fun-2 text-cinza-700" >Nome</p>
-//     <div className="flex justify-between" >
-//         {/*role só vai ser aplicado para a tab de funcionário */}
-//         <p className="mx-5 px-8 fun-2 text-cinza-700" >{role}</p>
-//         <p className="mx-5 px-8 fun-2 text-cinza-700" >{statusUser}</p>
-//         <p className="text-center mx-5 px-4 fun-2 text-cinza-700" >Ações</p>
-//     </div>
-//     <Filter/>
-// </section>
-// <section className="flex flex-col col-span-10 gap-2">
-//     <LineTable/>
-// </section> */}
