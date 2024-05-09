@@ -121,7 +121,7 @@ export function ExtendModal({children, TextButton, isOpenModal, setIsOpenModal})
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className="flex flex-col gap-4 w-full h[90%] py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
+          <div className="flex flex-col gap-4 w-full max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
             <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
               <Close isHover={isHoverButton}/>
             </button>

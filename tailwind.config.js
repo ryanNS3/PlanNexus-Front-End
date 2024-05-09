@@ -63,7 +63,7 @@ export default {
     },
 
     fontFamily: {
-      sans: ['Poppins', 'sans-serif'],
+      sans: ['Poppins', 'georgia'],
     },
 
     // Ajustar o fontsize de acordo com o projeto no figma

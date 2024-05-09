@@ -3,69 +3,82 @@ import { InputText } from '../../Inputs/input-text/inputTextComp'
 import { Label } from '../../Inputs/Label';
 import { InputNumber } from '../../Inputs/input-number';
 import { TextArea } from '../../Inputs/TextArea';
-import { AddItems, AddItemsGhost } from '../../Buttons/AddItems';
+import { AddItemsGhost } from '../../Buttons/AddItems';
 import { PinkButton } from '../../Buttons/pinkButton';
 import { GhostButton } from '../../Buttons/ghostButton';
-import { Checkbox } from '@mui/material';
-import { SquareCheckBox } from '../../Inputs/CheckBox';
+import { SquareCheckBox } from '../../Inputs/input-CheckBox';
+import { InputImage } from '../../Inputs/input-file';
+import { Link } from 'react-router-dom';
+
 
 export function ProductForm(){
-    const [nameProduct, setNameProduct] = React.useState(null);
-    const [pricProduct, setPriceProduct] = React.useState(null);
-    const [descriptionProduct, setDescriptionProduct] = React.useState(null);
-    const [sizeProduct, setSizeProduct] = React.useState([])
-    const [colorsProduct, setColorsProduct] = React.useState([])
-    const [ImageLink, setImageLink] = React.useState([])
-    const [dataProduct,setDataProduct] = React.useState([])
+  const [nameProduct, setNameProduct] = React.useState(" ");
+  const [pricProduct, setPriceProduct] = React.useState(null);
+  const [descriptionProduct, setDescriptionProduct] = React.useState(null);
+  const [sizeProduct, setSizeProduct] = React.useState([])
+  const [colorsProduct, setColorsProduct] = React.useState([])
+  // cada array representa uma posição de cada imagem
+  const [ImageLink, setImageLink] = React.useState([],[],[],[])
+  const [teste, setTeste] = React.useState(null)
+  const [dataProduct,setDataProduct] = React.useState([])
+  const [isSizeOptions, setIsSizeOptions] = React.useState(false)
 
-    const [isSizeOptions, setIsSizeOptions] = React.useState(false)
-
-
-    const sizes = [
-      {
-        size: "P"
-      } ,
-      {
-        size: "M"
-      } ,
-      {
-        size : "G"
-      },
-      
-    ]
+  const sizes = [
+    {
+      size: "P"
+    } ,
+    {
+      size: "M"
+    } ,
+    {
+      size : "G"
+    },
     
+  ]
 
     function handleCreateProduct(event){
+      
         event.preventDefault()
+
         setDataProduct([{
           name:  nameProduct,
           cores: colorsProduct,
-          fotos:{
-            ...ImageLink
-          },
+          tamanhos: sizeProduct,
+          fotos: ImageLink.flat(),
           brinde: false
         }])
 
         console.log(dataProduct)
     }
-
-  const handleProfileImageUpload = (event) => {
-    const image = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageLink(reader.result);
-    };
-    if (image) {
-      reader.readAsDataURL(image);
+    
+    function handleSize({target}){
+      if (target.checked){
+        setSizeProduct([...sizeProduct, target.value])
+      }
+      
+      else{
+        setSizeProduct(sizeProduct.filter((size) => size !== target.value))
+      }
     }
-  };
 
-
+    function handleColor({target}){
+      let colorsChange = [...colorsProduct];
+      colorsChange[target.id] = target.value  
+      setColorsProduct(colorsChange)
+    }
   return (
     <form className='grid md:grid-cols-2 max-h-full' onSubmit={handleCreateProduct}>
-        <section aria-label='Visualização do produto' className=''>
+        <section  aria-label='Visualização do produto' className=' max-h-[90%] rounded-lg '>
           <h1 className=' text-h4'>{nameProduct}</h1>
-          <input onChange={handleProfileImageUpload} type='file'/>
+          <div className=' grid grid-cols-[1fr 2fr] max-h-[500px]'>
+            <InputImage indice={0} value={ImageLink}  setValue={setImageLink} />
+            <div className='grid grid-cols-2 gap-6 max-h-6'>
+              <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
+              <InputImage value={ImageLink[2]}  setValue={setImageLink} />
+              <InputImage value={ImageLink[3]}  setValue={setImageLink}/>
+            </div>
+          </div>
+
           <img src={ImageLink}/>
         </section>
 
@@ -79,7 +92,7 @@ export function ProductForm(){
             
             <div>
               <Label text="Preço" id="preco">Preço</Label>
-              <InputNumber name="preco" />
+              <InputNumber steps={0.1} name="preco" />
             </div>
 
             <div>
@@ -90,29 +103,38 @@ export function ProductForm(){
             <div>
               <Label id="adicionarTamanhos" text="Adicionar tamanhos"/>
               {isSizeOptions && 
-                <section className='flex flex-wrap gap-4'>
+                <section className='flex flex-wrap gap-4 mb-4 '>
                   {sizes.map((size) =>{
+              
                     return(
-                      <SquareCheckBox name={size.size} value="500"/>
-
+                      <SquareCheckBox name={size.size} value={size.size} check={sizeProduct.includes(size.size)} onChange={handleSize}/>
                     )
-
                   })}
-                 
-
                 </section>
               }
-              <AddItemsGhost onclick={() => setIsSizeOptions(!isSizeOptions)} Text="Adicionar tamanho"/>
+              <AddItemsGhost isOpen={isSizeOptions} onclick={() => setIsSizeOptions(!isSizeOptions)} Text="Adicionar tamanho"/>
 
             </div>
             
             <div>
               <Label id="adicionarCor" text="Adicionar cores"/>
-              <AddItemsGhost  Text="Adicionar cor"/>
+                {colorsProduct &&
+                  <section>
+                    {colorsProduct.map((color, index) =>{
+                      return(
+                        <>
+                          <InputText placeholder="Digite o nome da cor" id={index} onChange={handleColor} value={color}/>
+                          <button id={index} onClick={() => setColorsProduct() }>-</button>
+                        </>
+                      )
+                    })}
+                  </section>
+                }
+              <AddItemsGhost onclick={() => setColorsProduct([...colorsProduct, ""])}  Text="Adicionar cor"/>
             </div>
 
             <nav className='flex gap-4' aria-label='Prosseguir ou cancelar'>
-              <PinkButton aria-label="continuar" text="continuar"/>
+              <PinkButton onClick={handleCreateProduct} aria-label="continuar" text="continuar"/>
               <GhostButton text="cancelar"/>
             </nav>
 
@@ -121,3 +143,4 @@ export function ProductForm(){
     </form>
   )
 }
+
