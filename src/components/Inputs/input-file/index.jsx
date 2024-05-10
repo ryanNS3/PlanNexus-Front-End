@@ -4,15 +4,12 @@ import { useDropzone } from 'react-dropzone';
 
 
 export function InputImage({value, small=false, setValue, file, id , indice, ...props} ) {
-
   const onDrop = React.useCallback((file) =>{
     let files = [...value];
-    files[indice] = {file}  
+    files[indice].push(file)
     setValue(files)
     console.log(files)
   },[])
-
-
   
 
   const dropzone = useDropzone({

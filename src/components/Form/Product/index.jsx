@@ -18,10 +18,11 @@ export function ProductForm(){
   const [sizeProduct, setSizeProduct] = React.useState([])
   const [colorsProduct, setColorsProduct] = React.useState([])
   // cada array representa uma posição de cada imagem
-  const [ImageLink, setImageLink] = React.useState([],[],[],[])
   const [teste, setTeste] = React.useState(null)
+  const [ImageLink, setImageLink] = React.useState(() =>[[],[],[],[]])
   const [dataProduct,setDataProduct] = React.useState([])
   const [isSizeOptions, setIsSizeOptions] = React.useState(false)
+
 
   const sizes = [
     {
@@ -73,9 +74,9 @@ export function ProductForm(){
           <div className=' grid grid-cols-[1fr 2fr] max-h-[500px]'>
             <InputImage indice={0} value={ImageLink}  setValue={setImageLink} />
             <div className='grid grid-cols-2 gap-6 max-h-6'>
-              <InputImage value={ImageLink[1]}  setValue={setImageLink}/>
-              <InputImage value={ImageLink[2]}  setValue={setImageLink} />
-              <InputImage value={ImageLink[3]}  setValue={setImageLink}/>
+              <InputImage indice={1} value={ImageLink} setValue={setImageLink}/>
+              <InputImage indice={2} value={ImageLink} setValue={setImageLink} />
+              <InputImage indice={3} value={ImageLink} setValue={setImageLink}/>
             </div>
           </div>
 
@@ -92,7 +93,7 @@ export function ProductForm(){
             
             <div>
               <Label text="Preço" id="preco">Preço</Label>
-              <InputNumber steps={0.1} name="preco" />
+              <InputNumber value={pricProduct} onChange={() => setPriceProduct(pricProduct)} steps={0.1} name="preco" />
             </div>
 
             <div>
