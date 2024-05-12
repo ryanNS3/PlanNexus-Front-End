@@ -21,6 +21,11 @@ import { AddStudent } from "../AddStudent";
 import { LockerInfo } from "../Form/lockerInfo";
 
 export function ManagementTab() {
+
+  const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false)
+  const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false)
+  const [isOpenModalFormLocker, setIsOpenModalFormLocker] = React.useState(false)
+  const [isOpenModalFormAAPM, setIsOpenModalFormAAPM] = React.useState(false)
   const customTheme = withMT({
         theme: {
           
@@ -33,17 +38,17 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas"  />,
+      element: <TemplateView isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas"  />,
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: <TemplateView statusUser={'Status'} formModal={<EmployeeForm/>} name="Funcionário"  role={'cargo'} />,
+      element: <TemplateView isOpenModal={isOpenModalFormEmployee} setIsOpenModal={setIsOpenModalFormEmployee} statusUser={'Status'} formModal={<EmployeeForm/>} name="Funcionário"  role={'cargo'} />,
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element:  <TemplateView statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" />,
+      element:  <TemplateView isOpenModal={isOpenModalFormAAPM} setIsOpenModal={setIsOpenModalFormAAPM} statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" />,
     },
     {
       label: "Armários",
