@@ -7,7 +7,7 @@ import { useState } from "react";
 import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter"
 
-export function TemplateView({name, role, formModal, isExtendModal=false, dadosLineTbale}){
+export function TemplateView({name, role, formModal, isOpenModal, setIsOpenModal, isExtendModal=false, dadosLineTbale}){
     const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
     const url = window.location;
     // vai precisar de alteração
@@ -29,14 +29,14 @@ export function TemplateView({name, role, formModal, isExtendModal=false, dadosL
             <header  className="flex justify-between my-4 col-span-12" >
                 <h1 className="text-h5" >Todos os {name}: </h1>
                 {!isExtendModal &&
-                <BasicModal isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm } TextButton={`Adicionar ${name}`}>
+                <BasicModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal } TextButton={`Adicionar ${name}`}>
                     <h1 className=" text-h5">Adicionar {name}</h1>
                     {formModal}
                 </BasicModal>
                 }
 
                 {isExtendModal &&
-                   <ExtendModal TextButton={name} isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm}>
+                   <ExtendModal TextButton={name} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
                         {formModal}
                    </ExtendModal>
                 }
