@@ -9,6 +9,7 @@ import { GhostButton } from "../../Buttons/ghostButton";
 import { SquareCheckBox } from "../../Inputs/input-CheckBox";
 import { InputImage } from "../../Inputs/input-file";
 import { Link } from "react-router-dom";
+import avatar from "../../../assets/avatar.jpg"
 
 export function ProductForm({ setIsOpenProductModal }) {
   const [nameProduct, setNameProduct] = React.useState(" ");
@@ -169,18 +170,33 @@ export function ProductForm({ setIsOpenProductModal }) {
         aria-label="Visualização do produto"
         className="flex flex-col sm:max-h-[99%] md:overflow-y-scroll rounded-lg "
       >
-        <h1 className=" text-h4">{nameProduct}</h1>
-        {colorsProduct &&
+        <h2 className=" text-h4">{nameProduct}</h2>
+        <p>Selecione a cor</p>
+        
+        <section className="flex gap-4 justify-start items-start">
+          {colorsProduct.map((color) =>{
+            return(
+              <button onclick={(event) => setSelectedColor(event.target.id)} id={color}
+               className="flex flex-col justify-start items-start">
+                <div 
+                  className={` border-2 border-transparent ${selectedColor === color ? border-rosa-300 : null}  hover:border-rosa-300 py-2 px-2 bg-cinza-100 rounded max-w-24`}>
+                  <img className=" rounded-lg w-full" src={avatar} alt="" aria-hidden />
+                </div>
+                <p className=" max-w-[3ch] text-fun2">{color}</p>
+              </button>
+            )
+          })}
+        </section>
+
         <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px]">
           <InputImage indice={0} value={ImageLink} setValue={setImageLink} />
           <div className="grid grid-cols-2 gap-6 max-h-6">
             <InputImage indice={1} value={ImageLink} setValue={setImageLink} />
             <InputImage indice={2} value={ImageLink} setValue={setImageLink} />
             <InputImage indice={3} value={ImageLink} setValue={setImageLink} />
-            <input type="text" dis />
+            <input type="text" />
           </div>
         </div>
-}
       </section>
     </form>
   );
