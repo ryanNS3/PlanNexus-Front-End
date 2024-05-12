@@ -19,6 +19,7 @@ import { AllLocker } from '../AllLocker/index'
 import { LockerForm } from "../Form/lockerNotice";
 import { AddStudent } from "../AddStudent";
 import { LockerInfo } from "../Form/lockerInfo";
+import { AapmManage } from "../aapmManagement";
 
 export function ManagementTab() {
   const customTheme = withMT({
@@ -44,7 +45,7 @@ export function ManagementTab() {
     {
       label: "AAPM",
       value: "AAPM",
-      element:  <TemplateView statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
+      element: <AapmManage/> ,
     },
     {
       label: "Armários",
