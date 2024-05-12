@@ -51,13 +51,9 @@ export function Stock() {
         </CardMedium>
       </section>
 
-      <TemplateView isOpenModal={isOpenModalForm}
-        setIsOpenModal={setIsOpenModalForm}
-        isExtendModal
-        name="Adicionar produtos"
-        formModal={<ProductForm setIsOpenProductModal={setIsOpenModalForm}/>}>
 
-      </TemplateView>
+      <TemplateView role="" isExtendModal={true} name="Adicionar produtos" formModal={<ProductForm setIsOpenProductModal={setIsOpenModalForm}/>} header_data={["Alerta", "Estoque", "Ações"]}/>
+
     </>
   )
 }

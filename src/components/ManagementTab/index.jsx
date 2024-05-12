@@ -19,6 +19,7 @@ import { AllLocker } from '../AllLocker/index'
 import { LockerForm } from "../Form/lockerNotice";
 import { AddStudent } from "../AddStudent";
 import { LockerInfo } from "../Form/lockerInfo";
+import { AapmManage } from "../aapmManagement";
 
 export function ManagementTab() {
 
@@ -38,22 +39,22 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas"  />,
+      element: <TemplateView isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas" header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: <TemplateView isOpenModal={isOpenModalFormEmployee} setIsOpenModal={setIsOpenModalFormEmployee} statusUser={'Status'} formModal={<EmployeeForm/>} name="Funcionário"  role={'cargo'} />,
+      element: <TemplateView isOpenModal={isOpenModalFormEmployee} setIsOpenModal={setIsOpenModalFormEmployee} statusUser={'Status'} formModal={<EmployeeForm/>} name="Funcionário"  role={'cargo'} header_data={['nome', 'cargo']} />,
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element:  <TemplateView isOpenModal={isOpenModalFormAAPM} setIsOpenModal={setIsOpenModalFormAAPM} statusUser={'AAPM'} typeUser={'alunos'} name="AAPM" />,
+      element: <AapmManage/> ,
     },
     {
       label: "Armários",
       value: "armarios",
-      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>}/>,
+      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>} header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
     },
   ];
 
