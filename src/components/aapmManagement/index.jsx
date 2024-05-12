@@ -12,7 +12,7 @@ export function AapmManage(){
                 <CardMedium children={ <GiftCard/> } />
             </div>
 
-            <TemplateView name="Associados" />
+            {/* <TemplateView name="Associados" /> */}
         </section>
     )
 }

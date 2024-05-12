@@ -40,7 +40,7 @@ export function ManagementTab() {
       label: "Funcionários",
       value: "funcionarios",
 
-      element: <TemplateView statusUser={'Status'} formModal={<EmployeeForm/>} name="Funcionário"  role={'cargo'} />,
+      element: <TemplateView statusUser={'Status'} formModal={<EmployeeForm/>} name="Funcionário"  role={'cargo'} header_data={['nome', 'cargo']} />,
     },
     {
       label: "AAPM",
