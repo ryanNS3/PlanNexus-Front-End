@@ -26,11 +26,11 @@ export function InputImage({value, small=false, setValue, id , indice, ...props}
     
     return (
       <>
-        <label htmlFor={id} className=' flex flex-col justify-center h-[500px] roudend items-center bg-cinza-100'  {...dropzone.getRootProps()}>
+        <label htmlFor={id} className=' flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4 border-cinza-100'  {...dropzone.getRootProps()}>
           <input  className='opacity-0 hidden' id={id} {...dropzone.getInputProps()} {...props}/>
             <>
             <UploadImageIcon/>
-            {!small &&  <p className=' text-center'> <span className=' text-fun2'>Arraste</span> ou clique aqui para adicionar uma imagem</p>}
+            {!small &&  <p className=' max-w-[20ch] text-center'> <span className=' text-fun2'>Arraste</span> ou clique aqui para adicionar uma imagem</p>}
 
             </>
         </label>

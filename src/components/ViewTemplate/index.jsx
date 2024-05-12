@@ -1,6 +1,5 @@
 import { LineTable } from "../LineTable";
 import React from "react";
-import { PinkButton } from "../Buttons/pinkButton";
 import SearchSvg from "../../assets/header/search.svg";
 import ClearSvg from "../../assets/header/xmark.svg"
 import { useState } from "react";

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 export function ProductForm({ setIsOpenProductModal }) {
   const [nameProduct, setNameProduct] = React.useState(" ");
-  const [pricProduct, setPriceProduct] = React.useState(null);
+  const [priceProduct, setPriceProduct] = React.useState(null);
   const [descriptionProduct, setDescriptionProduct] = React.useState(null);
   const [sizeProduct, setSizeProduct] = React.useState([]);
   const [colorsProduct, setColorsProduct] = React.useState([]);
@@ -41,6 +41,7 @@ export function ProductForm({ setIsOpenProductModal }) {
       {
         name: nameProduct,
         cores: colorsProduct,
+        preco : priceProduct,
         tamanhos: sizeProduct,
         fotos: ImageLink.flat(),
         brinde: false,
@@ -85,8 +86,8 @@ export function ProductForm({ setIsOpenProductModal }) {
             Preço
           </Label>
           <InputNumber
-            value={pricProduct}
-            onChange={() => setPriceProduct(pricProduct)}
+            value={priceProduct}
+            onChange={(event) => setPriceProduct(event.target.value)}
             steps={0.1}
             name="preco"
           />
@@ -169,16 +170,17 @@ export function ProductForm({ setIsOpenProductModal }) {
         className="flex flex-col sm:max-h-[99%] md:overflow-y-scroll rounded-lg "
       >
         <h1 className=" text-h4">{nameProduct}</h1>
-        
+        {colorsProduct &&
         <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px]">
-          <InputImage disabled={!colorsProduct} indice={0} value={ImageLink} setValue={setImageLink} />
+          <InputImage indice={0} value={ImageLink} setValue={setImageLink} />
           <div className="grid grid-cols-2 gap-6 max-h-6">
-            <InputImage disabled={!colorsProduct} indice={1} value={ImageLink} setValue={setImageLink} />
-            <InputImage disabled={!colorsProduct} indice={2} value={ImageLink} setValue={setImageLink} />
-            <InputImage disabled={!colorsProduct} indice={3} value={ImageLink} setValue={setImageLink} />
+            <InputImage indice={1} value={ImageLink} setValue={setImageLink} />
+            <InputImage indice={2} value={ImageLink} setValue={setImageLink} />
+            <InputImage indice={3} value={ImageLink} setValue={setImageLink} />
             <input type="text" dis />
           </div>
         </div>
+}
       </section>
     </form>
   );
