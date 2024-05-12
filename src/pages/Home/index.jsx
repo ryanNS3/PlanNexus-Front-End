@@ -22,11 +22,6 @@ export function Home() {
           </div>
 
           <Schedule/>
-
-          {/* Esse modal foi colocado na Home apenas para teste e será removido posteriormente */}
-          <BasicModal TextButton="Adicionar Aluno">
-            <AddStudent/>
-          </BasicModal>
         </div>
 
       </Main>

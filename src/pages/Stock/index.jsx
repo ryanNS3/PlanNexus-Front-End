@@ -51,9 +51,8 @@ export function Stock() {
         </CardMedium>
       </section>
 
-      <TemplateView isExtendModal name="Adicionar produtos" formModal={<ProductForm/>}>
+      <TemplateView role="" isExtendModal={true} name="Adicionar produtos" formModal={<ProductForm/>} header_data={["Alerta", "Estoque", "Ações"]}/>
 
-      </TemplateView>
     </>
   )
 }

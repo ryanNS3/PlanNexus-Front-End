@@ -45,36 +45,36 @@ export function Router() {
                   <Route
                     path="/doacao"
                     element={
-                      <ProtectRouter>
+                      // <ProtectRouter>
                         <Home />
-                      </ProtectRouter>
+                      // </ProtectRouter>
                     }
                   />
 
                   <Route
                     path="/financeiro"
                     element={
-                      <ProtectRouter>
+                      // <ProtectRouter>
                         <Home />
-                      </ProtectRouter>
+                      // </ProtectRouter>
                     }
                   />
 
                   <Route
                     path="/calendario"
                     element={
-                      <ProtectRouter>
+                      // <ProtectRouter>
                         <Home />
-                      </ProtectRouter>
+                      // </ProtectRouter>
                     }
                   />
 
                   <Route
                     path="/historico"
                     element={
-                      <ProtectRouter>
+                      // <ProtectRouter>
                         <Home />
-                      </ProtectRouter>
+                      // </ProtectRouter>
                     }
                   />
                   <Route path="/gestao">
