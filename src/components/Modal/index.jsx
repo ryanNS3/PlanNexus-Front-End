@@ -125,9 +125,9 @@ export function ExtendModal({children, TextButton, isOpenModal, setIsOpenModal})
             <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
               <Close isHover={isHoverButton}/>
             </button>
-            <main className="w-full h-full">
+            <>
               {children}
-            </main>
+            </>
            
           </div>          
         </Box>
