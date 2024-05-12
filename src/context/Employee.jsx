@@ -6,9 +6,10 @@ export const EmployeeContext = React.createContext();
  
 export function EmployeeProvider({ children }) {
   const { requisicao } = useAxios();
-  const { token, user } = useContext(UserGlobal);
   const [EmployeeData, setEmployeeData] = React.useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem('token')
+  const user = localStorage.getItem('user')
  
   const GetAllEmployees = React.useCallback(async () => {
     try {
@@ -17,23 +18,25 @@ export function EmployeeProvider({ children }) {
         null,
         `GET`,
         {
-          authorization: `bearer ${localStorage.getItem('token')}`,
-          nif: localStorage.getItem('user'),
+          authorization: `bearer ${token}`,
+          nif: user,
         }
       );
       console.log(res)
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
-  const GetEmployee = React.useCallback(async () => {
+  const GetEmployee = React.useCallback(async (Id) => {
     try {
       const res = await requisicao(
-        `${BASE_URL}/funcionario/${user}`,
+        `${BASE_URL}/funcionario/unico/${Id}`,
         null,
         `GET`,
         {
@@ -44,36 +47,40 @@ export function EmployeeProvider({ children }) {
       console.log(res)
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
-  const AddEmployee = React.useCallback(async () => {
+  const AddEmployee = React.useCallback(async (NIF, nome, email, nivel_acesso) => {
     try {
+
       const res = await requisicao(
         `${BASE_URL}/funcionario/`,
-        null,
+        {NIF, nome, email, nivel_acesso},
         `POST`,
         {
           authorization: `bearer ${token}`,
           nif: user,
         }
       );
-      if (res && res.res.status === 200) {
-        setEmployeeData(res.json.response);
+      if (res && res.res.status === 201) {
+        return true;;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
-  const EditEmployee = React.useCallback(async () => {
+ const EditEmployee = React.useCallback(async ({Id,NIF, nome, email, nivel_acesso, foto}) => {
     try {
       const res = await requisicao(
-        `${BASE_URL}/funcionario/${user}`,
-        null,
+        `${BASE_URL}/funcionario/atualizar`,
+        {Id, NIF, nome, email, nivel_acesso, foto},
         `PATCH`,
         {
           authorization: `bearer ${token}`,
@@ -82,9 +89,11 @@ export function EmployeeProvider({ children }) {
       );
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
@@ -101,9 +110,11 @@ export function EmployeeProvider({ children }) {
       );
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
+        return true;
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
+      return false;
     }
   }, []);
  
