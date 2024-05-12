@@ -39,7 +39,7 @@ export function Stock() {
                 <div className='flex gap-2'>
                   <p className=' text-sub1 gap-2'>150</p>
 
-                  <BasicModal labelButton="Repor estqoue" TextButton={<PlusWhite/>} isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm}>
+                  <BasicModal labelButton="Repor estqoue" TextButton={<PlusWhite/>} isOpenModal={isOpenModalAddStock} setIsOpenModal={setIsOpenModalAddStock}>
                     <h3>Repor estoque</h3>
                   </BasicModal>
                   
@@ -51,7 +51,11 @@ export function Stock() {
         </CardMedium>
       </section>
 
-      <TemplateView isExtendModal name="Adicionar produtos" formModal={<ProductForm/>}>
+      <TemplateView isOpenModal={isOpenModalForm}
+        setIsOpenModal={setIsOpenModalForm}
+        isExtendModal
+        name="Adicionar produtos"
+        formModal={<ProductForm setIsOpenProductModal={setIsOpenModalForm}/>}>
 
       </TemplateView>
     </>
