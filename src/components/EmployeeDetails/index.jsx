@@ -8,7 +8,7 @@ export function EmployeeDetails({ employee }) {
     const [editedEmployee, setEditedEmployee] = useState(employee);
 
     console.log(employee)
-    const editedData = [
+    const editedData =
         {
             "idFuncionario": employee.id_funcionario,
             "NIF": employee.NIF,
@@ -17,7 +17,7 @@ export function EmployeeDetails({ employee }) {
             "nivel_acesso": "3",
             "foto": "null"
         }
-    ]
+
 
       const handleSubmit = async () => {
         const success = await EditEmployee(editedData);
