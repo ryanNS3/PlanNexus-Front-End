@@ -25,8 +25,6 @@ export function ManagementTab() {
 
   const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false)
   const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false)
-  const [isOpenModalFormLocker, setIsOpenModalFormLocker] = React.useState(false)
-  const [isOpenModalFormAAPM, setIsOpenModalFormAAPM] = React.useState(false)
   const customTheme = withMT({
         theme: {
           
