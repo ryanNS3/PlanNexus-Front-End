@@ -8,9 +8,8 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
     let files = [...value];
     files[indice].push({[keyForImage]:{file}})
     setValue(files)
+    console.log(file)
   },[keyForImage])
-  console.log(keyForImage)
-
   
   const dropzone = useDropzone({
     onDrop,
@@ -30,7 +29,7 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
     
     return (
       <>
-        <label htmlFor={id} className={`flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4 border-cinza-100 hover:border-rosa-300`} 
+        <label htmlFor={id} className={`flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4  ${isDragActive ? "border-rosa-300" : "border-cinza-100" } hover:border-rosa-300`} 
           {...disabled ? null : {...dropzone.getRootProps()}} >
           {disabled ?
           <input id={id} disabled/>
@@ -65,12 +64,9 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
   
 
     return(
-      <img className='max-w-full object-cover' src={imageLink}/>
+      <div>
+        <img className='max-w-full object-cover' src={imageLink}/>
+      </div>
     )
   }
 
-
-
-export function InputFile({value, setValue, file, id, ...props}){
-
-}
