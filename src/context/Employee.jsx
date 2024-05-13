@@ -76,11 +76,11 @@ export function EmployeeProvider({ children }) {
     }
   }, []);
  
- const EditEmployee = React.useCallback(async (editedData) => {
+const EditEmployee = React.useCallback(async (editedData) => {
     try {
       const res = await requisicao(
         `${BASE_URL}/funcionario/atualizar`,
-        {editedData},
+        editedData,
         `PATCH`,
         {
           authorization: `bearer ${token}`,
@@ -88,7 +88,6 @@ export function EmployeeProvider({ children }) {
         }
       );
       if (res && res.res.status === 200) {
-        setEmployeeData(res.json.response);
         return true;
       }
     } catch (error) {
