@@ -9,6 +9,7 @@ import { GhostButton } from "../../Buttons/ghostButton";
 import { SquareCheckBox } from "../../Inputs/input-CheckBox";
 import { InputImage } from "../../Inputs/input-file";
 import { Link } from "react-router-dom";
+import { Lock } from "../../../assets/Lock";
 import avatar from "../../../assets/avatar.jpg"
 
 export function ProductForm({ setIsOpenProductModal }) {
@@ -49,8 +50,17 @@ export function ProductForm({ setIsOpenProductModal }) {
       },
     ]);
 
-    console.log(dataProduct);
+    // console.log(dataProduct);
   }
+  let itemSelecionado = null
+  function handleChangeSelectedColor(event){
+    event.preventDefault()
+    setSelectedColor(event.currentTarget.dataset.color)
+    console.log(event.currentTarget.dataset.color)
+    
+
+  }
+  // console.log(selectedColor)
 
   function handleSize({ target }) {
     if (target.checked) {
@@ -62,18 +72,24 @@ export function ProductForm({ setIsOpenProductModal }) {
 
   function handleColor({ target }) {
     let colorsChange = [...colorsProduct];
+
+    if (colorsChange[target.id] === selectedColor){
+      colorsChange[target.id] = target.value;
+      setSelectedColor(colorsChange[target.id])
+    }
     colorsChange[target.id] = target.value;
     setColorsProduct(colorsChange);
   }
   return (
     <form
-      className="grid md:grid-cols-2 gap-14 max-h-full w-full overflow-y-scroll"
-      onSubmit={handleCreateProduct}
+    className="grid md:grid-cols-2 gap-14 max-h-full w-full overflow-y-scroll"
+    onSubmit={handleCreateProduct}
     >
       <section
         aria-label="Formulário produto"
         className="flex flex-col p-4 md:max-h-[99%] gap-6 md:overflow-y-scroll"
-      >
+        >
+        {/* <Lock black={true}/>  */}
         <h1 className=" grid-rows-1 text-h4">Adicionar produto</h1>
         <InputText
           name="nome"
@@ -176,27 +192,28 @@ export function ProductForm({ setIsOpenProductModal }) {
         <section className="flex gap-4 justify-start items-start">
           {colorsProduct.map((color) =>{
             return(
-              <button onclick={(event) => setSelectedColor(event.target.id)} id={color}
+              <button data-color={color} onClick={handleChangeSelectedColor}
                className="flex flex-col justify-start items-start">
-                <div 
-                  className={` border-2 border-transparent ${selectedColor === color ? border-rosa-300 : null}  hover:border-rosa-300 py-2 px-2 bg-cinza-100 rounded max-w-24`}>
+                <div
+                  className={` border-2 border-transparent ${selectedColor === color ? "border-rosa-300" : null}  hover:border-rosa-300 py-2 px-2 bg-cinza-100 rounded max-w-24`}>
                   <img className=" rounded-lg w-full" src={avatar} alt="" aria-hidden />
                 </div>
-                <p className=" max-w-[3ch] text-fun2">{color}</p>
+                <p  className=" max-w-[3ch] text-fun2">{color}</p>
               </button>
             )
           })}
         </section>
-
-        <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px]">
-          <InputImage indice={0} value={ImageLink} setValue={setImageLink} />
-          <div className="grid grid-cols-2 gap-6 max-h-6">
-            <InputImage indice={1} value={ImageLink} setValue={setImageLink} />
-            <InputImage indice={2} value={ImageLink} setValue={setImageLink} />
-            <InputImage indice={3} value={ImageLink} setValue={setImageLink} />
-            <input type="text" />
+          <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
+            <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={0} value={ImageLink} setValue={setImageLink} />
+            <div className="grid grid-cols-2 gap-6 max-h-6">
+              <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={1} value={ImageLink} setValue={setImageLink} />
+              <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={2} value={ImageLink} setValue={setImageLink} />
+              <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={3} value={ImageLink} setValue={setImageLink} />
+            </div>
           </div>
-        </div>
+        
+        
+        
       </section>
     </form>
   );
