@@ -8,7 +8,6 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
     let files = [...value];
     files[indice].push({[keyForImage]:{file}})
     setValue(files)
-    console.log(file)
   },[keyForImage])
   
   const dropzone = useDropzone({
