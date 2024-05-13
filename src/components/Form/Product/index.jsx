@@ -1,4 +1,5 @@
 import React from "react";
+import useAxios from "../../../hooks/useAxios"
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import { Label } from "../../Inputs/Label";
 import { InputNumber } from "../../Inputs/input-number";
@@ -8,11 +9,14 @@ import { PinkButton } from "../../Buttons/pinkButton";
 import { GhostButton } from "../../Buttons/ghostButton";
 import { SquareCheckBox } from "../../Inputs/input-CheckBox";
 import { InputImage } from "../../Inputs/input-file";
-import { Link } from "react-router-dom";
-import { Lock } from "../../../assets/Lock";
 import avatar from "../../../assets/avatar.jpg"
 
 export function ProductForm({ setIsOpenProductModal }) {
+  const {requisicao,dados,loading,error} = useAxios()
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem('token')
+  const user = localStorage.getItem('user')
+
   const [nameProduct, setNameProduct] = React.useState(" ");
   const [priceProduct, setPriceProduct] = React.useState(null);
   const [descriptionProduct, setDescriptionProduct] = React.useState(null);
@@ -20,7 +24,7 @@ export function ProductForm({ setIsOpenProductModal }) {
   const [colorsProduct, setColorsProduct] = React.useState([]);
   const [selectedColor, setSelectedColor] = React.useState(null);
   // cada array representa uma posição de cada imagem
-  const [ImageLink, setImageLink] = React.useState(() => [[], [], [], []]);
+  const [ImageLink, setImageLink] = React.useState([[], [], [], []]);
   const [dataProduct, setDataProduct] = React.useState([]);
   const [isSizeOptions, setIsSizeOptions] = React.useState(false);
 
@@ -36,29 +40,51 @@ export function ProductForm({ setIsOpenProductModal }) {
     },
   ];
 
-  function handleCreateProduct(event) {
+   async function handleCreateProduct(event) {
     event.preventDefault();
-
-    setDataProduct([
+    setDataProduct(
       {
-        name: nameProduct,
+        nome: nameProduct,
         cores: colorsProduct,
-        preco : priceProduct,
+        valor : priceProduct,
+        descontoAssociado: null,
         tamanhos: sizeProduct,
+        descricao: descriptionProduct,
         fotos: ImageLink.flat(),
-        brinde: false,
+        brinde: "false",
       },
-    ]);
-
-    // console.log(dataProduct);
+    );
+    console.log(dataProduct)
+    const req = await requisicao(`${BASE_URL}/produto/`, dataProduct, "POST", {
+      authorization: `bearer ${token}`,
+      nif: user,
+      'Content-Type': 'multipart/form-data',
+    })
+    console.log(req)
   }
-  let itemSelecionado = null
+  console.log(user)
+
+
+  function handleRemoveColor(event){
+    event.preventDefault()
+    const chave = event.target.id
+    console.log(chave)
+    let colorRemove = [...colorsProduct]
+    
+    console.log(colorRemove.filter((color, index) => { return index == chave ? console.log(color) : setColorsProduct(color)}))
+    setColorsProduct(colorRemove.filter((color, index) => { return index == chave ? console.log(color) : color}))
+    
+
+  }
+
   function handleChangeSelectedColor(event){
     event.preventDefault()
     setSelectedColor(event.currentTarget.dataset.color)
-    console.log(event.currentTarget.dataset.color)
-    
 
+  }
+
+  function handleChangeDescription(event){
+    setDescriptionProduct(event.target.value)
   }
   // console.log(selectedColor)
 
@@ -77,6 +103,7 @@ export function ProductForm({ setIsOpenProductModal }) {
       colorsChange[target.id] = target.value;
       setSelectedColor(colorsChange[target.id])
     }
+  
     colorsChange[target.id] = target.value;
     setColorsProduct(colorsChange);
   }
@@ -114,6 +141,8 @@ export function ProductForm({ setIsOpenProductModal }) {
           <Label text="Descrição" id="descricao" />
           <TextArea
             cols={62}
+            value={descriptionProduct}
+            onChange={handleChangeDescription}
             name="descricao"
             placeholder="Descreva detalhes sobre o produto"
           />
@@ -125,17 +154,17 @@ export function ProductForm({ setIsOpenProductModal }) {
             <section>
               {colorsProduct.map((color, index) => {
                 return (
-                  <>
+                  <div className=" relative">
                     <InputText
                       placeholder="Digite o nome da cor"
                       id={index}
                       onChange={handleColor}
                       value={color}
                     />
-                    <button id={index} onClick={() => setColorsProduct()}>
+                    <button className="absolute top-0 right-0 bg-cinza-100" id={index} onClick={handleRemoveColor}>
                       -
                     </button>
-                  </>
+                  </div>
                 );
               })}
             </section>
@@ -155,6 +184,7 @@ export function ProductForm({ setIsOpenProductModal }) {
                   <SquareCheckBox
                     name={size.size}
                     value={size.size}
+                    key={size}
                     check={sizeProduct.includes(size.size)}
                     onChange={handleSize}
                   />
