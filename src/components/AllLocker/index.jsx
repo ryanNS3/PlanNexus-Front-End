@@ -506,7 +506,7 @@ export function AllLocker({ typeUser }) {
             contentDuo={<LockerForm />}
             Button={<PinkButton icon={<CampWhite />} text={'Enviar Aviso'} />}
           >
-            
+
           </DuoModalOptions>
         </div>
 
@@ -517,7 +517,7 @@ export function AllLocker({ typeUser }) {
   }
 }
 
-export function Lockers() {
+export function Lockers({size}) {
 
   const { dataLocker, GetLocker } = React.useContext(LockerContext);
   useEffect(() => {
@@ -587,11 +587,18 @@ export function Lockers() {
   // }
 
 
-
+  let sizeLockers = '';
+  switch (size) {
+    case 'small':
+      sizeLockers = "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-2 sm:col-span-12 md:grid-cols-5 md:col-span-12 lg:grid-cols-6 lg:col-span-12 xl:grid-cols-10 xl:col-span-12 ";
+      break;
+    default:
+      sizeLockers = "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-3 sm:col-span-12 md:grid-cols-6 md:col-span-12 lg:grid-cols-9 lg:col-span-12 xl:grid-cols-12 xl:col-span-12";
+  }
 
   return (
     <>
-      <div className="grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-3 sm:col-span-12 md:grid-cols-6 md:col-span-12 lg:grid-cols-9 lg:col-span-12 xl:grid-cols-12 xl:col-span-12">
+      <div className={`${sizeLockers}`}>
         {
           currentLockers?.map((element) => {
             return (
@@ -682,7 +689,8 @@ export function Locker({ id, nome, numero, status }) {
         className={`relative col-span-1 ${status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
           } h-24 flex items-center justify-center rounded-lg`}
       >
-        <p className={"text-h5"}>{numero}</p>
+        <p className={"text-h5"
+        }>{numero}</p>
 
         <div className='absolute z-10 top-0 -right-2' ref={menuRef}>
           {isOpenOptions && <Options numero={numero} />}

@@ -207,7 +207,7 @@ export function DuoModalOptions({ contentOne, contentDuo, Button }) {
 
   return (
     <>
-      <button onClick={handleOpen}>{Button}</button>
+      <div onClick={handleOpen}>{Button}</div>
       <Modal
         open={isOpenModal}
         sx={modalStyle}>

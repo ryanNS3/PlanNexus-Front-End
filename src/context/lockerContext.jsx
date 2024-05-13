@@ -21,22 +21,22 @@ export function LockerProvider({ children }) {
         console.log(dados)
     }
 
-    async function AtualizaLocker() {
-        const reqStatus = await requisicao(`${BASE_URL}/armario/atualizar`, {
-            "numeroArmario": `${dataLocker.id}`,
-            "idAluno": `${id}`,
-            "statusArmario": `${dataLocker.status}`
-        }, "PATCH", {
-            authorization: `bearer ${localStorage.getItem('token')}`,
-            nif: localStorage.getItem('user'),
-        })
-        setDataLocker(reqStatus.json.response)
-    }
+    // async function AtualizaLocker() {
+    //     const reqStatus = await requisicao(`${BASE_URL}/armario/atualizar`, {
+    //         "numeroArmario": `${dataLocker.id}`,
+    //         "idAluno": `${id}`,
+    //         "statusArmario": `${dataLocker.status}`
+    //     }, "PATCH", {
+    //         authorization: `bearer ${localStorage.getItem('token')}`,
+    //         nif: localStorage.getItem('user'),
+    //     })
+    //     setDataLocker(reqStatus.json.response)
+    // }
 
 
     return (
         // desserializa os valores que passo para ele
-        <LockerContext.Provider value={{ dados, dataLocker, GetLocker, AtualizaLocker }}>
+        <LockerContext.Provider value={{ dados, dataLocker, GetLocker }}>
             {children}
         </LockerContext.Provider>
     )
