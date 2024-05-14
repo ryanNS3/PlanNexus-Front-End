@@ -34,7 +34,7 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas" header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
+      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas" header_data={["Quantidade", "Preços", "Data", "Hora"]} />,
     },
     {
       label: "Funcionários",
@@ -50,7 +50,7 @@ export function ManagementTab() {
     {
       label: "Armários",
       value: "armarios",
-      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>} header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]} />,
+      element: <AllLocker statusUser={'armarios'} typeUser={'armários'} formModal={<LockerForm/>} header_data={["Quantidade", "Preços", "Data", "Hora"]} />,
     },
   ];
 
