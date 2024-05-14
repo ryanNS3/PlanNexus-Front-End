@@ -276,17 +276,3 @@ export function DuoModalOptions({ contentOne, contentDuo, Button }) {
     </>
   );
 }
-
-
-{/* <Box sx={InnerModal}>
-          <div className="flex gap-4 w-2/4 h[90%] py-10 px-10 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
-            <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
-
-              <Close isHover={isHoverButton} />
-            </button>
-            <main className=" w-full h-full">
-              {contentOne}
-            </main>
-          </div>
-        </Box>
-      </Modal> */}
