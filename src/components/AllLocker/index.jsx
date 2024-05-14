@@ -18,473 +18,17 @@ import {
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 
-// export const data = [
-//   {
-//     numero: 1,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 2,
-//     status: 'desocupado'
-//   },
-
-//   {
-//     numero: 3,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 4,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 5,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 6,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 7,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 8,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 9,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 10,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 11,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 12,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 13,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 14,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 15,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 16,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 17,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 18,
-//     status: 'desocupado'
-//   },
-//   {
-
-//     numero: 19,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 20,
-//     status: 'ocupado'
-//   },
-//   {
-
-//     numero: 21,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 22,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 23,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 24,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 25,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 26,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 27,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 28,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 29,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 30,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 31,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 32,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 33,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 34,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 35,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 36,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 37,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 38,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 39,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 40,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 41,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 42,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 43,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 44,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 45,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 46,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 47,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 48,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 49,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 50,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 51,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 52,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 53,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 54,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 55,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 56,
-//     status: 'desocupado'
-//   }, {
-//     numero: 57,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 58,
-//     status: 'desocupado'
-//   },
-
-//   {
-//     numero: 59,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 60,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 61,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 62,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 63,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 64,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 65,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 66,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 67,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 68,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 69,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 70,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 71,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 72,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 73,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 74,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 75,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 76,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 77,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 78,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 79,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 80,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 81,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 82,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 83,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 84,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 85,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 86,
-//     status: 'desocupado'
-//   },
-
-//   {
-//     numero: 87,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 88,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 89,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 90,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 91,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 92,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 93,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 94,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 95,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 96,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 97,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 98,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 99,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 100,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 101,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 102,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 103,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 104,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 105,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 106,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 107,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 108,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 109,
-//     status: 'ocupado'
-//   },
-//   {
-//     numero: 110,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 111,
-//     status: 'desocupado'
-//   },
-//   {
-//     numero: 112,
-//     status: 'desocupado'
-//   },
-// ]
-
 export function AllLocker({ typeUser }) {
   const { dados, dataLocker, GetLocker } = React.useContext(LockerContext);
-  const [pagination, setPagination] = React.useState(0)
 
   useEffect(() => {
     GetLocker();
   }, []);
 
-  const currentLockers = dataLocker[pagination]
-
+  const [pagination, setPagination] = React.useState(0)
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
 
+  const currentLockers = dataLocker[pagination]
 
   function handleFocusAllLocker(event) {
     event.preventDefault();
@@ -517,12 +61,9 @@ export function AllLocker({ typeUser }) {
   }
 }
 
-export function Lockers({size}) {
+export function Lockers({ size }) {
 
-  const { dataLocker, GetLocker } = React.useContext(LockerContext);
-  useEffect(() => {
-    GetLocker();
-  }, []);
+  const { dataLocker } = React.useContext(LockerContext);
 
   const [pagination, setPagination] = React.useState(0)
 
@@ -535,57 +76,19 @@ export function Lockers({size}) {
   });
 
   const content = [
-    {
-      label: "1 a 28",
-      value: 0,
-    },
-    {
-      label: "29 a 56",
-      value: 1,
-    },
-    {
-      label: "57 a 84",
-      value: 2,
-    },
-    {
-      label: "85 a 112",
-      value: 3,
-    },
-    {
-      label: "113 a 140",
-      value: 4,
-    },
-    {
-      label: "141 a 168",
-      value: 5,
-    },
-    {
-      label: "169 a 196",
-      value: 6,
-    },
-    {
-      label: "197 a 224",
-      value: 7,
-    },
-    {
-      label: "225 a 252",
-      value: 8,
-    },
-    {
-      label: "253 a 280",
-      value: 9,
-    },
+    { label: "1 a 28", value: 0, },
+    { label: "29 a 56", value: 1, },
+    { label: "57 a 84", value: 2, },
+    { label: "85 a 112", value: 3, },
+    { label: "113 a 140", value: 4, },
+    { label: "141 a 168", value: 5, },
+    { label: "169 a 196", value: 6, },
+    { label: "197 a 224", value: 7, },
+    { label: "225 a 252", value: 8, },
+    { label: "253 a 280", value: 9, },
   ];
 
   const [activeTab, setActiveTab] = React.useState(0); {/* Ativa o hover na primeira paginação do tab de armários*/ }
-  // const [locker, setLocker] = React.useState();
-
-  // const handleLocker = (numero) => {
-  //   locker()
-
-
-  // }
-
 
   let sizeLockers = '';
   switch (size) {
@@ -600,9 +103,10 @@ export function Lockers({size}) {
     <>
       <div className={`${sizeLockers}`}>
         {
-          currentLockers?.map((element) => {
+          currentLockers?.map((element, index) => {
             return (
               <Locker
+                key={index}
                 nome={element.nome}
                 numero={element.numero}
                 status={element.status}
@@ -612,7 +116,6 @@ export function Lockers({size}) {
           )
         }
       </div>
-
 
       <div>  {/* Renderiza o menu dos armários*/}
         <ThemeProvider value={customTheme}>
@@ -654,17 +157,15 @@ export function Lockers({size}) {
   )
 }
 
-export function Locker({ id, nome, numero, status }) {
+export function Locker({ nome, numero, status }) {
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
 
-  let menuRef = useRef();
+  let menuRefLocker = useRef();
 
   useEffect(() => {
     let handler = (e) => {
-      if (!menuRef.current.contains(e.target)) {
+      if (!menuRefLocker.current.contains(e.target)) {
         setIsOpenOptions(false);
-        console.log(menuRef.current)
-
       }
     };
     document.addEventListener("mousedown", handler);
@@ -679,20 +180,20 @@ export function Locker({ id, nome, numero, status }) {
     setIsOpenOptions(!isOpenOptions);
   }
 
+  let menu = '';
+
   return (
     <>
       <div
         onContextMenuCapture={onClickRight}
-        key={id}
+        key={numero}
         id={numero}
         nome={nome}
-        className={`relative col-span-1 ${status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
-          } h-24 flex items-center justify-center rounded-lg`}
+        className={`relative col-span-1 ${status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"} h-24 flex items-center justify-center rounded-lg`}
       >
-        <p className={"text-h5"
-        }>{numero}</p>
+        <p className="text-h5">{numero}</p>
 
-        <div className='absolute z-10 top-0 -right-2' ref={menuRef}>
+        <div className='absolute z-1000 top-0 -right-2 ' ref={menuRefLocker}>
           {isOpenOptions && <Options numero={numero} />}
         </div>
       </div>
