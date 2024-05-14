@@ -73,7 +73,7 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
     ) : (
       <div className='flex gap-2'>
         {icon}
-        <span className='uppercase'>{text}</span>
+        <span className='self-end uppercase'>{text}</span>
       </div>
     )}
   </button>
