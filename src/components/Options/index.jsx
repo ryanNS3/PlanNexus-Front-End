@@ -7,7 +7,7 @@ import { ModalOptions } from "../Modal";
 import React from "react";
 import { LockerVolunteer } from "../../components/Form/lockerVolunteer";
 
-export function Options() {
+export function Options({ nome, numero, status }) {
 
   return (
     <>
@@ -15,18 +15,14 @@ export function Options() {
         <SecundaryButton text={"Trancar"} icon={<Lock />} />
 
         <div>
-          <ModalOptions
-            Button={<SecundaryButton text={"Doar"} icon={<Volunteer />} />}
-          >
+          <ModalOptions Button={<SecundaryButton text={"Doar"} icon={<Volunteer />} />}>
             <LockerVolunteer />
           </ModalOptions>
         </div>
 
         <div>
-          <ModalOptions
-            Button={<SecundaryButton text={"Informações"} icon={<Door />} />}
-          >
-            <LockerInfo />
+          <ModalOptions Button={<SecundaryButton text={"Informações"} icon={<Door />} />}>
+            <LockerInfo nome={nome} numero={numero} status={status} />
           </ModalOptions>
         </div>
       </div>
