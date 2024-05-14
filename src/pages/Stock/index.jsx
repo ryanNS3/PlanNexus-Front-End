@@ -22,9 +22,7 @@ export function Stock() {
   
   return (
     <>
-    <button>test</button>
 
-    {/* <DuoModal contentOne={<p>teste</p>} contentDuo={<p>poaaa</p>}/> */}
       <h1 id='BaixoEstoque' className='text-h5 mb-6'>Baixo estoque</h1>
     
       <section className='flex mb-5' aria-labelledby='BaixoEstoque'>
@@ -42,7 +40,7 @@ export function Stock() {
                   <p className=' text-sub1 gap-2'>150</p>
 
                   <BasicModal labelButton="Repor estqoue" TextButton={<PlusWhite/>} isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm}>
-                    <p>eeeee</p>
+                    <h3>Repor estoque</h3>
                   </BasicModal>
                   
                 </div>
@@ -50,13 +48,11 @@ export function Stock() {
 
             </div>
           </section>
-          
         </CardMedium>
       </section>
 
-      <TemplateView isExtendModal={true} name="Adicionar produtos" formModal={<ProductForm/>}>
+      <TemplateView role="" isExtendModal={true} name="Adicionar produtos" formModal={<ProductForm/>} header_data={["Alerta", "Estoque", "Ações"]}/>
 
-      </TemplateView>
     </>
   )
 }

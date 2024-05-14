@@ -6,7 +6,7 @@ import { Header } from '../components/Header'
 
 export const Layout = () => {
   return (
-    <div className='grid grid-cols-12 gap-5 mx-8 max-w-[90rem]'>
+    <div className='grid grid-cols-12 gap-5 mx-8 max-w-[1920px]'>
         <Sidebar/>
         <Main>
             <Header/>

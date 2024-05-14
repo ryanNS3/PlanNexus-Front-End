@@ -63,7 +63,7 @@ export default {
     },
 
     fontFamily: {
-      sans: ['Poppins', 'sans-serif'],
+      sans: ['Poppins', 'georgia'],
     },
 
     // Ajustar o fontsize de acordo com o projeto no figma
@@ -188,5 +188,20 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({addUtilities}) {
+      const noScrollBar = {
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+      },
+
+      ".no-scrollbar": {
+          "-ms-overflow-style": "none", 
+          "scrollbar-width": "none",  
+      },
+      }
+
+      addUtilities(noScrollBar)
+    }
+  ],
 }
