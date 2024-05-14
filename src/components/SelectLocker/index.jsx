@@ -6,8 +6,8 @@ export function SelectLocker() {
         <>
             <div className="flex flex-col flex-wrap">
                 <h1>Selecione o armário</h1>
-                <div className='flex flex-col h-3/5 bg-branco px-6 rounded-lg'>
-                    <Lockers size={'small'}/>
+                <div className='flex flex-col h-3/5 bg-branco px-6 rounded-lg overflow-y-auto'>
+                    <Lockers size={'small'} />
                 </div>
             </div>
         </>
