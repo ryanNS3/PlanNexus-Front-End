@@ -94,7 +94,7 @@ export function TemplateView({
         className={`grid gap-4 col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-6 p-4`}
         aria-label="informações principais sobre os usuários"
         style={{
-          gridTemplateColumns: `minmax(0px, 67px) 1fr repeat(${header_data.length + 1}, 100px)`,
+          gridTemplateColumns: `67px 1fr repeat(${header_data.length + 1}, 100px)`,
         }}
       >
         <p></p>
@@ -111,7 +111,7 @@ export function TemplateView({
       </section>
       <section className="flex flex-col col-span-10 gap-2">
         <LineTable
-          grid={`minmax(0px, 67px) 1fr repeat(${header_data.length + 1}, 100px)`}
+          grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
           isNew
         />
       </section>
