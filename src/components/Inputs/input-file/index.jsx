@@ -1,9 +1,11 @@
 import React from 'react'
 import { UploadImageIcon } from '../../../assets/uploadImage';
 import { useDropzone } from 'react-dropzone';
+import { Lock } from '../../../assets/Lock';
 
 
 export function InputImage({value, small=false,disabled=true, setValue,keyForImage,indexForColor, id , indice, ...props} ) {
+  
   const onDrop = React.useCallback((file) =>{
     let files = [...value];
     files[indice].push({[keyForImage]:{file}})
@@ -28,18 +30,24 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
     
     return (
       <>
-        <label htmlFor={id} className={`flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4  ${isDragActive ? "border-rosa-300" : "border-cinza-100" } hover:border-rosa-300`} 
+        <label htmlFor={id} className={`flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4 border-cinza-100  
+          ${isDragActive ? "border-rosa-300" : "border-cinza-100", disabled ? "bg-cinza-50 border-cinza-100 hover:border-cinza-100" : "bg-transparent" } hover:border-rosa-300`  }
           {...disabled ? null : {...dropzone.getRootProps()}} >
           {disabled ?
-          <input id={id} disabled/>
+          <>
+            <input id={id} disabled/>
+            <Lock black={true}/>
+            <p className='text-center'>Selecione uma cor para adicionar imagens</p>
+          </>
           :
-          <input  className='opacity-0 hidden' id={id} {...dropzone.getInputProps()} {...props}/>
-          }
+          <>
+            <input  className='opacity-0 hidden' id={id} {...dropzone.getInputProps()} {...props}/>
             <>
             <UploadImageIcon/>
             {!small &&  <p className=' max-w-[20ch] text-center'> <span className=' text-fun2'>Arraste</span> ou clique aqui para adicionar uma imagem</p>}
-
             </>
+          </>
+          }
         </label>
       </>
       )
