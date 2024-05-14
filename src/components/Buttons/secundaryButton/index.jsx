@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function SecundaryButton({ text, size, action, align, loading, disabled, type, icon }) {
+export function SecundaryButton({ text, size, action, align, loading, disabled, type, icon, ...props }) {
   // Definir o tamanho do botão
   let buttonSize = '';
   switch (size) {
@@ -45,8 +45,9 @@ export function SecundaryButton({ text, size, action, align, loading, disabled, 
     <button
     type="submit"
     onClick={action}
-    className={`flex justify-center ${disabled || loading ? type === 'secondary' ? 'bg-cinza-100 text-cinza-950' : 'bg-rosa-50 text-rosa-400' : buttonColour} py-2 px-2 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-cinza-50 text-fun2 max-w-44 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
+    className={`flex justify-center items-center ${disabled || loading ? type === 'secondary' ? 'bg-cinza-100 text-cinza-950' : 'bg-rosa-50 text-rosa-400' : buttonColour} py-1.5 px-2 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-cinza-50 text-fun2 max-w-fit focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
     disabled={loading || disabled}
+    {...props}
   >
 
     {loading ? (
