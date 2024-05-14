@@ -19,6 +19,7 @@ export function ProductForm({ setIsOpenProductModal }) {
 
   const [nameProduct, setNameProduct] = React.useState(" ");
   const [priceProduct, setPriceProduct] = React.useState(null);
+  const [discountProduct, setdiscountProduct] = React.useState(null);
   const [descriptionProduct, setDescriptionProduct] = React.useState(null);
   const [sizeProduct, setSizeProduct] = React.useState([]);
   const [colorsProduct, setColorsProduct] = React.useState([]);
@@ -47,7 +48,7 @@ export function ProductForm({ setIsOpenProductModal }) {
         nome: nameProduct,
         cores: colorsProduct,
         valor : priceProduct,
-        descontoAssociado: null,
+        descontoAssociado: discountProduct,
         tamanhos: sizeProduct,
         descricao: descriptionProduct,
         fotos: ImageLink.flat(),
@@ -70,23 +71,25 @@ export function ProductForm({ setIsOpenProductModal }) {
     const chave = event.target.id
     console.log(chave)
     let colorRemove = [...colorsProduct]
-    
     console.log(colorRemove.filter((color, index) => { return index == chave ? console.log(color) : setColorsProduct(color)}))
     setColorsProduct(colorRemove.filter((color, index) => { return index == chave ? console.log(color) : color}))
     
 
   }
 
+  function handleCloseSizeOptions(){
+    setIsSizeOptions(!isSizeOptions)
+    setSizeProduct([])
+  }
+
   function handleChangeSelectedColor(event){
     event.preventDefault()
     setSelectedColor(event.currentTarget.dataset.color)
-
   }
 
   function handleChangeDescription(event){
     setDescriptionProduct(event.target.value)
   }
-  // console.log(selectedColor)
 
   function handleSize({ target }) {
     if (target.checked) {
@@ -138,6 +141,18 @@ export function ProductForm({ setIsOpenProductModal }) {
         </div>
 
         <div>
+          <Label text="Desconto" id="desconto">
+            Desconto:
+          </Label>
+          <InputNumber
+            value={discountProduct}
+            onChange={(event) => setdiscountProduct(event.target.value)}
+            steps={0.1}
+            name="desconto"
+          />
+        </div>
+
+        <div>
           <Label text="Descrição" id="descricao" />
           <TextArea
             cols={62}
@@ -151,17 +166,17 @@ export function ProductForm({ setIsOpenProductModal }) {
         <div>
           <Label id="adicionarCor" text="Adicionar cores" />
           {colorsProduct && (
-            <section>
+            <section className="flex flex-col gap-2">
               {colorsProduct.map((color, index) => {
                 return (
-                  <div className=" relative">
+                  <div className=" flex justify-center items-center gap-4 animate-topToButton">
                     <InputText
                       placeholder="Digite o nome da cor"
                       id={index}
                       onChange={handleColor}
                       value={color}
                     />
-                    <button className="absolute top-0 right-0 bg-cinza-100" id={index} onClick={handleRemoveColor}>
+                    <button className="p-2 rounded bg-cinza-100 hover:bg-rosa-300 hover:text-cinza-50" id={index} onClick={handleRemoveColor}>
                       -
                     </button>
                   </div>
@@ -170,7 +185,7 @@ export function ProductForm({ setIsOpenProductModal }) {
             </section>
           )}
           <AddItemsGhost
-            onclick={() => setColorsProduct([...colorsProduct, ""])}
+            onclick={() => setColorsProduct([...colorsProduct, ` cor ${colorsProduct.length}`])}
             Text="Adicionar cor"
           />
         </div>
@@ -194,8 +209,8 @@ export function ProductForm({ setIsOpenProductModal }) {
           )}
           <AddItemsGhost
             isOpen={isSizeOptions}
-            onclick={() => setIsSizeOptions(!isSizeOptions)}
-            Text="Adicionar tamanho"
+            onclick={handleCloseSizeOptions}
+            Text={`${isSizeOptions ? "Remover tamanhos" : "Adicionar tamanhos"}`}
           />
         </div>
 
