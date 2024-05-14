@@ -25,10 +25,10 @@ export function AllLocker({ typeUser }) {
     GetLocker();
   }, []);
 
-  const [pagination, setPagination] = React.useState(0)
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
-
-  const currentLockers = dataLocker[pagination]
+  
+  // const [pagination, setPagination] = React.useState(0)
+  // const currentLockers = dataLocker[pagination]
 
   function handleFocusAllLocker(event) {
     event.preventDefault();
@@ -64,9 +64,7 @@ export function AllLocker({ typeUser }) {
 export function Lockers({ size }) {
 
   const { dataLocker } = React.useContext(LockerContext);
-
   const [pagination, setPagination] = React.useState(0)
-
   const currentLockers = dataLocker[pagination]
 
   const customTheme = withMT({
