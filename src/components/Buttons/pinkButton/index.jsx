@@ -14,7 +14,7 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
         buttonSize = 'w-1/2';
       break;
     default:
-        buttonSize = 'w-1/3';
+        buttonSize = 'w-full';
   }
 
     // Definir o posicionamento do botão
@@ -73,7 +73,7 @@ export function PinkButton({ text, size, action, align, loading, disabled, type,
     ) : (
       <div className='flex gap-2'>
         {icon}
-        <span className='uppercase'>{text}</span>
+        <span className='self-end uppercase'>{text}</span>
       </div>
     )}
   </button>
