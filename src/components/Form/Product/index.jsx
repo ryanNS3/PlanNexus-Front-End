@@ -185,7 +185,7 @@ export function ProductForm({ setIsOpenProductModal }) {
             </section>
           )}
           <AddItemsGhost
-            onclick={() => setColorsProduct([...colorsProduct, ` cor ${colorsProduct.length}`])}
+            onclick={() => setColorsProduct([...colorsProduct, `cor${colorsProduct.length}`])}
             Text="Adicionar cor"
           />
         </div>
@@ -249,11 +249,11 @@ export function ProductForm({ setIsOpenProductModal }) {
           })}
         </section>
           <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
-            <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={0} value={ImageLink} setValue={setImageLink} />
+            <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={ImageLink} setValue={setImageLink} />
             <div className="grid grid-cols-2 gap-6 max-h-6">
-              <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={1} value={ImageLink} setValue={setImageLink} />
-              <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={2} value={ImageLink} setValue={setImageLink} />
-              <InputImage keyForImage={selectedColor} disabled={!selectedColor} indice={3} value={ImageLink} setValue={setImageLink} />
+              <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={ImageLink} setValue={setImageLink} />
+              <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={ImageLink} setValue={setImageLink} />
+              <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={ImageLink} setValue={setImageLink} />
             </div>
           </div>
         
