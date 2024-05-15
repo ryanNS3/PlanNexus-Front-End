@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { Lock } from '../../../assets/Lock';
 
 
-export function InputImage({value, small=false,disabled=true, setValue,keyForImage,indexForColor, id , indice, ...props} ) {
+export function InputImage({value,disabled=true, setValue,keyForImage, small=false ,indexForColor, id , indice, ...props} ) {
   
   const onDrop = React.useCallback((file) =>{
     let files = [...value];
@@ -23,8 +23,11 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
   })
   const {isDragActive} = dropzone;
 
+  console.log(indexForColor)
+
 //                                                          0-array 1-posicao 2-indice da cor 3-chave da cor 4-array de arquivos 5-arquivo 
-    if (value[indice].length > 0) return <RenderImage file={value[indice][0][keyForImage].file[0]}/>
+    // if (value[indice].length > 0) return <RenderImage file={value[indice][indexForColor][keyForImage].file[0]}/>
+    if (value[indice][indexForColor])  return console.log(value[indice][indexForColor])
     
     return (
       <>
