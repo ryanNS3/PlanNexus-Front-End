@@ -22,16 +22,14 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
     }
   })
   const {isDragActive} = dropzone;
-  
 
 //                                                          0-array 1-posicao 2-indice da cor 3-chave da cor 4-array de arquivos 5-arquivo 
     if (value[indice].length > 0) return <RenderImage file={value[indice][0][keyForImage].file[0]}/>
- 
     
     return (
       <>
         <label htmlFor={id} className={`flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4 border-cinza-100  
-          ${isDragActive ? "border-rosa-300" : "border-cinza-100", disabled ? "bg-cinza-50 border-cinza-100 hover:border-cinza-100" : "bg-transparent" } hover:border-rosa-300`  }
+          ${isDragActive ? "border-rosa-300" : "border-cinza-100", disabled ? "bg-cinza-50 border-cinza-100 hover:border-cinza-100" : "bg-transparent hover:border-rosa-300" } duration-100  `  }
           {...disabled ? null : {...dropzone.getRootProps()}} >
           {disabled ?
           <>
