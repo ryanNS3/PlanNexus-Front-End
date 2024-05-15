@@ -33,7 +33,6 @@ export function AddStudent() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token');
   const user = localStorage.getItem('user');
-  console.log(user)
 
   const handleSubmit = async (e) => {
     e.preventDefault()

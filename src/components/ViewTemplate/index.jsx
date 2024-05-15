@@ -6,10 +6,11 @@ import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter";
 import { UniqueModal } from "../Modal";
 import { EmployeeDetails } from "./../EmployeeDetails/index";
+import useAxios from "../../hooks/useAxios";
 
 export function TemplateView({
   name,
-  role,
+  endpoint,
   formModal,
   isExtendModal = false,
   header_data,
@@ -29,6 +30,25 @@ export function TemplateView({
   const clearSearch = () => {
     setSearchTerm("");
   };
+
+  const { requisicao, loading, erro } = useAxios();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const [data, setData] = React.useState([]);
+
+  async function getData() {
+    const req = await requisicao(`${BASE_URL}${endpoint}`, null, "GET", {
+      authorization: `bearer ${token}`,
+      nif: user,
+    });
+    console.log(req.res.data.response); // Retorna todos os alunos cadastrados
+    setData(req.res.data.response);
+  }
+
+  React.useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <main
@@ -94,7 +114,9 @@ export function TemplateView({
         className={`grid gap-4 col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-6 p-4`}
         aria-label="informações principais sobre os usuários"
         style={{
-          gridTemplateColumns: `67px 1fr repeat(${header_data.length + 1}, 100px)`,
+          gridTemplateColumns: `67px 1fr repeat(${
+            header_data.length + 1
+          }, 100px)`,
         }}
       >
         <p></p>
@@ -109,38 +131,64 @@ export function TemplateView({
         ))}
         <p className="text-center text-fun2 text-cinza-700 m-auto">Ações</p>
       </section>
-      <section className="flex flex-col col-span-10 gap-2">
-        <LineTable
+      <section className="flex flex-col col-span-10 gap-7">
+        {/* <LineTable
           grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
           isNew
-        />
+        /> */}
+
+        {data &&
+          data.map((item) => (
+            <>
+              <LineTable
+                image_source={item.foto}
+                name={item.nome}
+                partner={item.associado}
+                grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
+                isNew
+              />
+            </>
+          ))}
+          {loading && <p>Carregando, aguarde...</p>}
+          {erro && <p>Falha ao buscar os alunos</p>}
       </section>
     </main>
   );
 }
 
-function LineTable({ image_source, grid, isNew}) {
+function LineTable({ image_source, name, partner, grid, isNew }) {
   return (
     <>
       <div
         className="relative rounded-lg w-full py-[0.875rem] p-4 border-2 border-cinza-100 bg-white grid items-center justify-items-center gap-4 "
         style={{ gridTemplateColumns: grid }}
       >
-        <img src={SearchSvg} className="rounded-full" height={36} width={36} />
-        <p className="text-xs tracking-[0.01em] justify-self-start">Nome</p>
+        <img
+          src={
+            image_source ||
+            `https://static.thenounproject.com/png/2932881-200.png`
+          }
+          className="rounded-full"
+          height={36}
+          width={36}
+        />
+        <p className="text-xs tracking-[0.01em] justify-self-start">{name}</p>
+
         <div className="bg-[#64B140] rounded px-4 py-2">
-          <p className="text-[#fff]">Sim</p>
+          <p className="text-[#fff]">{partner ? "Sim" : "Não"}</p>
         </div>
 
         <UniqueModal
-        //   setSelectedId={setSelectedEmployee}
-        //   SelectedId={employee.NIF}
+          setSelectedId={() => {}}
+          SelectedId={"12345"}
         >
-          <EmployeeDetails />
+          {/* <EmployeeDetails /> */}
         </UniqueModal>
 
         {isNew && (
-            <div className="absolute top-[-12.5px] left-2 px-2 py-1 bg-[#A9DDE9] text-ct3 rounded">Novo</div>
+          <div className="absolute top-[-12.5px] left-2 px-2 py-1 bg-[#A9DDE9] text-ct3 rounded">
+            Novo
+          </div>
         )}
       </div>
     </>

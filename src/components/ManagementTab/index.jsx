@@ -34,7 +34,7 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas" header_data={["Quantidade", "Preços", "Data", "Hora"]} />,
+      element: <TemplateView statusUser={'AAPM'} role={"teste"} formModal={<AddStudent/>} name="Turmas" header_data={["AAPM"]} endpoint={"/aluno/todos"} />,
     },
     {
       label: "Funcionários",
