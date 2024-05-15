@@ -71,6 +71,7 @@ export function InputImage({value, small=false,disabled=true, setValue,keyForIma
     return(
       <div>
         <img className='max-w-full object-cover' src={imageLink}/>
+        
       </div>
     )
   }

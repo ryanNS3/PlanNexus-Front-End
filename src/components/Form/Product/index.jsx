@@ -56,12 +56,12 @@ export function ProductForm({ setIsOpenProductModal }) {
       },
     );
     console.log(dataProduct)
-    const req = await requisicao(`${BASE_URL}/produto/`, dataProduct, "POST", {
+    const AddProductFetch = await requisicao(`${BASE_URL}/produto/`, dataProduct, "POST", {
       authorization: `bearer ${token}`,
       nif: user,
       'Content-Type': 'multipart/form-data',
     })
-    console.log(req)
+    console.log(AddProductFetch)
   }
   console.log(user)
 
@@ -194,12 +194,12 @@ export function ProductForm({ setIsOpenProductModal }) {
           <Label id="adicionarTamanhos" text="Adicionar tamanhos" />
           {isSizeOptions && (
             <section className="flex flex-wrap gap-4 mb-4 ">
-              {sizes.map((size) => {
+              {sizes.map((size, index) => {
                 return (
                   <SquareCheckBox
                     name={size.size}
                     value={size.size}
-                    key={size}
+                    key={size + index}
                     check={sizeProduct.includes(size.size)}
                     onChange={handleSize}
                   />

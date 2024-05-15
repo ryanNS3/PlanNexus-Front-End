@@ -45,7 +45,7 @@ export function GhostButton({ text, size, action, align, loading, disabled, icon
     <button
     type="submit"
     onClick={action}
-    className={`flex justify-center items-center border-2 border-[#999999]  py-2 px-2 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-cinza-950 text-fun2 max-w-44 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
+    className={`flex justify-center  w-full items-center border-2 border-[#999999]  py-2 px-2 hover:scale-105 active:scale-100 transform transition duration-300 rounded-[4px] text-cinza-950 text-fun2 max-w-44 focus:outline-none focus:shadow-outline ${buttonSize} self-${alignment}`}
     disabled={loading || disabled}
   >
 
