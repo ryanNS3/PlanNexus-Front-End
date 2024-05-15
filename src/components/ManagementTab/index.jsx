@@ -17,7 +17,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 import { AllLocker } from '../AllLocker/index'
 import { LockerForm } from "../Form/lockerNotice";
-import { AddStudent } from "../AddStudent";
+import { AddStudent } from "../Form/AddStudent";
 import { LockerInfo } from "../Form/lockerInfo";
 import { AapmManage } from "../aapmManagement";
 
