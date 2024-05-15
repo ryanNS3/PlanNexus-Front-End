@@ -1,14 +1,14 @@
 import { LineTable } from "../LineTable";
 import React from "react";
-import { PinkButton } from "../Buttons/pinkButton";
 import SearchSvg from "../../assets/header/search.svg";
 import ClearSvg from "../../assets/header/xmark.svg"
 import { useState } from "react";
 import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter"
 
-export function TemplateView({ name, role, formModal, isExtendModal = false, header_data }) {
-    const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
+
+export function TemplateView({ name, role, formModal,isOpenModal,setIsOpenModal, isExtendModal = false, header_data }) {
+
     const url = window.location;
     // vai precisar de alteração
     const statusUser = url.pathname === "/gestao/turmas" ? "AAPM" : "Status"
@@ -29,14 +29,14 @@ export function TemplateView({ name, role, formModal, isExtendModal = false, hea
             <header className="flex justify-between my-4 col-span-12" >
                 <h1 className="text-h5" >Todos os {name}: </h1>
                 {!isExtendModal &&
-                    <BasicModal isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm} TextButton={`Adicionar ${name}`}>
+                    <BasicModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} TextButton={`Adicionar ${name}`}>
                         <h1 className=" text-h5">Adicionar {name}</h1>
                         {formModal}
                     </BasicModal>
                 }
 
                 {isExtendModal &&
-                    <ExtendModal TextButton={name} isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm}>
+                    <ExtendModal TextButton={name} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
                         {formModal}
                     </ExtendModal>
                 }

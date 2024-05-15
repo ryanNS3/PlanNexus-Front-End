@@ -17,11 +17,15 @@ import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 import { AllLocker } from "../AllLocker/index";
 import { LockerForm } from "../Form/lockerNotice";
-import { AddStudent } from "../AddStudent";
+import { AddStudent } from "../Form/AddStudent";
+import { LockerInfo } from "../Form/lockerInfo";
 import { SelectLocker } from "../SelectLocker";
 import { AapmManage } from "../aapmManagement";
 
 export function ManagementTab() {
+
+  const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false)
+  const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false)
   const customTheme = withMT({
     theme: {
       // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
@@ -45,7 +49,6 @@ export function ManagementTab() {
     {
       label: "Funcionários",
       value: "funcionarios",
-
       element: (
         <TemplateView
           statusUser={"Status"}

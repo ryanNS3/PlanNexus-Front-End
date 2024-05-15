@@ -1,7 +1,7 @@
 import React from 'react';
-import { PinkButton } from '../Buttons/pinkButton';
-import { InputText } from '../Inputs/input-text/inputTextComp';
-import useAxios from '../../hooks/useAxios';
+import { PinkButton } from '../../Buttons/pinkButton';
+import { InputText } from '../../Inputs/input-text/inputTextComp';
+import useAxios from '../../../hooks/useAxios';
 
 export function AddStudent() {
   const steps = [

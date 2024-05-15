@@ -1,13 +1,8 @@
-import { Header } from "../../components/Header";
-import { Sidebar } from "../../components/Sidebar";
 import { Grafico } from "../../components/GraphicBar";
 import { Main } from "../../components/Main";
 import { SalesChart } from "../../components/SalesChart";
-import { Agenda } from "../../components/Agenda";
 import { Statistic } from "../../components/Statistic";
 import { Schedule } from "../../components/Schedule";
-import BasicModal from "../../components/Modal";
-import { AddStudent } from "../../components/AddStudent";
 
 export function Home() {
   return (
@@ -20,7 +15,6 @@ export function Home() {
             <SalesChart />
             <Grafico />
           </div>
-
           <Schedule/>
         </div>
 

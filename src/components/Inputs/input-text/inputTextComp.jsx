@@ -16,7 +16,7 @@ export function InputText({
 
     return(
         
-        <div className='flex'>
+        <div className='flex w-full'>
             <label  htmlFor={id} className='flex flex-col text-fun2 w-full capitalize' >
                 {name}
                 <input
