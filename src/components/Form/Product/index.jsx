@@ -12,18 +12,76 @@ import { InputImage } from "../../Inputs/input-file";
 import avatar from "../../../assets/avatar.jpg"
 
 export function ProductForm({ setIsOpenProductModal }) {
+  // informações para consumir a API
   const {requisicao,dados,loading,error} = useAxios()
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
 
-  const [nameProduct, setNameProduct] = React.useState(" ");
-  const [priceProduct, setPriceProduct] = React.useState(null);
-  const [discountProduct, setdiscountProduct] = React.useState(null);
-  const [descriptionProduct, setDescriptionProduct] = React.useState(null);
-  const [sizeProduct, setSizeProduct] = React.useState([]);
-  const [colorsProduct, setColorsProduct] = React.useState([]);
-  const [selectedColor, setSelectedColor] = React.useState(null);
+  const [productDataState, dispatch] = React.useReducer((state, action) =>{
+
+    switch (action.type){
+      case "HANDLE_CHANGE_NAME":
+        return {...state,  nameProduct:action.payload}
+
+      case "HANDLE_CHANGE_PRICE":
+        return {...state,  priceProduct:action.payload}
+
+      case "HANDLE_CHANGE_DISCOUNT":
+        return {...state,  discountProduct:action.payload}
+      
+      case "HANDLE_CHANGE_DESCRIPTION":
+        return {...state, descriptionProduct : action.payload}
+
+      case "HANDLE_CHANGE_SIZE":
+        let newSizeProduct
+        if (action.payload.check) {
+          newSizeProduct = [...state.sizeProduct, action.payload.value]
+          return {...state, sizeProduct : newSizeProduct}
+        } 
+        else {
+          newSizeProduct = state.sizeProduct.filter((size) => size !== action.payload.value)
+          return {...state, sizeProduct : newSizeProduct}
+        }
+      case "HANDLE_ADD_SIZE":
+        return
+
+      case "HANDLE_CHANGE_COLOR":
+        let colorsChange = [...state.colorsProduct];
+        if (colorsChange[action.payload.id] === state.selectedColor){
+          return {...state, selectedColor: colorsChange }
+        }
+        colorsChange[action.payload.id] = action.payload.value;
+        return {...state , colorsProduct : colorsChange}
+
+      case "HANDLE_ADD_COLOR":
+        const newAddColor = [...state.colorsProduct, `cor${state.colorsProduct.length}`]
+        return {...state, colorsProduct : newAddColor}
+      
+      case "HANDLE_REMOVE_COLOR":
+        const filteredColors = state.colorsProduct.filter((color, index) => index != action.payload);
+        return { ...state, colorsProduct: filteredColors };
+
+      case "HANDLE_SELECTED_COLOR":
+        return {...state, selectedColor : action.payload }
+
+      default:{
+        return state
+      }
+    }
+  },{
+    nameProduct: "",
+    priceProduct: 0,
+    descriptionProduct: "",
+    discountProduct: "",
+    sizeProduct: [],
+    colorsProduct: [],
+    selectedColor: null,
+    image: [[], [], [], []],
+    isSize: false
+  })
+
+  const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor} = productDataState
   // cada array representa uma posição de cada imagem
   const [ImageLink, setImageLink] = React.useState([[], [], [], []]);
   const [dataProduct, setDataProduct] = React.useState([]);
@@ -55,61 +113,75 @@ export function ProductForm({ setIsOpenProductModal }) {
         brinde: "false",
       },
     );
-    console.log(dataProduct)
     const AddProductFetch = await requisicao(`${BASE_URL}/produto/`, dataProduct, "POST", {
       authorization: `bearer ${token}`,
       nif: user,
       'Content-Type': 'multipart/form-data',
     })
-    console.log(AddProductFetch)
   }
-  console.log(user)
-
 
   function handleRemoveColor(event){
     event.preventDefault()
-    const chave = event.target.id
-    console.log(chave)
-    let colorRemove = [...colorsProduct]
-    console.log(colorRemove.filter((color, index) => { return index == chave ? console.log(color) : setColorsProduct(color)}))
-    setColorsProduct(colorRemove.filter((color, index) => { return index == chave ? console.log(color) : color}))
-    
-
+    const keyOfColor = event.target.id
+    dispatch({
+      type: "HANDLE_REMOVE_COLOR",
+      payload: keyOfColor
+      
+    })
   }
 
   function handleCloseSizeOptions(){
     setIsSizeOptions(!isSizeOptions)
-    setSizeProduct([])
+    // setSizeProduct([])
   }
 
   function handleChangeSelectedColor(event){
     event.preventDefault()
-    setSelectedColor(event.currentTarget.dataset.color)
+    dispatch({
+      type: "HANDLE_SELECTED_COLOR",
+      payload : event.currentTarget.dataset.color
+    })
   }
 
   function handleChangeDescription(event){
-    setDescriptionProduct(event.target.value)
+    dispatch({
+      type: "HANDLE_CHANGE_DESCRIPTION",
+      payload: event.target.value
+    })
   }
 
   function handleSize({ target }) {
-    if (target.checked) {
-      setSizeProduct([...sizeProduct, target.value]);
-    } else {
-      setSizeProduct(sizeProduct.filter((size) => size !== target.value));
-    }
+    dispatch({
+      type: "HANDLE_CHANGE_SIZE",
+      payload:{
+        check : target.checked,
+        value: target.value
+      }
+    })
   }
 
   function handleColor({ target }) {
-    let colorsChange = [...colorsProduct];
-
-    if (colorsChange[target.id] === selectedColor){
-      colorsChange[target.id] = target.value;
-      setSelectedColor(colorsChange[target.id])
+   dispatch({
+    type: "HANDLE_CHANGE_COLOR",
+    payload:{
+      id: target.id,
+      value: target.value
     }
-  
-    colorsChange[target.id] = target.value;
-    setColorsProduct(colorsChange);
+   })
   }
+
+  function hadleToAddColor(){
+    dispatch({
+      type : "HANDLE_ADD_COLOR"
+    })
+  }
+
+  const onDrop = React.useCallback((file, index) =>{
+    let files = [...ImageLink];
+    files[index].push({[selectedColor]:{file}})
+    setImageLink(files)
+  },[selectedColor])
+
   return (
     <form
     className="grid md:grid-cols-2 gap-14 max-h-full w-full overflow-y-scroll"
@@ -124,7 +196,7 @@ export function ProductForm({ setIsOpenProductModal }) {
         <InputText
           name="nome"
           value={nameProduct}
-          onChange={(event) => setNameProduct(event.target.value)}
+          onChange={ (event) => dispatch({type: "HANDLE_CHANGE_NAME", payload: event.target.value })}
           type="text"
         />
 
@@ -134,7 +206,7 @@ export function ProductForm({ setIsOpenProductModal }) {
           </Label>
           <InputNumber
             value={priceProduct}
-            onChange={(event) => setPriceProduct(event.target.value)}
+            onChange={(event) => dispatch({type: "HANDLE_CHANGE_PRICE", payload: event.target.value })}
             steps={0.1}
             name="preco"
           />
@@ -146,7 +218,7 @@ export function ProductForm({ setIsOpenProductModal }) {
           </Label>
           <InputNumber
             value={discountProduct}
-            onChange={(event) => setdiscountProduct(event.target.value)}
+            onChange={(event) => dispatch({type: "HANDLE_CHANGE_DISCOUNT", payload: event.target.value})}
             steps={0.1}
             name="desconto"
           />
@@ -185,7 +257,7 @@ export function ProductForm({ setIsOpenProductModal }) {
             </section>
           )}
           <AddItemsGhost
-            onclick={() => setColorsProduct([...colorsProduct, `cor${colorsProduct.length}`])}
+            onclick={hadleToAddColor}
             Text="Adicionar cor"
           />
         </div>
@@ -249,16 +321,14 @@ export function ProductForm({ setIsOpenProductModal }) {
           })}
         </section>
           <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
-            <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={ImageLink} setValue={setImageLink} />
+            <InputImage onDrop={(file) => onDrop(file, 0)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={ImageLink} setValue={setImageLink} />
             <div className="grid grid-cols-2 gap-6 max-h-6">
               <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={ImageLink} setValue={setImageLink} />
               <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={ImageLink} setValue={setImageLink} />
               <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={ImageLink} setValue={setImageLink} />
             </div>
           </div>
-        
-        
-        
+
       </section>
     </form>
   );
