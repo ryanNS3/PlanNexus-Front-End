@@ -144,11 +144,7 @@ export function ExtendModal({ children, TextButton, isOpenModal, setIsOpenModal 
             <>
               {children}
             </>
-           
           </div>          
-            </main>
-
-          </div>
         </Box>
       </Modal>
     </>

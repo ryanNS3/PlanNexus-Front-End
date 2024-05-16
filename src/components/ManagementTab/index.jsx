@@ -41,6 +41,8 @@ export function ManagementTab() {
           statusUser={"AAPM"}
           role={"teste"}
           formModal={<AddStudent />}
+          isOpenModal={isOpenModalFormClasses}
+          setIsOpenModal={setIsOpenModalFormClasses}
           name="Turmas"
           header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]}
         />
@@ -53,6 +55,8 @@ export function ManagementTab() {
         <TemplateView
           statusUser={"Status"}
           formModal={<EmployeeForm />}
+          isOpenModal={isOpenModalFormEmployee}
+          setIsOpenModal={setIsOpenModalFormEmployee}
           name="Funcionário"
           role={"cargo"}
           header_data={["nome", "cargo"]}
