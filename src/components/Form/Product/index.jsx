@@ -10,6 +10,7 @@ import { GhostButton } from "../../Buttons/ghostButton";
 import { SquareCheckBox } from "../../Inputs/input-CheckBox";
 import { InputImage } from "../../Inputs/input-file";
 import avatar from "../../../assets/avatar.jpg"
+import { productReduce } from "../../../reducers/product/reduce";
 
 export function ProductForm({ setIsOpenProductModal }) {
   // informações para consumir a API
@@ -18,58 +19,9 @@ export function ProductForm({ setIsOpenProductModal }) {
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
 
-  const [productDataState, dispatch] = React.useReducer((state, action) =>{
-
-    switch (action.type){
-      case "HANDLE_CHANGE_NAME":
-        return {...state,  nameProduct:action.payload}
-
-      case "HANDLE_CHANGE_PRICE":
-        return {...state,  priceProduct:action.payload}
-
-      case "HANDLE_CHANGE_DISCOUNT":
-        return {...state,  discountProduct:action.payload}
-      
-      case "HANDLE_CHANGE_DESCRIPTION":
-        return {...state, descriptionProduct : action.payload}
-
-      case "HANDLE_CHANGE_SIZE":
-        let newSizeProduct
-        if (action.payload.check) {
-          newSizeProduct = [...state.sizeProduct, action.payload.value]
-          return {...state, sizeProduct : newSizeProduct}
-        } 
-        else {
-          newSizeProduct = state.sizeProduct.filter((size) => size !== action.payload.value)
-          return {...state, sizeProduct : newSizeProduct}
-        }
-      case "HANDLE_ADD_SIZE":
-        return
-
-      case "HANDLE_CHANGE_COLOR":
-        let colorsChange = [...state.colorsProduct];
-        if (colorsChange[action.payload.id] === state.selectedColor){
-          return {...state, selectedColor: colorsChange }
-        }
-        colorsChange[action.payload.id] = action.payload.value;
-        return {...state , colorsProduct : colorsChange}
-
-      case "HANDLE_ADD_COLOR":
-        const newAddColor = [...state.colorsProduct, `cor${state.colorsProduct.length}`]
-        return {...state, colorsProduct : newAddColor}
-      
-      case "HANDLE_REMOVE_COLOR":
-        const filteredColors = state.colorsProduct.filter((color, index) => index != action.payload);
-        return { ...state, colorsProduct: filteredColors };
-
-      case "HANDLE_SELECTED_COLOR":
-        return {...state, selectedColor : action.payload }
-
-      default:{
-        return state
-      }
-    }
-  },{
+  const [productDataState, dispatch] = React.useReducer(
+    productReduce
+    ,{
     nameProduct: "",
     priceProduct: 0,
     descriptionProduct: "",
@@ -81,7 +33,7 @@ export function ProductForm({ setIsOpenProductModal }) {
     isSize: false
   })
 
-  const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor} = productDataState
+  const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
   // cada array representa uma posição de cada imagem
   const [ImageLink, setImageLink] = React.useState([[], [], [], []]);
   const [dataProduct, setDataProduct] = React.useState([]);
@@ -176,11 +128,19 @@ export function ProductForm({ setIsOpenProductModal }) {
     })
   }
 
-  const onDrop = React.useCallback((file, index) =>{
-    let files = [...ImageLink];
-    files[index].push({[selectedColor]:{file}})
-    setImageLink(files)
+  const onDropImage = React.useCallback((file, index) =>{
+    dispatch({
+      type: "ON_DROP_IMAGE",
+      payload :{
+        index : index,
+        file : file
+      }
+    })
+    // let files = [...ImageLink];
+    // files[index].push({[selectedColor]:{file}})
+    // setImageLink(files)
   },[selectedColor])
+  console.log(image)
 
   return (
     <form
@@ -321,11 +281,11 @@ export function ProductForm({ setIsOpenProductModal }) {
           })}
         </section>
           <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
-            <InputImage onDrop={(file) => onDrop(file, 0)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={ImageLink} setValue={setImageLink} />
+            <InputImage onDrop={(file) => onDropImage(file, 0)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={image} setValue={setImageLink} />
             <div className="grid grid-cols-2 gap-6 max-h-6">
-              <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={ImageLink} setValue={setImageLink} />
-              <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={ImageLink} setValue={setImageLink} />
-              <InputImage keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={ImageLink} setValue={setImageLink} />
+              <InputImage onDrop={(file) => onDropImage(file, 1)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={image} setValue={setImageLink} />
+              <InputImage onDrop={(file) => onDropImage(file, 2)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={image} setValue={setImageLink} />
+              <InputImage onDrop={(file) => onDropImage(file, 3)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={image} setValue={setImageLink} />
             </div>
           </div>
 
