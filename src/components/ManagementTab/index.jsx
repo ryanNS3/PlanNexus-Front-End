@@ -1,5 +1,3 @@
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { TemplateView } from "../ViewTemplate";
 import { EmployeeForm } from "../Form/employee";
 import {
@@ -9,16 +7,12 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
-import { BadgeIcon } from "../../assets/Gestao/badge";
-import { BalconyIcon } from "../../assets/Gestao/balcony";
-import { SchoolIcon } from "../../assets/Gestao/school";
+import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 import { AllLocker } from "../AllLocker/index";
 import { LockerForm } from "../Form/lockerNotice";
 import { AddStudent } from "../Form/AddStudent";
-import { LockerInfo } from "../Form/lockerInfo";
 import { SelectLocker } from "../SelectLocker";
 import { AapmManage } from "../aapmManagement";
 
@@ -41,6 +35,8 @@ export function ManagementTab() {
           statusUser={"AAPM"}
           role={"teste"}
           formModal={<AddStudent />}
+          isOpenModal={isOpenModalFormClasses}
+          setIsOpenModal={setIsOpenModalFormClasses}
           name="Turmas"
           header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]}
         />
@@ -53,6 +49,8 @@ export function ManagementTab() {
         <TemplateView
           statusUser={"Status"}
           formModal={<EmployeeForm />}
+          isOpenModal={isOpenModalFormEmployee}
+          setIsOpenModal={setIsOpenModalFormEmployee}
           name="Funcionário"
           role={"cargo"}
           header_data={["nome", "cargo"]}
