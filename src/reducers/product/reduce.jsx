@@ -43,7 +43,14 @@ export  function productReduce(state,action){
   
         case "HANDLE_SELECTED_COLOR":
           return {...state, selectedColor : action.payload }
-  
+
+        case "ON_DROP_IMAGE":
+          let files = [...state.image];
+          files[action.payload.index].push({[state.selectedColor] : action.payload.file})
+          return {...state , image : files}
+        case "ON_REMOVE_IMAGE":
+          return {}
+
         default:{
           return state
         }
