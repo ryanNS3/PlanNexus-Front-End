@@ -26,15 +26,15 @@ export function GiftCard(){
                 <DonationIcon/> 
                 <h4 className="text-sub1 text-cinza-950 mt-1 ml-2" >Brinde do semestre</h4>
             </div>
-            <div className="grid gap-2 pt-4" >
-                <div className="flex align-center">
+            <div className="pt-4" >
+                <div className="flex align-center mt-2">
                     <img src="..\src\assets\Gestao\shirtpng.png" />
                     <p className="text-fun2 mt-2 ml-2" >{name}</p> 
-                </div>
 
+                </div>
                 <Dropdown
+                trigger={<button className="relative -top-[9rem] lg:-right-[18rem] md:-right-[12rem]" onClick={handleOpenDropDown}><RepeatIcon/></button>}
                 open={open}
-                trigger={<button className="flex relative -top-5 -right-[17rem]" onClick={handleOpenDropDown}><RepeatIcon/></button>}
                 menu={[
                     <button onClick={handleMenuOne} className="w-full flex align-center mb-6 border-2 border-cinza-100 rounded-lg p-2">
                         <img src="src\assets\Gestao\shirtpng.png" />
@@ -58,7 +58,7 @@ const Dropdown = ({ trigger, menu }) => {
     };
   
     return (
-        <div className="relative -left-4 -top-8 z-40">
+        <div className="z-40 relative -bottom-[7rem]">
         {React.cloneElement(trigger, {
           onClick: handleOpen,
         })}
