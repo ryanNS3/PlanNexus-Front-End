@@ -4,13 +4,13 @@ import { useDropzone } from 'react-dropzone';
 import { Lock } from '../../../assets/Lock';
 
 
-export function InputImage({value,disabled=true, setValue,keyForImage, small=false ,indexForColor, id , indice, ...props} ) {
+export function InputImage({value,disabled=true, onDrop, setValue,keyForImage, small=false ,indexForColor, id , indice, ...props} ) {
   
-  const onDrop = React.useCallback((file) =>{
-    let files = [...value];
-    files[indice].push({[keyForImage]:{file}})
-    setValue(files)
-  },[keyForImage])
+  // const onDrop = React.useCallback((file) =>{
+  //   let files = [...value];
+  //   files[indice].push({[keyForImage]:{file}})
+  //   setValue(files)
+  // },[keyForImage])
   
   const dropzone = useDropzone({
     onDrop,
@@ -33,7 +33,7 @@ export function InputImage({value,disabled=true, setValue,keyForImage, small=fal
       <>
         <label htmlFor={id} className={`flex flex-col justify-center h-[500px] rounded-lg items-center border-dotted border-4 border-cinza-100  
           ${isDragActive ? "border-rosa-300" : "border-cinza-100", disabled ? "bg-cinza-50 border-cinza-100 hover:border-cinza-100" : "bg-transparent hover:border-rosa-300" } duration-100  `  }
-          {...disabled ? null : {...dropzone.getRootProps()}} >
+          {...disabled && {...dropzone.getRootProps()}} >
           {disabled ?
           <>
             <input id={id} disabled/>
