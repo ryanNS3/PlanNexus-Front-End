@@ -8,7 +8,6 @@ export function AapmManage(){
     return(
         <section>
             <div className="grid grid-cols-3 mb-10 gap-2 h-screen">
-                <CardMedium children={ <PriceCard/> } />
                 <CardMedium children={ <GiftCard/> } />
             </div>
 
