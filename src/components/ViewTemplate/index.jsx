@@ -7,10 +7,12 @@ import { Filter } from "../../components/Filter";
 import { UniqueModal } from "../Modal";
 import { EmployeeDetails } from "./../EmployeeDetails/index";
 import useAxios from "../../hooks/useAxios";
+import { StudentDetails } from "../StudentDetails";
 
 export function TemplateView({
   name,
   endpoint,
+  type,
   formModal,
   isExtendModal = false,
   header_data,
@@ -18,7 +20,12 @@ export function TemplateView({
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false);
   const url = window.location;
   // vai precisar de alteração
-  const statusUser = url.pathname === "/gestao/turmas" ? "AAPM" : "Status";
+  const errorText =
+    url.pathname === "/gestao"
+      ? "os alunos"
+      : url.pathname === "/estoque"
+      ? "os produtos"
+      : "as doações";
 
   const [searchTerm, setSearchTerm] = useState("");
   let isModal = formModal;
@@ -42,13 +49,13 @@ export function TemplateView({
       authorization: `bearer ${token}`,
       nif: user,
     });
-    console.log(req.res.data.response); // Retorna todos os alunos cadastrados
+    console.log("MAJO", req.res.data.response); // Retorna todos os alunos cadastrados
     setData(req.res.data.response);
   }
 
   React.useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   return (
     <main
@@ -138,6 +145,7 @@ export function TemplateView({
         /> */}
 
         {data &&
+          url.pathname === "/gestao" &&
           data.map((item) => (
             <>
               <LineTable
@@ -145,18 +153,43 @@ export function TemplateView({
                 name={item.nome}
                 partner={item.associado}
                 grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
+                form_data={item}
                 isNew
               />
             </>
           ))}
-          {loading && <p>Carregando, aguarde...</p>}
-          {erro && <p>Falha ao buscar os alunos</p>}
+
+        {data &&
+          url.pathname === "/estoque" &&
+          data.map((item) => (
+            <>
+              <LineTable
+                image_source={item.foto}
+                name={item.nome}
+                partner={item.associado}
+                grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
+                form_data={item}
+                isNew
+              />
+            </>
+          ))}
+        {loading && <p>Carregando, aguarde...</p>}
+        {erro && <p>Falha ao buscar {errorText}</p>}
       </section>
     </main>
   );
 }
 
-function LineTable({ image_source, name, partner, grid, isNew }) {
+function LineTable({ image_source, name, partner, grid, isNew, form_data }) {
+  const url = window.location;
+  // vai precisar de alteração
+  const errorText =
+    url.pathname === "/gestao"
+      ? "os alunos"
+      : url.pathname === "/estoque"
+      ? "os produtos"
+      : "as doações";
+
   return (
     <>
       <div
@@ -178,11 +211,9 @@ function LineTable({ image_source, name, partner, grid, isNew }) {
           <p className="text-[#fff]">{partner ? "Sim" : "Não"}</p>
         </div>
 
-        <UniqueModal
-          setSelectedId={() => {}}
-          SelectedId={"12345"}
-        >
-          {/* <EmployeeDetails /> */}
+        <UniqueModal>
+          {/* <EmployeeDetails employee={form_data}/> */}
+          <StudentDetails student={form_data}/>
         </UniqueModal>
 
         {isNew && (
