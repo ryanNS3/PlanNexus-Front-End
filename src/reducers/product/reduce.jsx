@@ -45,10 +45,29 @@ export  function productReduce(state,action){
           return {...state, selectedColor : action.payload }
 
         case "ON_DROP_IMAGE":
-          let files = [...state.image];
-          files[action.payload.index].push({[state.selectedColor] : action.payload.file})
-          return {...state , image : files}
+          const { index, file } = action.payload;
+          const color = state.selectedColor;
+
+          // Criar uma cópia do estado atual
+          const newImage = [...state.image];
+
+          // Verificar se o objeto com o ID único já existe na posição
+          const existingIndex = newImage[index].findIndex(item => item[color]);
+
+          if (existingIndex === -1) {
+            // Se não existe, adicionamos o novo objeto
+            newImage[index] = [
+              ...newImage[index],
+              { [color]: { file } }
+            ];
+          } else {
+            // Se já existe, substituímos o objeto existente
+            newImage[index][existingIndex] = { [color]: { file } };
+          }
+
+          return { ...state, image: newImage };
         case "ON_REMOVE_IMAGE":
+          
           return {}
 
         default:{
