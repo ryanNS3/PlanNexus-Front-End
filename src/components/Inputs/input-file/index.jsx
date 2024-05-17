@@ -6,12 +6,6 @@ import { Lock } from '../../../assets/Lock';
 
 export function InputImage({value,disabled=true, onDrop, setValue,keyForImage, small=false ,indexForColor, id , indice, ...props} ) {
   
-  // const onDrop = React.useCallback((file) =>{
-  //   let files = [...value];
-  //   files[indice].push({[keyForImage]:{file}})
-  //   setValue(files)
-  // },[keyForImage])
-  
   const dropzone = useDropzone({
     onDrop,
     accept:{
@@ -23,8 +17,7 @@ export function InputImage({value,disabled=true, onDrop, setValue,keyForImage, s
   })
   const {isDragActive} = dropzone;
 //                                                          0-array 1-posicao 2-indice da cor 3-chave da cor 4-array de arquivos 5-arquivo 
-    // if (value[indice].length > 0) return <RenderImage file={value[indice][indexForColor][keyForImage].file[0]}/>
-    if (value[indice][indexForColor])  return console.log(value[indice][indexForColor])
+    if (value[indice][indexForColor]) return <RenderImage file={value[indice][indexForColor][keyForImage].file[0]}/>
     
     return (
       <>
@@ -54,7 +47,7 @@ export function InputImage({value,disabled=true, onDrop, setValue,keyForImage, s
 
   }
 
-  export function RenderImage({file}){
+  export function RenderImage({file, }){
 
     const [imageLink, setImageLink] = React.useState();
   
@@ -70,8 +63,7 @@ export function InputImage({value,disabled=true, onDrop, setValue,keyForImage, s
 
     return(
       <div>
-        <img className='max-w-full object-cover' src={imageLink}/>
-        
+        <img className='max-w-full object-cover' src={imageLink}/>  
       </div>
     )
   }
