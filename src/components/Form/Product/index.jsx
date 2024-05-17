@@ -136,11 +136,8 @@ export function ProductForm({ setIsOpenProductModal }) {
         file : file
       }
     })
-    // let files = [...ImageLink];
-    // files[index].push({[selectedColor]:{file}})
-    // setImageLink(files)
   },[selectedColor])
-  console.log(image)
+  
 
   return (
     <form
@@ -151,7 +148,6 @@ export function ProductForm({ setIsOpenProductModal }) {
         aria-label="Formulário produto"
         className="flex flex-col p-4 md:max-h-[99%] gap-6 md:overflow-y-scroll"
         >
-        {/* <Lock black={true}/>  */}
         <h1 className=" grid-rows-1 text-h4">Adicionar produto</h1>
         <InputText
           name="nome"
@@ -201,7 +197,7 @@ export function ProductForm({ setIsOpenProductModal }) {
             <section className="flex flex-col gap-2">
               {colorsProduct.map((color, index) => {
                 return (
-                  <div className=" flex justify-center items-center gap-4 animate-topToButton">
+                  <div key={color+index} className=" flex justify-center items-center gap-4 animate-topToButton">
                     <InputText
                       placeholder="Digite o nome da cor"
                       id={index}
