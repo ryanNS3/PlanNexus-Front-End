@@ -61,12 +61,12 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   
   const handleOpen = (selectedId) => {
-    setSelectedId(selectedId);
+    // setSelectedId(selectedId);
     setIsOpenModal(true);
   };
 
   const handleClose = () => {
-    setIsHoverButton(false)
+    // setIsHoverButton(false)
     setIsOpenModal(false)
   };
   
