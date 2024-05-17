@@ -122,7 +122,7 @@ export function ProductForm({ setIsOpenProductModal }) {
    })
   }
 
-  function hadleToAddColor(){
+  function handleToAdd(){
     dispatch({
       type : "HANDLE_ADD_COLOR"
     })
@@ -217,7 +217,7 @@ export function ProductForm({ setIsOpenProductModal }) {
             </section>
           )}
           <AddItemsGhost
-            onclick={hadleToAddColor}
+            onclick={handleToAdd}
             Text="Adicionar cor"
           />
         </div>
