@@ -8,13 +8,13 @@ export function LockerForm() {
 
         < form action="submit" className="flex flex-col w-full h-full justify-between" >
 
-            <div className="flex flex-col">
+            <div className="flex flex-col max-h-[70%] overflow-y-scroll">
                 <h1 className="text-h4">ENVIAR AVISO</h1>
-                <div>
+                <div className="mt-3">
                     <Label text={'Motivo:'} />
                     <TextArea />
                 </div>
-                <div>
+                <div className="mt-3">
                 <Label text={'Data:'} />
                 {/* <InputCalendar/> */}
                 </div>
@@ -29,8 +29,3 @@ export function LockerForm() {
 
     )
 }
-
-// className="h-44 border-2 rounded border-cinza-50 border-lg pl-5 pb-32 hover:border-rosa-300"
-//<label className="text-fun2 mt-12">Motivo:</label>
-// <label className="text-fun2 mt-6"></label>
-// <input type="date" className="border-2 rounded border-cinza-50 hover:border-rosa-300 border-lg uppercase" /> */}

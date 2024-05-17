@@ -7,7 +7,8 @@ import { SelectLocker } from "../SelectLocker";
 import { Options } from "../Options";
 import { LockerContext } from "../../context/lockerContext";
 import { PinkButton } from "../Buttons/pinkButton";
-import { CampWhite } from '../../assets/CampIcon'
+import { CampWhite } from "../../assets/CampIcon";
+import { LockBlack } from "../../assets/Lock";
 import {
   Tabs,
   TabsHeader,
@@ -19,14 +20,14 @@ import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 
 export function AllLocker({ typeUser }) {
-  const { dados, dataLocker, GetLocker } = React.useContext(LockerContext);
+  const {dataLocker, GetLocker } = React.useContext(LockerContext);
 
   useEffect(() => {
     GetLocker();
   }, []);
 
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
-  
+
   // const [pagination, setPagination] = React.useState(0)
   // const currentLockers = dataLocker[pagination]
 
@@ -48,24 +49,20 @@ export function AllLocker({ typeUser }) {
           <DuoModalOptions
             contentOne={<SelectLocker />}
             contentDuo={<LockerForm />}
-            Button={<PinkButton icon={<CampWhite />} text={'Enviar Aviso'} />}
-          >
-
-          </DuoModalOptions>
+            Button={<PinkButton icon={<CampWhite />} text={"Enviar Aviso"} />}
+          ></DuoModalOptions>
         </div>
 
         <Lockers />
-
       </div>
     );
   }
 }
 
 export function Lockers({ size }) {
-
   const { dataLocker } = React.useContext(LockerContext);
-  const [pagination, setPagination] = React.useState(0)
-  const currentLockers = dataLocker[pagination]
+  const [pagination, setPagination] = React.useState(0);
+  const currentLockers = dataLocker[pagination];
 
   const customTheme = withMT({
     theme: {
@@ -74,48 +71,51 @@ export function Lockers({ size }) {
   });
 
   const content = [
-    { label: "1 a 28", value: 0, },
-    { label: "29 a 56", value: 1, },
-    { label: "57 a 84", value: 2, },
-    { label: "85 a 112", value: 3, },
-    { label: "113 a 140", value: 4, },
-    { label: "141 a 168", value: 5, },
-    { label: "169 a 196", value: 6, },
-    { label: "197 a 224", value: 7, },
-    { label: "225 a 252", value: 8, },
-    { label: "253 a 280", value: 9, },
+    { label: "1 a 28", value: 0 },
+    { label: "29 a 56", value: 1 },
+    { label: "57 a 84", value: 2 },
+    { label: "85 a 112", value: 3 },
+    { label: "113 a 140", value: 4 },
+    { label: "141 a 168", value: 5 },
+    { label: "169 a 196", value: 6 },
+    { label: "197 a 224", value: 7 },
+    { label: "225 a 252", value: 8 },
+    { label: "253 a 280", value: 9 },
   ];
 
-  const [activeTab, setActiveTab] = React.useState(0); {/* Ativa o hover na primeira paginação do tab de armários*/ }
+  const [activeTab, setActiveTab] = React.useState(0);
+  {
+    /* Ativa o hover na primeira paginação do tab de armários*/
+  }
 
-  let sizeLockers = '';
+  let sizeLockers = "";
   switch (size) {
-    case 'small':
-      sizeLockers = "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-2 sm:col-span-12 md:grid-cols-5 md:col-span-12 lg:grid-cols-6 lg:col-span-12 xl:grid-cols-10 xl:col-span-12 ";
+    case "small":
+      sizeLockers =
+        "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-2 sm:col-span-12 md:grid-cols-4 md:col-span-12 lg:grid-cols-6 lg:col-span-12 xl:grid-cols-8 xl:col-span-12 ";
       break;
     default:
-      sizeLockers = "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-3 sm:col-span-12 md:grid-cols-6 md:col-span-12 lg:grid-cols-9 lg:col-span-12 xl:grid-cols-12 xl:col-span-12";
+      sizeLockers =
+        "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-3 sm:col-span-12 md:grid-cols-6 md:col-span-12 lg:grid-cols-9 lg:col-span-12 xl:grid-cols-12 xl:col-span-12";
   }
 
   return (
     <>
       <div className={`${sizeLockers}`}>
-        {
-          currentLockers?.map((element, index) => {
-            return (
-              <Locker
-                key={index}
-                nome={element.nome}
-                numero={element.numero}
-                status={element.status}
-              />
-            );
-          }
-          )
-        }
+        {currentLockers?.map((element, index) => {
+          return (
+            <Locker
+              key={index}
+              nome={element.nome}
+              numero={element.numero}
+              status={element.status}
+            />
+          );
+        })}
       </div>
 
-      <div>  {/* Renderiza o menu dos armários*/}
+      <div className="">
+        {/* Renderiza o menu dos armários*/}
         <ThemeProvider value={customTheme}>
           <Tabs value={activeTab}>
             <TabsHeader
@@ -152,7 +152,7 @@ export function Lockers({ size }) {
         </ThemeProvider>
       </div>
     </>
-  )
+  );
 }
 
 export function Locker({ nome, numero, status }) {
@@ -170,15 +170,16 @@ export function Locker({ nome, numero, status }) {
 
     return () => {
       document.removeEventListener("mousedown", handler);
-    }
-  }, [])
+    };
+  }, []);
 
   function onClickRight(event) {
     event.preventDefault();
     setIsOpenOptions(!isOpenOptions);
   }
 
-  let menu = '';
+  const unlocker = status == 'ocupado' ? 'hidden' : '' 
+  
 
   return (
     <>
@@ -187,12 +188,18 @@ export function Locker({ nome, numero, status }) {
         key={numero}
         id={numero}
         nome={nome}
-        className={`relative col-span-1 ${status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"} h-24 flex items-center justify-center rounded-lg`}
+        className={`relative col-span-1 ${
+          status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
+        } h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
       >
-        <p className="text-h5">{numero}</p>
+          <div className={`absolute top-1 right-1  ${unlocker}`}>
+            <LockBlack />
+          </div>
 
-        <div className='absolute z-1000 top-0 -right-2 ' ref={menuRefLocker}>
-          {isOpenOptions && <Options numero={numero} />}
+          <p className="text-h5">{numero}</p>
+
+        <div className="absolute z-1000 top-0 -right-2 " ref={menuRefLocker}>
+          {isOpenOptions && <Options nome={nome} numero={numero} status={status} />}
         </div>
       </div>
     </>
