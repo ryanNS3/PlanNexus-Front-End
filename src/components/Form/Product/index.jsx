@@ -23,9 +23,9 @@ export function ProductForm({ setIsOpenProductModal }) {
     productReduce
     ,{
     nameProduct: "",
-    priceProduct: 0,
+    priceProduct: 1,
     descriptionProduct: "",
-    discountProduct: "",
+    discountProduct: 1,
     sizeProduct: [],
     colorsProduct: [],
     selectedColor: null,
@@ -35,8 +35,7 @@ export function ProductForm({ setIsOpenProductModal }) {
 
   const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
   // cada array representa uma posição de cada imagem
-  const [ImageLink, setImageLink] = React.useState([[], [], [], []]);
-  const [dataProduct, setDataProduct] = React.useState([]);
+  const [dataProduct, setDataProduct] = React.useState();
   const [isSizeOptions, setIsSizeOptions] = React.useState(false);
 
   const sizes = [
@@ -52,7 +51,7 @@ export function ProductForm({ setIsOpenProductModal }) {
   ];
 
    async function handleCreateProduct(event) {
-    event.preventDefault();
+    event.preventDefault()
     setDataProduct(
       {
         nome: nameProduct,
@@ -61,16 +60,20 @@ export function ProductForm({ setIsOpenProductModal }) {
         descontoAssociado: discountProduct,
         tamanhos: sizeProduct,
         descricao: descriptionProduct,
-        fotos: ImageLink.flat(),
+        fotos: image.flat(),
         brinde: "false",
       },
     );
+    
     const AddProductFetch = await requisicao(`${BASE_URL}/produto/`, dataProduct, "POST", {
       authorization: `bearer ${token}`,
       nif: user,
       'Content-Type': 'multipart/form-data',
     })
+    console.log(dataProduct)
+    console.log(AddProductFetch)
   }
+  
 
   function handleRemoveColor(event){
     event.preventDefault()
@@ -82,7 +85,8 @@ export function ProductForm({ setIsOpenProductModal }) {
     })
   }
 
-  function handleCloseSizeOptions(){
+  function handleCloseSizeOptions(event){
+    event.preventDefault()
     setIsSizeOptions(!isSizeOptions)
     // setSizeProduct([])
   }
@@ -122,7 +126,8 @@ export function ProductForm({ setIsOpenProductModal }) {
    })
   }
 
-  function handleToAdd(){
+  function handleToAdd(event){
+    event.preventDefault()
     dispatch({
       type : "HANDLE_ADD_COLOR"
     })
@@ -204,7 +209,7 @@ export function ProductForm({ setIsOpenProductModal }) {
                       onChange={handleColor}
                       value={color}
                     />
-                    <button className="p-2 rounded bg-cinza-100 hover:bg-rosa-300 hover:text-cinza-50" id={index} onClick={handleRemoveColor}>
+                    <button  className="p-2 rounded bg-cinza-100 hover:bg-rosa-300 hover:text-cinza-50" id={index} onClick={handleRemoveColor}>
                       -
                     </button>
                   </div>
@@ -263,9 +268,9 @@ export function ProductForm({ setIsOpenProductModal }) {
         <p>Selecione a cor</p>
         
         <section className="flex gap-4 justify-start items-start">
-          {colorsProduct.map((color) =>{
+          {colorsProduct.map((color, index) =>{
             return(
-              <button data-color={color} onClick={handleChangeSelectedColor}
+              <button key={`selectedColor${color}${index}`} data-color={color} onClick={handleChangeSelectedColor}
                className="flex flex-col justify-start items-start">
                 <div
                   className={` border-2 border-transparent ${selectedColor === color ? "border-rosa-300" : null}  hover:border-rosa-300 py-2 px-2 bg-cinza-100 rounded max-w-24`}>
@@ -277,11 +282,11 @@ export function ProductForm({ setIsOpenProductModal }) {
           })}
         </section>
           <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
-            <InputImage onDrop={(file) => onDropImage(file, 0)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={image} setValue={setImageLink} />
+            <InputImage onDrop={(file) => onDropImage(file, 0)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={image}  />
             <div className="grid grid-cols-2 gap-6 max-h-6">
-              <InputImage onDrop={(file) => onDropImage(file, 1)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={image} setValue={setImageLink} />
-              <InputImage onDrop={(file) => onDropImage(file, 2)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={image} setValue={setImageLink} />
-              <InputImage onDrop={(file) => onDropImage(file, 3)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={image} setValue={setImageLink} />
+              <InputImage onDrop={(file) => onDropImage(file, 1)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={image} />
+              <InputImage onDrop={(file) => onDropImage(file, 2)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={image} />
+              <InputImage onDrop={(file) => onDropImage(file, 3)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={image} />
             </div>
           </div>
 

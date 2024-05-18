@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { CardMedium, CardSmall } from '../../components/Cards/Card'
 import avatar from "../../assets/avatar.jpg"
 import { TemplateView } from '../../components/ViewTemplate'
@@ -9,6 +9,7 @@ import { ProductForm } from '../../components/Form/Product'
 import { modalContext } from '../../context/modalContext'
 import { PlusWhite } from '../../assets/Plus'
 import { useCookies } from '../../hooks/useCookies'
+import { ProductContext } from '../../context/ProductContext'
 
 
 export function Stock() {
@@ -16,9 +17,9 @@ export function Stock() {
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalView, setIsOpenModalView] = React.useState(false)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
-
+  const {GetProducts, FetchGetProducts} = React.useContext(ProductContext)
   const [token, setToken] = useCookies("token", "teste", 1);
-
+ 
   
   return (
     <>
@@ -52,8 +53,17 @@ export function Stock() {
       </section>
 
 
-      <TemplateView role="" isExtendModal={true} name="Adicionar produtos" isOpenModal={isOpenModalForm} setIsOpenModal={setIsOpenModalForm} formModal={<ProductForm setIsOpenProductModal={setIsOpenModalForm}/>} header_data={["Alerta", "Estoque", "Ações"]}/>
+      <TemplateView role=""
+        isExtendModal={true}
+        name="Adicionar produtos"
+        isOpenModal={isOpenModalForm}
+        setIsOpenModal={setIsOpenModalForm}
+        formModal={<ProductForm setIsOpenProductModal={setIsOpenModalForm}/>}
+        header_data={["Alerta", "Estoque", "Ações"]}/>
 
+      <div>
+        <div></div>
+      </div>
     </>
   )
 }
