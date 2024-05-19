@@ -13,13 +13,19 @@ import { useState } from "react";
 
 export function Sidebar() {
   return (
-    <aside className="relative h-screen py-10 min-[1471px]:pr-9 flex flex-col gap-12 min-[1471px]:col-span-2 items-center max-[1024px]:absolute max-[1024px]:left-[-100%]">
-      <Link to="/">
-        <img className="max-[1471px]:hidden rounded-lg" src={Logo} alt="" />
+    <aside className="flex flex-col items-center gap-12 py-10 min-[1471px]:pr-9 min-[1471px]:col-span-2 max-[1024px]:absolute max-[1024px]:left-[-100%]">
+      <Link to="/" className="w-full">
+        <img
+          className="max-[1471px]:hidden rounded-lg w-full"
+          src={Logo}
+          alt=""
+        />
         <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />
       </Link>
 
-      <nav className="overflow-auto" style={{ scrollbarWidth: "none" }}>
+      <nav
+        className="min-[1471px]:w-full"
+      >
         <ul className="flex flex-col gap-9">
           <SidebarElement text="Home" icon="Home" href="/" />
           <SidebarElement text="Estoque" icon="Estoque" href="/estoque" />
@@ -131,13 +137,11 @@ export function SidebarElement({ text, href, icon }) {
     <li>
       <Link
         to={href}
-        className={`flex items-center justify-start m-auto w-full px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium relative transition-all duration-150 bg-transparent
-
-        // RESPONSIVE SIZES
+        className={`relative flex items-center justify-start gap-9 m-auto w-full px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium bg-transparent
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
         
-        hover:after:content-[''] hover:after:h-3/5 hover:after:w-1.5 hover:after:absolute hover:after:right-[-1rem] hover:after:bg-rosa-300 hover:after:rounded-lg z-30
+        hover:after:content-[''] hover:after:h-3/5 hover:after:w-1.5 hover:after:absolute hover:after:right-[-14px] hover:after:bg-rosa-300 hover:after:rounded-lg z-30
 
         // HOVER
         hover:from-[#BD3FD1] hover:to-[#9332AE] hover:bg-gradient-to-b hover:text-[#fff]
@@ -149,27 +153,25 @@ export function SidebarElement({ text, href, icon }) {
         shadow-[0_4px_16px_0px_rgba(245,208,255)]
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
-        after:content-[''] after:h-3/5 after:w-1.5 after:absolute after:right-[-1rem] after:bg-rosa-300 after:rounded-lg
+        after:content-[''] after:h-3/5 after:w-1.5 after:absolute after:right-[-14px] after:bg-rosa-300 after:rounded-lg
 
         //GRADIENTE
         from-[#BD3FD1] to-[#9332AE] bg-gradient-to-b text-[#fff]`
-            : `after:content-[''] after:h-0 after:w-0 after:absolute after:right-[-1rem] after:bg-rosa-300 after:rounded-lg`
+            : `after:content-[''] after:h-0 after:w-0 after:absolute after:right-[-14px] after:bg-rosa-300 after:rounded-lg`
         }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {navIcon(icon)}
 
-        <span className="max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 max-[1471px]:hidden rounded-md">
-            {text}
+        <span className="max-[1471px]:hidden">
+          {text}
         </span>
 
-        {isHovered ? (
-          <span className="min-[1471px]:hidden max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco">
+        {isHovered && (
+          <span className="min-[1471px]:hidden block max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco z-10">
             {text}
           </span>
-        ) : (
-          ""
         )}
       </Link>
     </li>

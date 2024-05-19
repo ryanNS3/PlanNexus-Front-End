@@ -83,7 +83,7 @@ export function Filter() {
 
   return (
     <>
-      <div className="flex items-center ">
+      <div className="flex items-center justify-end">
         {primSem && (
           <div className="flex items-center bg-cinza-700 rounded py-1 ml-1 px-[5px] gap-[3px]">
             <p className="text-[#fff] text-ct2">1ºsem</p><button onClick={() => setPrimSem(false)}><CloseIcon/></button>

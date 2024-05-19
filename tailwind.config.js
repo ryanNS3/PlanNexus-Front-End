@@ -16,7 +16,8 @@ export default {
 
     extend: {
       animation:{
-        modalAnimation: "rightToLeft 0.3s ease-in-out forwards"
+        modalAnimation: "rightToLeft 0.3s ease-in-out forwards",
+        topToButton : "topToButton 0.3s ease-in-out forwards"
       },
     
       keyframes:{
@@ -25,7 +26,17 @@ export default {
             transform: 'translateX(10px)',
             opacity: 1
           }
+        },
+        topToButton:{
+          "0%":{
+            transform : "translateY(10px)",
+            opacity: 0
+          },
+          '100%':{
+            transform : "translateY(0px)"
+          }
         }
+
       },
       spacing: {
         '1': '0.25rem',
@@ -63,7 +74,7 @@ export default {
     },
 
     fontFamily: {
-      sans: ['Poppins', 'sans-serif'],
+      sans: ['Poppins', 'georgia'],
     },
 
     // Ajustar o fontsize de acordo com o projeto no figma
@@ -188,5 +199,20 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({addUtilities}) {
+      const noScrollBar = {
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+      },
+
+      ".no-scrollbar": {
+          "-ms-overflow-style": "none", 
+          "scrollbar-width": "none",  
+      },
+      }
+
+      addUtilities(noScrollBar)
+    }
+  ],
 }
