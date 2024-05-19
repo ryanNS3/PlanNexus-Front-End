@@ -1,63 +1,141 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { InputText } from '../Inputs/input-text/inputTextComp';
 import { EmployeeContext } from "../../context/Employee";
 import { PinkButton } from '../Buttons/pinkButton';
+import { toastifyContext } from '../../context/toastifyContext';
+import { modalContext } from '../../context/modalContext';
 
 export function EmployeeDetails({ employee }) {
-    const { EditEmployee, EmployeeData } = useContext(EmployeeContext);
-    const [editedEmployee, setEditedEmployee] = useState(employee);
+  const { EditEmployee } = useContext(EmployeeContext);
+  const { Notification } = useContext(toastifyContext);
+  const { setIsOpenModal } = useContext(modalContext);
 
-    console.log(employee)
-    const editedData =
-        {
-            "idFuncionario": employee.id_funcionario,
-            "NIF": employee.NIF,
-            "nome": employee.nome,
-            "email": employee.email,
-            "nivel_acesso": "3",
-            "foto": "null"
-        }
+  const [editedEmployee, setEditedEmployee] = useState(employee);
+  const [originalEmployee, setOriginalEmployee] = useState(employee);
+  const [isEditing, setIsEditing] = useState({
+    nome: false,
+    NIF: false,
+    email: false
+  });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedEmployee((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-      const handleSubmit = async () => {
-        const success = await EditEmployee(editedData);
-        console.log(success)
+  const handleEditClick = (field) => {
+    setIsEditing((prev) => ({
+      ...prev,
+      [field]: !prev[field]
+    }));
+  };
 
-        if (success) {
-            setEditedEmployee(EmployeeData);
-            console.log(EmployeeData)
-        }
+  const handleCancel = () => {
+    setEditedEmployee(originalEmployee);
+    setIsEditing({
+      nome: false,
+      NIF: false,
+      email: false
+    });
+  };
+
+  const handleSubmit = async () => {
+    const editedData = {
+      idFuncionario: String(editedEmployee.id_funcionario),
+      NIF: editedEmployee.NIF,
+      nome: editedEmployee.nome,
+      email: editedEmployee.email,
+      nivel_acesso: "3",
+      foto: null
     };
 
-    console.log(employee)
-        return (
-            <div>
-                <div className='flex items-center gap-4 mb-4'>
-                    <div className='w-12 h-12 rounded-full bg-cinza-300 flex items-center justify-center overflow-hidden '></div>
-                    <div>
-                        <p className='text-h5'>{employee.nome}</p>
-                        <p className='text-cp2'>{employee.nome_cargo}</p>
-                    </div>
-                </div>
-                
-                
-                <p className='text-rosa-500 text-fun2 border-l-2 border-rosa-500 pl-1 mb-4'>Informações pessoais:</p>
-                <div className='flex flex-wrap gap-4'>
-                    <InputText id="Nome" name="Nome:" placeholder={employee.nome} disabled/>
-                    <InputText id="NIF" name="NIF:" placeholder={employee.NIF} disabled/>
-                    <InputText id="Email" name="Email:" placeholder={employee.email} disabled/>
-                </div>
+    console.log('Edited Data:', editedData);
 
-                <p className='text-rosa-500 text-fun2 border-l-2 border-rosa-500 pl-1 my-4'>Informações de cargo:</p>
-                <div className='flex flex-wrap gap-4'>
-                    <InputText id="Nome" name="Cargo:" placeholder={employee.nome_cargo} disabled/>
-                </div>
+    const success = await EditEmployee(editedData);
 
-                <div className='flex gap-4 mt-20'>
-                    <PinkButton type='secondary' text='Desabilitar perfil' action={handleSubmit}/>
-                    <PinkButton text='Restaurar senha'/>
-                </div>
-            </div>
-        );
-    
+    if (success) {
+        console.log(editedEmployee)
+      setIsOpenModal(false);
+      Notification("sucess", "Funcionário atualizado com sucesso");
+    } else {
+        console.log(editedEmployee)
+      setIsOpenModal(true);
+      Notification("error", "Falha ao atualizar funcionário");
+    }
+  };
+
+  const isAnyFieldEditing = Object.values(isEditing).some(value => value);
+
+  return (
+    <div>
+      <div className='flex items-center gap-4 mb-4'>
+        <div className='w-12 h-12 rounded-full bg-cinza-300 flex items-center justify-center overflow-hidden '></div>
+        <div>
+          <p className='text-h5'>{employee.nome}</p>
+          <p className='text-cp2'>{employee.nome_cargo}</p>
+        </div>
+      </div>
+
+      <p className='text-rosa-500 text-fun2 border-l-2 border-rosa-500 pl-1 mb-4'>Informações pessoais:</p>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <InputText
+          id="nome"
+          name="nome"
+          value={editedEmployee.nome}
+          onChange={handleInputChange}
+          placeholder={employee.nome}
+          disabled={!isEditing.nome}
+          onEditClick={() => handleEditClick('nome')}
+          isEditable
+        />
+        <InputText
+          id="NIF"
+          name="NIF"
+          value={editedEmployee.NIF}
+          onChange={handleInputChange}
+          placeholder={employee.NIF}
+          disabled={!isEditing.NIF}
+          onEditClick={() => handleEditClick('NIF')}
+          isEditable
+        />
+        <InputText
+          id="email"
+          name="email"
+          value={editedEmployee.email}
+          onChange={handleInputChange}
+          placeholder={employee.email}
+          disabled={!isEditing.email}
+          onEditClick={() => handleEditClick('email')}
+          isEditable
+        />
+      </div>
+
+      <p className='text-rosa-500 text-fun2 border-l-2 border-rosa-500 pl-1 my-4'>Informações de cargo:</p>
+      <div className='grid grid-cols-1 gap-4'>
+        <InputText
+          id="cargo"
+          name="cargo"
+          placeholder={employee.nome_cargo}
+          disabled
+        />
+      </div>
+
+      <div className='flex gap-4 mt-20 justify-end'>
+      {isAnyFieldEditing ? (
+          <>
+            <PinkButton text='Cancelar' type='secondary' action={handleCancel} />
+            <PinkButton text='Confirmar' action={handleSubmit} />
+          </>
+        ) : (
+          <>
+            <PinkButton type='secondary' text='Desabilitar perfil' />
+            <PinkButton text='Restaurar senha' />
+          </>
+        )}
+      </div>
+    </div>
+  );
 }

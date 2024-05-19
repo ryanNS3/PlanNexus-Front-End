@@ -7,6 +7,7 @@ export const EmployeeContext = React.createContext();
 export function EmployeeProvider({ children }) {
   const { requisicao } = useAxios();
   const [EmployeeData, setEmployeeData] = React.useState(null);
+  const [updatedEmployee, setUpdatedEmployee] = React.useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
@@ -78,6 +79,7 @@ export function EmployeeProvider({ children }) {
  
 const EditEmployee = React.useCallback(async (editedData) => {
     try {
+      console.log('Dados mandados:', editedData)
       const res = await requisicao(
         `${BASE_URL}/funcionario/atualizar`,
         editedData,
@@ -88,13 +90,23 @@ const EditEmployee = React.useCallback(async (editedData) => {
         }
       );
       if (res && res.res.status === 200) {
+        setUpdatedEmployee(res.json.response);
+        if (updatedEmployee) {
+          setEmployeeData((prevData) =>
+            prevData.map((emp) =>
+              emp.id_funcionario === updatedEmployee.id_funcionario ? updatedEmployee : emp
+            )
+          );
+        }
         return true;
+      } else {
+        throw new Error('Falha na atualização do funcionário');
       }
     } catch (error) {
       console.log("Requisição falhou:", error);
       return false;
     }
-  }, []);
+  }, [requisicao, BASE_URL, token, user]);
  
   const DeleteEmployee = React.useCallback(async () => {
     try {
@@ -119,7 +131,7 @@ const EditEmployee = React.useCallback(async (editedData) => {
  
   return (
     <EmployeeContext.Provider
-      value={{ GetAllEmployees, GetEmployee, DeleteEmployee, AddEmployee, EditEmployee, EmployeeData }}
+      value={{ GetAllEmployees, GetEmployee, DeleteEmployee, AddEmployee, EditEmployee, EmployeeData, updatedEmployee }}
     >
       {children}
     </EmployeeContext.Provider>
