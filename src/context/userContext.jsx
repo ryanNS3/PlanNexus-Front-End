@@ -103,7 +103,7 @@ export const UserProvider = ({ children }) => {
         {
           headers: {
             nif: user,
-            token: token,
+            authorization: `bearer ${token}`,
           },
         }
       );

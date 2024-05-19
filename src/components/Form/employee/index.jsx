@@ -34,28 +34,35 @@ export const EmployeeForm = () => {
       setNif(event.target.value);
     };
     
+    
+    const handleSubmit = async (event) => {
+      event.preventDefault()
 
-   function handleNifBlur(){
-     if(nif.length < 5) {
-       setErrorMessage('O  NIF deve conter, no mínimo, 5 caracteres')
-       setError(true)
-       return;
-     }
+      if(nif.length < 5) {
+        setErrorMessage('O  NIF deve conter, no mínimo, 5 caracteres')
+        setError(true)
+        return;
+      } else{
+        setErrorMessage('')
+        setError(false)
+      }
 
-    }
+      if (email.includes('@')) {
+        setErrorMessage('Não é necessário inserir o domínio do email.');
+        setError(true); 
+      } else {
+        setErrorMessage('');
+        setError(false)
+      }
 
-    function handleNameChangeBlur(){
       if (!email || !name) {
         setErrorMessage('Preencha todos os campos obrigatórios!');
         setError(true); 
         return;
-      } 
-
-    }
-
-    
-    const handleSubmit = async (event) => {
-      event.preventDefault()
+      } else{
+        setErrorMessage('')
+        setError(false)
+      }
 
       let finalEmail = email;
       if (!email.endsWith('@senaisp.edu.br')) {
@@ -82,19 +89,20 @@ export const EmployeeForm = () => {
   return (
     <>
 
-        <form className='flex flex-col gap-4 mt-4' onSubmit={handleSubmit}> 
-            <InputText onBlur={handleNameChangeBlur} error={error} disabled={finishForm} value={name} onChange={handleNameChange} name="Nome completo:" id="nome" text="nome" />
+        <form className='flex flex-col gap-4 mt-4 space-y-32' onSubmit={handleSubmit}> 
+          <div className='flex flex-col gap-2'>
+            <InputText error={error} disabled={finishForm} value={name} onChange={handleNameChange} name="Nome completo:" id="nome" text="nome" />
 
             <div className='relative'>
               <span className={`absolute inset-y-0 right-4 top-[33px] flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
-              <InputText disabled={finishForm} onBlur={handleNameChangeBlur} error={error} value={email} errorValidacao={email.error} onChange={handleEmailChange}  name="Email:" id="email" text="email" placeholder="ex:marlene" />
+              <InputText disabled={finishForm} error={error} value={email} errorValidacao={email.error} onChange={handleEmailChange}  name="Email:" id="email" text="email" placeholder="ex:marlene" />
             </div>
-            
-            <InputText onBlur={handleNifBlur} error={error} disabled={finishForm} value={nif} onChange={handleNifChange} name="NIF:" id="nif" text="nif" placeholder=" NN.NNN.NNN/NNNN-NN" />
-            
+
+            <InputText error={error} disabled={finishForm} value={nif} onChange={handleNifChange} name="NIF:" id="nif" text="nif" placeholder=" NN.NNN.NNN/NNNN-NN" />
 
 
-            <div className='flex gap-2'>
+
+            <div className='flex flex-col gap-2'>
               <InputRadioInformation
                       id="opcao1"
                       value="opcao1"
@@ -125,8 +133,15 @@ export const EmployeeForm = () => {
                       disabled={finishForm}
               />
             </div>
+            {errorMessage && <p className="text-vermelho-300 text-fun2">{errorMessage}</p>} 
+          </div>
            
-            <PinkButton disabled={finishForm} text="confirmar" size="big"/>
+          
+           
+          <div className='flex align-bottom justify-end'>
+            <PinkButton disabled={finishForm} text="confirmar" size="big" />
+          </div>
+            
         </form>
     </>
   )
