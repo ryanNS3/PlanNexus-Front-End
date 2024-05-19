@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { InputText } from '../Inputs/input-text/inputTextComp';
+import { EditableInput } from '../Inputs/input-text/inputTextComp';
 import { EmployeeContext } from "../../context/Employee";
 import { PinkButton } from '../Buttons/pinkButton';
 import { toastifyContext } from '../../context/toastifyContext';
@@ -81,7 +81,7 @@ export function EmployeeDetails({ employee }) {
 
       <p className='text-rosa-500 text-fun2 border-l-2 border-rosa-500 pl-1 mb-4'>Informações pessoais:</p>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <InputText
+        <EditableInput
           id="nome"
           name="nome"
           value={editedEmployee.nome}
@@ -91,7 +91,7 @@ export function EmployeeDetails({ employee }) {
           onEditClick={() => handleEditClick('nome')}
           isEditable
         />
-        <InputText
+        <EditableInput
           id="NIF"
           name="NIF"
           value={editedEmployee.NIF}
@@ -101,7 +101,7 @@ export function EmployeeDetails({ employee }) {
           onEditClick={() => handleEditClick('NIF')}
           isEditable
         />
-        <InputText
+        <EditableInput
           id="email"
           name="email"
           value={editedEmployee.email}
@@ -115,7 +115,7 @@ export function EmployeeDetails({ employee }) {
 
       <p className='text-rosa-500 text-fun2 border-l-2 border-rosa-500 pl-1 my-4'>Informações de cargo:</p>
       <div className='grid grid-cols-1 gap-4'>
-        <InputText
+        <EditableInput
           id="cargo"
           name="cargo"
           placeholder={employee.nome_cargo}
