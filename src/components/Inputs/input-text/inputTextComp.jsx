@@ -1,7 +1,7 @@
 import React from 'react';
 import Close from '../../../assets/close_small.svg'
 
-export function InputText({
+export const InputText = React.memo(({
     id,
     type,
     name,
@@ -12,9 +12,9 @@ export function InputText({
     placeholder,
     required,
     disabled,
-    error}) {
+    error,
+    ...props}) =>
 
-    return(
         
         <div className='flex w-full'>
             <label  htmlFor={id} className='flex flex-col text-fun2 w-full capitalize' >
@@ -25,6 +25,7 @@ export function InputText({
                     name={name}
                     value={value}
                     onChange={onChange}
+                    {...props}
                     onBlur={onBlur}
                     className={`appearance-none border-2 ${disabled ? 'bg-cinza-100' : 'bg-cinza-50'} ${error ? 'border-vermelho-300' : 'border-cinza-100'} rounded-lg focus:outline-none focus:border-rosa-destaque w-full py-4 px-3 leading-tight focus:shadow-outline text-fun2 text-cinza-500`}
                     placeholder={placeholder}
@@ -36,4 +37,5 @@ export function InputText({
 
         </div>
     )
-}
+
+
