@@ -7,20 +7,22 @@ export const ProductContext = React.createContext();
 export function ProductProvider({ children }) {
   const { dados, requisicao } = useAxios();
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem('token');
-  const user = localStorage.getItem('user');
+  const token = window.localStorage.getItem('token');
+  const user = window.localStorage.getItem('user');
 
   const FetchGetProducts = async () => {
     const requestApiProducts = await requisicao(`${BASE_URL}/produto/todos`, null, "GET", {
       authorization: `bearer ${token}`,
       nif: user,
     });
+    console.log(requestApiProducts)
     return requestApiProducts;
   };
 
   const GetProducts = () => {
       const AllProductsData = useQuery({ queryKey : ['AllProductsData'], queryFn : FetchGetProducts});
-      return { AllProductsData };
+      const resProductData = AllProductsData.data
+      return { resProductData };
     };
 
   return (
