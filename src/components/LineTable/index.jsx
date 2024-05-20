@@ -5,16 +5,12 @@ import { EmployeeContext } from "../../context/Employee";
 import { EmployeeDetails } from "../EmployeeDetails";
 
 export function LineTable() {
-  const { GetAllEmployees, EmployeeData } = useContext(EmployeeContext);
+  const { GetAllEmployees, EmployeeData, updatedEmployee } = useContext(EmployeeContext);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-
 
   useEffect(() => {
     GetAllEmployees();
-
-  }, []);
-  console.log()
-
+  }, [updatedEmployee]);
 
   if (EmployeeData && EmployeeData.length > 0) {
     return (

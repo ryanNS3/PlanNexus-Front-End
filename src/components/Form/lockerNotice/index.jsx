@@ -4,9 +4,11 @@ import { TextArea } from "../../Inputs/TextArea"
 import { Label } from "../../Inputs/Label"
 
 export function LockerForm() {
+
+
     return (
 
-        < form action="submit" className="flex flex-col w-full h-full justify-between" >
+        < form className="flex flex-col w-full h-full justify-between" >
 
             <div className="flex flex-col max-h-[70%] overflow-y-scroll">
                 <h1 className="text-h4">ENVIAR AVISO</h1>
@@ -21,7 +23,7 @@ export function LockerForm() {
             </div>
 
             <div className="flex flex-wrap items-end justify-end gap-4">
-                <GhostButton text={'Cancelar'} />
+                <GhostButton text={'Cancelar'} action={console.log('Cancelar')}/>
                 <PinkButton text={'Continuar'} />
             </div>
 

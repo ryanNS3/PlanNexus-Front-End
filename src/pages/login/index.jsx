@@ -61,7 +61,6 @@ export function Login() {
     } else {
       console.log(error);
       setErrorMessage(error || 'Erro durante o login. Por favor, tente novamente.');
-      setInputError(true);
     }
 
     console.log(finalEmail, password)

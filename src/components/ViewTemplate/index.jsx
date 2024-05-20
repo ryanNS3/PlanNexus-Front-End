@@ -36,7 +36,7 @@ export function TemplateView({ name, role, formModal,isOpenModal,setIsOpenModal,
                 }
 
                 {isExtendModal &&
-                    <ExtendModal TextButton={name} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
+                    <ExtendModal TextButton={`Adicionar ${name}`} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
                         {formModal}
                     </ExtendModal>
                 }
@@ -78,7 +78,7 @@ export function TemplateView({ name, role, formModal,isOpenModal,setIsOpenModal,
                     ))}
             </section>
             <section className="flex flex-col col-span-10 gap-2">
-                <LineTable />
+                {/* <LineTable /> */}
             </section>
         </main>
     )
