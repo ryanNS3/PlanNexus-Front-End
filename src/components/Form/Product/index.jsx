@@ -11,6 +11,7 @@ import { SquareCheckBox } from "../../Inputs/input-CheckBox";
 import { InputImage } from "../../Inputs/input-file";
 import avatar from "../../../assets/avatar.jpg"
 import { productReduce } from "../../../reducers/product/reduce";
+import { toastifyContext } from "../../../context/toastifyContext";
 
 export function ProductForm({ setIsOpenProductModal }) {
   // informações para consumir a API
@@ -18,6 +19,7 @@ export function ProductForm({ setIsOpenProductModal }) {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
+  const {Notification} = React.useContext(toastifyContext)
 
   const [productDataState, dispatch] = React.useReducer(
     productReduce
@@ -34,9 +36,14 @@ export function ProductForm({ setIsOpenProductModal }) {
   })
 
   const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
-  // cada array representa uma posição de cada imagem
-  const [dataProduct, setDataProduct] = React.useState();
   const [isSizeOptions, setIsSizeOptions] = React.useState(false);
+  /**
+   * ATENÇÃO!!
+   * A variável tempColorValue foi criada para controle unico do input de cor, pois,
+   *  não é possível alterar diretamente no reduce, sempre que um item é alterado TODOS os inputs
+   *  são renderizados novamente ocasionando a perca de foco ao digitar no input
+   */
+  const [tempColorValue, setTempColorValue] = React.useState(colorsProduct)
 
   const sizes = [
     {
@@ -49,40 +56,50 @@ export function ProductForm({ setIsOpenProductModal }) {
       size: "G",
     },
   ];
-
-   async function handleCreateProduct(event) {
+  console.log(image)
+  async function handleCreateProduct(event) {
     event.preventDefault()
-    setDataProduct(
-      {
-        nome: nameProduct,
-        cores: colorsProduct,
-        valor : priceProduct,
-        descontoAssociado: discountProduct,
-        tamanhos: sizeProduct,
-        descricao: descriptionProduct,
-        fotos: image.flat(),
-        brinde: "false",
-      },
-    );
-    
-    const AddProductFetch = await requisicao(`${BASE_URL}/produto/`, dataProduct, "POST", {
+    const AddProductFetch = await requisicao(`${BASE_URL}/produto/`,{
+      nome: nameProduct,
+      cores: colorsProduct,
+      valor : parseFloat(priceProduct),
+      desconto: parseFloat(discountProduct),
+      tamanhos: sizeProduct,
+      descricao: descriptionProduct,
+      fotos: image.flat(),
+      brinde: "false",
+    }, "POST", {
       authorization: `bearer ${token}`,
       nif: user,
       'Content-Type': 'multipart/form-data',
     })
-    console.log(dataProduct)
-    console.log(AddProductFetch)
+
+    if (AddProductFetch){
+      Notification("sucess", "Produto cadastrado com sucesso")
+      setIsOpenProductModal(false)
+    }
+    else{
+      Notification("error", "Ocorreu um erro")
+    }
+
   }
   
 
   function handleRemoveColor(event){
     event.preventDefault()
     const keyOfColor = event.target.id
+    const colorRemove = colorsProduct[keyOfColor]
+    const filteredColor = colorsProduct.filter((color, index) => index != keyOfColor)
+    // console.log(image.flat().filter((image) => image))
+
     dispatch({
       type: "HANDLE_REMOVE_COLOR",
       payload: keyOfColor
       
     })
+    setTempColorValue(filteredColor)
+
+    
   }
 
   function handleCloseSizeOptions(event){
@@ -104,6 +121,7 @@ export function ProductForm({ setIsOpenProductModal }) {
       type: "HANDLE_CHANGE_DESCRIPTION",
       payload: event.target.value
     })
+  
   }
 
   function handleSize({ target }) {
@@ -116,12 +134,20 @@ export function ProductForm({ setIsOpenProductModal }) {
     })
   }
 
-  function handleColor({ target }) {
+
+  function handleChangeColor({target}){
+    let colorsChange = [...tempColorValue];
+    colorsChange[target.id] = target.value;
+    setTempColorValue(colorsChange)
+
+  }
+
+  function handleBlurColor(event) {
    dispatch({
     type: "HANDLE_CHANGE_COLOR",
     payload:{
-      id: target.id,
-      value: target.value
+      id: event.target.id,
+      value: event.target.value
     }
    })
   }
@@ -130,6 +156,21 @@ export function ProductForm({ setIsOpenProductModal }) {
     event.preventDefault()
     dispatch({
       type : "HANDLE_ADD_COLOR"
+    })
+
+    // setTempColorValue( [...tempColorValue, `cor${tempColorValue.length}`])
+  }
+
+  function handleRemoveImage(event, indexPosition, indexOfColor){
+    event.preventDefault()
+
+    dispatch({
+      type: "HANDLE_REMOVE_IMAGE",
+      payload:{
+        indexPosition : indexPosition,
+        indexOfColor : indexOfColor
+
+      }
     })
   }
 
@@ -202,12 +243,13 @@ export function ProductForm({ setIsOpenProductModal }) {
             <section className="flex flex-col gap-2">
               {colorsProduct.map((color, index) => {
                 return (
-                  <div key={color+index} className=" flex justify-center items-center gap-4 animate-topToButton">
+                  <div key={color+index} className=" flex justify-center items-center gap-4">
                     <InputText
                       placeholder="Digite o nome da cor"
                       id={index}
-                      onChange={handleColor}
-                      value={color}
+                      onBlur={handleBlurColor}
+                      onChange={handleChangeColor}
+                      value={tempColorValue[index]}
                     />
                     <button  className="p-2 rounded bg-cinza-100 hover:bg-rosa-300 hover:text-cinza-50" id={index} onClick={handleRemoveColor}>
                       -
@@ -267,26 +309,28 @@ export function ProductForm({ setIsOpenProductModal }) {
         <h2 className=" text-h4">{nameProduct}</h2>
         <p>Selecione a cor</p>
         
-        <section className="flex gap-4 justify-start items-start">
-          {colorsProduct.map((color, index) =>{
-            return(
-              <button key={`selectedColor${color}${index}`} data-color={color} onClick={handleChangeSelectedColor}
-               className="flex flex-col justify-start items-start">
-                <div
-                  className={` border-2 border-transparent ${selectedColor === color ? "border-rosa-300" : null}  hover:border-rosa-300 py-2 px-2 bg-cinza-100 rounded max-w-24`}>
-                  <img className=" rounded-lg w-full" src={avatar} alt="" aria-hidden />
-                </div>
-                <p  className=" max-w-[3ch] text-fun2">{color}</p>
-              </button>
-            )
-          })}
+        <section className="flex gap-2 justify-start items-start">
+          {tempColorValue.map((color, index) =>{
+             if (color !== "") {
+               return(
+                 <button key={`selectedColor${color}${index}`} data-color={color} onClick={handleChangeSelectedColor}
+                  className={`flex flex-col justify-start items-start`}>
+                   <div
+                     className={`flex flex-1 border-[3px] border-cinza-100 ${selectedColor === color ? " border-rosa-300" : ""}  hover:border-rosa-300 py-2 px-2  rounded-lg `}>
+                     <p  className="text-fun2">{color}</p>
+                   </div>
+                 </button> 
+               )
+             }
+            }
+          )}
         </section>
           <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
-            <InputImage onDrop={(file) => onDropImage(file, 0)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={image}  />
+            <InputImage onDrop={(file) => onDropImage(file, 0)} onRemoveImage={(event) => handleRemoveImage(event,0,colorsProduct.indexOf(selectedColor))}  keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={image}  />
             <div className="grid grid-cols-2 gap-6 max-h-6">
-              <InputImage onDrop={(file) => onDropImage(file, 1)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={image} />
-              <InputImage onDrop={(file) => onDropImage(file, 2)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={image} />
-              <InputImage onDrop={(file) => onDropImage(file, 3)} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={image} />
+              <InputImage onDrop={(file) => onDropImage(file, 1)} onRemoveImage={(event) => handleRemoveImage(event,1,colorsProduct.indexOf(selectedColor))} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={image} />
+              <InputImage onDrop={(file) => onDropImage(file, 2)} onRemoveImage={(event) => handleRemoveImage(event,2,colorsProduct.indexOf(selectedColor))} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={image} />
+              <InputImage onDrop={(file) => onDropImage(file, 3)} onRemoveImage={(event) => handleRemoveImage(event,3,colorsProduct.indexOf(selectedColor))} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={image} />
             </div>
           </div>
 
