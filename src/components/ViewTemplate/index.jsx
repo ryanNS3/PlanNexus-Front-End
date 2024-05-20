@@ -11,7 +11,6 @@ import { StudentDetails } from "../StudentDetails";
 
 export function TemplateView({
   name,
-  endpoint,
   type,
   formModal,
   isExtendModal = false,
@@ -26,6 +25,23 @@ export function TemplateView({
       : url.pathname === "/estoque"
       ? "os produtos"
       : "as doações";
+  
+      const getEndpoint = () => {
+        switch (type) {
+          case "students":
+            return '/aluno/todos';
+      
+          case "employees":
+            return '/funcionario/todos';
+      
+          case "products":
+            return '/produto/todos';
+          
+          default:
+            return null; // ou algum valor padrão caso nenhum tipo corresponda
+        }
+      }
+      
 
   const [searchTerm, setSearchTerm] = useState("");
   let isModal = formModal;
@@ -45,7 +61,7 @@ export function TemplateView({
   const [data, setData] = React.useState([]);
 
   async function getData() {
-    const req = await requisicao(`${BASE_URL}${endpoint}`, null, "GET", {
+    const req = await requisicao(`${BASE_URL}${getEndpoint()}`, null, "GET", {
       authorization: `bearer ${token}`,
       nif: user,
     });
