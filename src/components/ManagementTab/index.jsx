@@ -67,13 +67,18 @@ export function ManagementTab() {
       value: "armarios",
 
       element: (
+        // <AllLocker
+        //   statusUser={"armarios"}
+        //   typeUser={"armários"}
+        //   contentOne={<LockerForm />}
+        //   contentDuo={<SelectLocker />}
+        //   header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]}
+        // />
         <AllLocker
-          statusUser={"armarios"}
-          typeUser={"armários"}
-          contentOne={<LockerForm />}
-          contentDuo={<SelectLocker />}
-          header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]}
-        />
+        statusUser={"Status"}
+        name="Funcionário"
+        role={"cargo"}
+      />
       ),
     },
   ];
