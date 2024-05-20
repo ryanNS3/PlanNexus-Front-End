@@ -6,10 +6,9 @@ import { toastifyContext } from '../../context/toastifyContext';
 import { modalContext } from '../../context/modalContext';
 
 export function EmployeeDetails({ employee }) {
-  const { EditEmployee } = useContext(EmployeeContext);
+  const { EditEmployee, DisableEmployee } = useContext(EmployeeContext);
   const { Notification } = useContext(toastifyContext);
   const { setIsOpenModal } = useContext(modalContext);
-
   const [editedEmployee, setEditedEmployee] = useState(employee);
   const [originalEmployee, setOriginalEmployee] = useState(employee);
   const [isEditing, setIsEditing] = useState({
@@ -64,6 +63,15 @@ export function EmployeeDetails({ employee }) {
         console.log(editedEmployee)
       setIsOpenModal(true);
       Notification("error", "Falha ao atualizar funcionário");
+    }
+  };
+
+  const handleDisableEmployee = async () => {
+    const success = await DisableEmployee(employee.NIF);
+    if (success) {
+      Notification("success", "Funcionário desabilitado com sucesso");
+    } else {
+      Notification("error", "Falha ao desabilitar funcionário");
     }
   };
 
@@ -131,7 +139,7 @@ export function EmployeeDetails({ employee }) {
           </>
         ) : (
           <>
-            <PinkButton type='secondary' text='Desabilitar perfil' />
+            <PinkButton type='secondary' text='Desabilitar perfil' action={handleDisableEmployee} />
             <PinkButton text='Restaurar senha' />
           </>
         )}
