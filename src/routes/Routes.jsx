@@ -19,7 +19,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 export function Router() {
   const clientLocal = new QueryClient()
   return (
-    // <QueryClientProvider client={clientLocal}>
+    <QueryClientProvider client={clientLocal}>
       <UserProvider>
         <EmployeeProvider>
           <ProductProvider>
@@ -120,6 +120,6 @@ export function Router() {
           </ProductProvider>
         </EmployeeProvider>
       </UserProvider>
-    // </QueryClientProvider>
+    </QueryClientProvider>
   );
 };
