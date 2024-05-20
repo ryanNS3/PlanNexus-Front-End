@@ -18,21 +18,18 @@ export function LockerProvider({ children }) {
         })
         setDataLocker(reqLocker.json.response)
         console.log(dataLocker)
-        console.log(dados)
+
     }
 
-    async function AtualizaLocker() {
+    async function AtualizaLocker({dataLocker}) {
+        
         const reqStatus = await requisicao(`${BASE_URL}/armario/atualizar`, {
-            "numeroArmario": `${dataLocker.id}`,
-            "idAluno": `${id}`,
-            "statusArmario": `${dataLocker.response}`
+            dataLocker
         }, "PATCH", {
             authorization: `bearer ${localStorage.getItem('token')}`,
             nif: localStorage.getItem('user'),
         })
-        setDataLocker(reqStatus.json.response.status)
-        console.log(AtualizaLocker)
-        console.log(reqStatus)
+        return reqStatus
     }
 
 

@@ -20,7 +20,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 
 export function AllLocker({ typeUser }) {
-  const {dataLocker, GetLocker } = React.useContext(LockerContext);
+  const { dataLocker, GetLocker } = React.useContext(LockerContext);
 
   useEffect(() => {
     GetLocker();
@@ -36,27 +36,28 @@ export function AllLocker({ typeUser }) {
     setIsOpenOptions(false);
   }
 
-  if (dataLocker) {
-    return (
-      <div onFocus={handleFocusAllLocker}>
-        <div className="flex flex-wrap mt-8 gap-5">
-          <Percentage />
-          <VoidDate />
-        </div>
-
-        <div className="col-start-1 col-end-12 flex justify-between mt-10">
-          <h1 className="text-h5">Todos os {typeUser}: </h1>
-          <DuoModalOptions
-            contentOne={<SelectLocker />}
-            contentDuo={<LockerForm />}
-            Button={<PinkButton icon={<CampWhite />} text={"Enviar Aviso"} />}
-          ></DuoModalOptions>
-        </div>
-
-        <Lockers />
+  return (
+    <div onFocus={handleFocusAllLocker}>
+      <div className="flex flex-wrap mt-8 gap-5">
+        <Percentage />
+        <VoidDate />
       </div>
-    );
-  }
+      {dataLocker && (
+        <>
+          <div className="col-start-1 col-end-12 flex justify-between mt-10">
+            <h1 className="text-h5">Todos os {typeUser}: </h1>
+            <DuoModalOptions
+              contentOne={<SelectLocker />}
+              contentDuo={<LockerForm />}
+              Button={<PinkButton icon={<CampWhite />} text={"Enviar Aviso"} />}
+            ></DuoModalOptions>
+          </div>
+
+          <Lockers />
+        </>
+      )}
+    </div>
+  );
 }
 
 export function Lockers({ size }) {
@@ -108,6 +109,7 @@ export function Lockers({ size }) {
               key={index}
               nome={element.nome}
               numero={element.numero}
+              idStudent={element.id_Aluno}
               status={element.status}
             />
           );
@@ -155,7 +157,7 @@ export function Lockers({ size }) {
   );
 }
 
-export function Locker({ nome, numero, status }) {
+export function Locker({ nome, numero, status, idStudent }) {
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
 
   let menuRefLocker = useRef();
@@ -178,8 +180,7 @@ export function Locker({ nome, numero, status }) {
     setIsOpenOptions(!isOpenOptions);
   }
 
-  const unlocker = status == 'ocupado' ? 'hidden' : '' 
-  
+  const unlocker = status == "desocupado" ? "hidden" : "";
 
   return (
     <>
@@ -189,17 +190,19 @@ export function Locker({ nome, numero, status }) {
         id={numero}
         nome={nome}
         className={`relative col-span-1 ${
-          status == "ocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
+          status == "desocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
         } h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
       >
-          <div className={`absolute top-1 right-1  ${unlocker}`}>
-            <LockBlack />
-          </div>
+        <div className={`absolute top-1 right-1  ${unlocker}`}>
+          <LockBlack />
+        </div>
 
-          <p className="text-h5">{numero}</p>
+        <p className="text-h5">{numero}</p>
 
         <div className="absolute z-1000 top-0 -right-2 " ref={menuRefLocker}>
-          {isOpenOptions && <Options nome={nome} numero={numero} status={status} />}
+          {isOpenOptions && (
+            <Options nome={nome} numero={numero} status={status} idStudent={idStudent}  />
+          )}
         </div>
       </div>
     </>
