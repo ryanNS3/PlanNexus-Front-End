@@ -7,16 +7,21 @@ import { ProductForm } from '../../components/Form/Product'
 import { PlusWhite } from '../../assets/Plus'
 import { ProductContext } from '../../context/ProductContext'
 import { LineTable } from '../../components/LineTable'
+import { GhostButton } from '../../components/Buttons/ghostButton'
+import { PinkButton } from '../../components/Buttons/pinkButton'
 
 
 
 export function Stock() {
-
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalView, setIsOpenModalView] = React.useState(false)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
   const {GetProducts, FetchGetProducts} = React.useContext(ProductContext)
   const [productSelected, setProductSelected] = React.useState(null)
+
+  function handleEditProduct(event){
+    console.log(event)
+  }
   
 
   const {resProductData} = GetProducts()
@@ -68,10 +73,16 @@ export function Stock() {
             return(
               <div className='flex  items-center border-2 p-2 gap-4 overflow-y-scroll max-h-full  rounded border-cinza-100'>
                 <div className=' w-14'>
-                  <img className=' rounded max-w-full' src={product.foto}/>
+                  <img className=' rounded max-w-full' src={product.foto[0]}/>
                 </div>
                 <p>{`${product.nome}(${product.cor})`}</p>
                 <UniqueModal selectedId={product.id_produto} setSelectedId={setProductSelected} >
+
+                  <div className='flex gap-2'>
+                    <GhostButton action={handleEditProduct} align="start" size="medium" text={`Editar produto`}/>
+                    <span className=' block w-[2px] h-10 rounded-sm bg-cinza-100'></span>
+                    <PinkButton align="start" size="medium" text={`+ Repor esroque`}/>
+                  </div>
                   <header className='flex justify-between'>
                     <h1 className=' text-h5'>{`${product.nome}(${product.cor})`}</h1>
                     <p className=' text-sub2'>R${product.valor}</p>
@@ -79,11 +90,23 @@ export function Stock() {
 
                   <span className=' block w-full h-[2px] my-4 bg-cinza-100 '></span>
 
-                  <section className=' grid '>
-                    <img className=' rounded' src={product.foto} alt="" />
-                    <div>
+                  {product.foto.length > 1 && (
+                  <section className='  '>
+                      <img className='rounded' src={product.foto[0]} alt="" />
+                    <div className=' grid grid-cols-6'>
+                      {product.foto.map((image, index) => (
+                        <div key={index} className=''>
+                          <img key={index} src={image} alt="" />
+                        </div>
+                      ))}
                     </div>
                   </section>
+                  )}
+
+                  {/* If there's only one photo, you can render it like this */}
+                  {product.foto.length === 1 && (
+                    <img className='rounded' src={product.foto[0]} alt="" />
+                  )}
 
                   
                 </UniqueModal>
