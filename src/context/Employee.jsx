@@ -108,19 +108,19 @@ const EditEmployee = React.useCallback(async (editedData) => {
     }
   }, [requisicao, BASE_URL, token, user]);
  
-  const DeleteEmployee = React.useCallback(async () => {
+ const DisableEmployee = React.useCallback(async (NIF) => {
     try {
       const res = await requisicao(
-        `${BASE_URL}/funcionario/todos`,
+        `${BASE_URL}/funcionario/inativar/${NIF}`,
         null,
-        `DELETE`,
+        `PATCH`,
         {
           authorization: `bearer ${token}`,
           nif: user,
         }
       );
       if (res && res.res.status === 200) {
-        setEmployeeData(res.json.response);
+        console.log('inativado com sucesso')
         return true;
       }
     } catch (error) {
@@ -131,7 +131,7 @@ const EditEmployee = React.useCallback(async (editedData) => {
  
   return (
     <EmployeeContext.Provider
-      value={{ GetAllEmployees, GetEmployee, DeleteEmployee, AddEmployee, EditEmployee, EmployeeData, updatedEmployee }}
+      value={{ GetAllEmployees, GetEmployee, DisableEmployee, AddEmployee, EditEmployee, EmployeeData, updatedEmployee }}
     >
       {children}
     </EmployeeContext.Provider>
