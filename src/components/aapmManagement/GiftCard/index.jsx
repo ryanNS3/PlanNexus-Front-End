@@ -4,26 +4,40 @@ import {RepeatIcon} from "../../../assets/Gestao/repeat"
 import { CardMedium } from "../../Cards/Card";
 import { ProductContext } from "../../../context/ProductContext";
 import BasicModal from "../../Modal";
+import { useMutation } from "@tanstack/react-query";
 
+const resOneProduct = [
+  {
+    "id": 1,
+    "nome": "Produto A",
+    "brinde": false
+  },
+  {
+    "id": 2,
+    "nome": "Produto B",
+    "brinde": true
+  },
+  {
+    "id": 3,
+    "nome": "Produto C",
+    "brinde": false
+  }
+]
 
 export function GiftCard(){
-    const [isOpenDrop, setOpenDrop] = React.useState(false);
-    const [modal, setModalOpen] = React.useState(false)
-    const [gift, setGift] = React.useState(false)
-    const  {GetGiftProduct}  = React.useContext(ProductContext)
-
-    const { resOneProduct } = GetGiftProduct()
-    console.log(resOneProduct)
-
+  const [isOpenDrop, setOpenDrop] = React.useState(false);
+  const [modal, setModalOpen] = React.useState(false)
+  const [gift, setGift] = React.useState(false)
+  const  {GetGiftProduct}  = React.useContext(ProductContext)
+  // const { resOneProduct } = GetGiftProduct()
 
     const handleOpenDropDown = () => {
-        setOpen(!open);
+        setOpenDrop(!isOpenDrop);
     };
 
     const handleMenuOne = () => {
         setGift()
     };
-
 
     return(
         <div>
@@ -34,21 +48,22 @@ export function GiftCard(){
             { resOneProduct && 
 
               <div className="pt-4" >
-                <div className="flex align-center mt-2 border-2 border-cinza-100 rounded-lg p-2">
-                    <img src={resOneProduct.json.response[0].foto} className="w-14"/>
-                    <p className="text-fun2 mt-2 ml-2" >{resOneProduct.json.response[0].nome}</p> 
+                <div className="flex align-center mt-2 border-2 border-cinza-100 rounded-lg p-2 w-">
+                    <img src={resOneProduct[0].foto} className="w-14"/>
+                    <p className="text-fun2 mt-2 ml-2" >{resOneProduct[0].nome}</p> 
 
                 </div>
                 <Dropdown
-                trigger={<button className="relative -top-[10rem] lg:-right-[15rem] md:-right-[12rem]" onClick={handleOpenDropDown}><RepeatIcon/></button>}
+                trigger={<button className="flex relative -top-[9rem] lg:-right-[15rem] md:-right-[16rem]" onClick={handleOpenDropDown}><RepeatIcon/></button>}
                 open={open}
                 menu={[
                   <button onClick={handleMenuOne} className="w-full flex align-center mb-6 border-2 border-cinza-100 rounded-lg p-2">
-                        <img src={resOneProduct.json.response[1].foto} className="w-14" />
-                        <p className="text-fun2 mt-2 ml-2" >{resOneProduct.json.response[1].nome}</p> 
+                        <img src={resOneProduct[1].foto} className="w-14" />
+                        <p className="text-fun2 mt-2 ml-2" >{resOneProduct[1].nome}</p> 
                     </button>,
                     <BasicModal labelButton="Escolher novo brinde" isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Novo brinde" >
                       {/* lista dos produtos */}
+                      <GiftList/>
                     </BasicModal>
                 ]}
                 /> 
@@ -66,7 +81,7 @@ const Dropdown = ({ trigger, menu }) => {
     };
   
     return (
-        <div className="z-40 relative bg-branco -bottom-[7rem]">
+        <div className="z-40 relative -bottom-[7rem] -left-[1rem]">
         {React.cloneElement(trigger, {
           onClick: handleOpen,
         })}
@@ -92,3 +107,25 @@ const Dropdown = ({ trigger, menu }) => {
       </div>
     );
   };
+
+
+
+  const GiftList = () => {
+    const  {GetGiftProduct, SwitchGift}  = React.useContext(ProductContext)
+    // const { resOneProduct } = GetGiftProduct()
+
+    // const handleNewGift = async(productId) => {
+    //   try {
+    //     await SwitchGift.mutateAsync(productId)
+    //   } catch (error) {
+    //     console.log('erro ao ativar brinde: ', error)
+    //   }
+    // }
+    
+    {resOneProduct && resOneProduct.map(() => {
+          return(
+          <p key={resOneProduct.id} > {resOneProduct.nome} - {resOneProduct.brinde ? 'brinde atual' : ''} </p>
+          )
+        })}
+    
+  }

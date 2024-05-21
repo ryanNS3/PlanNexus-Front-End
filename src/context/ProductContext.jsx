@@ -1,6 +1,6 @@
 import React from "react";
 import useAxios from "../hooks/useAxios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const ProductContext = React.createContext();
@@ -43,8 +43,26 @@ export function ProductProvider({ children }) {
       return {resOneProduct}
     }
 
+
+    // atualizar brinde
+    const FetchSwitchGift = async() => {
+      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, null, 'PATCH', {
+          authorization: `bearer ${token}`,
+          nif: user
+      })
+      return req
+    }    
+
+    const SwitchGift = () => {
+        const newGift = useMutation({
+          mutationFn: FetchSwitchGift 
+        })
+        return newGift
+    }
+
+
   return (
-    <ProductContext.Provider value={{ GetProducts, FetchGetProducts, GetGiftProduct, FetchGift }}>
+    <ProductContext.Provider value={{ GetProducts, FetchGetProducts, GetGiftProduct, SwitchGift}}>
       {children}
     </ProductContext.Provider>
   );
