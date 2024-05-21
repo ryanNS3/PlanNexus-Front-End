@@ -162,9 +162,6 @@ export function TemplateView({
           data.map((item) => (
             <>
               <LineTable
-                image_source={item.foto}
-                name={item.nome}
-                partner={item.associado}
                 grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
                 type={type}
                 data={item}
@@ -205,8 +202,8 @@ function LineTable({ data, grid, isNew, type }) {
             </div>
 
             <UniqueModal>
-              <EmployeeDetails employee={data}/>
-              {/* <StudentDetails student={data} /> */}
+              {/* <EmployeeDetails employee={data}/> */}
+              <StudentDetails student={data} />
             </UniqueModal>
           </>
         )}
@@ -226,8 +223,8 @@ function LineTable({ data, grid, isNew, type }) {
             </div>
 
             <UniqueModal>
-              {/* <EmployeeDetails employee={form_data}/> */}
-              <StudentDetails student={form_data} />
+              <EmployeeDetails employee={data}/>
+              {/* <StudentDetails student={data} /> */}
             </UniqueModal>
           </>
         )}
@@ -238,8 +235,10 @@ function LineTable({ data, grid, isNew, type }) {
             {/* Adicionar lógica sobre o alerta aqui */}
             <p className="text-fun2">{data.qtd_estoque}</p>
             <UniqueModal>
-              {/* <EmployeeDetails employee={form_data}/> */}
-              <StudentDetails student={form_data} />
+              {/* <EmployeeDetails employee={data}/> */}
+              {/* <StudentDetails student={data} /> */}
+
+              {/* ADICIONAR O MODAL DE PRODUTOS AQUI */}
             </UniqueModal>
           </>
         )}
