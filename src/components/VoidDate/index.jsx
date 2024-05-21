@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 export function VoidDate(){
 
-
   const [date, setDate] = useState()
 
     return (
