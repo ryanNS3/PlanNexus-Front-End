@@ -54,65 +54,86 @@ export function StudentDetails({ student }) {
   console.log("STUDENT", student);
   return (
     <div>
-      {/* <p>{employee.nome}</p> */}
-      {/* <p>{employee.nome_cargo}</p> */}
-      <p className='relative text-fun2 pl-2 text-rosa-500 before:content-[""] before:h-full before:w-[3px] before:bg-rosa-destaque before:inline-block before:absolute before:left-0 before:rounded-full'>
-        Informações pessoais:
-      </p>
-      <div className="flex flex-wrap gap-4">
-        <InputText
-          id="Nome"
-          name="Nome:"
-          placeholder={student.nome}
-          onChange={(e) => setNome(e.target.value)}
-          disabled
-        />
-        <InputText
-          id="CPF"
-          name="CPF:"
-          placeholder={student.CPF}
-          onChange={(e) => setCpf(e.target.value)}
-          disabled
-        />
-        <InputText
-          id="Telefone"
-          name="Telefone:"
-          placeholder={student.telefone_celular}
-          onChange={(e) => setTelefoneCelular(e.target.value)}
-          disabled
-        />
-        <InputText
-          id="Email"
-          name="Email:"
-          placeholder={student.email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled
-        />
-        {/* Nome, CPF, Telefone, Email */}
+      <header className="flex items-center gap-6 pb-2 mb-6 border-b border-b-cinza-200">
+        <div>
+          <div className="h-18 w-18">
+            <img
+              src={
+                data.foto ||
+                `https://static.thenounproject.com/png/2932881-200.png`
+              }
+              className="rounded-full w-full h-full"
+            />
+          </div>
+        </div>
+
+        <div>
+          <p className="text-h5">{student.nome}</p>
+          <p className="text-ct2">{student.curso}</p>
+        </div>
+      </header>
+
+      <div>
+        <p className='relative text-fun2 pl-2 mb-2 text-rosa-500 before:content-[""] before:h-full before:w-[3px] before:bg-rosa-destaque before:inline-block before:absolute before:left-0 before:rounded-full'>
+          Informações pessoais:
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <InputText
+            id="Nome"
+            name="Nome:"
+            placeholder={student.nome}
+            onChange={(e) => setNome(e.target.value)}
+            disabled
+          />
+          <InputText
+            id="CPF"
+            name="CPF:"
+            placeholder={student.CPF}
+            onChange={(e) => setCpf(e.target.value)}
+            disabled
+          />
+          <InputText
+            id="Telefone"
+            name="Telefone:"
+            placeholder={student.telefone_celular}
+            onChange={(e) => setTelefoneCelular(e.target.value)}
+            disabled
+          />
+          <InputText
+            id="Email"
+            name="Email:"
+            placeholder={student.email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled
+          />
+          {/* Nome, CPF, Telefone, Email */}
+        </div>
       </div>
 
-      <p className='relative text-fun2 pl-2 text-rosa-500 before:content-[""] before:h-full before:w-[3px] before:bg-rosa-destaque before:inline-block before:absolute before:left-0 before:rounded-full'>
-        Informações de curso:
-      </p>
-      <div className="flex flex-wrap gap-4">
-        <InputText
-          id="Socio"
-          name="Sócio AAPM:"
-          placeholder={student.associado ? "Sim" : "Não"}
-          onChange={(e) => setAssociado(e.target.value)}
-          disabled
-        />
-        <InputText
-          id="Curso"
-          name="Curso:"
-          placeholder={student.curso}
-          onChange={(e) => setCurso(e.target.value)}
-          disabled
-        />
-        {/* Sócio AAPM, Curso */}
+      <div className="mt-8">
+        <p className='relative text-fun2 pl-2 mb-2 text-rosa-500 before:content-[""] before:h-full before:w-[3px] before:bg-rosa-destaque before:inline-block before:absolute before:left-0 before:rounded-full'>
+          Informações de curso:
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <InputText
+            id="Socio"
+            name="Sócio AAPM:"
+            placeholder={student.associado ? "Sim" : "Não"}
+            onChange={(e) => setAssociado(e.target.value)}
+            disabled
+          />
+          <InputText
+            id="Curso"
+            name="Curso:"
+            placeholder={student.curso}
+            onChange={(e) => setCurso(e.target.value)}
+            disabled
+          />
+          {/* Sócio AAPM, Curso */}
+        </div>
       </div>
 
-      <button>Salvar Alterações</button>
+      {/* <button>Salvar Alterações</button> */}
     </div>
   );
 }
