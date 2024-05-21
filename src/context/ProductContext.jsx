@@ -1,6 +1,7 @@
 import React from "react";
 import useAxios from "../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const ProductContext = React.createContext();
 
@@ -15,7 +16,7 @@ export function ProductProvider({ children }) {
       authorization: `bearer ${token}`,
       nif: user,
     });
-    console.log(requestApiProducts)
+    // console.log(requestApiProducts)
     return requestApiProducts;
   };
 
@@ -25,8 +26,25 @@ export function ProductProvider({ children }) {
       return { resProductData };
     };
 
+    
+    // get brindes ativos
+    const FetchGift = async() => {
+      const req = await requisicao(`${BASE_URL}/produto/unico`, null, "GET", {
+        authorization: `bearer ${token}`,
+        nif: user,
+      })
+      return req
+    }
+
+    const GetGiftProduct = () => {
+      const {data} = useQuery({queryKey : ['productData'], queryFn: FetchGift})
+      const resOneProduct = data
+      // console.log(resOneProduct)
+      return {resOneProduct}
+    }
+
   return (
-    <ProductContext.Provider value={{ GetProducts, FetchGetProducts }}>
+    <ProductContext.Provider value={{ GetProducts, FetchGetProducts, GetGiftProduct, FetchGift }}>
       {children}
     </ProductContext.Provider>
   );

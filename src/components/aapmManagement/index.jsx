@@ -1,7 +1,6 @@
 import { CardMedium } from "../Cards/Card"
 import React from "react"
 import { TemplateView } from "../ViewTemplate"
-import { PriceCard } from "./PriceCard"
 import { GiftCard } from "./GiftCard"
 
 export function AapmManage(){
