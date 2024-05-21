@@ -5,6 +5,7 @@ import ClearSvg from "../../assets/header/xmark.svg"
 import { useState } from "react";
 import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter"
+import { PinkButton } from "../Buttons/pinkButton";
 
 
 export function TemplateView({ name, role, formModal,isOpenModal,setIsOpenModal, isExtendModal = false, header_data }) {
@@ -36,7 +37,7 @@ export function TemplateView({ name, role, formModal,isOpenModal,setIsOpenModal,
                 }
 
                 {isExtendModal &&
-                    <ExtendModal TextButton={`Adicionar ${name}`} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
+                    <ExtendModal TextButton={`Adicionar ${name}`} componentForOpenModal={<PinkButton text={`Adicionar ${name}`} />}>
                         {formModal}
                     </ExtendModal>
                 }
