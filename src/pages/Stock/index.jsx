@@ -15,6 +15,7 @@ import { PinkButton } from '../../components/Buttons/pinkButton'
 export function Stock() {
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalView, setIsOpenModalView] = React.useState(false)
+  const [groupProduct, setGroupProduct] = React.useState(null)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
   const {GetProducts, FetchGetProducts} = React.useContext(ProductContext)
   const [productSelected, setProductSelected] = React.useState(null)
@@ -26,6 +27,47 @@ export function Stock() {
 
   const {resProductData} = GetProducts()
   console.log(resProductData)
+
+  React.useEffect(() => {
+    if (resProductData && resProductData.json && resProductData.json.response) {
+      const groupedProducts = resProductData.json.response.reduce((acc, product) => {
+        if (!acc[product.nome]) {
+          acc[product.nome] = { nome: product.nome, produtos: [] }
+        }
+
+        const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
+
+        if (existingProduct) {
+          existingProduct.tamanhos.push({
+            id_produto: product.id_produto,
+            tamanho: product.tamanho,
+            qtd_estoque: product.qtd_estoque,
+            qtd_reservada: product.qtd_reservada,
+            valor: product.valor
+          })
+          existingProduct.fotos.push(...product.foto)
+        } else {
+          acc[product.nome].produtos.push({
+            cor: product.cor,
+            tamanhos: [{
+              id_produto: product.id_produto,
+              tamanho: product.tamanho,
+              qtd_estoque: product.qtd_estoque,
+              qtd_reservada: product.qtd_reservada,
+              valor: product.valor
+            }],
+            fotos: [...product.foto]
+          })
+        }
+
+        return acc
+      }, {})
+
+      const result = Object.values(groupedProducts)
+      setGroupProduct(result)
+      console.log(result)
+    }
+  }, [resProductData])
   
   return (
     <>
@@ -64,18 +106,19 @@ export function Stock() {
         name="produtos"
         isOpenModal={isOpenModalForm}
         setIsOpenModal={setIsOpenModalForm}
-        formModal={<ProductForm setIsOpenProductModal={setIsOpenModalForm}/>}
+        formModal={<ProductForm />}
         header_data={["Alerta", "Estoque", "Ações"]}/>
 
       <div className=' space-y-4'>
-        {resProductData &&
-          resProductData.json.response.map((product) =>{
+        {groupProduct &&
+          groupProduct.map((product) =>{
             return(
               <div className='flex  items-center border-2 p-2 gap-4 overflow-y-scroll max-h-full  rounded border-cinza-100'>
                 <div className=' w-14'>
-                  <img className=' rounded max-w-full' src={product.foto[0]}/>
+                  <img className=' rounded max-w-full' src={product.produtos[0].fotos[0]}/>
                 </div>
                 <p>{`${product.nome}(${product.cor})`}</p>
+                
                 <UniqueModal selectedId={product.id_produto} setSelectedId={setProductSelected} >
 
                   <div className='flex gap-2'>
@@ -84,29 +127,30 @@ export function Stock() {
                     <PinkButton align="start" size="medium" text={`+ Repor esroque`}/>
                   </div>
                   <header className='flex justify-between'>
-                    <h1 className=' text-h5'>{`${product.nome}(${product.cor})`}</h1>
+                    <h1 className=' text-h5'>{`${product.nome}`}</h1>
                     <p className=' text-sub2'>R${product.valor}</p>
                   </header>
 
-                  <span className=' block w-full h-[2px] my-4 bg-cinza-100 '></span>
+                  <span className='block w-full h-[2px] my-4 bg-cinza-100 '></span>
 
-                  {product.foto.length > 1 && (
+                  {product.produtos[0].fotos.length > 1 && 
                   <section className='  '>
-                      <img className='rounded' src={product.foto[0]} alt="" />
-                    <div className=' grid grid-cols-6'>
-                      {product.foto.map((image, index) => (
+                      <img className='rounded' src={product.produtos[0].fotos[0]} alt="" />
+                    <div className='flex max-w-[99%] overflow-x-scroll'>
+                      {product.produtos[0].fotos.map((image, index) => 
+                      {
+                        return(
                         <div key={index} className=''>
-                          <img key={index} src={image} alt="" />
+                          <img className=' w-full min-w-18' key={index} src={image} alt="" />
                         </div>
-                      ))}
+                        )
+                      }
+                      )}
                     </div>
                   </section>
-                  )}
+                  }
 
-                  {/* If there's only one photo, you can render it like this */}
-                  {product.foto.length === 1 && (
-                    <img className='rounded' src={product.foto[0]} alt="" />
-                  )}
+                  1
 
                   
                 </UniqueModal>
