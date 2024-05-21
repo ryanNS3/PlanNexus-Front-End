@@ -3,11 +3,14 @@ import {DonationIcon} from '../../../assets/Gestao/donationIcon'
 import {RepeatIcon} from "../../../assets/Gestao/repeat"
 import { CardMedium } from "../../Cards/Card";
 import { ProductContext } from "../../../context/ProductContext";
+import BasicModal from "../../Modal";
+
 
 export function GiftCard(){
-    const [open, setOpen] = React.useState(false);
-    const [name, setName] = React.useState("Camiseta")
-    const  {GetGiftProduct, FetchGift }  = React.useContext(ProductContext)
+    const [isOpenDrop, setOpenDrop] = React.useState(false);
+    const [modal, setModalOpen] = React.useState(false)
+    const [gift, setGift] = React.useState(false)
+    const  {GetGiftProduct}  = React.useContext(ProductContext)
 
     const { resOneProduct } = GetGiftProduct()
     console.log(resOneProduct)
@@ -18,12 +21,9 @@ export function GiftCard(){
     };
 
     const handleMenuOne = () => {
-        setName(resOneProduct.json.response[1].nome)
+        setGift()
     };
-    
-    const handleMenuTwo = () => {
-        setName('abrir modal')
-    };
+
 
     return(
         <div>
@@ -40,16 +40,16 @@ export function GiftCard(){
 
                 </div>
                 <Dropdown
-                trigger={<button className="relative -top-[9rem] lg:-right-[24rem] md:-right-[12rem]" onClick={handleOpenDropDown}><RepeatIcon/></button>}
+                trigger={<button className="relative -top-[10rem] lg:-right-[15rem] md:-right-[12rem]" onClick={handleOpenDropDown}><RepeatIcon/></button>}
                 open={open}
                 menu={[
                   <button onClick={handleMenuOne} className="w-full flex align-center mb-6 border-2 border-cinza-100 rounded-lg p-2">
                         <img src={resOneProduct.json.response[1].foto} className="w-14" />
-                        <p className="text-fun2 mt-2 ml-2" >{name}</p> 
+                        <p className="text-fun2 mt-2 ml-2" >{resOneProduct.json.response[1].nome}</p> 
                     </button>,
-                    <button onClick={handleMenuTwo} className="w-full flex align-center border-2 mb-6 border-cinza-100 rounded-lg p-2">
-                        <p className="text-fun2 my-2 ml-2">Adicionar novo produto</p> 
-                    </button>,
+                    <BasicModal labelButton="Escolher novo brinde" isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Novo brinde" >
+                      {/* lista dos produtos */}
+                    </BasicModal>
                 ]}
                 /> 
             </div> 
@@ -66,7 +66,7 @@ const Dropdown = ({ trigger, menu }) => {
     };
   
     return (
-        <div className="z-40 relative -bottom-[6rem]">
+        <div className="z-40 relative bg-branco -bottom-[7rem]">
         {React.cloneElement(trigger, {
           onClick: handleOpen,
         })}
