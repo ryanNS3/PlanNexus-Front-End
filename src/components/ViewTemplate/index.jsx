@@ -25,23 +25,22 @@ export function TemplateView({
       : url.pathname === "/estoque"
       ? "os produtos"
       : "as doações";
-  
-      const getEndpoint = () => {
-        switch (type) {
-          case "students":
-            return '/aluno/todos';
-      
-          case "employees":
-            return '/funcionario/todos';
-      
-          case "products":
-            return '/produto/todos';
-          
-          default:
-            return null; // ou algum valor padrão caso nenhum tipo corresponda
-        }
-      }
-      
+
+  const getEndpoint = () => {
+    switch (type) {
+      case "students":
+        return "/aluno/todos";
+
+      case "employees":
+        return "/funcionario/todos";
+
+      case "products":
+        return "/produto/todos";
+
+      default:
+        return null; // ou algum valor padrão caso nenhum tipo corresponda
+    }
+  };
 
   const [searchTerm, setSearchTerm] = useState("");
   let isModal = formModal;
@@ -65,7 +64,6 @@ export function TemplateView({
       authorization: `bearer ${token}`,
       nif: user,
     });
-    console.log("MAJO", req.res.data.response); // Retorna todos os alunos cadastrados
     setData(req.res.data.response);
   }
 
@@ -161,7 +159,6 @@ export function TemplateView({
         /> */}
 
         {data &&
-          url.pathname === "/gestao" &&
           data.map((item) => (
             <>
               <LineTable
@@ -169,68 +166,83 @@ export function TemplateView({
                 name={item.nome}
                 partner={item.associado}
                 grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
-                form_data={item}
-                isNew
-              />
-            </>
-          ))}
-
-        {data &&
-          url.pathname === "/estoque" &&
-          data.map((item) => (
-            <>
-              <LineTable
-                image_source={item.foto}
-                name={item.nome}
-                partner={item.associado}
-                grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
-                form_data={item}
-                isNew
+                type={type}
+                data={item}
               />
             </>
           ))}
         {loading && <p>Carregando, aguarde...</p>}
-        {erro && <p>Falha ao buscar {errorText}</p>}
+        {erro && <p>Falha ao buscar {errorText}.</p>}
       </section>
     </main>
   );
 }
 
-function LineTable({ image_source, name, partner, grid, isNew, form_data }) {
-  const url = window.location;
-  // vai precisar de alteração
-  const errorText =
-    url.pathname === "/gestao"
-      ? "os alunos"
-      : url.pathname === "/estoque"
-      ? "os produtos"
-      : "as doações";
-
+function LineTable({ data, grid, isNew, type }) {
   return (
     <>
       <div
         className="relative rounded-lg w-full py-[0.875rem] p-4 border-2 border-cinza-100 bg-white grid items-center justify-items-center gap-4 "
         style={{ gridTemplateColumns: grid }}
       >
-        <img
-          src={
-            image_source ||
-            `https://static.thenounproject.com/png/2932881-200.png`
-          }
-          className="rounded-full"
-          height={36}
-          width={36}
-        />
-        <p className="text-xs tracking-[0.01em] justify-self-start">{name}</p>
-
-        <div className="bg-[#64B140] rounded px-4 py-2">
-          <p className="text-[#fff]">{partner ? "Sim" : "Não"}</p>
+        <div className="h-9 w-9 ">
+          <img
+            src={
+              data.foto ||
+              `https://static.thenounproject.com/png/2932881-200.png`
+            }
+            className="rounded-full w-full h-full"
+          />
         </div>
+        <p className="text-xs text-fun2 tracking-[0.01em] justify-self-start">
+          {data.nome}
+        </p>
 
-        <UniqueModal>
-          {/* <EmployeeDetails employee={form_data}/> */}
-          <StudentDetails student={form_data}/>
-        </UniqueModal>
+        {type === "students" && (
+          <>
+            <div className="bg-[#64B140] rounded px-4 py-2">
+              <p className="text-[#fff]">{data.associado ? "Sim" : "Não"}</p>
+            </div>
+
+            <UniqueModal>
+              <EmployeeDetails employee={data}/>
+              {/* <StudentDetails student={data} /> */}
+            </UniqueModal>
+          </>
+        )}
+
+        {type === "employees" && (
+          <>
+            <div className="bg-[#4B5645] rounded px-4 py-2">
+              <p className="text-[#fff]">{data.nome_cargo}</p>
+            </div>
+
+            <div
+              className={`bg-[${
+                data.status ? "#64B140" : "#666666"
+              }] rounded px-4 py-2`}
+            >
+              <p className="text-[#fff]">{data.status ? "Ativo" : "Inativo"}</p>
+            </div>
+
+            <UniqueModal>
+              {/* <EmployeeDetails employee={form_data}/> */}
+              <StudentDetails student={form_data} />
+            </UniqueModal>
+          </>
+        )}
+
+        {type === "products" && (
+          <>
+            <p className="text-fun2">data.alerta</p>{" "}
+            {/* Adicionar lógica sobre o alerta aqui */}
+            <p className="text-fun2">{data.qtd_estoque}</p>
+            <UniqueModal>
+              {/* <EmployeeDetails employee={form_data}/> */}
+              <StudentDetails student={form_data} />
+            </UniqueModal>
+          </>
+        )}
 
         {isNew && (
           <div className="absolute top-[-12.5px] left-2 px-2 py-1 bg-[#A9DDE9] text-ct3 rounded">
