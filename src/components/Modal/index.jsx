@@ -117,9 +117,10 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
 }
 
 
-export function ExtendModal({ children, TextButton,isExtend=true, isOpenModal, setIsOpenModal }) {
+export function ExtendModal({ children, TextButton,isExtend=true,componentForOpenModal }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
+  const [isOpenModal, setIsOpenModal] = React.useState(false)
   const handleOpen = () => setIsOpenModal(true);
   const handleClose = () => {
     setIsHoverButton(false);
@@ -127,8 +128,10 @@ export function ExtendModal({ children, TextButton,isExtend=true, isOpenModal, s
   };
 
   return (
-    <>
-      <PinkButton action={handleOpen} text={TextButton} size="big" />
+    <> 
+      <div onClick={handleOpen} >
+        {componentForOpenModal}
+      </div>
       <Modal
         open={isOpenModal}
         onClose={handleClose}
