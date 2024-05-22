@@ -2,19 +2,20 @@ import React from 'react'
 import { CardMedium} from '../../components/Cards/Card'
 import avatar from "../../assets/avatar.jpg"
 import { TemplateView } from '../../components/ViewTemplate'
-import BasicModal, { UniqueModal } from '../../components/Modal'
+import BasicModal, { ExtendModal, UniqueModal } from '../../components/Modal'
 import { ProductForm } from '../../components/Form/Product'
 import { PlusWhite } from '../../assets/Plus'
 import { ProductContext } from '../../context/ProductContext'
 import { LineTable } from '../../components/LineTable'
 import { GhostButton } from '../../components/Buttons/ghostButton'
 import { PinkButton } from '../../components/Buttons/pinkButton'
+import { EditProductForm } from '../../components/Form/Product/EditProduct'
 
 
 
 export function Stock() {
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
-  const [isOpenModalView, setIsOpenModalView] = React.useState(false)
+  const [isEditProduct, setIsEditProduct] = React.useState(false);
   const [groupProduct, setGroupProduct] = React.useState(null)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
   const {GetProducts, FetchGetProducts} = React.useContext(ProductContext)
@@ -22,11 +23,17 @@ export function Stock() {
 
   function handleEditProduct(event){
     console.log(event)
+
+    setIsEditProduct((prevIsEditProduct)=> !prevIsEditProduct)
   }
   
 
   const {resProductData} = GetProducts()
   console.log(resProductData)
+
+  React.useEffect(() =>{
+    setIsEditProduct((prevIsEditProduct)=> !prevIsEditProduct)
+  },[])
 
   React.useEffect(() => {
     if (resProductData && resProductData.json && resProductData.json.response) {
@@ -119,47 +126,54 @@ export function Stock() {
                 </div>
                 <p>{`${product.nome}(${product.cor})`}</p>
                 
-                <UniqueModal selectedId={product.id_produto} setSelectedId={setProductSelected} >
-
-                  <div className='flex gap-2'>
-                    <GhostButton action={handleEditProduct} align="start" size="medium" text={`Editar produto`}/>
-                    <span className=' block w-[2px] h-10 rounded-sm bg-cinza-100'></span>
-                    <PinkButton align="start" size="medium" text={`+ Repor esroque`}/>
-                  </div>
-                  <header className='flex justify-between'>
-                    <h1 className=' text-h5'>{`${product.nome}`}</h1>
-                    <p className=' text-sub2'>R${product.valor}</p>
-                  </header>
-
-                  <span className='block w-full h-[2px] my-4 bg-cinza-100 '></span>
-
-                  {product.produtos[0].fotos.length > 1 && 
-                  <section className='  '>
-                      <img className='rounded' src={product.produtos[0].fotos[0]} alt="" />
-                    <div className='flex max-w-[99%] overflow-x-scroll'>
-                      {product.produtos[0].fotos.map((image, index) => 
-                      {
-                        return(
-                        <div key={index} className=''>
-                          <img className=' w-full min-w-18' key={index} src={image} alt="" />
+                <ExtendModal onCloseCallBack={handleEditProduct} selectedId={product.id_produto} setSelectedId={setProductSelected} isExtend={isEditProduct} componentForOpenModal={<PinkButton/>} >
+                    <div className={` max-h-full ${isEditProduct ? "grid grid-cols-2 gap-6" : ""}`}>
+                      <div className='max-h-full overflow-y-scroll'>
+                        <div className='flex gap-2'>
+                          {!isEditProduct &&
+                          <>
+                            <GhostButton action={handleEditProduct} align="start" size="medium" text={`Editar produto`}/>
+                            <span className=' block w-[2px] h-10 rounded-sm bg-cinza-100'></span>
+                            <PinkButton align="start" size="medium" text={`+ Repor esroque`}/>
+                          </>
+                          }
                         </div>
-                        )
-                      }
-                      )}
+                        <header className='flex justify-between'>
+                          <h4 className=' text-h5'>{`${product.nome}`}</h4>
+                          <p className=' text-sub2'>R${product.valor}</p>
+                        </header>
+
+                        <span className='block w-full h-[2px] my-4 bg-cinza-100 '></span>
+
+                        {product.produtos[0].fotos.length > 1 && 
+                        <section className='  '>
+                            <img className='rounded' src={product.produtos[0].fotos[0]} alt="" />
+                          <div className='flex max-w-[99%] overflow-x-scroll'>
+                            {product.produtos[0].fotos.map((image, index) => 
+                            {
+                              return(
+                              <div key={index} className=''>
+                                <img className=' w-full min-w-18' key={index} src={image} alt="" />
+                              </div>
+                              )
+                            }
+                            )}
+                          </div>
+                        </section>
+                        }
+                      </div>
+                      <EditProductForm name={product.nome} preco={product.produtos[0].tamanhos[0].valor}/>  
                     </div>
-                  </section>
-                  }
+                  </ExtendModal>
+                </div>
+              )
+            })
+          }
+        </div>
+      <div>
 
-                  1
 
-                  
-                </UniqueModal>
-              </div>
-            )
-          })
-        
-        }
-      </div>
+    </div>
     </>
   )
 }
