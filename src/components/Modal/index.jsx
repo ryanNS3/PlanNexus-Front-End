@@ -57,7 +57,7 @@ export default function BasicModal({ children, TextButton, labelButton, Button, 
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className="flex flex-col gap-4 w-full h[90%] py-10 px-10 md:w-1/2 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
+          <div className="flex flex-col gap-4 w-full h[90%] py-10 px-10 md:w-1/2 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end overflow-y-auto" style={{scrollbarWidth: "none"}}>
             <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
               <Close isHover={isHoverButton} />
             </button>
@@ -77,12 +77,12 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   
   const handleOpen = (selectedId) => {
-    setSelectedId(selectedId);
+    // setSelectedId(selectedId);
     setIsOpenModal(true);
   };
 
   const handleClose = () => {
-    setIsHoverButton(false)
+    // setIsHoverButton(false)
     setIsOpenModal(false)
   };
   

@@ -107,14 +107,14 @@ export function Stock() {
         </CardMedium>
       </section>
 
-
       <TemplateView role=""
         isExtendModal={true}
-        name="produtos"
+        name="Adicionar produtos"
         isOpenModal={isOpenModalForm}
         setIsOpenModal={setIsOpenModalForm}
         formModal={<ProductForm />}
-        header_data={["Alerta", "Estoque", "Ações"]}/>
+        header_data={["Alerta", "Estoque"]}
+        type="products"/>
 
       <div className=' space-y-4'>
         {groupProduct &&
