@@ -117,7 +117,7 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
 }
 
 
-export function ExtendModal({ children, TextButton,isExtend=true,componentForOpenModal }) {
+export function ExtendModal({ children, TextButton,onCloseCallBack,isExtend=true,componentForOpenModal }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false)
@@ -125,6 +125,9 @@ export function ExtendModal({ children, TextButton,isExtend=true,componentForOpe
   const handleClose = () => {
     setIsHoverButton(false);
     setIsOpenModal(false);
+    if (onCloseCallBack){
+      onCloseCallBack()
+    }
   };
 
   return (
@@ -140,10 +143,13 @@ export function ExtendModal({ children, TextButton,isExtend=true,componentForOpe
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className={`flex flex-col gap-4 ${ isExtend ? "w-full" : "w-1/2" } max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end`}>
-            <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
-              <Close isHover={isHoverButton} />
-            </button>
+          <div className={`flex flex-col gap-4 ${ isExtend ? "w-full" : "w-1/2" } max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl`}>
+            <div className="flex justify-end w-full">
+              <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
+                <Close isHover={isHoverButton} />
+              </button>
+
+            </div>
             <>
               {children}
             </>
