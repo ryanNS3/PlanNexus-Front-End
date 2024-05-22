@@ -8,11 +8,15 @@ import { UniqueModal } from "../Modal";
 import { EmployeeDetails } from "./../EmployeeDetails/index";
 import useAxios from "../../hooks/useAxios";
 import { StudentDetails } from "../StudentDetails";
+import { PinkButton } from "../Buttons/pinkButton";
 
 export function TemplateView({
   name,
+  role,
   type,
   formModal,
+  isOpenModal,
+  setIsOpenModal,
   isExtendModal = false,
   header_data,
 }) {
@@ -202,7 +206,6 @@ function LineTable({ data, grid, isNew, type }) {
             </div>
 
             <UniqueModal>
-              {/* <EmployeeDetails employee={data}/> */}
               <StudentDetails student={data} />
             </UniqueModal>
           </>
@@ -224,7 +227,6 @@ function LineTable({ data, grid, isNew, type }) {
 
             <UniqueModal>
               <EmployeeDetails employee={data}/>
-              {/* <StudentDetails student={data} /> */}
             </UniqueModal>
           </>
         )}
@@ -235,9 +237,6 @@ function LineTable({ data, grid, isNew, type }) {
             {/* Adicionar lógica sobre o alerta aqui */}
             <p className="text-fun2">{data.qtd_estoque}</p>
             <UniqueModal>
-              {/* <EmployeeDetails employee={data}/> */}
-              {/* <StudentDetails student={data} /> */}
-
               {/* ADICIONAR O MODAL DE PRODUTOS AQUI */}
             </UniqueModal>
           </>

@@ -3,6 +3,7 @@ import { PinkButton } from '../../components/Buttons/pinkButton';
 import { Link, useNavigate } from "react-router-dom";
 import { UserGlobal } from "../../context/userContext";
 import { InputText } from "../../components/Inputs/input-text/inputTextComp";
+import {loginSchema} from '../../hooks/useZod'
 
 
 export function Login() {
@@ -34,23 +35,24 @@ export function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (email.length === 0  || password.length === 0) {
-      setErrorMessage('Todos os campos devem ser preenchidos!')
-      setInputError(true);
-      return; // Impedir envio se houver campos vazios
-    }
-    
-    if (inputError || !email || !password) {
-      setErrorMessage('Preencha corretamente todos os campos.');
-      setInputError(true);
-      return; // Impedir envio se houver erro de entrada
-    }
     
     let finalEmail = email;
     if (!email.endsWith('@senaisp.edu.br')) {
       finalEmail = email + '@senaisp.edu.br';
       setEmail(finalEmail);
+    }
+
+    const formData = {
+      email: finalEmail,
+      password: password
+    };
+
+    try {
+      loginSchema.parse(formData);
+    } catch (e) {
+      setErrorMessage(e.errors[0].message);
+      setInputError(true);
+      return;
     }
 
     const success = await userLoginRequest(finalEmail,password );
@@ -61,7 +63,6 @@ export function Login() {
     } else {
       console.log(error);
       setErrorMessage(error || 'Erro durante o login. Por favor, tente novamente.');
-      setInputError(true);
     }
 
     console.log(finalEmail, password)
