@@ -33,7 +33,6 @@ export function AddStudent() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token');
   const user = localStorage.getItem('user');
-  console.log(user)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -63,7 +62,6 @@ export function AddStudent() {
   return (
     <>
       <div className='pb-5'>
-        <h4 className='text-h4 uppercase mb-11'>Adicionar Aluno</h4>
         <nav className='mb-9'>
           <ul className='flex justify-between'>
             {steps?.map((step, index) => (

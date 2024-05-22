@@ -30,50 +30,25 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: (
-        <TemplateView
-          statusUser={"AAPM"}
-          role={"teste"}
-          formModal={<AddStudent />}
-          isOpenModal={isOpenModalFormClasses}
-          setIsOpenModal={setIsOpenModalFormClasses}
-          name="Turmas"
-          header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]}
-        />
-      ),
+      element: <TemplateView statusUser={'AAPM'} role={"teste"} isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} formModal={<AddStudent/>} name="Turmas" header_data={["AAPM"]} type="students" />,
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: (
-        <TemplateView
-          statusUser={"Status"}
-          formModal={<EmployeeForm />}
-          isOpenModal={isOpenModalFormEmployee}
-          setIsOpenModal={setIsOpenModalFormEmployee}
-          name="Funcionário"
-          role={"cargo"}
-          header_data={["nome", "cargo"]}
-        />
-      ),
+      element: <TemplateView statusUser={'Status'} isOpenModal={isOpenModalFormEmployee} setIsOpenModal={setIsOpenModalFormEmployee} formModal={<EmployeeForm/>} name="Funcionários" role={'cargo'} header_data={['Nome', 'Cargo']} type="employees" />,
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element: <AapmManage />,
+      element: <>
+      <AapmManage/>
+      <TemplateView formModal={<></>} name="Contribuidores" header_data={["AAPM"]} type="students" />
+      </>,
     },
     {
       label: "Armários",
       value: "armarios",
-
       element: (
-        // <AllLocker
-        //   statusUser={"armarios"}
-        //   typeUser={"armários"}
-        //   contentOne={<LockerForm />}
-        //   contentDuo={<SelectLocker />}
-        //   header_data={["Quantidade", "Preços", "Data", "Hora", "Ações"]}
-        // />
         <AllLocker
         statusUser={"Status"}
         name="Funcionário"
