@@ -14,6 +14,7 @@ import { Layout } from "../Layout/Layout";
 import { LockerProvider } from "../context/lockerContext";
 import { ProductProvider } from "../context/ProductContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Donate } from "../pages/Donate"
 
 
 export function Router() {
@@ -50,9 +51,9 @@ export function Router() {
                       <Route
                         path="/doacao"
                         element={
-                          // <ProtectRouter>
-                            <Home />
-                          // </ProtectRouter>
+                          // <>
+                            <Donate />
+                          // </>
                         }
                       />
 

@@ -117,15 +117,52 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
 }
 
 
-export function ExtendModal({ children, TextButton, isOpenModal, setIsOpenModal }) {
+export function ExtendModal({ children, TextButton,isExtend=true,componentForOpenModal }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
+  const [isOpenModal, setIsOpenModal] = React.useState(false)
   const handleOpen = () => setIsOpenModal(true);
   const handleClose = () => {
     setIsHoverButton(false);
     setIsOpenModal(false);
   };
 
+  return (
+    <> 
+      <div onClick={handleOpen} >
+        {componentForOpenModal}
+      </div>
+      <Modal
+        open={isOpenModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={modalStyle}
+      >
+        <Box sx={InnerModal}>
+          <div className={`flex flex-col gap-4 ${ isExtend ? "w-full" : "w-1/2" } max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end`}>
+            <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
+              <Close isHover={isHoverButton} />
+            </button>
+            <>
+              {children}
+            </>
+          </div>          
+        </Box>
+      </Modal>
+    </>
+  );
+  
+}
+
+export function FlexibleModal({ children, TextButton, isOpenModal, setIsOpenModal }){
+  const [isHoverButton, setIsHoverButton] = React.useState(false)
+  const handleOpen = () => setIsOpenModal(true);
+  const handleClose = () => {
+    setIsHoverButton(false);
+    setIsOpenModal(false);
+  };
+  
   return (
     <>
       <PinkButton action={handleOpen} text={TextButton} size="big" />
@@ -137,7 +174,7 @@ export function ExtendModal({ children, TextButton, isOpenModal, setIsOpenModal 
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className="flex flex-col gap-4 w-full max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
+          <div className={`flex flex-col gap-4 w-full max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end`}>
             <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
               <Close isHover={isHoverButton} />
             </button>
