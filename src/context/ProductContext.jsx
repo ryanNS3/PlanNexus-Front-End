@@ -10,6 +10,14 @@ export function ProductProvider({ children }) {
   const token = window.localStorage.getItem('token');
   const user = window.localStorage.getItem('user');
 
+
+  const FetchPostProduct = async ( dataCreateProduct) =>{
+    const requestApiProducts = await requisicao(`${BASE_URL}`, dataCreateProduct, "POST", {
+      authorization : `bearer ${token}`,
+      nif: user
+    })
+  }
+
   const FetchGetProducts = async () => {
     const requestApiProducts = await requisicao(`${BASE_URL}/produto/todos`, null, "GET", {
       authorization: `bearer ${token}`,
