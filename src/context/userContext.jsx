@@ -32,8 +32,6 @@ export const UserProvider = ({ children }) => {
             }
           );
 
-          console.log(response)
-
           if (response && response.status === 200) {
             url.pathname === '/login' ? navegar('/') : null
             console.log("Token validado");
