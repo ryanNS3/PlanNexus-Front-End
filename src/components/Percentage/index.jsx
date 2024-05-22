@@ -17,13 +17,13 @@ export function Percentage() {
   }, []);
 
   // filtro dos armários ocupados
-  const lockerBusy = dataLocker.filter((locker) => locker.status === "ocupado").lenght;
+  // const lockerBusy = dataLocker.filter((locker) => locker.status === "ocupado").lenght;
   
   // chamada de todo armários
-  const lockerAll = dataLocker?.flat.lenght
+  // const lockerAll = dataLocker?.flat.lenght
 
   // constante de porcentagem de uso dos armários
-  const percentageBusy = (lockerBusy / lockerAll) * 100;
+  // const percentageBusy = (lockerBusy / lockerAll) * 100;
 
   return (
     <div className="w-52 h-24 p-4 shadow-lg flex-col flex gap-y-5 ">
@@ -34,11 +34,11 @@ export function Percentage() {
 
       <Box className="flex justify-between items-center">
         <Box className="w-32">
-          <LinearProgress variant="determinate" value={percentageBusy} />
+          {/* <LinearProgress variant="determinate" value={percentageBusy} /> */}
         </Box>
         <Box className="flex">
           <Typography className="text-fun2">{`${Math.round(
-            percentageBusy
+            // percentageBusy
           )}%`}</Typography>
         </Box>
       </Box>
