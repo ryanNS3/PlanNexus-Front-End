@@ -15,7 +15,7 @@ export function Options({ nome, numero, status, idStudent }) {
    const handleLock = async ({target}) => {
     const isBusyCloset = status == "desocupado" ? "ocupado" : "desocupado"
     try {
-      // Atualizar o status do armário para "Trancado"
+      // Atualizar o status do armário para "Trancado" ou "Desocupado"
       const newStatusLocker = {
         numero : numero,
         id_aluno : idStudent,

@@ -20,17 +20,17 @@ import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 
 export function AllLocker({ typeUser }) {
+  // Dados da API
   const { dataLocker, GetLocker } = React.useContext(LockerContext);
 
+  //Chamada única dos dados
   useEffect(() => {
     GetLocker();
   }, []);
 
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
 
-  // const [pagination, setPagination] = React.useState(0)
-  // const currentLockers = dataLocker[pagination]
-
+  // Capta o evento de clique do botão direito no armário
   function handleFocusAllLocker(event) {
     event.preventDefault();
     setIsOpenOptions(false);
@@ -42,6 +42,8 @@ export function AllLocker({ typeUser }) {
         <Percentage />
         <VoidDate />
       </div>
+
+      {/* Caso o dado da API existam será renderizado */}
       {dataLocker && (
         <>
           <div className="col-start-1 col-end-12 flex justify-between mt-10">
@@ -59,6 +61,8 @@ export function AllLocker({ typeUser }) {
     </div>
   );
 }
+
+//Renderiza o componente pai de todos os armários
 
 export function Lockers({ size }) {
   const { dataLocker } = React.useContext(LockerContext);
@@ -102,6 +106,7 @@ export function Lockers({ size }) {
 
   return (
     <>
+    {/* Renderiza o component com grid de todos os armários */}
       <div className={`${sizeLockers}`}>
         {currentLockers?.map((element, index) => {
           return (
@@ -116,46 +121,46 @@ export function Lockers({ size }) {
         })}
       </div>
 
-      <div className="">
-        {/* Renderiza o menu dos armários*/}
-        <ThemeProvider value={customTheme}>
-          <Tabs value={activeTab}>
-            <TabsHeader
-              className="w-full gap-x-5 gap-y-2 flex-wrap mt-5 text-preto rounded-lg p-0 "
-              indicatorProps={{
-                className:
-                  "w-[5.8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
-              }}
-            >
-              {content.map(({ label, value }) => (
-                <Tab
-                  key={value}
-                  value={value}
-                  onClick={() => {
-                    setActiveTab(value);
-                    setPagination(value);
-                  }}
-                  className={
-                    activeTab === value
-                      ? "text-cinza-50 z-[9] w-[5.65rem] h-[2.5rem] py-0"
-                      : "w-[5.65rem] py-2.5"
-                  }
-                >
-                  <p className=" text-fun2 relative z-[5]"> {label}</p>
-                </Tab>
-              ))}
-            </TabsHeader>
-            <TabsBody>
-              {content.map(({ value }) => (
-                <TabPanel key={value} value={value}></TabPanel>
-              ))}
-            </TabsBody>
-          </Tabs>
-        </ThemeProvider>
-      </div>
+      {/* Renderiza o menu dos armários*/}
+      <ThemeProvider value={customTheme}>
+        <Tabs value={activeTab}>
+          <TabsHeader
+            className="w-full gap-x-5 gap-y-2 flex-wrap mt-5 text-preto rounded-lg p-0 "
+            indicatorProps={{
+              className:
+                "w-[5.8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
+            }}
+          >
+            {content.map(({ label, value }) => (
+              <Tab
+                key={value}
+                value={value}
+                onClick={() => {
+                  setActiveTab(value);
+                  setPagination(value);
+                }}
+                className={
+                  activeTab === value
+                    ? "text-cinza-50 z-[9] w-[5.65rem] h-[2.5rem] py-0"
+                    : "w-[5.65rem] py-2.5"
+                }
+              >
+                <p className=" text-fun2 relative z-[5]"> {label}</p>
+              </Tab>
+            ))}
+          </TabsHeader>
+          <TabsBody>
+            {content.map(({ value }) => (
+              <TabPanel key={value} value={value}></TabPanel>
+            ))}
+          </TabsBody>
+        </Tabs>
+      </ThemeProvider>
     </>
   );
 }
+
+// Cada armário
 
 export function Locker({ nome, numero, status, idStudent }) {
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
@@ -201,7 +206,12 @@ export function Locker({ nome, numero, status, idStudent }) {
 
         <div className="absolute z-1000 top-0 -right-2 " ref={menuRefLocker}>
           {isOpenOptions && (
-            <Options nome={nome} numero={numero} status={status} idStudent={idStudent}  />
+            <Options
+              nome={nome}
+              numero={numero}
+              status={status}
+              idStudent={idStudent}
+            />
           )}
         </div>
       </div>

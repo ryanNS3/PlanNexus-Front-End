@@ -21,7 +21,7 @@ export function LockerProvider({ children }) {
 
     }
 
-    async function AtualizaLocker({dataLocker}) {
+    async function AtualizaLocker(dataLocker) {
         
         const reqStatus = await requisicao(`${BASE_URL}/armario/atualizar`, {
             dataLocker
@@ -29,7 +29,7 @@ export function LockerProvider({ children }) {
             authorization: `bearer ${localStorage.getItem('token')}`,
             nif: localStorage.getItem('user'),
         })
-        return reqStatus
+        return reqStatus;
     }
 
 
