@@ -2,7 +2,7 @@
 
 export function Square({children}){
     return(
-        <div className=" p-7 bg-cinza-100">
+        <div className="rounded p-2 size-18 bg-cinza-100">
             {children}
         </div>
     )
