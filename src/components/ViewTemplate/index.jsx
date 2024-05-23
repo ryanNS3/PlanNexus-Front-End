@@ -5,10 +5,13 @@ import { useState } from "react";
 import BasicModal, { ExtendModal } from "../Modal";
 import { Filter } from "../../components/Filter";
 import { UniqueModal } from "../Modal";
+import { ProductDetails } from "../Details/productDetails";
 import { EmployeeDetails } from "./../EmployeeDetails/index";
 import useAxios from "../../hooks/useAxios";
 import { StudentDetails } from "../StudentDetails";
 import { PinkButton } from "../Buttons/pinkButton";
+
+import { ProductContext } from "../../context/ProductContext";
 
 export function TemplateView({
   name,
@@ -17,10 +20,19 @@ export function TemplateView({
   formModal,
   isOpenModal,
   setIsOpenModal,
-  isExtendModal = false,
+  isExtendModalForm = false,
   header_data,
 }) {
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false);
+  const { GetProducts, useGroupDataProducts } = React.useContext(ProductContext)
+  const { resProductData } = GetProducts();
+  const { groupProduct } = useGroupDataProducts(resProductData);
+  const [isExtendModalOpen, setIsExtendModalOpen] = React.useState(false);
+  const { requisicao, loading, erro } = useAxios();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const [data, setData] = React.useState([]);
   const url = window.location;
   // vai precisar de alteração
   const errorText =
@@ -57,23 +69,28 @@ export function TemplateView({
     setSearchTerm("");
   };
 
-  const { requisicao, loading, erro } = useAxios();
-  const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
-  const [data, setData] = React.useState([]);
-
   async function getData() {
-    const req = await requisicao(`${BASE_URL}${getEndpoint()}`, null, "GET", {
-      authorization: `bearer ${token}`,
-      nif: user,
-    });
-    setData(req.res.data.response);
+    if (url.pathname === "/estoque") {
+      if (groupProduct) {
+        setData(groupProduct)
+        console.log("funciona", groupProduct)
+        
+      }
+
+      
+    }
+    else {
+      const req = await requisicao(`${BASE_URL}${getEndpoint()}`, null, "GET", {
+        authorization: `bearer ${token}`,
+        nif: user,
+      });
+      setData(req.res.data.response);
+    }
   }
 
   React.useEffect(() => {
     getData();
-  }, []);
+  }, [resProductData]);
 
   return (
     <main
@@ -82,7 +99,7 @@ export function TemplateView({
     >
       <header className="flex justify-between my-4 col-span-12">
         <h1 className="text-h5">Todos os {name}: </h1>
-        {!isExtendModal && (
+        {!isExtendModalForm && (
           <BasicModal
             isOpenModal={isOpenModalForm}
             setIsOpenModal={setIsOpenModalForm}
@@ -93,11 +110,11 @@ export function TemplateView({
           </BasicModal>
         )}
 
-        {isExtendModal && (
+        {isExtendModalForm && (
           <ExtendModal
             TextButton={name}
             isOpenModal={isOpenModalForm}
-            setIsOpenModal={setIsOpenModalForm}
+            componentForOpenModal={<PinkButton text={`${name}`}/>}
           >
             {formModal}
           </ExtendModal>
@@ -164,13 +181,12 @@ export function TemplateView({
 
         {data &&
           data.map((item) => (
-            <>
-              <LineTable
-                grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
-                type={type}
-                data={item}
-              />
-            </>
+            <LineTable
+              grid={`67px 1fr repeat(${header_data.length + 1}, 100px)`}
+              type={type}
+              data={item}
+              header_data={header_data}
+            />
           ))}
         {loading && <p>Carregando, aguarde...</p>}
         {erro && <p>Falha ao buscar {errorText}.</p>}
@@ -179,7 +195,8 @@ export function TemplateView({
   );
 }
 
-function LineTable({ data, grid, isNew, type }) {
+function LineTable({ data, grid, isNew, type, header_data }) {
+  const [isExtendModalDetails, setIsExtendModalDetails] = React.useState(false);
   return (
     <>
       <div
@@ -232,14 +249,21 @@ function LineTable({ data, grid, isNew, type }) {
         )}
 
         {type === "products" && (
-          <>
-            <p className="text-fun2">data.alerta</p>{" "}
-            {/* Adicionar lógica sobre o alerta aqui */}
-            <p className="text-fun2">{data.qtd_estoque}</p>
-            <UniqueModal>
-              {/* ADICIONAR O MODAL DE PRODUTOS AQUI */}
-            </UniqueModal>
-          </>
+
+          <ExtendModal  isExtend={isExtendModalDetails} setIsExtend={setIsExtendModalDetails} componentForOpenModal={
+            <>
+              <p className="text-fun2">data.alerta</p>{" "}
+              {/* Adicionar lógica sobre o alerta aqui */}
+              <p className="text-fun2">{data.qtd_estoque}</p>
+            </>
+
+          }>
+            <ProductDetails
+              isExtendModalForEdit={isExtendModalDetails}
+              setIsExtendModalForEdit={setIsExtendModalDetails}
+              dataUniqueProduct={data}
+            />
+          </ExtendModal>
         )}
 
         {isNew && (
