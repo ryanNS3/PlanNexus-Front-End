@@ -1,6 +1,6 @@
 import React from "react";
 import useAxios from "../hooks/useAxios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 export const ProductContext = React.createContext();
@@ -37,7 +37,7 @@ export function ProductProvider({ children }) {
     }
 
     const GetGiftProduct = () => {
-      const {data} = useQuery({queryKey : ['productData'], queryFn: FetchGift})
+      const {data} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
       const resOneProduct = data
       // console.log(resOneProduct)
       return {resOneProduct}
@@ -45,8 +45,8 @@ export function ProductProvider({ children }) {
 
 
     // atualizar brinde
-    const FetchSwitchGift = async() => {
-      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, null, 'PATCH', {
+    const FetchSwitchGift = async(listId) => {
+      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, listId, 'PATCH', {
           authorization: `bearer ${token}`,
           nif: user
       })
@@ -54,8 +54,13 @@ export function ProductProvider({ children }) {
     }    
 
     const SwitchGift = () => {
+        const queryClient = useQueryClient()
+
         const newGift = useMutation({
-          mutationFn: FetchSwitchGift 
+          mutationFn: FetchSwitchGift, 
+          onSuccess: (listId, variables) => {
+            queryClient.setQueryData(['giftData',{id: variables.id} ], listId)
+          }
         })
         return newGift
     }
