@@ -24,10 +24,9 @@ export function DonatorProvider({ children }) {
           nif: user,
         }
       );
-      console.log(res);
       if (res && res.res.status === 200) {
         setDonatorData(res.json.response);
-        console.log('funfo')
+
     }
 } catch (error) {
     console.log("Requisição falhou:", error);
