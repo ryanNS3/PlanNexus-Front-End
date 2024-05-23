@@ -117,7 +117,7 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
 }
 
 
-export function ExtendModal({ children, TextButton,onCloseCallBack,isExtend=true,componentForOpenModal }) {
+export function ExtendModal({ children, TextButton, onCloseCallBack, isExtend=true, setIsExtend, componentForOpenModal }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false)
@@ -125,9 +125,7 @@ export function ExtendModal({ children, TextButton,onCloseCallBack,isExtend=true
   const handleClose = () => {
     setIsHoverButton(false);
     setIsOpenModal(false);
-    if (onCloseCallBack){
-      onCloseCallBack()
-    }
+    setIsExtend(false);
   };
 
   return (
