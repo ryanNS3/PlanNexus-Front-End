@@ -31,10 +31,56 @@ export function ProductProvider({ children }) {
       const AllProductsData = useQuery({ queryKey : ['AllProductsData'], queryFn : FetchGetProducts});
       const resProductData = AllProductsData.data
       return { resProductData };
-    };
+  };
+  
+  const useGroupDataProducts = (resProductData) => {
+    const [groupProduct, setGroupProduct] = React.useState(null)
+    React.useEffect(() => {
+      if (resProductData && resProductData.json && resProductData.json.response) {
+        const groupedProducts = resProductData.json.response.reduce((acc, product) => {
+          if (!acc[product.nome]) {
+            acc[product.nome] = { nome: product.nome, produtos: [] }
+          }
+  
+          const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
+  
+          if (existingProduct) {
+            existingProduct.tamanhos.push({
+              id_produto: product.id_produto,
+              tamanho: product.tamanho,
+              qtd_estoque: product.qtd_estoque,
+              qtd_reservada: product.qtd_reservada,
+              valor: product.valor
+            })
+            existingProduct.fotos.push(...product.foto)
+          } else {
+            acc[product.nome].produtos.push({
+              cor: product.cor,
+              tamanhos: [{
+                id_produto: product.id_produto,
+                tamanho: product.tamanho,
+                qtd_estoque: product.qtd_estoque,
+                qtd_reservada: product.qtd_reservada,
+                valor: product.valor
+              }],
+              fotos: [...product.foto]
+            })
+          }
+  
+          return acc
+        }, {})
+  
+        const result = Object.values(groupedProducts)
+        setGroupProduct(result)
+     
+      }
+    }, [resProductData])
+
+    return {groupProduct}
+  }
 
   return (
-    <ProductContext.Provider value={{ GetProducts, FetchGetProducts }}>
+    <ProductContext.Provider value={{ GetProducts, useGroupDataProducts }}>
       {children}
     </ProductContext.Provider>
   );
