@@ -254,7 +254,7 @@ function LineTable({ data, grid, isNew, type, header_data }) {
             <>
               <p className="text-fun2">data.alerta</p>{" "}
               {/* Adicionar lógica sobre o alerta aqui */}
-              <p className="text-fun2">{data.qtd_estoque}</p>
+              <p className="text-fun2">{data.produtos[0].qtd_estoque}</p>
             </>
 
           }>
