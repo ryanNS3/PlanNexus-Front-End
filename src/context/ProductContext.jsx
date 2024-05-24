@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import useAxios from "../hooks/useAxios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toastifyContext } from "./toastifyContext";
 
 export const ProductContext = React.createContext();
 
@@ -10,6 +11,7 @@ export function ProductProvider({ children }) {
   const token = window.localStorage.getItem('token');
   const user = window.localStorage.getItem('user');
   const queryClient = useQueryClient()
+  const {Notification} = useContext(toastifyContext)
 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
@@ -18,13 +20,19 @@ export function ProductProvider({ children }) {
       nif: user,
       'Content-Type': 'multipart/form-data'
     })
+    console.log(dataCreateProduct)
 
     return requestApiProducts
   }
+  
   const mutateCreateNewProduct = useMutation({
     mutationFn: FetchPostProduct,
     onSuccess: () => {
       queryClient.invalidateQueries(['AllProductsData']);
+      Notification("sucess", "Produto criado com sucesso")
+    },
+    onError: () =>{
+      Notification("error", "Produto não cadastrado")
     }
   });
 
