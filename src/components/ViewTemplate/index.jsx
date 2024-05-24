@@ -91,7 +91,7 @@ export function TemplateView({
   React.useEffect(() => {
     getData();
   }, [resProductData]);
-
+  
   return (
     <main
       className=" w-full p-2 max-w-[74.188] min-w-[23.813rem]"
