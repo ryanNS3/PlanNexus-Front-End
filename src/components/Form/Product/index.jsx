@@ -12,15 +12,15 @@ import { InputImage } from "../../Inputs/input-file";
 import avatar from "../../../assets/avatar.jpg"
 import { productReduce } from "../../../reducers/product/reduce";
 import { toastifyContext } from "../../../context/toastifyContext";
+import { ProductContext } from "../../../context/ProductContext";
 
 export function ProductForm({ setIsOpenProductModal }) {
   // informações para consumir a API
-  const {requisicao,dados,loading,error} = useAxios()
-  const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem('token')
-  const user = localStorage.getItem('user')
+  
   const {Notification} = React.useContext(toastifyContext)
-
+  const {mutateCreateNewProduct} = React.useContext(ProductContext)
+  
+  
   const [productDataState, dispatch] = React.useReducer(
     productReduce
     ,{
@@ -41,7 +41,7 @@ export function ProductForm({ setIsOpenProductModal }) {
    * ATENÇÃO!!
    * A variável tempColorValue foi criada para controle unico do input de cor, pois,
    *  não é possível alterar diretamente no reduce, sempre que um item é alterado TODOS os inputs
-   *  são renderizados novamente ocasionando a perca de foco ao digitar no input
+   *  são renderizados novamente ocasionando a perda de foco ao digitar no input
    */
   const [tempColorValue, setTempColorValue] = React.useState(colorsProduct)
 
@@ -56,10 +56,12 @@ export function ProductForm({ setIsOpenProductModal }) {
       size: "G",
     },
   ];
-  console.log(image)
+
+
   async function handleCreateProduct(event) {
     event.preventDefault()
-    const AddProductFetch = await requisicao(`${BASE_URL}/produto/`,{
+
+    const newProductData ={
       nome: nameProduct,
       cores: colorsProduct,
       valor : parseFloat(priceProduct),
@@ -68,20 +70,20 @@ export function ProductForm({ setIsOpenProductModal }) {
       descricao: descriptionProduct,
       fotos: image.flat(),
       brinde: "false",
-    }, "POST", {
-      authorization: `bearer ${token}`,
-      nif: user,
-      'Content-Type': 'multipart/form-data',
-    })
-
-    if (AddProductFetch){
-      Notification("sucess", "Produto cadastrado com sucesso")
-      setIsOpenProductModal(false)
-    }
-    else{
-      Notification("error", "Ocorreu um erro")
+      
     }
 
+    const requestPost = mutateCreateNewProduct.mutate(newProductData, {
+      onSuccess: () => {
+        Notification("success", "Produto cadastrado com sucesso");
+        setIsOpenProductModal(false);
+      },
+     
+    });
+    console.log(requestPost)
+
+    
+    
   }
   
 
@@ -275,12 +277,14 @@ export function ProductForm({ setIsOpenProductModal }) {
               {sizes.map((size, index) => {
                 return (
                   <SquareCheckBox
-                    name={size.size}
+                  
                     value={size.size}
                     key={size + index}
                     check={sizeProduct.includes(size.size)}
                     onChange={handleSize}
-                  />
+                  >
+                    {size.size}
+                  </SquareCheckBox>
                 );
               })}
             </section>
