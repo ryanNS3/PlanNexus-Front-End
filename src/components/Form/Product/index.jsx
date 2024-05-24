@@ -73,16 +73,7 @@ export function ProductForm({ setIsOpenProductModal }) {
       
     }
 
-    const requestPost = mutateCreateNewProduct.mutate(newProductData, {
-      onSuccess: () => {
-        Notification("success", "Produto cadastrado com sucesso");
-        setIsOpenProductModal(false);
-      },
-     
-    });
-    console.log(requestPost)
-
-    
+    mutateCreateNewProduct.mutate(newProductData);
     
   }
   
