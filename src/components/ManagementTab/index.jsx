@@ -15,6 +15,8 @@ import { LockerForm } from "../Form/lockerNotice";
 import { AddStudent } from "../Form/AddStudent";
 import { SelectLocker } from "../SelectLocker";
 import { AapmManage } from "../aapmManagement";
+import { AddMultipleStudents } from "../Form/AddMultipleStudents";
+import { AddStudentMethod } from "../Form/AddStudentMethod";
 
 export function ManagementTab() {
 
@@ -30,7 +32,7 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} role={"teste"} isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} formModal={<AddStudent/>} name="Turmas" header_data={["AAPM"]} type="students" />,
+      element: <TemplateView statusUser={'AAPM'} role={"teste"} isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} formModal={<AddStudentMethod />} name="Turmas" header_data={["AAPM"]} type="students" />,
     },
     {
       label: "Funcionários",
@@ -48,13 +50,13 @@ export function ManagementTab() {
     {
       label: "Armários",
       value: "armarios",
-      element: (
-        <AllLocker
-        statusUser={"Status"}
-        name="Funcionário"
-        role={"cargo"}
-      />
-      ),
+      // element: (
+      //   <AllLocker
+      //   statusUser={"Status"}
+      //   name="Funcionário"
+      //   role={"cargo"}
+      // />
+      // ),
     },
   ];
 
