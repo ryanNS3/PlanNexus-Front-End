@@ -1,6 +1,6 @@
 import React from "react";
 import useAxios from "../hooks/useAxios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const ProductContext = React.createContext();
 
@@ -9,14 +9,24 @@ export function ProductProvider({ children }) {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = window.localStorage.getItem('token');
   const user = window.localStorage.getItem('user');
+  const queryClient = useQueryClient()
 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
-    const requestApiProducts = await requisicao(`${BASE_URL}`, dataCreateProduct, "POST", {
+    const requestApiProducts = await requisicao(`${BASE_URL}/produto/`, dataCreateProduct, "POST", {
       authorization : `bearer ${token}`,
-      nif: user
+      nif: user,
+      'Content-Type': 'multipart/form-data'
     })
+
+    return requestApiProducts
   }
+  const mutateCreateNewProduct = useMutation({
+    mutationFn: FetchPostProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['AllProductsData']);
+    }
+  });
 
   const FetchGetProducts = async () => {
     const requestApiProducts = await requisicao(`${BASE_URL}/produto/todos`, null, "GET", {
@@ -80,7 +90,7 @@ export function ProductProvider({ children }) {
   }
 
   return (
-    <ProductContext.Provider value={{ GetProducts, useGroupDataProducts }}>
+    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, useGroupDataProducts }}>
       {children}
     </ProductContext.Provider>
   );
