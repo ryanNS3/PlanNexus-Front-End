@@ -19,7 +19,7 @@ export function ProductForm({ setIsOpenProductModal }) {
   
   const {Notification} = React.useContext(toastifyContext)
   const {mutateCreateNewProduct} = React.useContext(ProductContext)
-  
+  const [loadingButtonSubmit, setLoadingButtonSubmit] = React.useState(false)
   
   const [productDataState, dispatch] = React.useReducer(
     productReduce
@@ -60,6 +60,7 @@ export function ProductForm({ setIsOpenProductModal }) {
 
   async function handleCreateProduct(event) {
     event.preventDefault()
+    setLoadingButtonSubmit(true)
 
     const newProductData ={
       nome: nameProduct,
@@ -74,6 +75,16 @@ export function ProductForm({ setIsOpenProductModal }) {
     }
 
     mutateCreateNewProduct.mutate(newProductData);
+
+    if (mutateCreateNewProduct.isSuccess) {
+      setLoadingButtonSubmit(false)
+      Notification("sucess", "Produto criado com sucesso")
+    }
+    
+    else if (mutateCreateNewProduct.isError) {
+      setLoadingButtonSubmit(false)
+      Notification("error", "Erro ao criar produto")
+    }
     
   }
   
@@ -291,6 +302,7 @@ export function ProductForm({ setIsOpenProductModal }) {
           <PinkButton
             onClick={handleCreateProduct}
             aria-label="continuar"
+            loading={loadingButtonSubmit}
             text="continuar"
           />
           <GhostButton
