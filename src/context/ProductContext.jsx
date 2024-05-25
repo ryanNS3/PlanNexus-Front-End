@@ -20,7 +20,6 @@ export function ProductProvider({ children }) {
       nif: user,
       'Content-Type': 'multipart/form-data'
     })
-    console.log(dataCreateProduct)
 
     return requestApiProducts
   }
@@ -31,10 +30,28 @@ export function ProductProvider({ children }) {
       queryClient.invalidateQueries(['AllProductsData']);
       Notification("sucess", "Produto criado com sucesso")
     },
-    onError: () =>{
+    onError: () => {
       Notification("error", "Produto não cadastrado")
     }
   });
+
+  const FetchPutProductReplacent = async (dataStockNumberAdd) => {
+    const requestApiProducts = await requisicao(`${BASE_URL}/produto/estoque`, dataStockNumberAdd, "PATCH", {
+      authorization: `bearer ${token}`,
+      nif: user
+    })
+
+    return requestApiProducts
+  }
+
+  const mutateReplacentProducts = useMutation({
+    mutationFn: FetchPutProductReplacent,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['AllProductsData'])
+      // Notification("sucess", "Reposição feita com sucesso")
+    },
+
+  })
 
   const FetchGetProducts = async () => {
     const requestApiProducts = await requisicao(`${BASE_URL}/produto/todos`, null, "GET", {
@@ -53,7 +70,9 @@ export function ProductProvider({ children }) {
   
   const useGroupDataProducts = (resProductData) => {
     const [groupProduct, setGroupProduct] = React.useState(null)
+
     React.useEffect(() => {
+
       if (resProductData && resProductData.json && resProductData.json.response) {
         const groupedProducts = resProductData.json.response.reduce((acc, product) => {
           if (!acc[product.nome]) {
@@ -98,7 +117,7 @@ export function ProductProvider({ children }) {
   }
 
   return (
-    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, useGroupDataProducts }}>
+    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, mutateReplacentProducts, useGroupDataProducts }}>
       {children}
     </ProductContext.Provider>
   );
