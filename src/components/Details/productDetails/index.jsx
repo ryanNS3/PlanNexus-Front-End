@@ -45,7 +45,7 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                             {dataUniqueProduct.produtos[0].fotos.length > 1 && (
                                 <section className="grid gap-4">
                                     <img className=" w-full rounded" src={dataUniqueProduct.produtos[0].fotos[0]} alt="" />
-                                    <div className="flex max-w-full gap-4 overflow-x-scroll">
+                                    <div className="flex max-w-full gap-4 overflow-x-scroll cursor-grab">
                                         {dataUniqueProduct.produtos[0].fotos.map((image, index) => (
                                             <div key={index} className="">
                                                 <img className="w-full min-w-18 max-h-18 rounded" src={image} alt="" />
@@ -66,7 +66,7 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                     }
                     
                     {isModalStockReplacent && 
-                        <ProductReplacent product={dataUniqueProduct.produtos} />
+                        <ProductReplacent product={dataUniqueProduct.produtos} setOpenReplacentModal={setIsModalStockReplacent} />
                     
                     }
                     
