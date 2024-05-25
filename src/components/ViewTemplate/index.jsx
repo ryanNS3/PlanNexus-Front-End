@@ -94,7 +94,7 @@ export function TemplateView({
   
   return (
     <main
-      className=" w-full p-2 max-w-[74.188] min-w-[23.813rem]"
+      className=" w-full max-w-[74.188] min-w-[23.813rem]"
       aria-label="conteúdo principal na tela gestão"
     >
       <header className="flex justify-between my-4 col-span-12">
