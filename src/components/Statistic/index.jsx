@@ -9,7 +9,7 @@ export function Statistic() {
     <section className="flex flex-col gap-5">
       <StatisticHeader period={period} setPeriod={setPeriod} />
 
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid  sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
         <StatisticOverview title="Associados" situation={16} value={354} />
         <StatisticOverview title="Ganhos" situation={16} value={"R$ 3200"} />
         <StatisticOverview title="Vendas" situation={16} value={85} />

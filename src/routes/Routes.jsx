@@ -21,11 +21,11 @@ export function Router() {
   const clientLocal = new QueryClient()
   return (
     <QueryClientProvider client={clientLocal}>
+      <ToastifyProvider>
       <UserProvider>
         <EmployeeProvider>
           <ProductProvider>
             <LockerProvider>
-              <ToastifyProvider>
                 <ModalProvider>
                   <ToastContainer />
                   <Routes>
@@ -33,7 +33,7 @@ export function Router() {
                       <Route
                         path="/"
                         element={
-                          // <ProtectRouter>
+                          // <ProtectRouter> 
                           <Home />
                           // </ProtectRouter>
                         }
@@ -116,11 +116,11 @@ export function Router() {
                     <Route path="/login" element={<Login />} />
                   </Routes>
                 </ModalProvider>
-              </ToastifyProvider>
             </LockerProvider>
           </ProductProvider>
         </EmployeeProvider>
       </UserProvider>
+      </ToastifyProvider>
     </QueryClientProvider>
   );
 };

@@ -91,10 +91,10 @@ export function TemplateView({
   React.useEffect(() => {
     getData();
   }, [resProductData]);
-
+  
   return (
     <main
-      className=" w-full p-2 max-w-[74.188] min-w-[23.813rem]"
+      className=" w-full max-w-[74.188] min-w-[23.813rem]"
       aria-label="conteúdo principal na tela gestão"
     >
       <header className="flex justify-between my-4 col-span-12">
@@ -254,7 +254,7 @@ function LineTable({ data, grid, isNew, type, header_data }) {
             <>
               <p className="text-fun2">data.alerta</p>{" "}
               {/* Adicionar lógica sobre o alerta aqui */}
-              <p className="text-fun2">{data.qtd_estoque}</p>
+              <p className="text-fun2">{data.produtos[0].qtd_estoque}</p>
             </>
 
           }>
