@@ -93,31 +93,19 @@ export function ProductProvider({ children }) {
     const GetGiftProduct = () => {
       const {data} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
       const resOneProduct = data
-      // console.log(resOneProduct)
+      console.log(resOneProduct)
       return {resOneProduct}
     }
 
 
     // atualizar brinde
-    const FetchSwitchGift = async(listId) => {
+    const SwitchGift = async(listId) => {
       const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, listId, 'PATCH', {
           authorization: `bearer ${token}`,
           nif: user
       })
       return req
     }    
-
-    const SwitchGift = () => {
-        const queryClient = useQueryClient()
-
-        const newGift = useMutation({
-          mutationFn: FetchSwitchGift, 
-          onSuccess: (listId, variables) => {
-            queryClient.setQueryData(['giftData',{id: variables.id} ], listId)
-          }
-        })
-        return newGift
-    }
 
 
   return (
