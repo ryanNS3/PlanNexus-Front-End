@@ -1,54 +1,139 @@
 import React from 'react';
-import { SquareCheckBox } from '../../../Inputs/input-CheckBox';
-import { Lock } from '../../../../assets/Lock';
 import { GhostButton } from '../../../Buttons/ghostButton';
 import { PinkButton } from '../../../Buttons/pinkButton';
+import { ProductContext } from '../../../../context/ProductContext';
+import { toastifyContext } from '../../../../context/toastifyContext';
 
-export function ProductReplacent({product}) {
-    const [selectColor, setSelectColor] = React.useState(null)
+
+export function ProductReplacent({ product, name, setOpenReplacentModal }) {
+    const {mutateReplacentProducts} = React.useContext(ProductContext)
     const [idProductSize, setProductSize] = React.useState([])
+    const [numberAdd, setNumberAdd] = React.useState(0)
+    const [loadingButton, setLoadingButton] = React.useState(false)
 
-    console.log(product)
+    const [dataProductReplacent, setDataProductReplacent] = React.useState(() => product[0].tamanhos.map((size) => {
+        return (
+                {
+                    tamanho: size.tamanho,
+                    id: size.id_produto,
+                    qtd_estoque: size.qtd_estoque,
+                    add_estoque: 0
+                }
+        )
+    }))
+    const {Notification} = React.useContext(toastifyContext)
 
-    function handleProductReplacent(event){
+
+    function handleSubmitProductReplacent(event) {
         event.preventDefault()
+        setLoadingButton(true)
+        dataProductReplacent.map((size) => {
+            if (size.add_estoque > 0) {
+                mutateReplacentProducts.mutate({
+                    idProduto: size.id,
+                    quantidade: size.qtd_estoque + size.add_estoque
+                })  
+                console.log(mutateReplacentProducts)
+                if (mutateReplacentProducts.isSuccess) {
+                    setLoadingButton(false)
+                    Notification("sucess", "REPOSIÇÃO FEITA COM SUCESSO")
+                }
+                else if (mutateReplacentProducts.isError) {
+                    setLoadingButton(false)
+                    Notification("error", "reposição falhou")
+                }
+            }
+            
+        })
+
+
+    }
+        
+
+    function handleCloseProductReplacentModal(event) {
+        event.preventDefault()
+        setOpenReplacentModal(false)
+
+    }
+
+    function handleChangeStockReplacent(event){
+        event.preventDefault()
+        const productIdSelected = event.target.dataset.productId
+        let value = event.target.value
+
+        setDataProductReplacent((prevState) => {
+            return prevState.map((size) => {
+                if (size.id == productIdSelected && value >= 0) {
+                    console.log(size)
+                    return {...size, add_estoque: value }
+                }
+                return size
+            })
+        })
+        
+    }
+
+    function handleAddProductForStock(event) {
+        event.preventDefault()
+        const productIdSelected = event.target.dataset.productId
+        setDataProductReplacent((prevState) => {
+            return prevState.map((size) => {
+                if (size.id == productIdSelected) {
+                    console.log(size)
+                    return {...size, add_estoque: size.add_estoque + 1 }
+                }
+                return size
+            })
+        })
+        // console.log(dataProductReplacent)
+    }
+    function handleRemoveProductForStock(event) {
+        event.preventDefault()
+        const productIdSelected = event.target.dataset.productId
+        setDataProductReplacent((prevState) => {
+            return prevState.map((size) => {
+                if (size.id == productIdSelected) {
+                    console.log(size)
+                    return {...size, add_estoque: size.add_estoque - 1 }
+                }
+                return size
+            })
+        })
         
     }
 
   return (
-      <>
+      <form onSubmit={handleSubmitProductReplacent} >
           <h1 className=' text-h4 mb-8 uppercase'>Repor estoque</h1>
-          {/* <section className=' space-y-4'>
-              <h2 className=' text-sub2'>Seleciona uma cor</h2>
-              <div className='flex gap-5'>
-                {product && 
-                    product.map((color) =>{
-                        return(
-                            <div data-color-id={color}>
-                                <SquareCheckBox value={color.cor} onChange={handleSelectColor}>
-                                    <img className='w-full' src={color.fotos[0]}/>
-                                </SquareCheckBox>
-                                <p className='text-fun2' >{color.cor}</p>
-                            </div>
-                        )
-                    })
-                }
-
-              </div>
-          </section> */}
-
           <section>
-            <div className='flex items-center gap-2' >
-                <h1 className=' text-sub2'>Tamanhos</h1>
+            <div>
+                  <h1 className=' text-sub2 mb-4'>Tamanhos</h1>
+                  <div className=' flex flex-col gap-4'>
+                        {dataProductReplacent.map((size) => (
+                            <article data-product-id={size.id} className=' h-16 flex justify-between items-center border-2 border-cinza-100 rounded-lg px-8 '>
+                                <p>{ size.tamanho}</p>
+                                <p>{ size.qtd_estoque}</p>
+                                <div className='flex justify-between'>
+                                    <div className='flex gap-2'>
+                                        <button data-product-id={size.id} className=' size-6 bg-cinza-100 rounded-full ' onClick={handleAddProductForStock}>+</button>
+                                        <input onChange={handleChangeStockReplacent} value={size.add_estoque} id='hiddenNumber' className='flex w-10 active:border-rosa-300' type='number' data-product-id={size.id} />
+                                        <button data-product-id={size.id} disabled={size.add_estoque == 0} className='size-6 bg-cinza-100 rounded-full disabled:opacity-0 duration-75 ' onClick={handleRemoveProductForStock}>-</button>
+                                    </div>
+                                </div>
+
+                            </article>
+                            
+                        ))}
+
+                  </div>
             </div>
            
           </section>
 
-
           <div className='flex'>
-            <GhostButton text="CANCELAR"/>
-            <PinkButton text="CONTINUAR"/>
+            <GhostButton action={handleCloseProductReplacentModal} text="CANCELAR"/>
+            <PinkButton loading={loadingButton} text="CONTINUAR"/>
           </div>
-      </>
+      </form>
   )
 }
