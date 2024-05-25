@@ -105,16 +105,17 @@ export function Lockers({ size }) {
   }
 
   return (
-    <>
-    {/* Renderiza o component com grid de todos os armários */}
+    <div>
+      {/* Renderiza o component com grid de todos os armários */}
       <div className={`${sizeLockers}`}>
         {currentLockers?.map((element, index) => {
+          // console.log(element.status === 'ocupado')
           return (
             <Locker
               key={index}
               nome={element.nome}
               numero={element.numero}
-              idStudent={element.id_Aluno}
+              idStudent={element.id_aluno}
               status={element.status}
             />
           );
@@ -156,7 +157,7 @@ export function Lockers({ size }) {
           </TabsBody>
         </Tabs>
       </ThemeProvider>
-    </>
+    </div>
   );
 }
 
@@ -167,18 +168,18 @@ export function Locker({ nome, numero, status, idStudent }) {
 
   let menuRefLocker = useRef();
 
-  useEffect(() => {
-    let handler = (e) => {
-      if (!menuRefLocker.current.contains(e.target)) {
-        setIsOpenOptions(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
+  // useEffect(() => {
+  //   let handler = (e) => {
+  //     if (!menuRefLocker.current.contains(e.target)) {
+  //       setIsOpenOptions(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handler);
 
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handler);
+  //   };
+  // }, []);
 
   function onClickRight(event) {
     event.preventDefault();
@@ -206,15 +207,27 @@ export function Locker({ nome, numero, status, idStudent }) {
 
         <div className="absolute z-1000 top-0 -right-2 " ref={menuRefLocker}>
           {isOpenOptions && (
+            <>
             <Options
               nome={nome}
               numero={numero}
               status={status}
               idStudent={idStudent}
             />
+            <div className="w-screen h-screen top-0 fixed left-0 z-20" onClick={() => setIsOpenOptions(!isOpenOptions)}></div>
+            </>
           )}
         </div>
       </div>
     </>
   );
 }
+
+
+
+
+
+
+
+
+{/* <div className="fixed w-screen h-screen top-0 left-0 bg-preto z-10" onClick={() => setIsOpenOptions(!isOpenOptions)}></div> */}

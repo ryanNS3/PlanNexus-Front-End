@@ -11,7 +11,6 @@ export function LockerInfo({ nome, numero, status }) {
 
   return (
     <form
-      action="submit"
       className="flex flex-col w-full h-full justify-between"
     >
       <div>

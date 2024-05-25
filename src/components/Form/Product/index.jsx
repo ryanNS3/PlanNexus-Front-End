@@ -197,6 +197,7 @@ export function ProductForm({ setIsOpenProductModal }) {
         <h1 className=" grid-rows-1 text-h4">Adicionar produto</h1>
         <InputText
           name="nome"
+          required
           value={nameProduct}
           onChange={ (event) => dispatch({type: "HANDLE_CHANGE_NAME", payload: event.target.value })}
           type="text"
@@ -208,6 +209,7 @@ export function ProductForm({ setIsOpenProductModal }) {
           </Label>
           <InputNumber
             value={priceProduct}
+            required
             onChange={(event) => dispatch({type: "HANDLE_CHANGE_PRICE", payload: event.target.value })}
             steps={0.1}
             name="preco"
@@ -220,6 +222,7 @@ export function ProductForm({ setIsOpenProductModal }) {
           </Label>
           <InputNumber
             value={discountProduct}
+            requered
             onChange={(event) => dispatch({type: "HANDLE_CHANGE_DISCOUNT", payload: event.target.value})}
             steps={0.1}
             name="desconto"
