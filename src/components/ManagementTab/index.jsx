@@ -63,7 +63,7 @@ export function ManagementTab() {
     <ThemeProvider value={customTheme}>
       <Tabs value={activeTab}>
         <TabsHeader
-          className="w-full mx-5 gap-4 mt-12 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 "
+          className="w-full gap-4 mt-12 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 "
           indicatorProps={{
             className:
               "w-[8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
@@ -77,16 +77,18 @@ export function ManagementTab() {
               className={
                 activeTab === value
                   ? "text-cinza-50 z-[9]   w-[8rem] h-[2.75rem] py-0"
-                  : "w-[8rem] py-4"
+                  : "w-[8rem] "
               }
             >
-              <p className=" text-fun2 relative z-[5]"> {label}</p>
+              <button className="text-fun2 relative z-[5]" onClick={(event) => event.preventDefault()}>
+                {label}
+              </button>
             </Tab>
           ))}
         </TabsHeader>
         <TabsBody>
           {content.map(({ value, element }) => (
-            <TabPanel key={value} value={value}>
+            <TabPanel className=" px-0" key={value} value={value}>
               {element}
             </TabPanel>
           ))}
