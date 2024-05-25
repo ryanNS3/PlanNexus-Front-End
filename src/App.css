@@ -22,3 +22,20 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #B13FD1; 
 }
+/* 
+#hiddenNumber::-webkit-inner-spin-button{
+  -webkit-appearance : none;
+}
+
+#hiddenNumber{
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+} */
+
+#hiddenNumber::-webkit-inner-spin-button,
+    #hiddenNumber::-webkit-outer-spin-button {
+      
+        -webkit-appearance: none;
+        margin: 0;
+    }

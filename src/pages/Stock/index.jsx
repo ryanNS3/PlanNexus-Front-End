@@ -5,12 +5,6 @@ import { TemplateView } from '../../components/ViewTemplate'
 import BasicModal, { ExtendModal, UniqueModal } from '../../components/Modal'
 import { ProductForm } from '../../components/Form/Product'
 import { PlusWhite } from '../../assets/Plus'
-import { ProductContext } from '../../context/ProductContext'
-import { LineTable } from '../../components/LineTable'
-import { GhostButton } from '../../components/Buttons/ghostButton'
-import { PinkButton } from '../../components/Buttons/pinkButton'
-import { EditProductForm } from '../../components/Form/Product/EditProduct'
-
 
 
 export function Stock() {

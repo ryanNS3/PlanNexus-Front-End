@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import useAxios from "../hooks/useAxios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useMutation, useQuery, useQueryClientClient } from "@tanstack/react-query";
+import { toastifyContext } from "./toastifyContext";
 import axios from "axios";
 
 export const ProductContext = React.createContext();
@@ -10,14 +11,48 @@ export function ProductProvider({ children }) {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = window.localStorage.getItem('token');
   const user = window.localStorage.getItem('user');
+  const queryClient = useQueryClient()
+  const {Notification} = useContext(toastifyContext)
 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
-    const requestApiProducts = await requisicao(`${BASE_URL}`, dataCreateProduct, "POST", {
+    const requestApiProducts = await requisicao(`${BASE_URL}/produto/`, dataCreateProduct, "POST", {
       authorization : `bearer ${token}`,
+      nif: user,
+      'Content-Type': 'multipart/form-data'
+    })
+
+    return requestApiProducts
+  }
+  
+  const mutateCreateNewProduct = useMutation({
+    mutationFn: FetchPostProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['AllProductsData']);
+      Notification("sucess", "Produto criado com sucesso")
+    },
+    onError: () => {
+      Notification("error", "Produto não cadastrado")
+    }
+  });
+
+  const FetchPutProductReplacent = async (dataStockNumberAdd) => {
+    const requestApiProducts = await requisicao(`${BASE_URL}/produto/estoque`, dataStockNumberAdd, "PATCH", {
+      authorization: `bearer ${token}`,
       nif: user
     })
+
+    return requestApiProducts
   }
+
+  const mutateReplacentProducts = useMutation({
+    mutationFn: FetchPutProductReplacent,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['AllProductsData'])
+      // Notification("sucess", "Reposição feita com sucesso")
+    },
+
+  })
 
   const FetchGetProducts = async () => {
     const requestApiProducts = await requisicao(`${BASE_URL}/produto/todos`, null, "GET", {
@@ -36,7 +71,9 @@ export function ProductProvider({ children }) {
   
   const useGroupDataProducts = (resProductData) => {
     const [groupProduct, setGroupProduct] = React.useState(null)
+
     React.useEffect(() => {
+
       if (resProductData && resProductData.json && resProductData.json.response) {
         const groupedProducts = resProductData.json.response.reduce((acc, product) => {
           if (!acc[product.nome]) {
@@ -109,7 +146,7 @@ export function ProductProvider({ children }) {
 
 
   return (
-    <ProductContext.Provider value={{ GetProducts, useGroupDataProducts, GetGiftProduct, SwitchGift}}>
+    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, mutateReplacentProducts, useGroupDataProducts, GetGiftProduct, SwitchGift}}>
       {children}
     </ProductContext.Provider>
   );

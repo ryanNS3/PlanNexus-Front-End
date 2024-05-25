@@ -9,9 +9,11 @@ import { Square } from "../../../square";
 import { PinkButton } from "../../../Buttons/pinkButton";
 
 
+
 export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     const [nameProduct, setNameProduct] = React.useState(dataProduct.nome) 
     const [priceProduct, setPriceProduct] = React.useState(dataProduct.produtos[0].tamanhos[0].valor)
+
 
     const [originalDataProduct, setOriginalDataProduct] = React.useState([{
         nome : dataProduct.nome,
@@ -27,6 +29,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     function handleCloseEdit(event) {
         event.preventDefault()
         setIsEditForm(false)
+    
 
     }
     const handleEditClick = (field) => {
@@ -62,10 +65,11 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
                 <div className=" flex gap-4">
                     {dataProduct.produtos[idColor].tamanhos?.map((size) => {
                         return(
-                            <Square>{size.tamanho}</Square>
+                            <Square>
+                                <p className=" text-fun2 items-center">{size.tamanho}</p>
+                            </Square>
                         )
                     })}
-
                 </div>
             </section>
 
