@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import useAxios from "../hooks/useAxios";
-import { useMutation, useQuery, useMutation, useQuery, useQueryClientClient } from "@tanstack/react-query";
+import {  useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toastifyContext } from "./toastifyContext";
-import axios from "axios";
 
 export const ProductContext = React.createContext();
 
@@ -130,7 +129,6 @@ export function ProductProvider({ children }) {
     const GetGiftProduct = () => {
       const {data} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
       const resOneProduct = data
-      console.log(resOneProduct)
       return {resOneProduct}
     }
 

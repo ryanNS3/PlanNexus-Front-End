@@ -7,13 +7,11 @@ import BasicModal from "../../Modal";
 import { PinkButton } from "../../Buttons/pinkButton";
 
 
-export function GiftCard(activeGift){
+export function GiftCard({ activeGift }){
 const [isOpenDrop, setOpenDrop] = React.useState(false);
-const  {GetGiftProduct, SwitchGift}  = React.useContext(ProductContext)
-const { resOneProduct } = GetGiftProduct()
 
 const [gift, setGift] = React.useState(() => {
-  activeGift.map(() => {return activeGift.brinde})  
+  return activeGift?.filter((product) => {return product.brinde == 1})  
 })
 
 
