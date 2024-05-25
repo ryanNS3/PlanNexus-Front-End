@@ -7,11 +7,15 @@ import BasicModal from "../../Modal";
 import { PinkButton } from "../../Buttons/pinkButton";
 
 
-export function GiftCard(){
+export function GiftCard(activeGift){
 const [isOpenDrop, setOpenDrop] = React.useState(false);
-const [gift, setGift] = React.useState(false)
-const  {GetGiftProduct, GetProducts, SwitchGift}  = React.useContext(ProductContext)
+const  {GetGiftProduct, SwitchGift}  = React.useContext(ProductContext)
 const { resOneProduct } = GetGiftProduct()
+
+const [gift, setGift] = React.useState(() => {
+  activeGift.map(() => {return activeGift.brinde})  
+})
+
 
   const handleOpenDropDown = () => {
       setOpenDrop( prevState => !prevState );
@@ -23,25 +27,18 @@ const { resOneProduct } = GetGiftProduct()
               <DonationIcon/> 
               <h4 className="text-sub1 text-cinza-950 mt-1 ml-2" >Brinde do semestre</h4>
           </div>
-          { resOneProduct && resOneProduct.json.response.map((brindeAtivo, key) => {
-            return(
-              <>
+          { gift && 
               
               <div className="pt-4" >
-                {brindeAtivo.brinde ? 
-                
-                  <div key={key} className="flex align-center mt-2 border-2 border-cinza-100 rounded-lg p-2 max-h-16">
-                      <img src={brindeAtivo.foto} className="w-14"/>
-                      <p className="text-fun2 mt-2 ml-2" >{brindeAtivo.nome}</p> 
-                      <button className="left-[4rem] relative" onClick={handleOpenDropDown}><RepeatIcon/></button>
+                <div className="flex align-center justify-between mt-2 border-2 border-cinza-100 rounded-lg p-2 max-h-16">
+                  <img src={gift.foto} className="w-14"/>
+                  <p className="text-fun2 my-auto" >{gift.nome}</p> 
+                  <button className="flex my-auto mx-12" onClick={handleOpenDropDown}><RepeatIcon/></button>
 
-                  </div>
-                  : null}
+                </div>
             </div> 
-            </>
-            )
-          })
-        }
+
+          }
         <DropDown isOpenDrop={isOpenDrop}/>
       </div>
   )
@@ -55,13 +52,9 @@ const DropDown = ({isOpenDrop}) => {
   const  {GetGiftProduct, GetProducts, SwitchGift}  = React.useContext(ProductContext)
   const { resOneProduct } = GetGiftProduct()
 
-  const handleMenuOne = () => {
-    setGift()
-  };
-
   const handleNewGift = () => {
     try {
-      SwitchGift(setGift)
+      SwitchGift(setGift())
     } catch (error) {
       console.log('erro ao ativar brinde: ', error)
     }
@@ -71,11 +64,6 @@ return(
   <article className={`max-h-72 min-w-84 max-w-86 px-4 py-6 relative -left-[1rem] top-[2rem] border border-cinza-100 rounded-lg shadow-[0_4px_8px_0px_rgba(227,227,227)] bg-branco  ${isOpenDrop == false ? 'hidden' : 'block'}`}>
 
         <p className="text-fun2 mb-4" >selecione um produto</p>
-
-            {/* // <button onClick={handleMenuOne} key={key} className="w-full flex align-center mb-6 border-2 border-cinza-100 rounded-lg p-2">
-            //   <img src={product.foto} className="w-14" />
-            //    <p className="text-fun2 mt-2 ml-2" >{product.nome}</p> 
-            // </button>, */}
 
                   <BasicModal labelButton="Escolher novo brinde" isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Novo brinde" >
 
