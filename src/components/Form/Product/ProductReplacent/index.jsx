@@ -5,13 +5,13 @@ import { ProductContext } from '../../../../context/ProductContext';
 import { toastifyContext } from '../../../../context/toastifyContext';
 
 
-export function ProductReplacent({ product, name, setOpenReplacentModal }) {
+export function ProductReplacent({ idOfColor, product, setOpenReplacentModal }) {
     const {mutateReplacentProducts} = React.useContext(ProductContext)
     const [idProductSize, setProductSize] = React.useState([])
     const [numberAdd, setNumberAdd] = React.useState(0)
     const [loadingButton, setLoadingButton] = React.useState(false)
 
-    const [dataProductReplacent, setDataProductReplacent] = React.useState(() => product[0].tamanhos.map((size) => {
+    const [dataProductReplacent, setDataProductReplacent] = React.useState(() => product[idOfColor].tamanhos.map((size) => {
         return (
                 {
                     tamanho: size.tamanho,
@@ -26,23 +26,33 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
 
     function handleSubmitProductReplacent(event) {
         event.preventDefault()
-        setLoadingButton(true)
         dataProductReplacent.map((size) => {
             if (size.add_estoque > 0) {
+                setLoadingButton(true)
                 mutateReplacentProducts.mutate({
                     idProduto: size.id,
                     quantidade: size.qtd_estoque + size.add_estoque
                 })  
-                console.log(mutateReplacentProducts)
+                // console.log(mutateReplacentProducts)
                 if (mutateReplacentProducts.isSuccess) {
                     setLoadingButton(false)
+                    setDataProductReplacent((prevState) => {
+                        return prevState.map((size) => {
+                            if (size.add_estoque > 0) {
+                                return {...size, add_estoque: 0 }
+                            }
+                            return size
+                        })
+                    })
                     Notification("sucess", "REPOSIÇÃO FEITA COM SUCESSO")
                 }
                 else if (mutateReplacentProducts.isError) {
                     setLoadingButton(false)
                     Notification("error", "reposição falhou")
                 }
+             
             }
+
             
         })
 
@@ -64,7 +74,6 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
         setDataProductReplacent((prevState) => {
             return prevState.map((size) => {
                 if (size.id == productIdSelected && value >= 0) {
-                    console.log(size)
                     return {...size, add_estoque: value }
                 }
                 return size
