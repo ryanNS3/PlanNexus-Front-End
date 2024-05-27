@@ -33,7 +33,9 @@ export function ProductForm({ setIsOpenProductModal }) {
     selectedColor: null,
     image: [[], [], [], []],
     isSize: false
-  })
+    })
+  
+  
 
   const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
   const [isSizeOptions, setIsSizeOptions] = React.useState(false);
@@ -56,6 +58,8 @@ export function ProductForm({ setIsOpenProductModal }) {
       size: "G",
     },
   ];
+
+  
 
 
   async function handleCreateProduct(event) {
@@ -87,6 +91,8 @@ export function ProductForm({ setIsOpenProductModal }) {
     }
     
   }
+  
+
   
 
   function handleRemoveColor(event){
