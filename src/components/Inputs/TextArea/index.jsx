@@ -39,7 +39,7 @@ export const TextArea = ({ cols = 50, rows = 6,
           {disabled ? <img src={Edit} alt="" /> : "X" }
           </button>
         )}
-      {errorValidacao && <p className='text-ct3 capitalize text-vermelho-300'>{errorValidacao}</p>}
+      {error && <p className='text-ct3 capitalize text-vermelho-300'>{error}</p>}
 
     </div>
   )
