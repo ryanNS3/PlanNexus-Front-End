@@ -13,6 +13,8 @@ export function InputNumber({name, maxValue=100, minValue=1, value, disabled, se
           min={minValue}
           max={maxValue}
           {...props}/>
+          {error && <p className="text-vermelho-300 text-sm mt-1">{error}</p>}
+
     </>
   )
 }
