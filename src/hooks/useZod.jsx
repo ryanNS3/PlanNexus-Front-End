@@ -48,6 +48,25 @@ const emailSchema = z.string()
     .email("Email deve ser um email válido."
 );
 
+export const imageUniqueValidate = z.array()
+
+export const colorUniqueSchema = z.string()
+  .min(3,"O nome da cor deve ter no mínimo 3 caracteres")
+  .max(30, "O nome da cor não deve ter um tamanho ter mais de 30 caracteres")
+
+export const priceSchema = z.number()
+  .min(1, "O valor não pode estar vazio")
+  .max(1000, "O valor não pode ser maior que 1000")
+
+export const comparePriceAndDiscount = z.object({
+  valor : priceSchema,
+  desconto: priceSchema
+}).refine(data => data.valor >= data.desconto,{
+  message: "O desconto não pode ser maior que o valor",
+  path: ["desconto"]
+})
+
+
 // Esquema de validação para Telefone
 export const phoneSchema = z.string()
   .regex(/^\d{13}$/, "Telefone deve ter 13 dígitos e conter apenas números."
@@ -84,6 +103,26 @@ export const addEmployeeSchema = z.object({
   nif: nifSchema,
 });
 
+export const ProductSchema = z.object({
+    nome: z.string().min(1, "O nome não pode estar vazio").max(100,"O nome pode ter no máximo 100 caracteres"),
+    cores: z.array(z.string()).min(1, "As cores não podem estar vazias"),
+    tamanhos: z.array(z.string()).min(1, "Os tamanhos não podem estar vazios"),
+    valor: z.number().min(1, "O valor não pode estar vazio"),
+    desconto: z.number().min(1, "O desconto não pode estar vazio"),
+    descricao: z.string().max(150).nullable(),
+    fotos: z.array(),
+    brinde: z.enum(["false","true"])
+
+}).superRefine((data, ctx) => {
+  if (data.valor <= data.desconto) {
+    ctx.addIssue({
+      path: ['desconto'],
+      message: 'O desconto deve ser menor que o valor.',
+    });
+  }
+
+})
+
 // Esquema de validação Login
 export const loginSchema = z.object({
     email: z.string()
@@ -92,3 +131,5 @@ export const loginSchema = z.object({
         .regex(/^[^@]+@senaisp.edu.br$/, 'Email deve terminar com @senaisp.edu.br'),
     password: z.string().nonempty("Preencha todos os campos!"),
 });
+
+
