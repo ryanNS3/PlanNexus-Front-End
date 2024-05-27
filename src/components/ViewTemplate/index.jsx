@@ -114,7 +114,7 @@ export function TemplateView({
           <ExtendModal
             TextButton={name}
             isOpenModal={isOpenModalForm}
-            componentForOpenModal={<PinkButton text={`${name}`}/>}
+            componentForOpenModal={<PinkButton text={`Adicionar ${name}`}/>}
           >
             {formModal}
           </ExtendModal>
