@@ -2,19 +2,36 @@ import { useEffect, useState, useContext } from "react";
 import { InputText } from "../Inputs/input-text/inputTextComp";
 import useAxios from "../../hooks/useAxios";
 import { PinkButton } from "../Buttons/pinkButton";
+import axios from "axios";
 // import { EmployeeContext } from "../../context/Employee";
 
 export function StudentDetails({ student }) {
   const [nome, setNome] = useState(student.nome);
-  const [cpf, setCpf] = useState(student.cpf);
-  const [telefoneCelular, setTelefoneCelular] = useState(
-    student.telefone_celular
-  );
+  const [cpf, setCpf] = useState(student.CPF);
+  const [telefone, setTelefone] = useState(student.telefone_fixo);
+  const [celular, setCelular] = useState(student.telefone_celular);
   const [email, setEmail] = useState(student.email);
   const [associado, setAssociado] = useState(student.associado);
   const [curso, setCurso] = useState(student.curso);
+  const [courseData, setCourseData] = useState();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
 
   const { requisicao } = useAxios();
+
+  useEffect(() => {
+    async function courseData() {
+      const req = await requisicao(`${BASE_URL}/turma/todos`, null, "GET", {
+        authorization: `bearer ${token}`,
+        nif: user,
+      });
+      setCourseData(req.json.response);
+      console.log(req.json.response);
+    }
+
+    courseData();
+  }, []);
   //   const handleSubmit = async () => {
   //     const success = await EditEmployee({
   //         Id: employee.NIF,
@@ -36,13 +53,14 @@ export function StudentDetails({ student }) {
     const req = await requisicao(
       `${BASE_URL}/aluno/atualizar`,
       {
-        id_aluno: student.id_aluno,
-        nome,
-        cpf,
-        telefoneCelular,
-        email,
-        associado,
-        curso,
+        idAluno: `${student.id_aluno}`,
+        cpf: cpf,
+        nome: `${nome}`,
+        email: `${email}`,
+        fk_curso: `${curso}`,
+        socioAapm: `${!!associado}`,
+        telefone: `${telefone}`,
+        celular: `${celular}`,
       },
       "PATCH",
       {
@@ -53,7 +71,7 @@ export function StudentDetails({ student }) {
     console.log(req);
   }
 
-  console.log("STUDENT", student);
+  console.log("STUDENT", associado);
   return (
     <div className="pb-8">
       <header className="flex items-center gap-6 pb-2 mb-6 border-b border-b-cinza-200">
@@ -95,8 +113,14 @@ export function StudentDetails({ student }) {
           <InputText
             id="Telefone"
             name="Telefone:"
+            placeholder={student.telefone_fixo}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+          <InputText
+            id="Celular"
+            name="Celular:"
             placeholder={student.telefone_celular}
-            onChange={(e) => setTelefoneCelular(e.target.value)}
+            onChange={(e) => setCelular(e.target.value)}
           />
           <InputText
             id="Email"
@@ -124,7 +148,7 @@ export function StudentDetails({ student }) {
                 type="radio"
                 name="socioTrue"
                 id="socioTrue"
-                checked={associado === true}
+                checked={!!associado}
                 onClick={() => setAssociado(true)}
               />
               Sim
@@ -138,32 +162,33 @@ export function StudentDetails({ student }) {
                 type="radio"
                 name="socioFalse"
                 id="socioFalse"
-                checked={associado === false}
+                checked={!associado}
                 onClick={() => setAssociado(false)}
               />
               Não
             </label>
           </div>
 
-          <h4 className="text-fun2 text-cinza-700">Curso: <span className="uppercase">{student.curso}</span></h4>
+          <h4 className="text-fun2 text-cinza-700">
+            Curso:{/* <span className="uppercase">{curso}</span> */}
+          </h4>
           <select
             name="curso"
             id="curso"
             className="border-2 border-cinza-100 rounded-lg text-ct-2 w-full p-5 mb-4"
-            onChange={(e) => setCourse(e.target.value)}
+            onChange={(e) => setCurso(e.target.value)}
           >
-            <option value="Análise e Desenvolvimento de Sistemas">
-              Análise e Desenvolvimento de Sistemas
-            </option>
-            <option value="Mecânica de Precisão">Mecânica de Precisão</option>
-            <option value="Qualidade">Qualidade</option>
+            {courseData &&
+              courseData.map((course) => (
+                <option value={course.id_curso}>{course.nome}</option>
+              ))}
           </select>
           {/* Sócio AAPM, Curso */}
         </div>
       </div>
 
       <div className="flex justify-end">
-        <PinkButton text="Atualizar" action="" />
+        <PinkButton text="Atualizar" action={handleSubmit} />
       </div>
     </div>
   );
