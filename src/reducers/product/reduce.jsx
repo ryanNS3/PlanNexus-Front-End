@@ -1,13 +1,56 @@
+import { ProductSchema } from "../../hooks/useZod";
+import { nameSchema, priceSchema, comparePriceAndDiscount } from "../../hooks/useZod";
+import { z } from "zod";
+
 export  function productReduce(state,action){
     switch (action.type){
         case "HANDLE_CHANGE_NAME":
           return {...state,  nameProduct:action.payload}
+
+        case "HANDLE_BLUR_NAME":{
+          const { value, setError, name } = action.payload;
+            try {
+                nameSchema.parse(value);
+                setError((prevState) => ({ ...prevState, [name]: false }));
+            } catch (error) {
+                const message = error.errors[1] ? error.errors[1].message : error.errors[0].message;
+                setError((prevState) => ({ ...prevState, [name]: message }));
+            }
+            return state; // Adicionado para garantir o retorno do estado
+        }
+
   
         case "HANDLE_CHANGE_PRICE":
-          return {...state,  priceProduct:action.payload}
+          return {...state,  priceProduct:parseFloat(action.payload)}
+
+        case "HANDLE_BLUR_PRICE":{
+          const { value, setError, name } = action.payload;
+            try {
+                priceSchema.parse(value);
+                setError((prevState) => ({ ...prevState, [name]: false }));
+            } catch (error) {
+                const message = error.errors[1] ? error.errors[1].message : error.errors[0].message;
+                setError((prevState) => ({ ...prevState, [name]: message }));
+            }
+            return state; // Adicionado para garantir o retorno do estado
+
+        }
   
         case "HANDLE_CHANGE_DISCOUNT":
           return {...state,  discountProduct:action.payload}
+
+        case "HANDLE_BLUR_DISCOUUNT":{
+          const { valor, desconto, setError, name } = action.payload;
+          try {
+              comparePriceAndDiscount.parse({valor, desconto});
+              setError((prevState) => ({ ...prevState, [name]: false }));
+          } catch (error) {
+              const message = error.errors[1] ? error.errors[1].message : error.errors[0].message;
+              setError((prevState) => ({ ...prevState, [name]: message }));
+          }
+          return state; // Adicionado para garantir o retorno do estado
+      
+        }
         
         case "HANDLE_CHANGE_DESCRIPTION":
           return {...state, descriptionProduct : action.payload}
