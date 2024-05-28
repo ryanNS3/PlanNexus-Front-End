@@ -77,16 +77,34 @@ export  function productReduce(state,action){
           const newAddColor = [...state.colorsProduct, `cor${state.colorsProduct.length}`]
           return {...state, colorsProduct : newAddColor}
         
-        case "HANDLE_REMOVE_COLOR":
-          // devolve uma array sem o item com o indice especificado
-          const filteredColors = state.colorsProduct.filter((color, index) => index != action.payload);
-          
-          if (state.colorsProduct[action.payload] === state.selectedColor){
-            return { ...state, colorsProduct: filteredColors, selectedColor : null };
-          }
-          return { ...state, colorsProduct: filteredColors };
+          case "HANDLE_REMOVE_COLOR": {
+            const keyOfColor = action.payload;
+            const colorToRemove = state.colorsProduct[keyOfColor];
+
+            // Remove a cor da lista de cores
+            const filteredColors = state.colorsProduct.filter((_, index) => index != keyOfColor);
+
+            // Remove todas as imagens associadas a essa cor
+            const newImageArray = state.image.map(imageList =>
+                imageList.filter(imageObj => !imageObj[colorToRemove])
+            );
+
+            // Atualiza o estado
+            const updatedState = {
+                ...state,
+                colorsProduct: filteredColors,
+                image: newImageArray
+            };
+
+            if (colorToRemove === state.selectedColor) {
+                updatedState.selectedColor = null;
+            }
+
+            return updatedState;
+        }
   
         case "HANDLE_SELECTED_COLOR":
+          
           return {...state, selectedColor : action.payload }
 
         case "ON_DROP_IMAGE":
