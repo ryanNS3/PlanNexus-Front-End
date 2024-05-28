@@ -15,23 +15,27 @@ export function ProductProvider({ children }) {
 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
-    const requestApiProducts = await requisicao(`${BASE_URL}/produto/`, dataCreateProduct, "POST", {
-      authorization : `bearer ${token}`,
-      nif: user,
-      'Content-Type': 'multipart/form-data'
-    })
+    try{
+      const requestApiProducts = await requisicao(`${BASE_URL}/produto/`, dataCreateProduct, "POST", {
+        authorization : `bearer ${token}`,
+        nif: user,
+        'Content-Type': 'multipart/form-data'
+      })
+      
+      return requestApiProducts
 
-    return requestApiProducts
+    }
+    catch (error) {
+      console.log(error)
+      throw new Error(error.message || 'Erro ao fazer a requisição');
+      
+    }
   }
   
   const mutateCreateNewProduct = useMutation({
     mutationFn: FetchPostProduct,
     onSuccess: () => {
       queryClient.invalidateQueries(['AllProductsData']);
-      Notification("sucess", "Produto criado com sucesso")
-    },
-    onError: () => {
-      Notification("error", "Produto não cadastrado")
     }
   });
 
@@ -47,7 +51,8 @@ export function ProductProvider({ children }) {
       }
       
       return requestApiProducts
-    } catch (error) {
+    } 
+    catch (error) {
       throw new Error(error.message || 'Erro ao fazer a requisição');
       
     }
