@@ -24,7 +24,8 @@ export function TemplateView({
   header_data,
 }) {
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false);
-  const { GetProducts, useGroupDataProducts } = React.useContext(ProductContext)
+  const { GetProducts, useGroupDataProducts } =
+    React.useContext(ProductContext);
   const { resProductData } = GetProducts();
   const { groupProduct } = useGroupDataProducts(resProductData);
   const [isExtendModalOpen, setIsExtendModalOpen] = React.useState(false);
@@ -72,14 +73,10 @@ export function TemplateView({
   async function getData() {
     if (url.pathname === "/estoque") {
       if (groupProduct) {
-        setData(groupProduct)
-        console.log("funciona", groupProduct)
-        
+        setData(groupProduct);
+        console.log("funciona", groupProduct);
       }
-
-      
-    }
-    else {
+    } else {
       const req = await requisicao(`${BASE_URL}${getEndpoint()}`, null, "GET", {
         authorization: `bearer ${token}`,
         nif: user,
@@ -91,7 +88,7 @@ export function TemplateView({
   React.useEffect(() => {
     getData();
   }, [resProductData]);
-  
+
   return (
     <main
       className=" w-full max-w-[74.188] min-w-[23.813rem]"
@@ -114,7 +111,7 @@ export function TemplateView({
           <ExtendModal
             TextButton={name}
             isOpenModal={isOpenModalForm}
-            componentForOpenModal={<PinkButton text={`Adicionar ${name}`}/>}
+            componentForOpenModal={<PinkButton text={`Adicionar ${name}`} />}
           >
             {formModal}
           </ExtendModal>
@@ -235,29 +232,31 @@ function LineTable({ data, grid, isNew, type, header_data }) {
             </div>
 
             <div
-              className={`bg-[${
-                data.status ? "#64B140" : "#666666"
-              }] rounded px-4 py-2`}
+              className={`bg-${
+                data.status ? "[#64B140]" : "[#666666]"
+              } rounded px-4 py-2`}
             >
               <p className="text-[#fff]">{data.status ? "Ativo" : "Inativo"}</p>
             </div>
 
             <UniqueModal>
-              <EmployeeDetails employee={data}/>
+              <EmployeeDetails employee={data} />
             </UniqueModal>
           </>
         )}
 
         {type === "products" && (
-
-          <ExtendModal  isExtend={isExtendModalDetails} setIsExtend={setIsExtendModalDetails} componentForOpenModal={
-            <>
-              <p className="text-fun2">data.alerta</p>{" "}
-              {/* Adicionar lógica sobre o alerta aqui */}
-              <p className="text-fun2">{data.produtos[0].qtd_estoque}</p>
-            </>
-
-          }>
+          <ExtendModal
+            isExtend={isExtendModalDetails}
+            setIsExtend={setIsExtendModalDetails}
+            componentForOpenModal={
+              <>
+                <p className="text-fun2">data.alerta</p>{" "}
+                {/* Adicionar lógica sobre o alerta aqui */}
+                <p className="text-fun2">{data.produtos[0].qtd_estoque}</p>
+              </>
+            }
+          >
             <ProductDetails
               isExtendModalForEdit={isExtendModalDetails}
               setIsExtendModalForEdit={setIsExtendModalDetails}
