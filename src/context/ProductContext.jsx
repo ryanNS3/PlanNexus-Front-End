@@ -162,10 +162,11 @@ export function ProductProvider({ children }) {
     }
 
     const GetGiftProduct = () => {
-      const {data} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
+      const {data, isLoading} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
       const resOneProduct = data
       return {resOneProduct}
     }
+ 
 
 
     // atualizar brinde
