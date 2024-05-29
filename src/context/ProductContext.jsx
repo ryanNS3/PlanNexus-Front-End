@@ -171,7 +171,7 @@ export function ProductProvider({ children }) {
 
     // atualizar brinde
     const SwitchGift = async(listId) => {
-      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, listId, 'PATCH', {
+      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, {listaIdProduto : listId}, 'PATCH', {
           authorization: `bearer ${token}`,
           nif: user
       })
