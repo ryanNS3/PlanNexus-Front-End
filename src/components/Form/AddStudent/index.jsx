@@ -2,6 +2,8 @@ import React from "react";
 import { PinkButton } from "../../Buttons/pinkButton";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import useAxios from "../../../hooks/useAxios";
+import { toastifyContext } from "../../../context/toastifyContext";
+import { modalContext } from "../../../context/modalContext";
 
 export function AddStudent() {
   const steps = [
@@ -30,6 +32,8 @@ export function AddStudent() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
+  const { Notification } = React.useContext(toastifyContext);
+  const { setIsOpenModal } = React.useContext(modalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +47,7 @@ export function AddStudent() {
       celular: celular,
     };
 
-    const req = await requisicao(
+    const success = await requisicao(
       `${BASE_URL}/aluno/cadastro/unico`,
       data,
       "POST",
@@ -53,7 +57,18 @@ export function AddStudent() {
       }
     );
 
-    console.log(req);
+
+    if (success) {
+      setTimeout(() => {
+        setIsOpenModal(false);
+      }, [3000]);
+      Notification("sucess", "Aluno cadastrado com sucesso");
+    } else {
+      setTimeout(() => {
+        setIsOpenModal(true);
+      }, [3000]);
+      Notification("error", "Aluno não cadastrado");
+    }
   };
 
   const [courseData, setCourseData] = React.useState();
