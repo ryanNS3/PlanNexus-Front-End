@@ -50,7 +50,7 @@ export function StudentDetails({ student }) {
   // };
 
   async function handleSubmit() {
-    const req = await requisicao(
+    const req = await axios.patch(
       `${BASE_URL}/aluno/atualizar`,
       {
         idAluno: `${student.id_aluno}`,
@@ -62,16 +62,33 @@ export function StudentDetails({ student }) {
         telefone: `${telefone}`,
         celular: `${celular}`,
       },
-      "PATCH",
       {
         authorization: `bearer ${token}`,
         nif: user,
       }
     );
-    console.log(req);
+    console.log("req", {
+      idAluno: `${student.id_aluno}`,
+      CPF: String(cpf),
+      nome: `${nome}`,
+      email: `${email}`,
+      fk_curso: `${curso}`,
+      socioAapm: `${!!associado}`,
+      telefone: `${telefone}`,
+      celular: `${celular}`,
+    });
   }
 
-  console.log("STUDENT", associado);
+  console.log("STUDENT", {
+    idAluno: `${student.id_aluno}`,
+    cpf: cpf,
+    nome: `${nome}`,
+    email: `${email}`,
+    fk_curso: `${curso}`,
+    socioAapm: `${!!associado}`,
+    telefone: `${telefone}`,
+    celular: `${celular}`,
+  });
   return (
     <div className="pb-8">
       <header className="flex items-center gap-6 pb-2 mb-6 border-b border-b-cinza-200">
