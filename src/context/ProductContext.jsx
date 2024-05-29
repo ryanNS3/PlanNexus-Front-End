@@ -16,25 +16,56 @@ export function ProductProvider({ children }) {
 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
-    const requestApiProducts = await requisicao(`${BASE_URL}/produto/`, dataCreateProduct, "POST", {
-      authorization : `bearer ${token}`,
-      nif: user,
-      'Content-Type': 'multipart/form-data'
-    })
+    try{
+      const requestApiProducts = await requisicao(`${BASE_URL}/produto/`, dataCreateProduct, "POST", {
+        authorization : `bearer ${token}`,
+        nif: user,
+        'Content-Type': 'multipart/form-data'
+      })
+      
+      return requestApiProducts
 
-    return requestApiProducts
+    }
+    catch (error) {
+      console.log(error)
+      throw new Error(error.message || 'Erro ao fazer a requisição');
+      
+    }
   }
   
   const mutateCreateNewProduct = useMutation({
     mutationFn: FetchPostProduct,
     onSuccess: () => {
       queryClient.invalidateQueries(['AllProductsData']);
-      Notification("sucess", "Produto criado com sucesso")
-    },
-    onError: () => {
-      Notification("error", "Produto não cadastrado")
     }
   });
+
+  const FetchPatchEditingProduct = async (updateDataProduct) => {
+    try {
+      const requestApiProducts = await requisicao(`${BASE_URL}/produto/editar`, updateDataProduct, "PATCH", {
+        authorization: `bearer ${token}`,
+        nif: user
+      })
+
+      if (!requestApiProducts.ok) {
+        throw new Error(responseData.message || 'Erro ao fazer a requisição');
+      }
+      
+      return requestApiProducts
+    } 
+    catch (error) {
+      throw new Error(error.message || 'Erro ao fazer a requisição');
+      
+    }
+
+  }
+
+  const mutatePatchProduct = useMutation({
+    mutationFn: FetchPatchEditingProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['AllProductsData'])
+    },
+  })
 
   const FetchPutProductReplacent = async (dataStockNumberAdd) => {
     const requestApiProducts = await requisicao(`${BASE_URL}/produto/estoque`, dataStockNumberAdd, "PATCH", {
@@ -59,7 +90,6 @@ export function ProductProvider({ children }) {
       authorization: `bearer ${token}`,
       nif: user,
     });
-    // console.log(requestApiProducts)
     return requestApiProducts;
   };
 
@@ -77,7 +107,12 @@ export function ProductProvider({ children }) {
       if (resProductData && resProductData.json && resProductData.json.response) {
         const groupedProducts = resProductData.json.response.reduce((acc, product) => {
           if (!acc[product.nome]) {
-            acc[product.nome] = { nome: product.nome, produtos: [] }
+            acc[product.nome] = {
+              nome: product.nome,
+              descricao: product.descricao,
+              brinde: product.brinde,
+              produtos: []
+            }
           }
   
           const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
@@ -146,7 +181,7 @@ export function ProductProvider({ children }) {
 
 
   return (
-    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, mutateReplacentProducts, useGroupDataProducts, GetGiftProduct, SwitchGift}}>
+    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts, GetGiftProduct, SwitchGift}}>
       {children}
     </ProductContext.Provider>
   );

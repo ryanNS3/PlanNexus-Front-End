@@ -1,5 +1,4 @@
 import React from "react";
-import useAxios from "../../../hooks/useAxios"
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import { Label } from "../../Inputs/Label";
 import { InputNumber } from "../../Inputs/input-number";
@@ -9,18 +8,29 @@ import { PinkButton } from "../../Buttons/pinkButton";
 import { GhostButton } from "../../Buttons/ghostButton";
 import { SquareCheckBox } from "../../Inputs/input-CheckBox";
 import { InputImage } from "../../Inputs/input-file";
-import avatar from "../../../assets/avatar.jpg"
 import { productReduce } from "../../../reducers/product/reduce";
 import { toastifyContext } from "../../../context/toastifyContext";
 import { ProductContext } from "../../../context/ProductContext";
 
+import { ProductSchema, nameSchema } from "../../../hooks/useZod";
+import { z } from "zod";
+
 export function ProductForm({ setIsOpenProductModal }) {
-  // informações para consumir a API
   
   const {Notification} = React.useContext(toastifyContext)
   const {mutateCreateNewProduct} = React.useContext(ProductContext)
+  const [errorValidate, setErrorValidate] = React.useState({
+        nome: false,
+        cores: false,
+        valor : false,
+        desconto: false,
+        fotos: false,
+        tamanhos: false,
+        descricao: false,
+        brinde: "false",
+  })
+
   const [loadingButtonSubmit, setLoadingButtonSubmit] = React.useState(false)
-  
   const [productDataState, dispatch] = React.useReducer(
     productReduce
     ,{
@@ -29,11 +39,13 @@ export function ProductForm({ setIsOpenProductModal }) {
     descriptionProduct: "",
     discountProduct: 1,
     sizeProduct: [],
-    colorsProduct: [],
+    colorsProduct: [""],
     selectedColor: null,
     image: [[], [], [], []],
     isSize: false
-  })
+    })
+  
+  
 
   const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
   const [isSizeOptions, setIsSizeOptions] = React.useState(false);
@@ -57,50 +69,59 @@ export function ProductForm({ setIsOpenProductModal }) {
     },
   ];
 
-
   async function handleCreateProduct(event) {
-    event.preventDefault()
-    setLoadingButtonSubmit(true)
-
-    const newProductData ={
+    event.preventDefault();
+    setLoadingButtonSubmit(true);
+    const newProductData = {
       nome: nameProduct,
       cores: colorsProduct,
-      valor : parseFloat(priceProduct),
+      valor: parseFloat(priceProduct),
       desconto: parseFloat(discountProduct),
       tamanhos: sizeProduct,
       descricao: descriptionProduct,
-      fotos: image.flat(),
+      fotos: image,
       brinde: "false",
-      
-    }
+    };
 
+  try {
+    ProductSchema.parse(newProductData);
+    // ProductSchema.parse(newProductData);
     mutateCreateNewProduct.mutate(newProductData);
-
-    if (mutateCreateNewProduct.isSuccess) {
-      setLoadingButtonSubmit(false)
-      Notification("sucess", "Produto criado com sucesso")
-    }
-    
-    else if (mutateCreateNewProduct.isError) {
-      setLoadingButtonSubmit(false)
-      Notification("error", "Erro ao criar produto")
-    }
-    
-  }
   
+      if (mutateCreateNewProduct.isSuccess) {
+        setLoadingButtonSubmit(false);
+        Notification("sucess", "Produto criado com sucesso");
+      } else if (mutateCreateNewProduct.isError) {
+        setLoadingButtonSubmit(false);
+        Notification("error", "Erro ao criar produto");
+      }
+
+    setLoadingButtonSubmit(false)
+  } 
+  
+  catch (error) {
+    const validationErrors = {}
+    setLoadingButtonSubmit(false)
+    if (Array.isArray(error.errors)) {
+      error.errors.forEach((err) => {
+        // console.log(err);
+        setErrorValidate(validationErrors);
+        setLoadingButtonSubmit(false);
+        validationErrors[err.path[0]] = err.message;
+      });
+    }
+  }
+  }
 
   function handleRemoveColor(event){
     event.preventDefault()
     const keyOfColor = event.target.id
-    const colorRemove = colorsProduct[keyOfColor]
     const filteredColor = colorsProduct.filter((color, index) => index != keyOfColor)
     // console.log(image.flat().filter((image) => image))
-
     dispatch({
-      type: "HANDLE_REMOVE_COLOR",
-      payload: keyOfColor
-      
-    })
+        type: "HANDLE_REMOVE_COLOR",
+        payload: keyOfColor
+    });
     setTempColorValue(filteredColor)
 
     
@@ -176,6 +197,7 @@ export function ProductForm({ setIsOpenProductModal }) {
 
       }
     })
+
   }
 
   const onDropImage = React.useCallback((file, index) =>{
@@ -188,7 +210,7 @@ export function ProductForm({ setIsOpenProductModal }) {
     })
   },[selectedColor])
   
-
+  console.log(errorValidate)
   return (
     <form
     className="grid md:grid-cols-2 gap-14 max-h-full w-full overflow-y-scroll"
@@ -204,8 +226,11 @@ export function ProductForm({ setIsOpenProductModal }) {
           required
           value={nameProduct}
           onChange={ (event) => dispatch({type: "HANDLE_CHANGE_NAME", payload: event.target.value })}
+          onBlur={(event) => dispatch({type: "HANDLE_BLUR_NAME", payload: {value:event.target.value, setError: setErrorValidate, name: "nome"}})}
+          // onBlur={handleBlur}
+          error={errorValidate.nome}
           type="text"
-        />
+          />
 
         <div>
           <Label text="Preço" id="preco">
@@ -215,7 +240,9 @@ export function ProductForm({ setIsOpenProductModal }) {
             value={priceProduct}
             required
             onChange={(event) => dispatch({type: "HANDLE_CHANGE_PRICE", payload: event.target.value })}
+            onBlur={() => dispatch({type: "HANDLE_BLUR_PRICE", payload:{ value: priceProduct, setError: setErrorValidate, name: "valor"}})}
             steps={0.1}
+            error={errorValidate.valor}
             name="preco"
           />
         </div>
@@ -227,7 +254,9 @@ export function ProductForm({ setIsOpenProductModal }) {
           <InputNumber
             value={discountProduct}
             requered
+            error={errorValidate.desconto}
             onChange={(event) => dispatch({type: "HANDLE_CHANGE_DISCOUNT", payload: event.target.value})}
+            onBlur={() => dispatch({type: "HANDLE_BLUR_DISCOUUNT", payload:{ name:"desconto", desconto: parseFloat(discountProduct), valor: parseFloat(priceProduct), setError: setErrorValidate} })}
             steps={0.1}
             name="desconto"
           />
@@ -239,6 +268,8 @@ export function ProductForm({ setIsOpenProductModal }) {
             cols={62}
             value={descriptionProduct}
             onChange={handleChangeDescription}
+            onBlur={(event) => dispatch({type: "HANDLE_BLUR_DESCRIPTION"})}
+            error={errorValidate.descricao}
             name="descricao"
             placeholder="Descreva detalhes sobre o produto"
           />
@@ -248,13 +279,14 @@ export function ProductForm({ setIsOpenProductModal }) {
           <Label id="adicionarCor" text="Adicionar cores" />
           {colorsProduct && (
             <section className="flex flex-col gap-2">
-              {colorsProduct.map((color, index) => {
+              {/* {colorsProduct.map((color, index) => {
                 return (
                   <div key={color+index} className=" flex justify-center items-center gap-4">
                     <InputText
                       placeholder="Digite o nome da cor"
                       id={index}
                       onBlur={handleBlurColor}
+                      error={errorValidate.cores}
                       onChange={handleChangeColor}
                       value={tempColorValue[index]}
                     />
@@ -263,13 +295,27 @@ export function ProductForm({ setIsOpenProductModal }) {
                     </button>
                   </div>
                 );
-              })}
+              })} */}
+                  <div  className=" flex justify-center items-center gap-4">
+                    <InputText
+                      placeholder="Digite o nome da cor"
+                      id={0}
+                      onBlur={handleBlurColor}
+                      error={errorValidate.cores}
+                      onChange={handleChangeColor}
+                      value={tempColorValue[0]}
+                    />
+                    {/* <button  className="p-2 rounded bg-cinza-100 hover:bg-rosa-300 hover:text-cinza-50" id={index} onClick={handleRemoveColor}>
+                      -
+                    </button> */}
+                  </div>
             </section>
           )}
-          <AddItemsGhost
+          {/* <AddItemsGhost
             onclick={handleToAdd}
             Text="Adicionar cor"
-          />
+          /> */}
+          {/* {errorValidate.cores && <p className=" text-ct2 text-vermelho-300">{errorValidate.cores}</p>} */}
         </div>
 
         <div>
@@ -280,12 +326,12 @@ export function ProductForm({ setIsOpenProductModal }) {
                 return (
                   <SquareCheckBox
                   
-                    value={size.size}
-                    key={size + index}
-                    check={sizeProduct.includes(size.size)}
-                    onChange={handleSize}
+                  value={size.size}
+                  key={size + index}
+                  check={sizeProduct.includes(size.size)}
+                  onChange={handleSize}
                   >
-                    {size.size}
+                    <p className=" justify-self-center">{size.size}</p>
                   </SquareCheckBox>
                 );
               })}
@@ -295,29 +341,16 @@ export function ProductForm({ setIsOpenProductModal }) {
             isOpen={isSizeOptions}
             onclick={handleCloseSizeOptions}
             Text={`${isSizeOptions ? "Remover tamanhos" : "Adicionar tamanhos"}`}
-          />
+            />
+            {errorValidate.tamanhos ? <p className=" text-ct2 text-vermelho-300">{errorValidate.tamanhos}</p> : ""}
         </div>
 
-        <nav className="flex gap-4" aria-label="Prosseguir ou cancelar">
-          <PinkButton
-            onClick={handleCreateProduct}
-            aria-label="continuar"
-            loading={loadingButtonSubmit}
-            text="continuar"
-          />
-          <GhostButton
-            action={() => setIsOpenProductModal(false)}
-            text="cancelar"
-          />
-        </nav>
       </section>
 
       <section
         aria-label="Visualização do produto"
         className="flex flex-col sm:max-h-[99%] md:overflow-y-scroll rounded-lg "
       >
-        <h2 className=" text-h4">{nameProduct}</h2>
-        <p>Selecione a cor</p>
         
         <section className="flex gap-2 justify-start items-start">
           {tempColorValue.map((color, index) =>{
@@ -336,13 +369,61 @@ export function ProductForm({ setIsOpenProductModal }) {
           )}
         </section>
           <div className=" grid grid-cols-[1fr 2fr] gap-6 max-h-[500px] backdrop-blur-2xl">
-            <InputImage onDrop={(file) => onDropImage(file, 0)} onRemoveImage={(event) => handleRemoveImage(event,0,colorsProduct.indexOf(selectedColor))}  keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={0} value={image}  />
+            <InputImage 
+              error={errorValidate.fotos}
+              onDrop={(file) => onDropImage(file, 0)}
+              onRemoveImage={(event) => handleRemoveImage(event,0,colorsProduct.indexOf(selectedColor))}
+              keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)}
+              disabled={!selectedColor}
+              indice={0}
+              value={image}  />
             <div className="grid grid-cols-2 gap-6 max-h-6">
-              <InputImage onDrop={(file) => onDropImage(file, 1)} onRemoveImage={(event) => handleRemoveImage(event,1,colorsProduct.indexOf(selectedColor))} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={1} value={image} />
-              <InputImage onDrop={(file) => onDropImage(file, 2)} onRemoveImage={(event) => handleRemoveImage(event,2,colorsProduct.indexOf(selectedColor))} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={2} value={image} />
-              <InputImage onDrop={(file) => onDropImage(file, 3)} onRemoveImage={(event) => handleRemoveImage(event,3,colorsProduct.indexOf(selectedColor))} keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)} disabled={!selectedColor} indice={3} value={image} />
+              <InputImage 
+                error={errorValidate.fotos}
+                onDrop={(file) => onDropImage(file, 1)}
+                onRemoveImage={(event) => handleRemoveImage(event,1,colorsProduct.indexOf(selectedColor))}
+                keyForImage={selectedColor}
+                indexForColor={colorsProduct.indexOf(selectedColor)}
+                disabled={!selectedColor}
+                indice={1}
+                value={image} 
+              />
+
+              <InputImage 
+                error={errorValidate.fotos}
+                onDrop={(file) => onDropImage(file, 2)}
+                onRemoveImage={(event) => handleRemoveImage(event,2,colorsProduct.indexOf(selectedColor))}
+                keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)}
+                disabled={!selectedColor}
+                indice={2}
+                value={image}
+              />
+
+              <InputImage 
+                error={errorValidate.fotos}
+                onDrop={(file) => onDropImage(file, 3)}
+                onRemoveImage={(event) => handleRemoveImage(event,3,colorsProduct.indexOf(selectedColor))}
+                keyForImage={selectedColor} indexForColor={colorsProduct.indexOf(selectedColor)}
+                disabled={!selectedColor}
+                indice={3} value={image} 
+              />
+
+          '   <nav className="flex gap-4" aria-label="Prosseguir ou cancelar">
+                <PinkButton
+                  onClick={handleCreateProduct}
+                  aria-label="continuar"
+                  loading={loadingButtonSubmit}
+                  text="continuar"
+                />
+                <GhostButton
+                  action={() => setIsOpenProductModal(false)}
+                  text="cancelar"
+                />
+              </nav>'
             </div>
           </div>
+
+          {errorValidate.fotos && <p className=" text-ct2 text-vermelho-300">{errorValidate.fotos}</p>}
 
       </section>
     </form>

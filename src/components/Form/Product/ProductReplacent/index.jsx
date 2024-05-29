@@ -5,13 +5,17 @@ import { ProductContext } from '../../../../context/ProductContext';
 import { toastifyContext } from '../../../../context/toastifyContext';
 
 
-export function ProductReplacent({ product, name, setOpenReplacentModal }) {
+export function ProductReplacent({ idOfColor, product, setOpenReplacentModal }) {
     const {mutateReplacentProducts} = React.useContext(ProductContext)
     const [idProductSize, setProductSize] = React.useState([])
     const [numberAdd, setNumberAdd] = React.useState(0)
     const [loadingButton, setLoadingButton] = React.useState(false)
 
-    const [dataProductReplacent, setDataProductReplacent] = React.useState(() => product[0].tamanhos.map((size) => {
+    function handleDisabledButtonProductReplacnet(){
+
+    }
+
+    const [dataProductReplacent, setDataProductReplacent] = React.useState(() => product[idOfColor].tamanhos.map((size) => {
         return (
                 {
                     tamanho: size.tamanho,
@@ -26,23 +30,33 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
 
     function handleSubmitProductReplacent(event) {
         event.preventDefault()
-        setLoadingButton(true)
         dataProductReplacent.map((size) => {
             if (size.add_estoque > 0) {
+                setLoadingButton(true)
                 mutateReplacentProducts.mutate({
                     idProduto: size.id,
                     quantidade: size.qtd_estoque + size.add_estoque
                 })  
-                console.log(mutateReplacentProducts)
+                // console.log(mutateReplacentProducts)
                 if (mutateReplacentProducts.isSuccess) {
                     setLoadingButton(false)
+                    setDataProductReplacent((prevState) => {
+                        return prevState.map((size) => {
+                            if (size.add_estoque > 0) {
+                                return {...size, add_estoque: 0 }
+                            }
+                            return size
+                        })
+                    })
                     Notification("sucess", "REPOSIÇÃO FEITA COM SUCESSO")
                 }
                 else if (mutateReplacentProducts.isError) {
                     setLoadingButton(false)
                     Notification("error", "reposição falhou")
                 }
+             
             }
+
             
         })
 
@@ -64,7 +78,6 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
         setDataProductReplacent((prevState) => {
             return prevState.map((size) => {
                 if (size.id == productIdSelected && value >= 0) {
-                    console.log(size)
                     return {...size, add_estoque: value }
                 }
                 return size
@@ -103,7 +116,7 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
     }
 
   return (
-      <form onSubmit={handleSubmitProductReplacent} >
+      <form className=' max-h-[99%] overflow-y-scroll py-5' onSubmit={handleSubmitProductReplacent} >
           <h1 className=' text-h4 mb-8 uppercase'>Repor estoque</h1>
           <section>
             <div>
@@ -115,9 +128,9 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
                                 <p>{ size.qtd_estoque}</p>
                                 <div className='flex justify-between'>
                                     <div className='flex gap-2'>
-                                        <button data-product-id={size.id} className=' size-6 bg-cinza-100 rounded-full ' onClick={handleAddProductForStock}>+</button>
+                                        <button data-product-id={size.id} className=' size-6 bg-cinza-100 rounded-full hover:bg-rosa-300 hover:text-branco ' onClick={handleAddProductForStock}>+</button>
                                         <input onChange={handleChangeStockReplacent} value={size.add_estoque} id='hiddenNumber' className='flex w-10 active:border-rosa-300' type='number' data-product-id={size.id} />
-                                        <button data-product-id={size.id} disabled={size.add_estoque == 0} className='size-6 bg-cinza-100 rounded-full disabled:opacity-0 duration-75 ' onClick={handleRemoveProductForStock}>-</button>
+                                        <button data-product-id={size.id} disabled={size.add_estoque == 0} className='size-6 bg-cinza-100 rounded-full disabled:opacity-0 duration-75 hover:bg-rosa-300 hover:text-branco  ' onClick={handleRemoveProductForStock}>-</button>
                                     </div>
                                 </div>
 
@@ -130,7 +143,7 @@ export function ProductReplacent({ product, name, setOpenReplacentModal }) {
            
           </section>
 
-          <div className='flex'>
+          <div className='flex gap-4 mt-9'>
             <GhostButton action={handleCloseProductReplacentModal} text="CANCELAR"/>
             <PinkButton loading={loadingButton} text="CONTINUAR"/>
           </div>

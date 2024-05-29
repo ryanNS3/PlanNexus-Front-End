@@ -14,16 +14,20 @@ export function Percentage() {
   //Chamada única dos dados
   useEffect(() => {
     dataLocker;
-    console.log(dataLocker)
+    console.log(dataLocker);
   }, []);
 
   let lockerBusy = 0;
   let totalLocker = 0;
+
   Object.values(dataLocker)?.map((lockerPagination) => {
     // filtro dos armários ocupados
-    lockerBusy += lockerPagination.filter((locker) => locker.status === "ocupado").length
+    lockerBusy += lockerPagination.filter(
+      (locker) => locker.status === "ocupado" || locker.status == "trancado"
+    ).length;
+
     // Total de armários
-    totalLocker += lockerPagination.length
+    totalLocker += lockerPagination.length;
   });
 
   // Conta de porcentagem

@@ -13,9 +13,8 @@ export function AddStudent() {
   const [name, setName] = React.useState(null);
   const [cpf, setCpf] = React.useState(null);
   const [email, setEmail] = React.useState(null);
-  const [secondEmail, setSecondEmail] = React.useState();
-  const [phone, setPhone] = React.useState();
-  const [secondPhone, setSecondPhone] = React.useState();
+  const [celular, setCelular] = React.useState();
+  const [telefone, setTelefone] = React.useState();
   const [course, setCourse] = React.useState(
     "Análise e Desenvolvimento de Sistemas"
   );
@@ -40,10 +39,10 @@ export function AddStudent() {
       CPF: cpf,
       nome: name,
       email: email,
-      fk_curso: "1",
+      fk_curso: "13",
       socioAapm: partner,
-      telefone: phone,
-      celular: "000000000",
+      telefone: celular,
+      celular: celular,
     };
 
     const req = await requisicao(
@@ -59,6 +58,21 @@ export function AddStudent() {
     console.log(req);
   };
 
+  const [courseData, setCourseData] = React.useState();
+
+  React.useEffect(() => {
+    async function courseData() {
+      const req = await requisicao(`${BASE_URL}/turma/todos`, null, "GET", {
+        authorization: `bearer ${token}`,
+        nif: user,
+      });
+      setCourseData(req.json.response);
+      console.log(req.json.response);
+    }
+
+    courseData();
+  }, []);
+
   return (
     <>
       <div className="pb-5">
@@ -70,7 +84,7 @@ export function AddStudent() {
                   key={index}
                   className="flex flex-col items-center cursor-pointer gap-2"
                   onClick={() =>
-                    name && cpf && email && phone ? setStep(index + 1) : null
+                    name && cpf && email && celular ? setStep(index + 1) : null
                   }
                 >
                   <div
@@ -127,19 +141,27 @@ export function AddStudent() {
                 value={email ? email : ""}
               />
               <InputText
-                id="phone"
+                id="celular"
                 type="text"
-                name="phone"
-                placeholder="ex: 55 11 9999999"
-                onChange={(e) => setPhone(e.target.value)}
-                value={phone ? phone : ""}
+                name="Celular"
+                placeholder="ex: 55 11 999999999"
+                onChange={(e) => setCelular(e.target.value)}
+                value={celular ? celular : ""}
+              />
+              <InputText
+                id="telefone"
+                type="text"
+                name="Telefone"
+                placeholder="ex: 55 11 99999999"
+                onChange={(e) => setTelefone(e.target.value)}
+                value={telefone ? telefone : ""}
               />
 
               <div className="flex justify-end mt-8">
                 <PinkButton
                   text="Continuar"
                   action={() =>
-                    name && cpf && email && phone
+                    name && cpf && email && celular
                       ? setCurrentStep(currentStep + 1)
                       : null
                   }
@@ -155,13 +177,12 @@ export function AddStudent() {
               name="curso"
               id="curso"
               className="border-2 border-cinza-100 rounded-lg text-ct-2 w-full p-5 mb-4"
-              onChange={(e) => setCourse(e.target.value)}
+              onChange={(e) => setCurso(e.target.value)}
             >
-              <option value="Análise e Desenvolvimento de Sistemas">
-                Análise e Desenvolvimento de Sistemas
-              </option>
-              <option value="Mecânica de Precisão">Mecânica de Precisão</option>
-              <option value="Qualidade">Qualidade</option>
+              {courseData &&
+                courseData.map((course) => (
+                  <option value={course.id_curso}>{course.nome}</option>
+                ))}
             </select>
 
             <h4 className="text-fun2 text-cinza-700">Sócio AAPM:</h4>
@@ -271,11 +292,11 @@ export function AddStudent() {
             />
 
             <InputText
-              id="phone"
+              id="celular"
               type="text"
-              name="phone"
+              name="celular"
               placeholder="ex: 55 11 9999999"
-              value={phone}
+              value={celular}
               disabled={true}
             />
             <h3 className="text-sub1">Informações de cursos</h3>
@@ -284,7 +305,7 @@ export function AddStudent() {
               type="text"
               name="curso"
               placeholder="Curso"
-              value={phone}
+              value={celular}
               disabled={true}
             />
             <InputText

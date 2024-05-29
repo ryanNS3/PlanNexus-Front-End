@@ -34,6 +34,7 @@ export const InputText = React.memo(({
                     disabled={disabled}
                 />  
                 {errorValidacao && <p className=' text-ct3 capitalize text-vermelho-300'>{errorValidacao}</p>}
+                {error && <p className=' text-ct2 capitalize text-vermelho-300'>{error}</p>}
             </label>
 
         </div>

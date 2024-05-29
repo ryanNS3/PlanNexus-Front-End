@@ -1,13 +1,56 @@
+import { ProductSchema } from "../../hooks/useZod";
+import { nameSchema, priceSchema, comparePriceAndDiscount } from "../../hooks/useZod";
+import { z } from "zod";
+
 export  function productReduce(state,action){
     switch (action.type){
         case "HANDLE_CHANGE_NAME":
           return {...state,  nameProduct:action.payload}
+
+        case "HANDLE_BLUR_NAME":{
+          const { value, setError, name } = action.payload;
+            try {
+                nameSchema.parse(value);
+                setError((prevState) => ({ ...prevState, [name]: false }));
+            } catch (error) {
+                const message = error.errors[1] ? error.errors[1].message : error.errors[0].message;
+                setError((prevState) => ({ ...prevState, [name]: message }));
+            }
+            return state; // Adicionado para garantir o retorno do estado
+        }
+
   
         case "HANDLE_CHANGE_PRICE":
-          return {...state,  priceProduct:action.payload}
+          return {...state,  priceProduct:parseFloat(action.payload)}
+
+        case "HANDLE_BLUR_PRICE":{
+          const { value, setError, name } = action.payload;
+            try {
+                priceSchema.parse(value);
+                setError((prevState) => ({ ...prevState, [name]: false }));
+            } catch (error) {
+                const message = error.errors[1] ? error.errors[1].message : error.errors[0].message;
+                setError((prevState) => ({ ...prevState, [name]: message }));
+            }
+            return state; // Adicionado para garantir o retorno do estado
+
+        }
   
         case "HANDLE_CHANGE_DISCOUNT":
           return {...state,  discountProduct:action.payload}
+
+        case "HANDLE_BLUR_DISCOUUNT":{
+          const { valor, desconto, setError, name } = action.payload;
+          try {
+              comparePriceAndDiscount.parse({valor, desconto});
+              setError((prevState) => ({ ...prevState, [name]: false }));
+          } catch (error) {
+              const message = error.errors[1] ? error.errors[1].message : error.errors[0].message;
+              setError((prevState) => ({ ...prevState, [name]: message }));
+          }
+          return state; // Adicionado para garantir o retorno do estado
+      
+        }
         
         case "HANDLE_CHANGE_DESCRIPTION":
           return {...state, descriptionProduct : action.payload}
@@ -34,16 +77,34 @@ export  function productReduce(state,action){
           const newAddColor = [...state.colorsProduct, `cor${state.colorsProduct.length}`]
           return {...state, colorsProduct : newAddColor}
         
-        case "HANDLE_REMOVE_COLOR":
-          // devolve uma array sem o item com o indice especificado
-          const filteredColors = state.colorsProduct.filter((color, index) => index != action.payload);
-          
-          if (state.colorsProduct[action.payload] === state.selectedColor){
-            return { ...state, colorsProduct: filteredColors, selectedColor : null };
-          }
-          return { ...state, colorsProduct: filteredColors };
+          case "HANDLE_REMOVE_COLOR": {
+            const keyOfColor = action.payload;
+            const colorToRemove = state.colorsProduct[keyOfColor];
+
+            // Remove a cor da lista de cores
+            const filteredColors = state.colorsProduct.filter((_, index) => index != keyOfColor);
+
+            // Remove todas as imagens associadas a essa cor
+            const newImageArray = state.image.map(imageList =>
+                imageList.filter(imageObj => !imageObj[colorToRemove])
+            );
+
+            // Atualiza o estado
+            const updatedState = {
+                ...state,
+                colorsProduct: filteredColors,
+                image: newImageArray
+            };
+
+            if (colorToRemove === state.selectedColor) {
+                updatedState.selectedColor = null;
+            }
+
+            return updatedState;
+        }
   
         case "HANDLE_SELECTED_COLOR":
+          
           return {...state, selectedColor : action.payload }
 
         case "ON_DROP_IMAGE":

@@ -11,6 +11,7 @@ export function EmployeeDetails({ employee }) {
   const { setIsOpenModal } = useContext(modalContext);
   const [editedEmployee, setEditedEmployee] = useState(employee);
   const [originalEmployee, setOriginalEmployee] = useState(employee);
+  
   const [isEditing, setIsEditing] = useState({
     nome: false,
     NIF: false,
