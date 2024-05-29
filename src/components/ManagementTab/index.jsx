@@ -11,9 +11,6 @@ import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 import { AllLocker } from "../AllLocker/index";
-import { LockerForm } from "../Form/lockerNotice";
-import { AddStudent } from "../Form/AddStudent";
-import { SelectLocker } from "../SelectLocker";
 import { AapmManage } from "../aapmManagement";
 import { AddMultipleStudents } from "../Form/AddMultipleStudents";
 import { AddStudentMethod } from "../Form/AddStudentMethod";
@@ -50,13 +47,9 @@ export function ManagementTab() {
     {
       label: "Armários",
       value: "armarios",
-      // element: (
-      //   <AllLocker
-      //   statusUser={"Status"}
-      //   name="Funcionário"
-      //   role={"cargo"}
-      // />
-      // ),
+      element: (
+        <AllLocker typeUser={'armários'}/>
+      ),
     },
   ];
 

@@ -12,7 +12,7 @@ export function Options({ nome, numero, status, idStudent }) {
 
   const { dataLocker, UpdateLocker } = React.useContext(LockerContext);
 
-   const handleLock = async ({target}) => {
+   const handleLock = async () => {
     const isBusyCloset = status == "desocupado" ? "trancado" : "desocupado"
     try {
       // Atualizar o status do armário para "Trancado" ou "Desocupado"

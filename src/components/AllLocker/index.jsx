@@ -168,19 +168,6 @@ export function Locker({ nome, numero, status, idStudent }) {
 
   let menuRefLocker = useRef();
 
-  // useEffect(() => {
-  //   let handler = (e) => {
-  //     if (!menuRefLocker.current.contains(e.target)) {
-  //       setIsOpenOptions(false);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handler);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handler);
-  //   };
-  // }, []);
-
   function onClickRight(event) {
     event.preventDefault();
     setIsOpenOptions(!isOpenOptions);
@@ -205,7 +192,7 @@ export function Locker({ nome, numero, status, idStudent }) {
 
         <p className="text-h5">{numero}</p>
 
-        <div className="absolute z-1000 top-0 -right-2 " ref={menuRefLocker}>
+        <div className="absolute z-1000 top-0 -right-2" ref={menuRefLocker}>
           {isOpenOptions && (
             <>
             <Options
@@ -222,12 +209,3 @@ export function Locker({ nome, numero, status, idStudent }) {
     </>
   );
 }
-
-
-
-
-
-
-
-
-{/* <div className="fixed w-screen h-screen top-0 left-0 bg-preto z-10" onClick={() => setIsOpenOptions(!isOpenOptions)}></div> */}
