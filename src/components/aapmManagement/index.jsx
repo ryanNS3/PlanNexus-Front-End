@@ -15,7 +15,7 @@ export function AapmManage(){
  
     return(
         <section>
-            <div className="grid grid-cols-3 mb-10 gap-2 h-screen">
+            <div className="grid grid-cols-3 mb-10 gap-2">
                 {resOneProduct &&
                     <CardMedium children={ <GiftCard activeGift={resOneProduct} /> } />
                 }
