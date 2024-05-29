@@ -11,8 +11,23 @@ export function ProductProvider({ children }) {
   const token = window.localStorage.getItem('token');
   const user = window.localStorage.getItem('user');
   const queryClient = useQueryClient()
-  const {Notification} = useContext(toastifyContext)
 
+  const CalcAllStockForOneProduct = (product) => {
+    const allStock = product?.reduce((acc, item) => {
+      const allSize = item.tamanhos.reduce((acc, size) => {
+        return acc + size.qtd_estoque
+      }, 0)
+      return acc + allSize
+    }, 0)
+    
+    const allReserved = product?.reduce((acc, item) => {
+      const allSize = item.tamanhos.reduce((acc, size) => acc + size.qtd_reservada, 0)
+      return acc + allSize
+    },0)
+    console.log("a",allStock, "q", allReserved)
+
+    return { allStock : allStock, allReserved : allReserved }
+  }
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
     try{
@@ -152,7 +167,7 @@ export function ProductProvider({ children }) {
   }
 
   return (
-    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts }}>
+    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts }}>
       {children}
     </ProductContext.Provider>
   );

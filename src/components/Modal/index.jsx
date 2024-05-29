@@ -37,6 +37,29 @@ const InnerModalDuo = {
   zIndex: 10,
 };
 
+export function VariableModal({ type, children, componentForOpenModal, configModal }) {
+  function renderModal() {
+    switch (type) {
+      case "Basic": {
+        return <BasicModal>{ children}</BasicModal>
+      } 
+      case "UniqueModal": {
+        return <UniqueModal componentForOpenModal={componentForOpenModal}>{ children}</UniqueModal>
+      } 
+      case "ExtendModal": {
+        return <ExtendModal isExtend={configModal?.isExtend} setIsExtend={configModal?.setIsExtend} componentForOpenModal={componentForOpenModal}>{ children}</ExtendModal>
+      } 
+      
+    }
+    
+  }
+  return (
+    <div>
+      {renderModal()}
+    </div>
+  )
+}
+
 export default function BasicModal({ children, TextButton, labelButton, Button, isOpenModal, setIsOpenModal }) {
   const [isHoverButton, setIsHoverButton] = React.useState(false)
 
@@ -72,7 +95,7 @@ export default function BasicModal({ children, TextButton, labelButton, Button, 
   );
 }
 
-export function UniqueModal({ children, setSelectedId, selectedId }) {
+export function UniqueModal({ children, setSelectedId, selectedId, componentForOpenModal }) {
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   
@@ -88,11 +111,9 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
   
   return (
     <>
-      <button className="flex gap-1 cursor-pointer p-2 hover:bg-cinza-100 rounded" onClick={() => handleOpen(selectedId)}>
-        <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-        <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-        <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-      </button>
+      <div className="" onClick={() => handleOpen(selectedId)}>
+       {componentForOpenModal}
+      </div>
       <Modal
         open={isOpenModal}
         onClose={handleClose}
@@ -117,7 +138,7 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
 }
 
 
-export function ExtendModal({ children, TextButton, onCloseCallBack, isExtend=true, setIsExtend, componentForOpenModal }) {
+export function ExtendModal({ children, onCloseCallBack, isExtend=true, setIsExtend, componentForOpenModal }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false)
@@ -126,6 +147,7 @@ export function ExtendModal({ children, TextButton, onCloseCallBack, isExtend=tr
     setIsHoverButton(false);
     setIsOpenModal(false);
     setIsExtend(false);
+    onCloseCallBack()
   };
 
   return (
