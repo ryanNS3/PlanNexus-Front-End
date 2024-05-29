@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import { InputRadioInformation } from "../../Inputs/input-radio-information";
 import { PinkButton } from "../../Buttons/pinkButton";
-
+import { ProductContext } from "../../../context/ProductContext";
+import { GhostButton } from "../../Buttons/ghostButton";
 
 export function DonationForm(){
+  const {GetProducts} = React.useContext(ProductContext)
+  const {resProductData} = GetProducts()
+
   const steps = [
     'Informações do aluno',
     'Produto para doação',
@@ -15,7 +19,12 @@ export function DonationForm(){
   const [email, setEmail] = React.useState(null)
   const [cpf, setCpf] = React.useState(null)
   const [cellphone, setCellphone] = React.useState()
-
+  const [quantity, setQuantity] = React.useState()
+  const [contract, setContract] = React.useState()
+  const [studentId, setStudentId] = React.useState()
+  const [productId, setProductId] = React.useState()
+  const [lockerNumber, setLockerNumber] = React.useState()
+  
   const [currentStep, setCurrentStep] = React.useState(1)
 
   function setStep(step){
@@ -27,6 +36,15 @@ export function DonationForm(){
   
     return show ? <>{children}</> : null
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      idAluno : studentId,
+      idProduto: quantity,
+      contrato: contract,
+      data: new Date.now()
+    };}
 
   return(
     <>
@@ -64,7 +82,7 @@ export function DonationForm(){
           </ul>
         </nav>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                   <Step currentStep={currentStep} step={1}>
                     <div className="flex flex-col gap-6">
                       <InputText id='name' type='text' name='Nome completo' placeholder='José da Silva' onChange={(e) => setName(e.target.value)} value={name ? name : ''} />
@@ -76,21 +94,76 @@ export function DonationForm(){
                       <InputText id='cellphone' type='text' name='telefone' placeholder='55 11 111111111' onChange={(e) => setCellphone(e.target.value)} value={cellphone ? cellphone : ''} />
                     </div>
 
-                    <div>
+                    <div className="mt-4">
                       <PinkButton text='Continuar' 
-                      action={() => name && email && cpf && cellphone ? setCurrentStep(currentStep + 1) : null}
+                      action={() => setCurrentStep(currentStep + 1)}
+                      // name && email && cpf && cellphone ?
                       typeButton='button'>
 
                       </PinkButton>
                     </div>
                   </Step>
 
+
                   <Step currentStep={currentStep} step={2}>
-                    <h4>Produto para doação</h4>
+
+                    <div>
+                      <p className="text-fun2 my-2">escolha um produto</p>
+                      {resProductData && resProductData.json.response.map((product, key) => {
+                        return(
+                          <div>
+                            <div className="border border-cinza-100 max-w-20 rounded-lg my-2">
+                            <button key={key}
+                            name="product"
+                            >
+                              <img src={product.foto} className="max-w-14" />
+                            {product.nome} - {product.tamanho}
+                            </button>
+                            </div>
+
+
+                          {/* <div>
+                            <p>escolha um tamanho</p>
+                            <button>
+                            {product.tamanho}
+                            </button>
+                          </div> */}
+                          </div>
+
+                        )
+                      }) 
+                      
+                    }
+                    <InputText type='number' id='quantity' name='quantidade' onChange={(e) => setQuantity(e.target.value)} value={quantity ? quantity : ''}/>
+
+
+                      <div className="mt-4 flex justify-end gap-2">
+                      <GhostButton action={() => setCurrentStep(currentStep - 1)} text={'voltar'}></GhostButton>
+                      
+                      <PinkButton text='Continuar' 
+                      action={() => setCurrentStep(currentStep + 1)}
+                      // name && email && cpf && cellphone ?
+                      typeButton='button'>
+
+                      </PinkButton>
+                    </div>
+                    </div>
                   </Step>
 
                   <Step currentStep={currentStep} step={3}>
 
+                    <div>
+                      <div className="mt-4 flex justify-end gap-2">
+                        <GhostButton action={() => setCurrentStep(currentStep - 1)} text={'voltar'}></GhostButton>
+                        
+                        <PinkButton text='Continuar' 
+                        action={() => setCurrentStep(currentStep + 1)}
+                        // name && email && cpf && cellphone ?
+                        typeButton='button'>
+
+                        </PinkButton>
+                      </div>
+                    </div>
                   </Step>
                 </form>
               
