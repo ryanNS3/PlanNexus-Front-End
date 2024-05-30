@@ -5,10 +5,10 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ main ]
+      - main
     paths:
-    - '**'
-    - '.github/workflows/plan-nexus-gestao-AutoDeployTrigger-164aa4e8-dc81-4138-afaa-32f9bf221ffb.yml'
+      - '**'
+      - '.github/workflows/plan-nexus-gestao-AutoDeployTrigger-b1649106-7889-4487-bff5-cdfad26b0329.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
@@ -41,7 +41,13 @@ jobs:
           containerAppName: plan-nexus-gestao
           resourceGroup: plan-nexus
           imageToBuild: acrplannexus.azurecr.io/plan-nexus-gestao:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
+          buildArgs: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
 
-
+      - name: Deploy to Azure
+        run: |
+          az containerapp update \
+            --name plan-nexus-gestao \
+            --resource-group plan-nexus \
+            --image acrplannexus.azurecr.io/plan-nexus-gestao:${{ github.sha }} \
+            --env-vars VITE_API_URL=${{ secrets.VITE_API_URL }}
