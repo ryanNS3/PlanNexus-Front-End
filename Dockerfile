@@ -25,9 +25,6 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Copia o arquivo de configuração nginx.conf para o diretório de configuração do Nginx
 COPY nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
-# Copia o arquivo .env para o diretório de configuração do Nginx
-COPY .env /etc/nginx/.env
-
 # Copia o script de inicialização start.sh para o diretório de binários locais
 COPY nginx/start.sh /usr/local/bin/start.sh
 
