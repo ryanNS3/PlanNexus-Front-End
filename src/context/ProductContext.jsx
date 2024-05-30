@@ -125,6 +125,7 @@ export function ProductProvider({ children }) {
               nome: product.nome,
               descricao: product.descricao,
               brinde: product.brinde,
+              desconto: product.desconto,
               produtos: []
             }
           }

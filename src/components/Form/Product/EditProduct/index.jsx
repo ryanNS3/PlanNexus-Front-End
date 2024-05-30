@@ -21,14 +21,23 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     const [isDisabledButtonNotEditing, setIsDisableButtonNotEditing] = React.useState(true)
     const allIdsProduct = dataProduct.produtos.map((product) => product.tamanhos.map((size) => size.id_produto))
     const [editedProduct, setEditedProduct] = React.useState({});
+    console.log(dataProduct)
+    const colorSelected = dataProduct.produtos[idColor].cor;
+    const images = dataProduct.produtos[idColor].fotos.map((foto) =>{ 
+        return {[colorSelected] : foto}
+    })
+  
     const [originalDataProduct, setOriginalDataProduct] = React.useState({
         brinde: dataProduct.brinde,
         nome: dataProduct.nome,
         descricao: dataProduct.descricao,
-        valor: dataProduct.produtos[idColor].tamanhos[0].valor,
-        tamanhos : [dataProduct.produtos[idColor].tamanhos?.map((size) => size.tamanho)]
+        desconto: 0,
+        quantidadeEstoque: 0,
+        cor: dataProduct.produtos.map((color) => color.cor),
+        linksFotoAntiga: images,
+        valor: Number(dataProduct.produtos[idColor].tamanhos[0].valor),
+        tamanho : dataProduct.produtos[idColor].tamanhos?.map((size) => size.tamanho)
     })
-    
 
     const [isEditing, setIsEditing] = React.useState({
         nome: false,
@@ -45,10 +54,11 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         allIdsProduct[0].map((idProduct) => {
             console.log(idProduct)
             mutatePatchProduct.mutate({
-                id_produto: idProduct,
-                ...editedProduct
+                idProduto: idProduct,
+                ...originalDataProduct
             }, {
                 onSuccess: () => {
+                    // para cada sucesso adicione o verdadeiro na ultima posição
                     sucessOrError.push(true)
                     if (sucessOrError.length == allIdsProduct.length) {
                         finalizeSubmit(sucessOrError)
@@ -63,6 +73,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
                 }
             })
         })
+        console.log(sucessOrError)
         // verifiacando se todas as requisições foram bem sucedidas
         
        
@@ -86,7 +97,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
 
     function handleChangeEditingProduct({ target }) {
         const { name, value } = target;
-        setEditedProduct((prevState) => ({
+        setOriginalDataProduct((prevState) => ({
             ...prevState,
             [name] : value
         }
@@ -95,7 +106,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
 
     function handleChangeEditingGift({ target }) {
         const { name, checked } = target;
-        setEditedProduct((prevState) => ({
+        setOriginalDataProduct((prevState) => ({
             ...prevState,
             [name] : checked ? 1 : 0 
         }))
