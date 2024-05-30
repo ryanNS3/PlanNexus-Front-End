@@ -30,13 +30,8 @@ export function Sidebar() {
           <SidebarElement text="Home" icon="Home" href="/" />
           <SidebarElement text="Estoque" icon="Estoque" href="/estoque" />
           <SidebarElement text="Doação" icon="Doação" href="/doacao" />
-          <SidebarElement
-            text="Financeiro"
-            icon="Financeiro"
-            href="/financeiro"
-          />
-          <SidebarElement text="Histórico" icon="Histórico" href="/historico" />
           <SidebarElement text="Gestão" icon="Gestão" href="/gestao" />
+          <SidebarElement text="Configuração" icon="Configuração" href="/config" />
         </ul>
       </nav>
     </aside>

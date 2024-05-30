@@ -1,13 +1,22 @@
 import React from 'react'
 import { CardMedium} from '../../components/Cards/Card'
 import avatar from "../../assets/avatar.jpg"
-import { TemplateView } from '../../components/ViewTemplate'
+import { LineTable, TemplateView } from '../../components/ViewTemplate'
 import BasicModal, { ExtendModal, UniqueModal } from '../../components/Modal'
 import { ProductForm } from '../../components/Form/Product'
 import { PlusWhite } from '../../assets/Plus'
+import { ProductContext } from '../../context/ProductContext'
+import { Tooltip } from '@mui/material'
+import { ProductDetails } from '../../components/Details/productDetails'
 
 
 export function Stock() {
+
+  const { GetProducts, useGroupDataProducts, CalcAllStockForOneProduct } = React.useContext(ProductContext)
+  const { resProductData } = GetProducts();
+  const [isExtendModalFormEditing, setIsExtendModalFormEditing] = React.useState(false)
+  const configModal = { isExtend: isExtendModalFormEditing, setIsExtend: setIsExtendModalFormEditing}
+  const { groupProduct } = useGroupDataProducts(resProductData)
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
 
@@ -49,8 +58,32 @@ export function Stock() {
         setIsOpenModal={setIsOpenModalForm}
         formModal={<ProductForm />}
         header_data={["Alerta", "Estoque"]}
-        type="products"/>
+        type="products">
+        
+        {groupProduct &&
+          groupProduct.map((product) => {
+            const {allStock, allReserved} = CalcAllStockForOneProduct(product.produtos)
 
+            return (
+              <LineTable
+                name={product.nome}
+                typeModal='ExtendModal'
+                detailsModal={<ProductDetails isExtendModalForEdit={isExtendModalFormEditing} setIsExtendModalForEdit={setIsExtendModalFormEditing} dataUniqueProduct={product} />}
+                configModal={configModal}
+                photo={product.produtos[0].fotos[0]}
+                grid={`67px 1fr repeat(${3}, 100px)`}>
+                  <p>Barra</p>
+                  <Tooltip title={<span className=' text-fun2'>Total / reservado</span>}>
+                    <p className=''>{allStock}/{ allReserved}</p>
+                  </Tooltip>
+              </LineTable>
+              
+            )
+          })
+        
+        }
+
+        </TemplateView>
       
     </>
   )
