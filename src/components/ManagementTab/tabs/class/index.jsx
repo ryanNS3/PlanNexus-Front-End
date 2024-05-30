@@ -5,7 +5,7 @@ import useAxios from '../../../../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import { StudentDetails } from '../../../StudentDetails';
 
-export function TabClass() {
+export default function TabClass() {
     const BASE_URL = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token')
     const user = localStorage.getItem('user')

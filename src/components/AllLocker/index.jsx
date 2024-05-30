@@ -19,7 +19,7 @@ import {
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 
-export function AllLocker({ typeUser }) {
+export default function AllLocker({ typeUser }) {
   // Dados da API
   const { dataLocker, GetLocker } = React.useContext(LockerContext);
 

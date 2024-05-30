@@ -4,7 +4,7 @@ import { TemplateView } from "../ViewTemplate"
 import { PriceCard } from "./PriceCard"
 import { GiftCard } from "./GiftCard"
 
-export function AapmManage(){
+export default function AapmManage(){
     return(
         <section>
             <div className="grid grid-cols-3 mb-10">
