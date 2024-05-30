@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import useAxios from "../hooks/useAxios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toastifyContext } from "./toastifyContext";
 
 export const ProductContext = React.createContext();
@@ -166,8 +166,36 @@ export function ProductProvider({ children }) {
     return {groupProduct}
   }
 
+    
+    // get brindes ativos
+    const FetchGift = async() => {
+      const req = await requisicao(`${BASE_URL}/produto/unico`, null, "GET", {
+        authorization: `bearer ${token}`,
+        nif: user,
+      })
+      return req
+    }
+
+    const GetGiftProduct = () => {
+      const {data, isLoading} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
+      const resOneProduct = data
+      return {resOneProduct}
+    }
+ 
+
+
+    // atualizar brinde
+    const SwitchGift = async(listId) => {
+      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, {listaIdProduto : listId}, 'PATCH', {
+          authorization: `bearer ${token}`,
+          nif: user
+      })
+      return req
+    }    
+
+
   return (
-    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts }}>
+    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift }}>
       {children}
     </ProductContext.Provider>
   );

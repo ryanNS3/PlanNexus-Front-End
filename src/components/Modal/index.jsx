@@ -84,7 +84,7 @@ export default function BasicModal({ children, TextButton, labelButton, Button, 
             <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
               <Close isHover={isHoverButton} />
             </button>
-            <main className="w-full h-full">
+            <main className="w-full h-max overflow-y-scroll">
               {children}
             </main>
           </div>
