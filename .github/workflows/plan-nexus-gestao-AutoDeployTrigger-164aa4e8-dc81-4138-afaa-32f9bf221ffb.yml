@@ -43,11 +43,3 @@ jobs:
           imageToBuild: acrplannexus.azurecr.io/plan-nexus-gestao:${{ github.sha }}
           buildArgs: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
-
-      - name: Deploy to Azure
-        run: |
-          az containerapp update \
-            --name plan-nexus-gestao \
-            --resource-group plan-nexus \
-            --image acrplannexus.azurecr.io/plan-nexus-gestao:${{ github.sha }} \
-            --env-vars VITE_API_URL=${{ secrets.VITE_API_URL }}
