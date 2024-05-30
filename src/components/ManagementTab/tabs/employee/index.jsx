@@ -4,7 +4,7 @@ import { EmployeeForm } from '../../../Form/employee'
 import { EmployeeContext } from '../../../../context/Employee'
 import { EmployeeDetails } from '../../../EmployeeDetails'
 
-export function TabEmployee() {
+export default function TabEmployee() {
     const gridHeaderData = ['Status', 'Cargo']
     const { GetAllEmployees } = React.useContext(EmployeeContext)
     const { resAllEmployees, resProductLoading, resProductError } = GetAllEmployees()

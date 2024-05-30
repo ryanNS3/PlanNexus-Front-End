@@ -10,18 +10,18 @@ import {
 import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
-import { AllLocker } from "../AllLocker/index";
-import { AapmManage } from "../aapmManagement";
-import { AddMultipleStudents } from "../Form/AddMultipleStudents";
-import { AddStudentMethod } from "../Form/AddStudentMethod";
-import { TabClass } from "./tabs/class";
-import { TabEmployee } from "./tabs/employee/index"
-import { TabAapm } from "./tabs/aapm";
 
-export function ManagementTab() {
+const AapmManage = React.lazy(() => import("../aapmManagement"));
+const AllLocker = React.lazy(() => import("../AllLocker/index"));
+const TabClass = React.lazy(() => import("./tabs/class"));
+const TabEmployee = React.lazy(() => import("./tabs/employee/index"));
+const TabAapm = React.lazy(() => import("./tabs/aapm"));
 
-  const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false)
-  const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false)
+export default function ManagementTab() {
+  const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false);
+  const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState("turmas");
+
   const customTheme = withMT({
     theme: {
       // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
@@ -32,31 +32,50 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TabClass/>,
+      element: () => (
+        activeTab === "turmas" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <TabClass />
+          </React.Suspense>
+        )
+      ),
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: <TabEmployee/>
+      element: () => (
+        activeTab === "funcionarios" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <TabEmployee />
+          </React.Suspense>
+        )
+      ),
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element: <>
-      <AapmManage/>
-      <TabAapm/>
-      </>,
+      element: () => (
+        activeTab === "AAPM" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <AapmManage />
+            <TabAapm />
+          </React.Suspense>
+        )
+      ),
     },
     {
       label: "Armários",
       value: "armarios",
-      element: (
-        <AllLocker typeUser={'armários'}/>
+      element: () => (
+        activeTab === "armarios" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <AllLocker typeUser={'armários'} />
+          </React.Suspense>
+        )
       ),
     },
   ];
 
-  const [activeTab, setActiveTab] = React.useState("turmas");
   return (
     <ThemeProvider value={customTheme}>
       <Tabs value={activeTab}>
@@ -74,8 +93,8 @@ export function ManagementTab() {
               onClick={() => setActiveTab(value)}
               className={
                 activeTab === value
-                  ? "text-cinza-50 z-[9]   w-[8rem] h-[2.75rem] py-0"
-                  : "w-[8rem] "
+                  ? "text-cinza-50 z-[9] w-[8rem] h-[2.75rem] py-0"
+                  : "w-[8rem]"
               }
             >
               <button className="text-fun2 relative z-[5]" onClick={(event) => event.preventDefault()}>
@@ -86,8 +105,8 @@ export function ManagementTab() {
         </TabsHeader>
         <TabsBody>
           {content.map(({ value, element }) => (
-            <TabPanel className=" px-0" key={value} value={value}>
-              {element}
+            <TabPanel className="px-0" key={value} value={value}>
+              {element()}
             </TabPanel>
           ))}
         </TabsBody>

@@ -3,9 +3,10 @@ import { studentContext } from "../../../../context/studentsContext";
 import { LineTable, TemplateView } from "../../../ViewTemplate";
 import { StudentDetails } from "../../../StudentDetails";
 
-export function TabAapm() {
+export default function TabAapm() {
     const gridHeaderData = ["AAPM"]
     const { AllStudentsData } = React.useContext(studentContext)
+    
 
     return (
         <TemplateView name="AAPM"  header_data={gridHeaderData}>
