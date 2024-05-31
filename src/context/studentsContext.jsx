@@ -19,14 +19,33 @@ export function StudentProvider({ children }) {
 
         return requestAllStudents
     }
+
     const AllStudentsData = useQuery({ queryKey : ['AllStudentsData'], queryFn : FetchAllStudents});
     const resStudentsData = AllStudentsData.data
     const resStudentsLoading = AllStudentsData.isLoading
     const resStudentError = AllStudentsData.isError
 
 
+    async function SearchStudents({cpf}) {
+        const reqSearchStudent = await requisicao(`${BASE_URL}/aluno/todos?CPF=${cpf}`, null, "GET", {
+            authorization: `bearer ${token}`,
+            nif: user
+        })
+
+        return reqSearchStudent
+        // console.log(req)
+    }
+
+    // async function searchStudentByCPF({cpf}){
+    //     const searchStudent = useQuery({ queryKey : ['StudentByCPF'], queryFn : SearchStudents(cpf)});
+    //     const resStudent = searchStudent.data
+    //     return resStudent
+    // }
+
+    // SearchStudents('82622435010')
+
     return (
-        <studentContext.Provider value={{AllStudentsData}}>
+        <studentContext.Provider value={{AllStudentsData, SearchStudents}}>
             {children}
         </studentContext.Provider>
     )
