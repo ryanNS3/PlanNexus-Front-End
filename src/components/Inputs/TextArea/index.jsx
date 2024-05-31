@@ -24,6 +24,7 @@ export const TextArea = ({ cols = 50, rows = 6,
        focus:border-rosa-destaque
         disabled:bg-cinza-100'
         id={name}
+        name={name}
         cols={cols}
         rows={rows}
         value={value}
