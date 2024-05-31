@@ -4,6 +4,7 @@ import { DonateTab } from "../../components/DonateTab";
 import React, { useContext } from "react";
 
 export function Donate() {
+  
   return (
     <Main>
       <div className="grid grid-cols-[1fr_auto] mt-18 gap-6">
