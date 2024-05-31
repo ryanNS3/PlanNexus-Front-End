@@ -27,7 +27,7 @@ export function DonatorProvider({ children }) {
 
 });
 
-  const GetMoneyDonation = () => {
+  const useGetMoneyDonation = () => {
     const AllMoneyDonation = useQuery({ queryKey : ['AllMoneyDonation'], queryFn : FetchAllMoney});
     const resMoneyData = AllMoneyDonation.data
     return { resMoneyData };
@@ -115,7 +115,7 @@ export function DonatorProvider({ children }) {
 
   return (
     <DonatorContext.Provider
-      value={{ GetMoneyDonation, mutateLockerDonation, mutateMoneyDonation, mutateProductDonation }}
+      value={{ useGetMoneyDonation, mutateLockerDonation, mutateMoneyDonation, mutateProductDonation }}
     >
       {children}
     </DonatorContext.Provider>
