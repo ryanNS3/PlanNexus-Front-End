@@ -12,6 +12,67 @@ export function ProductProvider({ children }) {
   const user = window.localStorage.getItem('user');
   const queryClient = useQueryClient()
 
+  const useGroupDataProducts = (resProductData) => {
+    const [groupProduct, setGroupProduct] = React.useState(null)
+
+    React.useEffect(() => {
+      if (resProductData && resProductData.json && resProductData.json.response) {
+      const groupedProducts = resProductData?.json?.response?.reduce((acc, product) => {
+        if (!acc[product.nome]) {
+          acc[product.nome] = { 
+            nome: product.nome, 
+            descricao: product.descricao,
+            porcentagem: product.porcentagem,
+            desconto_associado : product.desconto_associado,
+            brinde: product.brinde,
+            produtos: [] 
+          }
+        }
+
+        const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
+
+        const uniqueFotos = [...new Set(product.foto)]
+
+        if (existingProduct) {
+          existingProduct.tamanhos.push({
+            id_produto: product.id_produto,
+            tamanho: product.tamanho,
+            qtd_estoque: product.qtd_estoque,
+            qtd_reservada: product.qtd_reservada,
+            valor: product.valor
+          })
+          existingProduct.fotos.push(...uniqueFotos)
+        } else {
+          acc[product.nome].produtos.push({
+            cor: product.cor,
+            tamanhos: [{
+              id_produto: product.id_produto,
+              tamanho: product.tamanho,
+              qtd_estoque: product.qtd_estoque,
+              qtd_reservada: product.qtd_reservada,
+              valor: product.valor
+            }],
+            fotos: uniqueFotos
+          })
+        }
+
+        return acc
+        }, {})
+  
+        const result = Object.values(groupedProducts)
+        setGroupProduct(result)
+     
+      }
+    }, [resProductData])
+
+    return {groupProduct}
+  }
+
+
+
+
+
+
   const CalcAllStockForOneProduct = (product) => {
     const allStock = product?.reduce((acc, item) => {
       const allSize = item.tamanhos.reduce((acc, size) => {
@@ -24,10 +85,13 @@ export function ProductProvider({ children }) {
       const allSize = item.tamanhos.reduce((acc, size) => acc + size.qtd_reservada, 0)
       return acc + allSize
     },0)
-    console.log("a",allStock, "q", allReserved)
 
     return { allStock : allStock, allReserved : allReserved }
   }
+
+  const {groupProduct} = useGroupDataProducts();
+
+ 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
     try{
@@ -41,7 +105,6 @@ export function ProductProvider({ children }) {
 
     }
     catch (error) {
-      console.log(error)
       throw new Error(error.message || 'Erro ao fazer a requisição');
       
     }
@@ -61,10 +124,9 @@ export function ProductProvider({ children }) {
         nif: user
       })
 
-      if (!requestApiProducts.ok) {
+      if (!requestApiProducts.res.status >= 400) {
         throw new Error(responseData.message || 'Erro ao fazer a requisição');
       }
-      
       return requestApiProducts
     } 
     catch (error) {
@@ -112,60 +174,6 @@ export function ProductProvider({ children }) {
       const resProductData = AllProductsData.data
       return { resProductData };
   };
-  
-  const useGroupDataProducts = (resProductData) => {
-    const [groupProduct, setGroupProduct] = React.useState(null)
-
-    React.useEffect(() => {
-
-      if (resProductData && resProductData.json && resProductData.json.response) {
-        const groupedProducts = resProductData.json.response.reduce((acc, product) => {
-          if (!acc[product.nome]) {
-            acc[product.nome] = {
-              nome: product.nome,
-              descricao: product.descricao,
-              brinde: product.brinde,
-              desconto: product.desconto,
-              produtos: []
-            }
-          }
-  
-          const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
-  
-          if (existingProduct) {
-            existingProduct.tamanhos.push({
-              id_produto: product.id_produto,
-              tamanho: product.tamanho,
-              qtd_estoque: product.qtd_estoque,
-              qtd_reservada: product.qtd_reservada,
-              valor: product.valor
-            })
-            existingProduct.fotos.push(...product.foto)
-          } else {
-            acc[product.nome].produtos.push({
-              cor: product.cor,
-              tamanhos: [{
-                id_produto: product.id_produto,
-                tamanho: product.tamanho,
-                qtd_estoque: product.qtd_estoque,
-                qtd_reservada: product.qtd_reservada,
-                valor: product.valor
-              }],
-              fotos: [...product.foto]
-            })
-          }
-  
-          return acc
-        }, {})
-  
-        const result = Object.values(groupedProducts)
-        setGroupProduct(result)
-     
-      }
-    }, [resProductData])
-
-    return {groupProduct}
-  }
 
     
     // get brindes ativos
