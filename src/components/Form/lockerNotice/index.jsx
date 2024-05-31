@@ -19,8 +19,8 @@ export function LockerForm() {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-end justify-end gap-4">
-          <GhostButton text={"Cancelar"} action={console.log("Cancelar")} />
+        <div className="flex flex-wrap justify-end gap-4">
+          <GhostButton text={"Cancelar"} action={() => console.log("Cancelar")} />
           <PinkButton text={"Continuar"} />
         </div>
       </div>
