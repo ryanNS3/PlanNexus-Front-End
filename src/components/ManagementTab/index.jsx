@@ -18,8 +18,6 @@ const TabEmployee = React.lazy(() => import("./tabs/employee/index"));
 const TabAapm = React.lazy(() => import("./tabs/aapm"));
 
 export default function ManagementTab() {
-  const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false);
-  const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("turmas");
 
   const customTheme = withMT({
@@ -80,7 +78,7 @@ export default function ManagementTab() {
     <ThemeProvider value={customTheme}>
       <Tabs value={activeTab}>
         <TabsHeader
-          className="w-full gap-4 mt-12 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 "
+          className="w-full gap-4 mt-4 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 "
           indicatorProps={{
             className:
               "w-[8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
