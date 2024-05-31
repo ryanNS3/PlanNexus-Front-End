@@ -81,7 +81,7 @@ export function LockerInfo({ nome, numero, status, idStudent }) {
         />
 
         {/* Botão Doação */}
-        <ModalOptions Button={<PinkButton text={"Doar Armário"} icon={<Volunteer />} action={console.log('você consegue')} />}>
+        <ModalOptions Button={<PinkButton text={"Doar Armário"} icon={<Volunteer />} />}>
           <LockerVolunteer />
         </ModalOptions>
       </div>
