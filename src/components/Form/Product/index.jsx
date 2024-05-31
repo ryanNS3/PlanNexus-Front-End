@@ -19,6 +19,7 @@ export function ProductForm({ setIsOpenProductModal }) {
   
   const {Notification} = React.useContext(toastifyContext)
   const {mutateCreateNewProduct} = React.useContext(ProductContext)
+
   const [errorValidate, setErrorValidate] = React.useState({
         nome: false,
         cores: false,
@@ -59,6 +60,9 @@ export function ProductForm({ setIsOpenProductModal }) {
 
   const sizes = [
     {
+      size: "PP",
+    },
+    {
       size: "P",
     },
     {
@@ -66,6 +70,26 @@ export function ProductForm({ setIsOpenProductModal }) {
     },
     {
       size: "G",
+    },
+    {
+      size: "GG",
+    },
+  ];
+  const sizesNumero = [
+    {
+      size: "1",
+    },
+    {
+      size: "2",
+    },
+    {
+      size: "3",
+    },
+    {
+      size: "4",
+    },
+    {
+      size: "5",
     },
   ];
 
