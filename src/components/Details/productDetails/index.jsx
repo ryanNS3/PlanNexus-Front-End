@@ -65,7 +65,7 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                                     <button className={`  border-2 ${idColorOfProduct == index ? "  text-branco bg-preto " : " border-cinza-100"} py-1 px-2  rounded-lg hover:border-cinza-950 duration-200`} onClick={handleSelectedColor}>{ color}</button>
                                 )}        
 
-                            {dataUniqueProduct.produtos[idColorOfProduct].fotos.length > 1 && (
+                            {dataUniqueProduct.produtos[idColorOfProduct].fotos.length > 1 ? (
                                 <section className="grid gap-4">
                                     <img className=" w-4/5 lg:w-2/3 justify-self-center rounded" src={dataUniqueProduct.produtos[idColorOfProduct].fotos[0]} alt="" />
                                     <div className="flex max-w-full gap-4 overflow-x-scroll cursor-grab">
@@ -74,10 +74,19 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                                                 <RemoveItems/>
                                                 <img className="w-full min-w-18 max-h-18 rounded" src={image} alt="" />
                                             </div>
-                                        ))}
+                                        ))
+                                        }
                                     </div>
                                 </section>
-                            )}
+                            )
+                            
+                            :
+                                <section className="grid gap-4">
+                                    <img className=" w-4/5 lg:w-2/3 justify-self-center rounded" src={dataUniqueProduct.produtos[idColorOfProduct].fotos[0]} alt="" />
+                                </section>
+                        
+                            }
+                            
                         </div>
                         {isExtendModalForEdit && (
                                 <EditProductForm
