@@ -6,7 +6,7 @@ import BasicModal, { ExtendModal, UniqueModal } from '../../components/Modal'
 import { ProductForm } from '../../components/Form/Product'
 import { PlusWhite } from '../../assets/Plus'
 import { ProductContext } from '../../context/ProductContext'
-import { Tooltip } from '@mui/material'
+import { Box, LinearProgress, Tooltip } from '@mui/material'
 import { ProductDetails } from '../../components/Details/productDetails'
 
 
@@ -19,6 +19,10 @@ export function Stock() {
   const { groupProduct } = useGroupDataProducts(resProductData)
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
+
+
+  console.log(groupProduct)
+  console.log(resProductData)
 
   return (
     <>
@@ -58,12 +62,12 @@ export function Stock() {
         setIsOpenModal={setIsOpenModalForm}
         formModal={<ProductForm />}
         header_data={["Alerta", "Estoque"]}
+        gap="14"
         type="products">
         
         {groupProduct &&
           groupProduct.map((product) => {
             const {allStock, allReserved} = CalcAllStockForOneProduct(product.produtos)
-
             return (
               <LineTable
                 name={product.nome}
@@ -71,11 +75,22 @@ export function Stock() {
                 detailsModal={<ProductDetails isExtendModalForEdit={isExtendModalFormEditing} setIsExtendModalForEdit={setIsExtendModalFormEditing} dataUniqueProduct={product} />}
                 configModal={configModal}
                 photo={product.produtos[0].fotos[0]}
-                grid={`67px 1fr repeat(${3}, 100px)`}>
-                  <p>Barra</p>
-                  <Tooltip title={<span className=' text-fun2'>Total / reservado</span>}>
-                    <p className=''>{allStock}/{ allReserved}</p>
+                grid={`67px 1fr repeat(${3}, 100px)`}
+                gap="14">
+                  <p>
+                    {Number(product.porcentagem) < 30.000 ? "estoque baixo" : "sem alertas" }
+                  </p>
+                  <Tooltip className='flex flex-col justify-center items-center' title={<span className=' text-fun2'>Total / reservado</span>}>
+                    <p className='flex flex-wrap'>
+                      <span>{allStock}</span>
+                      /
+                      <span>{ allReserved}</span>
+                    </p>
+                    <Box className="w-32 ">
+                      <LinearProgress value={product.porcentagem} variant='determinate'/>
+                    </Box>
                   </Tooltip>
+
               </LineTable>
               
             )
