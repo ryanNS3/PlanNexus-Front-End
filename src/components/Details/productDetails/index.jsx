@@ -4,6 +4,7 @@ import { PinkButton } from "../../Buttons/pinkButton";
 import { GhostButton } from "../../Buttons/ghostButton";
 import { EditableInput, InputText } from "../../Inputs/input-text/inputTextComp";
 import { ProductReplacent } from "../../Form/Product/ProductReplacent";
+import { RemoveItems } from "../../Buttons/RemoveItems";
 
 export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, dataUniqueProduct }) {
     const allColorsProduct = dataUniqueProduct?.produtos?.map((product) => product.cor)     
@@ -70,6 +71,7 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                                     <div className="flex max-w-full gap-4 overflow-x-scroll cursor-grab">
                                         {dataUniqueProduct.produtos[idColorOfProduct].fotos.map((image, index) => (
                                             <div key={index} className="">
+                                                <RemoveItems/>
                                                 <img className="w-full min-w-18 max-h-18 rounded" src={image} alt="" />
                                             </div>
                                         ))}

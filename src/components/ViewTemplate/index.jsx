@@ -17,6 +17,7 @@ export function TemplateView({
   error,
   isExtendModalForm = false,
   header_data,
+  gap
 }) {
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false);
   const url = window.location;
@@ -101,7 +102,7 @@ export function TemplateView({
 
       {/* HEADER DO TEMPLATE DE TABELAS */}
       <section
-        className={`grid gap-4 col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-6 p-4`}
+        className={`grid gap-${gap} col-start-1 col-end-12 border-b-2 border-[#CCCCCC] mb-6 p-4`}
         aria-label="informações principais sobre os usuários"
         style={{
           gridTemplateColumns: `67px 1fr repeat(${
@@ -130,7 +131,7 @@ export function TemplateView({
   );
 }
 
-export function LineTable({ name, photo, children, grid, typeModal="UniqueModal",detailsModal,configModal, header_data }) {
+export function LineTable({ name, photo, children, grid, typeModal="UniqueModal",detailsModal,configModal, gap="4" }) {
 
   return (
     <VariableModal
@@ -138,7 +139,7 @@ export function LineTable({ name, photo, children, grid, typeModal="UniqueModal"
         type={typeModal} 
         componentForOpenModal={
           <div
-          className="relative rounded-lg w-full py-[0.875rem] p-4 border-2 hover:border-cinza-200 border-cinza-100 bg-white grid items-center justify-items-center gap-4 "
+          className={`relative rounded-lg  w-full py-[0.875rem] p-4 border-2 hover:border-cinza-200 border-cinza-100 bg-white grid items-center justify-items-center gap-${gap} `}
           style={{ gridTemplateColumns: grid }}
         >
           <div className="h-9 w-9 ">
