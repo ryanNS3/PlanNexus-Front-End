@@ -14,7 +14,6 @@ export function Percentage() {
   //Chamada única dos dados
   useEffect(() => {
     dataLocker;
-    console.log(dataLocker);
   }, []);
 
   let lockerBusy = 0;
