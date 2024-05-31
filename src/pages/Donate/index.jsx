@@ -2,7 +2,7 @@ import { Main } from "../../components/Main";
 import { DonateChart, DonateChart2 } from "../../components/DonateChart";
 import { DonateTab } from "../../components/DonateTab";
 import React, { useContext, useState } from "react";
-import BasicModal from "../../components/Modal";
+import BasicModal, { UniqueModal } from "../../components/Modal";
 import { DonationForm } from "../../components/Form/donation";
 
 export function Donate() {
@@ -15,9 +15,9 @@ export function Donate() {
         <header>
         <h1 className="col-span-full text-h5">Visão geral</h1>
         {/* <VariableModal type='Basic' isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" > */}
-        <BasicModal isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" labelButton='fazer doação'>
+        <UniqueModal componentForOpenModal={<button>teste</button>} isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" labelButton='fazer doação'>
           <DonationForm/>
-        </BasicModal>
+        </UniqueModal>
         {/* </VariableModal> */}
         </header>
         <div className="grid grid-cols-2 gap-2">
@@ -26,7 +26,7 @@ export function Donate() {
         </div>
       </div>
       <div className="w-full flex mt-10">
-        <DonateTab />
+        {/* <DonateTab /> */}
       </div>
     </Main>
   );
