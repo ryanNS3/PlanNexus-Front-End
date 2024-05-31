@@ -97,7 +97,7 @@ export function Lockers({ size }) {
   switch (size) {
     case "small":
       sizeLockers =
-        "grid grid-cols-1 col-span-12 gap-4 mt-7 sm:grid-cols-2 sm:col-span-12 md:grid-cols-4 md:col-span-12 lg:grid-cols-6 lg:col-span-12 xl:grid-cols-8 xl:col-span-12 ";
+        "grid grid-cols-2 col-span-12 gap-4 mt-7 sm:grid-cols-2 sm:col-span-12 md:grid-cols-4 md:col-span-12 lg:grid-cols-6 lg:col-span-12 xl:grid-cols-8 xl:col-span-12 ";
       break;
     default:
       sizeLockers =
@@ -151,8 +151,10 @@ export function Lockers({ size }) {
             ))}
           </TabsHeader>
           <TabsBody>
-            {content.map(({ value }) => (
-              <TabPanel key={value} value={value}></TabPanel>
+            {content.map((key, value) => (
+              <TabPanel key={key.value} value={value} >
+                <div className="hidden">{value}</div>
+              </TabPanel>
             ))}
           </TabsBody>
         </Tabs>
@@ -182,9 +184,8 @@ export function Locker({ nome, numero, status, idStudent }) {
         key={numero}
         id={numero}
         nome={nome}
-        className={`relative col-span-1 ${
-          status == "desocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
-        } h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
+        className={`relative col-span-1 ${status == "desocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
+          } h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
       >
         <div className={`absolute top-1 right-1  ${unlocker}`}>
           <LockBlack />
@@ -195,13 +196,13 @@ export function Locker({ nome, numero, status, idStudent }) {
         <div className="absolute z-1000 top-0 -right-2" ref={menuRefLocker}>
           {isOpenOptions && (
             <>
-            <Options
-              nome={nome}
-              numero={numero}
-              status={status}
-              idStudent={idStudent}
-            />
-            <div className="w-screen h-screen top-0 fixed left-0 z-20" onClick={() => setIsOpenOptions(!isOpenOptions)}></div>
+              <Options
+                nome={nome}
+                numero={numero}
+                status={status}
+                idStudent={idStudent}
+              />
+              <div className="w-screen h-screen top-0 fixed left-0 z-20" onClick={() => setIsOpenOptions(!isOpenOptions)}></div>
             </>
           )}
         </div>
