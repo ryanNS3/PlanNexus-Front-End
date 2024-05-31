@@ -5,12 +5,12 @@ import { DecorationLine } from "../../../decorationLine";
 import { TextArea } from "../../../Inputs/TextArea";
 import { Label } from "../../../Inputs/Label";
 import { GhostButton } from "../../../Buttons/ghostButton";
-import { Square } from "../../../square";
 import { PinkButton } from "../../../Buttons/pinkButton";
 import { Switch } from "@mui/material";
 import { SquareCheckBox } from "../../../Inputs/input-CheckBox";
 import { ProductContext } from "../../../../context/ProductContext";
 import { toastifyContext } from "../../../../context/toastifyContext";
+import { handleChangeEditingAction, handleBlurEditingAction } from "../../../../reducers/product/actions";
 
 
 
@@ -22,15 +22,25 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         nameProduct: dataProduct.nome,
         priceProduct: Number(dataProduct.produtos[idColor].tamanhos[0].valor),
         descriptionProduct: dataProduct.descricao,
-        discountProduct: dataProduct.desconto_associado,
-        sizeProduct: dataProduct.produtos[idColor].tamanhos?.map((size) => size),
+        discountProduct: Number(dataProduct.desconto_associado),
+        sizeProduct: dataProduct.produtos[idColor].tamanhos?.map((size) => size.tamanho),
         colorsProduct: dataProduct.produtos.map((color) => color.cor),
         selectedColor: dataProduct.produtos[idColor].cor,
         image: [[], [], [], []],
         isSize: false
         })
-    const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
 
+
+    const {nameProduct, priceProduct, discountProduct, descriptionProduct, sizeProduct ,colorsProduct, selectedColor, image} = productDataState
+    const [errorValidation, setErrorValidation] = React.useState({
+        nome: null,
+        preco: null,
+        desconto: null,
+
+
+    })
+    console.log(errorValidation)
+    
     const {Notification} = React.useContext(toastifyContext)
     const [allResponseEditingProduct, setAllResponseEditingProduct] = React.useState([])
     const [isDisabledButtonNotEditing, setIsDisableButtonNotEditing] = React.useState(true)
@@ -56,16 +66,16 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         },
       ];
 
-    const images = dataProduct.produtos[idColor].fotos.reduce((acc, foto) =>{ 
-        const arrayPhotos = []
-        if (foto != acc){
-            arrayPhotos.push(foto);
-        }
-        return arrayPhotos
-    }, dataProduct.produtos[idColor].fotos[0])
-    // const images = dataProduct.produtos[idColor].fotos.map((foto) =>{ 
-    //     return foto
-    // })
+    // const images = dataProduct.produtos[idColor].fotos.reduce((acc, foto) =>{ 
+    //     const arrayPhotos = []
+    //     if (foto != acc){
+    //         arrayPhotos.push(foto);
+    //     }
+    //     return arrayPhotos
+    // }, dataProduct.produtos[idColor].fotos[0])
+    const images = dataProduct.produtos[idColor].fotos.map((foto) =>{ 
+        return foto
+    })
 
     console.log(images)
   
@@ -74,7 +84,6 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         nome: nameProduct,
         descricao: descriptionProduct,
         desconto: discountProduct,
-        quantidadeEstoque: dataProduct.qtd_estoque,
         cor: colorsProduct,
         linksFotoAntiga: images,
         valor: priceProduct,
@@ -97,9 +106,19 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         let sucessOrError = []
         allIdsProduct[0].map((idProduct) => {
             // console.log(idProduct)
+            const tamanho = dataProduct.produtos[idColor].tamanhos.map((size) => size.id_produto == idProduct ? size.tamanho : null  )
+            console.log("tamanho", tamanho)
             mutatePatchProduct.mutate({
                 idProduto: idProduct,
-                ...originalDataProduct
+                quantidadeEstoque: 1,
+                brinde: dataProduct.brinde,
+                nome: nameProduct.payload,
+                descricao: descriptionProduct,
+                desconto: discountProduct,
+                cor: colorsProduct,
+                linksFotoAntiga: JSON.stringify(images),
+                valor: priceProduct,
+                tamanho : tamanho.filter((size) => size)
             }, {
                 onSuccess: () => {
                     // para cada sucesso adicione o verdadeiro na ultima posição
@@ -148,19 +167,19 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         setIsEditForm(false)
     }
 
-    function handleChangeEditingProduct({ target }) {
-        const { name, value } = target;
-        setOriginalDataProduct((prevState) => ({
-            ...prevState,
-            [name] : value
-        }
-    ))
+    function handleChangeEditingProduct(event, nameDataEditing, payload) {
+        // const { name, value } = target;
+        handleChangeEditingAction(event, nameDataEditing, payload, dispatch)
+        console.log("edição")
+        console.log("edit", productDataState)
+        
     // console.log('teste', originalDataProduct)
 }
 
 
-function handleBlurChangeEditing(event, typeBlur){
-        handleBlurChangeEditing(event, typeBlur)
+    function handleBlurChangeEditing(event, typeBlur){
+        handleBlurEditingAction(event, typeBlur, setErrorValidation, dispatch)
+        console.log(errorValidation)
     }
 
     function handleChangeEditingGift({ target }) {
@@ -205,18 +224,20 @@ function handleBlurChangeEditing(event, typeBlur){
                 <h2 className=" text-fun2 mb-4 text-rosa-300 after:w-2 after:h-full after:block" id="informacoesGeraisProduto" >INFORMAÇÕES GERAIS:</h2>
                 <div className="grid grid-cols-2 gap-x-9 gap-y-4">
                     <EditableInput
-                        onChange={handleChangeEditingProduct}
-                        onBlur={handleBlurChangeEditing}
+                        onChange={(event) => handleChangeEditingProduct(event,"nameProduct", {payload:event.target.value})}
+                        onBlur={(event) => handleBlurChangeEditing(event, "nameProduct", dispatch)}
                         onEditClick={() => handleEditClick("nome")}
                         disabled={!isEditing.nome}
                         isEditable
                         name="nome"
+                        errorValidacao={errorValidation.nome}
                         value={isEditing.nome ? editedProduct.nome : originalDataProduct.nome}
                         />
                     <EditableInput
                         name="preco"
                         type="number"
-                        onChange={handleChangeEditingProduct}
+                        onChange={(event)=> handleChangeEditingProduct(event, "priceProduct", {payload: event.target.value})}
+                        onBlur={(event) => handleBlurChangeEditing(event, "priceProduct")}
                         onEditClick={() => handleEditClick("preco")}
                         disabled={!isEditing.preco}
                         value={isEditing.valor ? editedProduct.preco : originalDataProduct.valor}
@@ -225,7 +246,8 @@ function handleBlurChangeEditing(event, typeBlur){
                     <EditableInput
                         name="desconto"
                         type="number"
-                        onChange={handleChangeEditingProduct}
+                        onChange={(event) => handleChangeEditingProduct(event,"discountProduct", {payload: event.target.value})}
+                        onBlur={(event) => handleBlurChangeEditing(event, "discountProduct")}
                         onEditClick={() => handleEditClick("desconto")}
                         disabled={!isEditing.desconto}
                         value={isEditing.desconto ? editedProduct.desconto : originalDataProduct.desconto}
@@ -240,7 +262,8 @@ function handleBlurChangeEditing(event, typeBlur){
                             value={isEditing.descricao ? editedProduct.descricao : originalDataProduct.descricao}
                             disabled={!isEditing.descricao}
                             onEditClick={() => handleEditClick("descricao")}
-                            onChange={handleChangeEditingProduct}
+                            onChange={(event) => handleChangeEditingProduct(event, "descriptionProduct")}
+                            // onBlur={(event) => handleBlurChangeEditing(event,"")}
                             isEditable
                         />
                     </div>
