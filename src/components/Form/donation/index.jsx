@@ -1,13 +1,18 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import { InputRadioInformation } from "../../Inputs/input-radio-information";
 import { PinkButton } from "../../Buttons/pinkButton";
 import { ProductContext } from "../../../context/ProductContext";
 import { GhostButton } from "../../Buttons/ghostButton";
+import { studentContext } from "../../../context/studentsContext";
 
 export function DonationForm(){
   const {GetProducts} = React.useContext(ProductContext)
   const {resProductData} = GetProducts()
+
+  const {SearchStudents} = React.useContext(studentContext)
+  // const {resStudent} = searchStudentsByCPF()
+  // const resSearch = SearchStudents()
 
   const steps = [
     'Informações do aluno',
@@ -15,15 +20,18 @@ export function DonationForm(){
     'Contrato'
   ]
 
-  const [name, setName] = React.useState(null)
-  const [email, setEmail] = React.useState(null)
-  const [cpf, setCpf] = React.useState(null)
+  const [name, setName] = React.useState('')
+  const [cpf, setCpf] = React.useState('')
+  const [email, setEmail] = React.useState()
   const [cellphone, setCellphone] = React.useState()
   const [quantity, setQuantity] = React.useState()
   const [contract, setContract] = React.useState()
   const [studentId, setStudentId] = React.useState()
   const [productId, setProductId] = React.useState()
   const [lockerNumber, setLockerNumber] = React.useState()
+  const [moneyAmount, setMoney] = React.useState()
+
+  const [search, setSearch] = React.useState()
   
   const [currentStep, setCurrentStep] = React.useState(1)
 
@@ -37,14 +45,72 @@ export function DonationForm(){
     return show ? <>{children}</> : null
   }
 
+  useEffect(() => {
+    if(cpf == true){
+      const fetchData = async () => {
+        try {
+          const result = await SearchStudents(cpf);
+          console.log(result)
+          setSearch(result);
+        } catch (error) {
+          console.error("Error fetching student data:", error);
+        }
+      };
+
+      fetchData()
+    }
+  }, [cpf, SearchStudents])
+
+  // const handleCPFChange = (event) => {
+  //   setCpf(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleNameChange = (event) => {
+  //   setName(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleEmailChange = (event) => {
+  //   setEmail(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleQuantityChange = (event) => {
+  //   setQuantity(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleStudentChange = (event) => {
+  //   setStudentId(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleProductChange = (event) => {
+  //   setProductId(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleLockerChange = (event) => {
+  //   setLockerNumber(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleMoneyChange = (event) => {
+  //   setMoney(event.target.value);
+  //   setError(false)
+  // };
+
+  // const handleContractChange = (event) => {
+  //   setContract(event.target.value);
+  //   setError(false)
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      idAluno : studentId,
-      idProduto: quantity,
-      contrato: contract,
-      data: new Date.now()
-    };}
+  }
+
+
 
   return(
     <>
@@ -85,14 +151,22 @@ export function DonationForm(){
                 <form onSubmit={handleSubmit}>
                   <Step currentStep={currentStep} step={1}>
                     <div className="flex flex-col gap-6">
+                      <InputText  id='cpf' type='text' name='CPF' placeholder='000.000.000-00' onChange={(e) => setCpf(e.target.value)} value={cpf} />
+
+                    {search &&  search.json.response.map((student, key) => {
+                      <p key={key} > {student.cpf} </p>
+                    }) 
+                    }
+
+
                       <InputText id='name' type='text' name='Nome completo' placeholder='José da Silva' onChange={(e) => setName(e.target.value)} value={name ? name : ''} />
 
                       <InputText id='email' type='email' name='Email' placeholder='jose@gmail.com' onChange={(e) => setEmail(e.target.value)} value={email ? email : '' } />
 
-                      <InputText id='cpf' type='text' name='CPF' placeholder='000.000.000-00' onChange={(e) => setCpf(e.target.value)} value={cpf ? cpf : ''} />
 
                       <InputText id='cellphone' type='text' name='telefone' placeholder='55 11 111111111' onChange={(e) => setCellphone(e.target.value)} value={cellphone ? cellphone : ''} />
                     </div>
+
 
                     <div className="mt-4">
                       <PinkButton text='Continuar' 
