@@ -23,13 +23,10 @@ FROM nginx:1.21.0
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copia o arquivo de configuração nginx.conf para o diretório de configuração do Nginx
-COPY nginx.conf /etc/nginx/conf.d
+COPY nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Copia os arquivos compilados da etapa "builder" para o diretório de HTML do Nginx
 COPY --from=builder /frontend/dist /usr/share/nginx/html
 
 # Expõe a porta 80 para acessar o servidor Nginx
 EXPOSE 80
-
-# Comando para iniciar o servidor Nginx
-CMD ["nginx", "-g", "daemon off;"]
