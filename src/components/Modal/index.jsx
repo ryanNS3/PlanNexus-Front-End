@@ -297,44 +297,42 @@ export function DuoModalOptions({ contentOne, contentDuo, Button }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false);
-  const [isOpenModalDuo, setIsOpenModalDuo] = React.useState(false);
 
   const handleOpen = () => {
     setIsOpenModal(true);
-    setIsOpenModalDuo(true);
   }
 
   const handleClose = () => {
     setIsHoverButton(false)
     setIsOpenModal(false)
-    setIsOpenModalDuo(false)
   };
 
   return (
     <>
       <div onClick={handleOpen}>{Button}</div>
+      
       <Modal
         open={isOpenModal}
         sx={modalStyle}>
         <Box sx={InnerModal}>
-          <div className="flex w-2/4 duration-500 rounded-2xl ">
-            <main className="flex h-full">
-              {contentOne}
-            </main>
-          </div>
+          <div className="flex w-full h-full flex-col overflow-y-auto sm:flex-row gap-2" >
+            <div className="flex w-full sm:w-full duration-500 rounded-2xl ">
+              <main className="flex w-full h-full">
+                {contentOne}
+              </main>
+            </div>
 
-          <div className="flex flex-col gap-4 w-5/12 py-10 px-10 md:w-1/2 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
-            <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
-              <Close isHover={isHoverButton} />
-            </button>
-            <main className="flex w-full h-full">
-              {contentDuo}
-            </main>
+            <div className="flex flex-col pt-10 px-10 sm:w-1/2 duration-500 animate-modalAnimation bg-branco rounded-2xl " style={{ scrollbarWidth: "none" }}>
+              <button className="flex self-end" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
+                <Close isHover={isHoverButton} />
+              </button>
+              <main className="flex w-full h-full">
+                {contentDuo}
+              </main>
+            </div>
           </div>
         </Box>
       </Modal>
-
-
     </>
   );
 }
