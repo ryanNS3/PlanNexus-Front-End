@@ -20,9 +20,9 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         productReduce
         ,{
         nameProduct: dataProduct.nome,
-        priceProduct: Number(dataProduct.produtos[idColor].tamanhos[0].valor),
+        priceProduct: parseFloat(dataProduct.produtos[idColor].tamanhos[0].valor),
         descriptionProduct: dataProduct.descricao,
-        discountProduct: Number(dataProduct.desconto_associado),
+        discountProduct: parseFloat(dataProduct.desconto_associado),
         sizeProduct: dataProduct.produtos[idColor].tamanhos?.map((size) => size.tamanho),
         colorsProduct: dataProduct.produtos.map((color) => color.cor),
         selectedColor: dataProduct.produtos[idColor].cor,
@@ -35,11 +35,12 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     const [errorValidation, setErrorValidation] = React.useState({
         nome: null,
         preco: null,
+        descricao: null,
         desconto: null,
+        cor: null
 
 
     })
-    console.log(errorValidation)
     
     const {Notification} = React.useContext(toastifyContext)
     const [allResponseEditingProduct, setAllResponseEditingProduct] = React.useState([])
@@ -77,7 +78,6 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
         return foto
     })
 
-    console.log(images)
   
     const [originalDataProduct, setOriginalDataProduct] = React.useState({
         brinde: dataProduct.brinde,
@@ -93,7 +93,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     const [isEditing, setIsEditing] = React.useState({
         nome: false,
         brinde: false,
-        valor: false,
+        preco: false,
         desconto: false,
         tamanhos: false,
         descricao: false,
@@ -102,22 +102,20 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
 
     function handleSubmitEditingProduct(event) {
         event.preventDefault();
-        console.log(originalDataProduct)
         let sucessOrError = []
         allIdsProduct[0].map((idProduct) => {
-            // console.log(idProduct)
+
             const tamanho = dataProduct.produtos[idColor].tamanhos.map((size) => size.id_produto == idProduct ? size.tamanho : null  )
-            console.log("tamanho", tamanho)
             mutatePatchProduct.mutate({
                 idProduto: idProduct,
-                quantidadeEstoque: 1,
+                // quantidadeEstoque: 1,
                 brinde: dataProduct.brinde,
-                nome: nameProduct.payload,
+                nome: nameProduct,
                 descricao: descriptionProduct,
-                desconto: discountProduct,
+                desconto: Number(discountProduct),
                 cor: colorsProduct,
-                linksFotoAntiga: JSON.stringify(images),
-                valor: priceProduct,
+                linksFotoAntiga:images,
+                valor: Number(priceProduct),
                 tamanho : tamanho.filter((size) => size)
             }, {
                 onSuccess: () => {
@@ -136,10 +134,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
                 }
             })
         })
-        // console.log(sucessOrError)
-        // verifiacando se todas as requisições foram bem sucedidas
-       
-       
+    
     }
     // depois do map de requisições essa função é executada e mostra o toastify
     function finalizeSubmit(results) {
@@ -150,7 +145,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
             setIsEditing({
                 nome: false,
                 brinde: false,
-                valor: false,
+                preco: false,
                 desconto: false,
                 tamanhos: false,
                 descricao: false,
@@ -168,18 +163,12 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     }
 
     function handleChangeEditingProduct(event, nameDataEditing, payload) {
-        // const { name, value } = target;
         handleChangeEditingAction(event, nameDataEditing, payload, dispatch)
-        console.log("edição")
-        console.log("edit", productDataState)
-        
-    // console.log('teste', originalDataProduct)
 }
 
 
-    function handleBlurChangeEditing(event, typeBlur){
-        handleBlurEditingAction(event, typeBlur, setErrorValidation, dispatch)
-        console.log(errorValidation)
+    function handleBlurChangeEditing(typeBlur, payload){
+        handleBlurEditingAction( typeBlur,payload, dispatch)
     }
 
     function handleChangeEditingGift({ target }) {
@@ -225,32 +214,51 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
                 <div className="grid grid-cols-2 gap-x-9 gap-y-4">
                     <EditableInput
                         onChange={(event) => handleChangeEditingProduct(event,"nameProduct", {payload:event.target.value})}
-                        onBlur={(event) => handleBlurChangeEditing(event, "nameProduct", dispatch)}
+                        onBlur={() => handleBlurChangeEditing("nameProduct", {
+                            payload: {
+                                name: "nome",
+                                value: nameProduct,
+                                setError: setErrorValidation
+                        }})}
                         onEditClick={() => handleEditClick("nome")}
                         disabled={!isEditing.nome}
                         isEditable
                         name="nome"
                         errorValidacao={errorValidation.nome}
-                        value={isEditing.nome ? editedProduct.nome : originalDataProduct.nome}
+                        value={nameProduct}
                         />
                     <EditableInput
                         name="preco"
                         type="number"
                         onChange={(event)=> handleChangeEditingProduct(event, "priceProduct", {payload: event.target.value})}
-                        onBlur={(event) => handleBlurChangeEditing(event, "priceProduct")}
+                        onBlur={(event) => handleBlurChangeEditing("priceProduct", {
+                            payload: {
+                                name: "preco",
+                                value: priceProduct,
+                                setError: setErrorValidation
+                        }})}
                         onEditClick={() => handleEditClick("preco")}
                         disabled={!isEditing.preco}
-                        value={isEditing.valor ? editedProduct.preco : originalDataProduct.valor}
+                        value={priceProduct}
+                        errorValidacao={errorValidation.preco}
                         isEditable
                     />
                     <EditableInput
                         name="desconto"
                         type="number"
-                        onChange={(event) => handleChangeEditingProduct(event,"discountProduct", {payload: event.target.value})}
-                        onBlur={(event) => handleBlurChangeEditing(event, "discountProduct")}
+                        onChange={(event) => handleChangeEditingProduct(event,"discountProduct", {payload: parseFloat(event.target.value)})}
+                        onBlur={(event) => handleBlurChangeEditing("discountProduct", {
+                            payload: {
+                                name: "desconto",
+                                valor: parseFloat(priceProduct),
+                                desconto: parseFloat(discountProduct),
+                                setError: setErrorValidation,
+
+                        }})}
                         onEditClick={() => handleEditClick("desconto")}
                         disabled={!isEditing.desconto}
-                        value={isEditing.desconto ? editedProduct.desconto : originalDataProduct.desconto}
+                        value={discountProduct}
+                        errorValidacao={errorValidation.desconto}
                         isEditable
                     
                     />
@@ -259,7 +267,7 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
                         
                         <TextArea
                             name="descricao"
-                            value={isEditing.descricao ? editedProduct.descricao : originalDataProduct.descricao}
+                            value={descriptionProduct}
                             disabled={!isEditing.descricao}
                             onEditClick={() => handleEditClick("descricao")}
                             onChange={(event) => handleChangeEditingProduct(event, "descriptionProduct")}
