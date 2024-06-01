@@ -37,7 +37,7 @@ export  function productReduce(state,action){
         }
   
         case "HANDLE_CHANGE_DISCOUNT":
-          return {...state,  discountProduct:action.payload}
+          return {...state,  discountProduct:parseFloat(action.payload)}
 
         case "HANDLE_BLUR_DISCOUUNT":{
           const { valor, desconto, setError, name } = action.payload;
