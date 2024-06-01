@@ -88,7 +88,12 @@ export function Stock() {
               <LineTable
                 name={product.nome}
                 typeModal='ExtendModal'
-                detailsModal={<ProductDetails isExtendModalForEdit={isExtendModalFormEditing} setIsExtendModalForEdit={setIsExtendModalFormEditing} dataUniqueProduct={product} />}
+                detailsModal={
+                  <ProductDetails
+                    isExtendModalForEdit={isExtendModalFormEditing}
+                    setIsExtendModalForEdit={setIsExtendModalFormEditing}
+                    dataUniqueProduct={product}
+                  />}
                 configModal={configModal}
                 photo={product.produtos[0].fotos[0]}
                 grid={`67px 1fr repeat(${3}, 100px)`}
