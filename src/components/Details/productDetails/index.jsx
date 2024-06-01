@@ -2,15 +2,16 @@ import React from "react";
 import { EditProductForm } from "../../Form/Product/EditProduct";
 import { PinkButton } from "../../Buttons/pinkButton";
 import { GhostButton } from "../../Buttons/ghostButton";
-import { EditableInput, InputText } from "../../Inputs/input-text/inputTextComp";
 import { ProductReplacent } from "../../Form/Product/ProductReplacent";
 import { RemoveItems } from "../../Buttons/RemoveItems";
+import { Square } from "../../square";
 
 export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, dataUniqueProduct }) {
     const allColorsProduct = dataUniqueProduct?.produtos?.map((product) => product.cor)     
 
     const [idColorOfProduct, setIdColorOfProduct] = React.useState(0) 
     const [isModalStockReplacent, setIsModalStockReplacent] = React.useState(false)
+ 
 
     function handleEditProduct(event) {
         setIsExtendModalForEdit(true);
@@ -24,8 +25,6 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
     function handleSelectedColor(event) {
         const { target } = event;
         event.preventDefault();
-
-        console.log(target.innerText)
         allColorsProduct.map((color) => {
             if (color == target.innerText) {
             console.log(color)    
@@ -34,15 +33,17 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
         })
 
     }
+    
+    console.log(dataUniqueProduct)
+    
 
-  
 
     return (
         <div className=" max-h-full py-5 space-y-4">
             {dataUniqueProduct && (
                 <>
                     {!isModalStockReplacent &&
-                    <div className={`max-h-full w-full overflow-y-scroll py-5  ${isExtendModalForEdit ? "grid grid-cols-2 gap-6" : ""}`}>
+                    <div className={`max-h-full w-full overflow-y-scroll py-5  ${isExtendModalForEdit ? "md:grid md:grid-cols-2 gap-6" : ""}`}>
                         <div className=" ">
                             <div className="flex gap-2">
                                 {!isExtendModalForEdit && (
@@ -63,21 +64,58 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                                 
                                 {allColorsProduct.map((color, index) =>
                                     <button className={`  border-2 ${idColorOfProduct == index ? "  text-branco bg-preto " : " border-cinza-100"} py-1 px-2  rounded-lg hover:border-cinza-950 duration-200`} onClick={handleSelectedColor}>{ color}</button>
-                                )}        
+                                )}   
+                                
+                            <section className=" space-y-6">
+                                    
+                                {dataUniqueProduct.produtos[idColorOfProduct].fotos.length > 1 ? (
+                                    <section className="grid gap-4">
+                                        <img className=" w-4/5 lg:w-2/3 justify-self-center rounded" src={dataUniqueProduct.produtos[idColorOfProduct].fotos[0]} alt="" />
+                                        <div className="flex max-w-full gap-4 overflow-x-scroll cursor-grab">
+                                            {dataUniqueProduct.produtos[idColorOfProduct].fotos.map((image, index) => (
+                                                <div key={index} className="">
+                                                    {isExtendModalForEdit &&  <RemoveItems/> }
+                                                
+                                                    <img className="w-full min-w-18 max-h-18 rounded" src={image} alt="" />
+                                                </div>
+                                            ))
+                                            }
+                                        </div>
+                                    </section>
+                                )
+                                
+                                :
+                                    <section className="grid gap-4">
+                                        <img className=" w-4/5 lg:w-2/3 justify-self-center rounded" src={dataUniqueProduct.produtos[idColorOfProduct].fotos[0]} alt="" />
+                                    </section>
+                            
+                                    }
+                                    
+                                <section aria-labelledby="section_colors_details_product">
+                                        <h4 className="text-h5 mb-2" id="section_colors_details_product">Cores</h4>
+                                    <div className="flex gap-5">
+                                        {dataUniqueProduct.produtos.map((color) => {
+                                            return (
+                                                <div className="flex flex-col justify-center items-center">
+                                                    <Square>
+                                                            <img src={color.fotos[0] } />        
+                                                    </Square>
+                                                    <p className=" text-fun2">{color.cor}</p>
+                                                    
+                                                </div>     
+                                            )
+                                        } )}
 
-                            {dataUniqueProduct.produtos[idColorOfProduct].fotos.length > 1 && (
-                                <section className="grid gap-4">
-                                    <img className=" w-4/5 lg:w-2/3 justify-self-center rounded" src={dataUniqueProduct.produtos[idColorOfProduct].fotos[0]} alt="" />
-                                    <div className="flex max-w-full gap-4 overflow-x-scroll cursor-grab">
-                                        {dataUniqueProduct.produtos[idColorOfProduct].fotos.map((image, index) => (
-                                            <div key={index} className="">
-                                                <RemoveItems/>
-                                                <img className="w-full min-w-18 max-h-18 rounded" src={image} alt="" />
-                                            </div>
-                                        ))}
                                     </div>
                                 </section>
-                            )}
+
+                                <section>
+                                    <h4 className=" text-h5 mb-2">Estoque</h4>
+                                    <div></div>   
+                                </section>    
+
+                                
+                            </section>
                         </div>
                         {isExtendModalForEdit && (
                                 <EditProductForm

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Close } from "../../assets/Close";
 import { PinkButton } from "../Buttons/pinkButton";
+import { useMedia } from "../../hooks/useMedia";
 import { modalContext } from "../../context/modalContext";
 import { iconButton } from "@material-tailwind/react";
 import zIndex from "@mui/material/styles/zIndex";
@@ -138,21 +139,32 @@ export function UniqueModal({ children, setSelectedId, selectedId, componentForO
 }
 
 
-export function ExtendModal({ children, onCloseCallBack, isExtend=true, setIsExtend, componentForOpenModal }) {
+export function ExtendModal({ children, onCloseCallBack, isExtend = true, setIsExtend, componentForOpenModal }) {
+  const [matches] = useMedia("(max-width: 900px)");
+  const [extendResponsive, setExtendResponsive] = React.useState(isExtend);
+  
+  React.useEffect(() => {
+    if (matches) {
+      setExtendResponsive(true);
+    } else {
+      setExtendResponsive(isExtend);
+    }
+  }, [matches, isExtend]);
 
-  const [isHoverButton, setIsHoverButton] = React.useState(false)
-  const [isOpenModal, setIsOpenModal] = React.useState(false)
+  const [isHoverButton, setIsHoverButton] = React.useState(false);
+  const [isOpenModal, setIsOpenModal] = React.useState(false);
+  
   const handleOpen = () => setIsOpenModal(true);
   const handleClose = () => {
     setIsHoverButton(false);
     setIsOpenModal(false);
     setIsExtend(false);
-    onCloseCallBack()
+    onCloseCallBack();
   };
 
   return (
-    <> 
-      <div onClick={handleOpen} >
+    <>
+      <div onClick={handleOpen}>
         {componentForOpenModal}
       </div>
       <Modal
@@ -163,22 +175,20 @@ export function ExtendModal({ children, onCloseCallBack, isExtend=true, setIsExt
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className={`flex flex-col gap-4 ${ isExtend ? "w-full" : "w-1/2" } max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl`}>
+          <div className={`flex flex-col gap-4 ${extendResponsive ? "w-full" : "w-1/2"} max-h-[100%] overflow-y-hidden py-10 px-10 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl`}>
             <div className="flex justify-end w-full">
               <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
                 <Close isHover={isHoverButton} />
               </button>
-
             </div>
             <>
               {children}
             </>
-          </div>          
+          </div>
         </Box>
       </Modal>
     </>
   );
-  
 }
 
 export function FlexibleModal({ children, TextButton, isOpenModal, setIsOpenModal }){

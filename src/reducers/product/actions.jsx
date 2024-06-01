@@ -1,42 +1,74 @@
+export function handleBlurEditingAction(nameDataEditing, payload, dispatch) {
 
-
-export function handleBlurEditing(event, nameDataEditing, setError){
-    const { name, value } = event.target;
-    value, setError, name 
-    switch (nameDataEditing){
+    switch (nameDataEditing) {
         case "nameProduct":
-            dispatch({
+            return dispatch({
                 type: "HANDLE_BLUR_NAME",
-                payload:{
-                    name: name,
-                    value: value,
-                    setError: setError
-                }
-               })
-        
-        case "colorsProduct":
-            dispatch({
-                type: "HANDLE_BLUR_COLORS"
-            })
-        case "priceProduct":
-            dispatch({
-                type: "HANDLE_BLUR_PRICE",
-                payload:{
-                    name: name,
-                    value: value,
-                    setError: setError
+                ...payload
+            });
 
-                }
-            })
+        case "colorsProduct":
+            return dispatch({
+                type: "HANDLE_BLUR_COLORS"
+            });
+
+        case "priceProduct":
+            return dispatch({
+                type: "HANDLE_BLUR_PRICE",
+                ...payload
+            });
 
         case "discountProduct":
-            dispatch({
+            return dispatch({
                 type: "HANDLE_BLUR_DISCOUUNT",
-                payload:{
-                    name: name,
-                    value: value,
-                    setError: setError
-                }
-            })
+                ...payload
+            });
+        
+
+        default:
+            return;
+    }
+}
+
+export function handleChangeEditingAction(event, nameDataEditing, payload, dispatch) {
+    switch (nameDataEditing) {
+        case "nameProduct":
+            return dispatch({
+                type: "HANDLE_CHANGE_NAME",
+                ...payload
+            });
+
+        case "colorsProduct":
+            return dispatch({
+                type: "HANDLE_CHANGE_COLOR",
+                ...payload
+            });
+
+        case "priceProduct":
+            return dispatch({
+                type: "HANDLE_CHANGE_PRICE",
+                ...payload
+            });
+
+        case "discountProduct":
+            return dispatch({
+                type: "HANDLE_CHANGE_DISCOUNT",
+                ...payload
+            });
+
+        case "descriptionProduct":
+            return dispatch({
+                type: "HANDLE_CHANGE_DESCRIPTION",
+                payload: payload
+            });
+
+        case "sizeProduct":
+            return dispatch({
+                type: "HANDLE_CHANGE_SIZE",
+                payload: payload
+            });
+
+        default:
+            return;
     }
 }
