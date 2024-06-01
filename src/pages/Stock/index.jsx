@@ -8,6 +8,7 @@ import { PlusWhite } from '../../assets/Plus'
 import { ProductContext } from '../../context/ProductContext'
 import { Box, LinearProgress, Tooltip } from '@mui/material'
 import { ProductDetails } from '../../components/Details/productDetails'
+import { EditProductForm } from '../../components/Form/Product/EditProduct'
 
 
 export function Stock() {
@@ -17,43 +18,58 @@ export function Stock() {
   const [isExtendModalFormEditing, setIsExtendModalFormEditing] = React.useState(false)
   const configModal = { isExtend: isExtendModalFormEditing, setIsExtend: setIsExtendModalFormEditing}
   const { groupProduct } = useGroupDataProducts(resProductData)
+  const allProductsLowStock = groupProduct?.filter((product) => Number(product.porcentagem) < 30.00)
+  console.log(allProductsLowStock)
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
 
-
-  console.log(groupProduct)
-  console.log(resProductData)
-
   return (
     <>
-
-      <h1 id='BaixoEstoque' className='text-h5 mb-6'>Baixo estoque</h1>
+      {allProductsLowStock?.length != 0 &&
+        <>
+        <h1 id='BaixoEstoque' className='text-h5 mb-6'>Baixo estoque</h1>
+      
+        <section className='flex mb-5' aria-labelledby='BaixoEstoque'>
+          {allProductsLowStock?.map((product) => {
+            const {allStock, allReserved} = CalcAllStockForOneProduct(product.produtos)
+            Number(product.porcentagem) < 30.00 &&
+              (
+              <CardMedium>
+                <section className='flex gap-4'>
+                  <div className=' max-w-24'>
+                    <img className=' max-w-[100%]' src={avatar} alt="" />
+                  </div>
     
-      <section className='flex mb-5' aria-labelledby='BaixoEstoque'>
-        <CardMedium>
-          <section className='flex gap-4'>
-            <div className=' max-w-24'>
-              <img className=' max-w-[100%]' src={avatar} alt="" />
-            </div>
-
-            <div className='flex flex-col justify-between'>
-              <h2 className=' text-sub1'>Nome produto</h2>
-              <footer>
-                <h2 className=' text-cinza-950 text-ct2'>Quantidade em estoque</h2>
-                <div className='flex gap-2'>
-                  <p className=' text-sub1 gap-2'>150</p>
-
-                  <BasicModal labelButton="Repor estqoue" TextButton={<PlusWhite/>} isOpenModal={isOpenModalAddStock} setIsOpenModal={setIsOpenModalAddStock}>
-                    <h3>Repor estoque</h3>
-                  </BasicModal>
-                  
-                </div>
-              </footer>
-
-            </div>
-          </section>
-        </CardMedium>
-      </section>
+                  <div className='flex flex-col justify-between'>
+                      <h2 className=' text-sub1'>{ product.nome}</h2>
+                    <footer>
+                      <h2 className=' text-cinza-950 text-ct2'>Quantidade em estoque</h2>
+                      <div className='flex gap-2'>
+                        <p className=' text-sub1 gap-2'>{allStock}</p>
+    
+                        <UniqueModal labelButton="Repor estqoue" TextButton={<PlusWhite/>} isOpenModal={isOpenModalAddStock} setIsOpenModal={setIsOpenModalAddStock}>
+                          <EditProductForm dataProduct={product } />
+                        </UniqueModal>
+                        
+                      </div>
+                    </footer>
+    
+                  </div>
+                </section>
+              </CardMedium>
+                
+              )
+            
+          }
+          
+          
+          )}
+        </section>
+        
+        
+        </>
+      
+      }
 
       <TemplateView role=""
         isExtendModalForm={true}
@@ -87,7 +103,7 @@ export function Stock() {
                       <span>{ allReserved}</span>
                     </p>
                     <Box className="w-32 ">
-                      <LinearProgress value={product.porcentagem} variant='determinate'/>
+                    <LinearProgress color={product.porcentagem > 40 ? 'success' : 'secondary'} value={product.porcentagem} variant='determinate'/>
                     </Box>
                   </Tooltip>
 
