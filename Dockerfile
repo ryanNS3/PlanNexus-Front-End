@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Muda para a imagem Nginx
-FROM nginx:1.21.0
+FROM nginx:1.15.0
 
 # Remove o arquivo de configuração padrão do Nginx
 RUN rm /etc/nginx/conf.d/default.conf
