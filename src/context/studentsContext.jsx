@@ -26,14 +26,14 @@ export function StudentProvider({ children }) {
     const resStudentError = AllStudentsData.isError
 
 
-    async function SearchStudents({cpf}) {
-        const reqSearchStudent = await requisicao(`${BASE_URL}/aluno/todos?CPF=${cpf}`, null, "GET", {
+    async function SearchStudents(cpf) {
+        const reqSearchStudent = await requisicao(`${BASE_URL}/aluno/unico/cpf/${cpf}`, null, "GET", {
             authorization: `bearer ${token}`,
             nif: user
         })
 
+        // console.log(reqSearchStudent)
         return reqSearchStudent
-        // console.log(req)
     }
 
     // async function searchStudentByCPF({cpf}){

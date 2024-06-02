@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import useAxios from "../hooks/useAxios";
 import { UserGlobal } from "./userContext";
+import { useQuery, useMutation } from "@tanstack/react-query";
  
 export const DonatorContext = React.createContext();
  
@@ -86,7 +87,7 @@ export function DonatorProvider({ children }) {
   });
 
 
-  const postProductDonation = async (dataProductDonation) =>{
+  const postProductDonation = async ({dataProductDonation}) =>{
     try{
       const reqProductDonation = await requisicao(`${BASE_URL}/doacaoProduto/cadastro`, dataProductDonation, "POST", {
         authorization : `bearer ${token}`,
@@ -115,7 +116,7 @@ export function DonatorProvider({ children }) {
 
   return (
     <DonatorContext.Provider
-      value={{ useGetMoneyDonation, mutateLockerDonation, mutateMoneyDonation, mutateProductDonation }}
+      value={{ useGetMoneyDonation, mutateLockerDonation, mutateMoneyDonation, mutateProductDonation, postProductDonation }}
     >
       {children}
     </DonatorContext.Provider>
