@@ -16,7 +16,7 @@ import { ProductProvider } from "../context/ProductContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Donate } from "../pages/Donate"
 import { StudentProvider } from "../context/studentsContext";
-
+import { DonatorProvider } from "../context/donatorContext";
 
 export function Router() {
   const clientLocal = new QueryClient()
@@ -28,6 +28,8 @@ export function Router() {
             <StudentProvider>
               <ProductProvider>
                 <LockerProvider>
+                  <DonatorProvider>
+
                     <ModalProvider>
                       <ToastContainer />
                       <Routes>
@@ -82,6 +84,7 @@ export function Router() {
                         <Route path="/login" element={<Login />} />
                       </Routes>
                     </ModalProvider>
+                  </DonatorProvider>
                 </LockerProvider>
                 </ProductProvider>
             </StudentProvider>
