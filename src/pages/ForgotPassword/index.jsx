@@ -50,12 +50,10 @@ export function ForgotPassword() {
       const success = await sendRecoveryEmail(email);
       if(success){
         setLoading(false);
-        setErrorMessage('Email de recuperação enviado. Por favor, verifique sua caixa de entrada.');
-        Notification("success", "Email de recuperação enviado. Por favor, verifique sua caixa de entrada.");
+        Notification("sucess", "Email de recuperação enviado. Por favor, verifique sua caixa de entrada.");
       } 
     } catch (error) {
       setLoading(false);
-      setErrorMessage('Erro ao enviar o email de recuperação. Por favor, tente novamente.');
       Notification("error", "Erro ao enviar o email de recuperação. Por favor, tente novamente.");
     }
   };

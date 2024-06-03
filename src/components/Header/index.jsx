@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { UserGlobal } from "../../context/userContext";
 
-
+import { useNavigate } from 'react-router-dom';
 import SearchSvg from "../../assets/header/search.svg";
 import NotificationSvg from "../../assets/header/notifications.svg";
 import ArrowDownSvg from "../../assets/header/nav-arrow-down.svg";
@@ -10,9 +10,12 @@ import LogoutSvg from '../../assets/header/logout.svg'
  
 export function Header() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { userLogoutRequest } = useContext(UserGlobal)
+  const { userLogoutRequest, userData } = useContext(UserGlobal)
+  const navigate = useNavigate();
+
+  const defaultPhoto = "https://static.thenounproject.com/png/2932881-200.png";
+
  
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -21,25 +24,16 @@ export function Header() {
   const handleLogout = async () => {
     await userLogoutRequest(); 
   };
+
+  const handleProfileClick = () => {
+    navigate('/funcionario/perfil');
+  };
  
-  // Função para lidar com o upload da imagem de perfil
-  // const handleProfileImageUpload = (event) => {
-  //   const image = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setProfileImage(reader.result);
-  //   };
-  //   if (image) {
-  //     reader.readAsDataURL(image);
-  //   }
-  // };
  
-  // Função para limpar o campo de pesquisa
   const clearSearch = () => {
     setSearchTerm("");
   };
- 
-  // Função para alternar o estado do dropdown
+
   const toggleDropdown = (event) => {
     event.preventDefault()
     setIsDropdownOpen(!isDropdownOpen);
@@ -83,15 +77,15 @@ export function Header() {
         </div>
  
  
-        <div className="w-20 col-span-1 hidden sm:flex justify-around items-center rounded-2xl bg-cinza-200 ">
-          <div className="w-8 h-8 rounded-full bg-cinza-300 flex items-center justify-center overflow-hidden">
-            {profileImage && (
+        <div className="w-20 col-span-1 hidden sm:flex justify-around items-center rounded-2xl bg-cinza-100 ">
+          <div className="w-8 h-8 rounded-full bg-cinza-50 flex items-center justify-center overflow-hidden">
+            {userData.foto &&(
               <img
-                src={profileImage}
-                alt="Foto de perfil"
-                className="w-full h-full object-cover"
-              />
-          )}
+                src={userData.foto || defaultPhoto}
+                alt="Foto do usuário"
+                className='w-full h-full object-cover'
+            />
+            )}
           </div>
  
           <button  onClick={toggleDropdown} htmlFor="profile-image" className="ml-2 relative cursor-pointer">
@@ -104,7 +98,7 @@ export function Header() {
            {isDropdownOpen && (
               <div className="absolute top-full border border-cinza-100 mt-4 rounded-lg bg-branco right-1 w-36 h-auto ">
                 <ul className="divide-y divide-cinza-100">
-                  <li className="px-2 py-2 flex text-fun2 text-preto w-36 ">Ver perfil</li>
+                  <li className="px-2 py-2 flex text-fun2 text-preto w-36 " onClick={handleProfileClick}>Ver perfil</li>
                   <li className="px-2 py-2 flex gap-1 w-36 " onClick={handleLogout} >
                     <img src={LogoutSvg} alt="logout" className="" />
                     <span className="text-fun2 text-vermelho-300">Sair</span>
