@@ -43,9 +43,15 @@ export const nameSchema = z.string()
     .max(100, "O nome não deve ultrapassar 100 caracteres")
 
 // Esquema de validação para Email
-const emailSchema = z.string()
+export const emailSchema = z.string()
     .nonempty("Email é obrigatório.")
     .email("Email deve ser um email válido."
+);
+
+export const employeeEmailSchema = z.string()
+  .nonempty("Email é obrigatório.")
+  .email("Email deve ser um email válido.")
+  .regex(/^[^@]+@senaisp.edu.br$/, 'Email deve terminar com @senaisp.edu.br'
 );
 
 export const imageUniqueValidate = z.array()
@@ -136,11 +142,10 @@ export const ProductSchema = z.object({
 
 // Esquema de validação Login
 export const loginSchema = z.object({
-    email: z.string()
-        .nonempty("Preencha todos os campos!")
-        .email("Email deve ser um email válido.")
-        .regex(/^[^@]+@senaisp.edu.br$/, 'Email deve terminar com @senaisp.edu.br'),
+    email: employeeEmailSchema,
     password: z.string().nonempty("Preencha todos os campos!"),
 });
 
-
+export const passwordSchema = z.string()
+  .min(6, "A senha deve ter no mínimo 6 caracteres")
+  .nonempty("Preencha todos os campos!");

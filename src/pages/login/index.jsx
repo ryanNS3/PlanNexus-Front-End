@@ -64,7 +64,6 @@ export function Login() {
       console.log(error);
       setErrorMessage(error || 'Erro durante o login. Por favor, tente novamente.');
     }
-
     console.log(finalEmail, password)
   };
 
@@ -81,20 +80,12 @@ export function Login() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-3/4" noValidate>
           <div className={`relative ${inputError ? 'border-vermelho-300' : ''}`}>
           <span className={`absolute inset-y-0 ${inputError ? 'right-8' : 'right-4'}  top-[33px] flex items-center text-ct3 md:text-fun2 text text-roxo-50 p-1 md:p-2 bg-gradient-to-r from-[#BD3FD1] to-[#9332AE] rounded-lg w-auto h-8`}>@senaisp.edu.br</span>
-
             <InputText id='email' type='text' name='email' value={emailSemArroba} onChange={handleEmailChange} placeholder='Ex: marlene' required={true} disabled={loading} error={inputError} />
-            
           </div>
           
-
-
-            <InputText id='password' type='password' name='senha' value={password} onChange={handlePasswordChange} placeholder='Senha' required={true} disabled={loading} error={inputError} />
-
+          <InputText id='password' type='password' name='senha' value={password} onChange={handlePasswordChange} placeholder='Senha' required={true} disabled={loading} error={inputError} />
           {errorMessage && <p className="text-vermelho-300 text-fun2">{errorMessage}</p>}
-
-
           <Link to="/forgot" className="text-start text-rosa-400 text-fun2">Esqueci a senha </Link>
-
           <PinkButton text="Entrar" size="medium" action={null} align='end' loading={loading}/>
 
         </form>
