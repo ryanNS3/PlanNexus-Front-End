@@ -108,30 +108,61 @@ const EditEmployee = React.useCallback(async (editedData) => {
     }
   }, [requisicao, BASE_URL, token, user]);
  
- const DisableEmployee = React.useCallback(async (NIF) => {
-    try {
-      const res = await requisicao(
-        `${BASE_URL}/funcionario/inativar/${NIF}`,
-        null,
-        `PATCH`,
-        {
-          authorization: `bearer ${token}`,
-          nif: user,
+  const DisableEmployee = React.useCallback(async (NIF) => {
+     try {
+       const res = await requisicao(
+         `${BASE_URL}/funcionario/inativar/${NIF}`,
+         null,
+         `PATCH`,
+         {
+           authorization: `bearer ${token}`,
+           nif: user,
+         }
+       );
+       if (res && res.res.status === 200) {
+         return true;
+       }
+     } catch (error) {
+       return false;
+     }
+   }, []);
+   
+   const sendRecoveryEmail = React.useCallback(async (email) => {
+      try {
+        const res = await requisicao(
+          `${BASE_URL}/smtp/recuperarSenha`,
+          {email: email},
+          `POST`,
+          null
+        );
+        if (res && res.res.status === 200) {
+          return true;
         }
-      );
-      if (res && res.res.status === 200) {
-        console.log('inativado com sucesso')
-        return true;
+      } catch (error) {
+        return false;
       }
-    } catch (error) {
-      console.log("Requisição falhou:", error);
-      return false;
-    }
-  }, []);
+    }, []);
+    
+    const ResetPassword = React.useCallback(async (token, senha) => {
+       try {
+         const res = await requisicao(
+           `${BASE_URL}/smtp/definirSenha/${token}`,
+           {senha: senha},
+           `POST`,
+           null
+         );
+         console.log(senha)
+         if (res && res.res.status === 200) {
+           return true;
+         }
+       } catch (error) {
+         return false;
+       }
+     }, []);
  
   return (
     <EmployeeContext.Provider
-      value={{ GetAllEmployees, GetEmployee, DisableEmployee, AddEmployee, EditEmployee, EmployeeData, updatedEmployee }}
+      value={{ GetAllEmployees, GetEmployee, DisableEmployee, AddEmployee, EditEmployee, sendRecoveryEmail, ResetPassword, EmployeeData, updatedEmployee }}
     >
       {children}
     </EmployeeContext.Provider>
