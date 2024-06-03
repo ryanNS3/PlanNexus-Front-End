@@ -8,7 +8,7 @@ on:
       [ main ]
     paths:
     - '**'
-    - '.github/workflows/plan-nexus-gestao-AutoDeployTrigger-b1649106-7889-4487-bff5-cdfad26b0329.yml'
+    - '.github/workflows/plan-nexus-gestao-AutoDeployTrigger-4c7f7ee6-9a72-42bf-affc-874bcefb5571.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      

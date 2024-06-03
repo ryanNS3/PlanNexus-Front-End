@@ -1,4 +1,5 @@
 import "./App.css";
+import "./index.css"
 import { useEffect } from "react";
 import { AcessibilityReporter } from "./utils/acessibility/Acessibility";
 import { Router } from "./routes/Routes";
@@ -6,9 +7,9 @@ import { Router } from "./routes/Routes";
 
 
 function App() {
-  useEffect(() =>{
-   AcessibilityReporter()
-  },[])
+  // useEffect(() =>{
+  //  AcessibilityReporter()
+  // },[])
 
   return (
     <>

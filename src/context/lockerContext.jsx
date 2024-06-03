@@ -15,7 +15,6 @@ export function LockerProvider({ children }) {
             nif: localStorage.getItem('user'),
         })
         setDataLocker(reqLocker.json.response)
-        console.log(dataLocker)
     }
 
     async function UpdateLocker(dataLocker) {

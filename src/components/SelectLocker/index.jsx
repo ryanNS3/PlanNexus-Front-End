@@ -20,7 +20,7 @@ export function SelectLocker() {
         <p className="text-fun2"> Selecionar tudo</p>
       </div>
       <div
-        className="flex flex-col h-3/5 lg:h-3/4 bg-branco px-6 rounded-lg overflow-y-auto mt-3"
+        className="flex flex-col h-1/3 sm:h-1/4 lg:h-3/4 bg-branco px-6 rounded-lg overflow-y-auto mt-3"
         style={{ scrollbarWidth: "none" }}
       >
         <Lockers size={"small"} />

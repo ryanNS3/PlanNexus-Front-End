@@ -10,23 +10,22 @@ import { LockerContext } from "../../context/lockerContext";
 
 export function Options({ nome, numero, status, idStudent }) {
 
-  const { dataLocker, UpdateLocker } = React.useContext(LockerContext);
+  const { UpdateLocker } = React.useContext(LockerContext);
 
-   const handleLock = async () => {
+  const handleLock = async () => {
     const isBusyCloset = status == "desocupado" ? "trancado" : "desocupado"
     try {
       // Atualizar o status do armário para "Trancado" ou "Desocupado"
       const newStatusLocker = {
-        numero : numero,
-        id_aluno : idStudent,
+        numero: numero,
+        id_aluno: idStudent,
         nome_aluno: nome,
         status: isBusyCloset
-         
       }
-    
-       const req  = await UpdateLocker(newStatusLocker);
-       console.log(req)
-      
+
+      const req = await UpdateLocker(newStatusLocker);
+      console.log(req)
+
     } catch (error) {
       console.error("Erro ao trancar o armário:", error);
     }
@@ -35,7 +34,7 @@ export function Options({ nome, numero, status, idStudent }) {
   return (
     <>
       <div className="absolute flex flex-col z-30 gap-y-1 ">
-        <SecundaryButton text={"Trancar"} icon={<Lock />} onClick={handleLock}/>
+        <SecundaryButton text={"Trancar"} icon={<Lock />} action={handleLock} />
 
         <div>
           <ModalOptions Button={<SecundaryButton text={"Doar"} icon={<Volunteer />} />}>

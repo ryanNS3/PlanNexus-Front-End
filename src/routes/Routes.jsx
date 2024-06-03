@@ -16,6 +16,8 @@ import { ProductProvider } from "../context/ProductContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Donate } from "../pages/Donate"
 import { StudentProvider } from "../context/studentsContext";
+import { ForgotPassword } from "../pages/ForgotPassword";
+import { ResetPassword } from "../pages/ResetPassword";
 import { DonatorProvider } from "../context/donatorContext";
 
 export function Router() {
@@ -80,14 +82,16 @@ export function Router() {
                             />
                           </Route>
 
-                        </Route>
-                        <Route path="/login" element={<Login />} />
-                      </Routes>
-                    </ModalProvider>
+                    </Route>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/forgot" element={<ForgotPassword />} />
+                    <Route path="/recuperar-senha/:token" element={<ResetPassword />} />
+                  </Routes>
+                </ModalProvider>
                   </DonatorProvider>
-                </LockerProvider>
-                </ProductProvider>
-            </StudentProvider>
+            </LockerProvider>
+          </ProductProvider>
+          </StudentProvider>
         </EmployeeProvider>
       </UserProvider>
       </ToastifyProvider>
