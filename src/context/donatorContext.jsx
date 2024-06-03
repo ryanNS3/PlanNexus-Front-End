@@ -39,8 +39,7 @@ export function DonatorProvider({ children }) {
     try{
       const reqMoneyDonation = await requisicao(`${BASE_URL}/doacaoDinheiro/cadastro`, dataMoneyDonation, "POST", {
         authorization : `bearer ${token}`,
-        nif: user,
-        'Content-Type': 'multipart/form-data'
+        nif: user
       })
       
       return reqMoneyDonation

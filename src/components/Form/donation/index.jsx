@@ -7,8 +7,7 @@ import { studentContext } from "../../../context/studentsContext";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { DonatorContext } from "../../../context/donatorContext";
 
-export function DonationForm() {
-  const { SearchStudents } = useContext(studentContext);
+export function DonationForm({cpfSearch}) {
   const { GetProducts } = useContext(ProductContext);
   const { resProductData } = GetProducts();
   const {mutateProductDonation} = useContext(DonatorContext)
@@ -38,10 +37,11 @@ export function DonationForm() {
   const [contract, setContract] = React.useState('');
   const [studentId, setStudentId] = React.useState('');
   const [productId, setProductId] = React.useState('');
-  const [productSize, setSize] = React.useState('P')
   const [lockerNumber, setLockerNumber] = React.useState('');
   const [moneyAmount, setMoney] = React.useState('');
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = React.useState(() => {
+    return cpfSearch.json.response?.filter((student) => {cpfSearch === student.cpf ? student.cpf : null})
+  });
   const [date, setDate] = React.useState(Date.now());
   const [currentStep, setCurrentStep] = React.useState(1);
 

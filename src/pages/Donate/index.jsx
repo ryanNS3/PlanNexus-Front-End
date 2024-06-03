@@ -4,9 +4,11 @@ import { DonateTab } from "../../components/DonateTab";
 import React, { useContext, useState } from "react";
 import BasicModal, { UniqueModal } from "../../components/Modal";
 import { DonationForm } from "../../components/Form/donation";
+import { studentContext } from "../../context/studentsContext";
 
 export function Donate() {
   const [modal, setModalOpen] = useState(false)
+  const {AllStudentData} = useContext(studentContext)
 
 
   return (
@@ -16,7 +18,7 @@ export function Donate() {
         <h1 className="col-span-full text-h5">Visão geral</h1>
         {/* <VariableModal type='Basic' isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" > */}
         <UniqueModal componentForOpenModal={<button>teste</button>} isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" labelButton='fazer doação'>
-          <DonationForm/>
+          {}
         </UniqueModal>
         {/* </VariableModal> */}
         </header>
