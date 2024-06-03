@@ -168,7 +168,6 @@ const EditEmployee = React.useCallback(async (editedData) => {
            `POST`,
            null
          );
-         console.log(senha)
          if (res && res.res.status === 200) {
            return true;
          }

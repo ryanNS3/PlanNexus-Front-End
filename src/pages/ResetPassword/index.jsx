@@ -18,7 +18,7 @@ const validatePasswords = (password, confirmPassword) => {
 };
 export function ResetPassword() {
     const {ResetPassword} = useContext(EmployeeContext)
-    const {Notification} = useContext(toastifyContext)
+    const {Notification} = useContext(toastifyContext) 
     const { token } = useParams();
     const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ export function ResetPassword() {
             throw new Error('Erro ao redefinir a senha.');
         }
 
-        Notification('success', 'Senha Atualizada com sucesso')
+        Notification('sucess', 'Senha Atualizada com sucesso')
         setLoading(false);
         navigate('/login');
         } catch (error) {

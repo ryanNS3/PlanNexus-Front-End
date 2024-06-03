@@ -7,9 +7,12 @@ export const UserGlobal = createContext();
 
 export const UserProvider = ({ children }) => {
   const { requisicao } = useAxios();
-  const [user, setUser] = useCookies("user", null);
   const [rawUserData, setRawUserData] = useCookies("userData", null);
-  const [token, setToken] = useCookies("token", null);
+  const [userString, setUserString] = useCookies("user", null);
+  const user = userString === "null" ? null : userString;
+  const [tokenString, setTokenString] = useCookies("token", null);
+  const token = tokenString === "null" ? null : tokenString;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
