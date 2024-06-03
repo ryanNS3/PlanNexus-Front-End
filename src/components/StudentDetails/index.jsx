@@ -2,8 +2,8 @@ import { useEffect, useState, useContext } from "react";
 import { InputText } from "../Inputs/input-text/inputTextComp";
 import useAxios from "../../hooks/useAxios";
 import { PinkButton } from "../Buttons/pinkButton";
-import axios from "axios";
-// import { EmployeeContext } from "../../context/Employee";
+import { toastifyContext } from "../../context/toastifyContext";
+import { modalContext } from "../../context/modalContext";
 
 export function StudentDetails({ student }) {
   const [nome, setNome] = useState(student.nome);
@@ -18,7 +18,9 @@ export function StudentDetails({ student }) {
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
 
-  const { requisicao } = useAxios();
+  const { requisicao, loading } = useAxios();
+  const { Notification } = useContext(toastifyContext);
+  const { setIsOpenModal } = useContext(modalContext);
 
   useEffect(() => {
     async function courseData() {
@@ -27,68 +29,44 @@ export function StudentDetails({ student }) {
         nif: user,
       });
       setCourseData(req.json.response);
-      console.log(req.json.response);
     }
 
     courseData();
   }, []);
-  //   const handleSubmit = async () => {
-  //     const success = await EditEmployee({
-  //         Id: employee.NIF,
-  //         NIF: editedEmployee.NIF,
-  //         nome: editedEmployee.nome,
-  //         email: editedEmployee.email,
-  //         nivel_acesso: editedEmployee.nivel_acesso,
-  //         foto: editedEmployee.foto
-  //     });
-  //     console.log(success)
 
-  //     if (success) {
-  //         setEditedEmployee(EmployeeData);
-  //         console.log(EmployeeData)
-  //     }
-  // };
-
-  async function handleSubmit() {
-    const req = await axios.patch(
+  const handleSubmit = async () => {
+    const success = await requisicao(
       `${BASE_URL}/aluno/atualizar`,
       {
         idAluno: `${student.id_aluno}`,
-        cpf: cpf,
-        nome: `${nome}`,
-        email: `${email}`,
-        fk_curso: `${curso}`,
+        CPF: cpf,
+        nome: nome,
+        email: email,
+        fk_curso: curso,
         socioAapm: `${!!associado}`,
-        telefone: `${telefone}`,
-        celular: `${celular}`,
+        telefone: telefone,
+        celular: celular,
       },
+      "PATCH",
       {
         authorization: `bearer ${token}`,
         nif: user,
       }
     );
-    console.log("req", {
-      idAluno: `${student.id_aluno}`,
-      CPF: String(cpf),
-      nome: `${nome}`,
-      email: `${email}`,
-      fk_curso: `${curso}`,
-      socioAapm: `${!!associado}`,
-      telefone: `${telefone}`,
-      celular: `${celular}`,
-    });
-  }
 
-  console.log("STUDENT", {
-    idAluno: `${student.id_aluno}`,
-    cpf: cpf,
-    nome: `${nome}`,
-    email: `${email}`,
-    fk_curso: `${curso}`,
-    socioAapm: `${!!associado}`,
-    telefone: `${telefone}`,
-    celular: `${celular}`,
-  });
+    if (success) {
+      setTimeout(() => {
+        setIsOpenModal(false);
+      }, [3000]);
+      Notification("sucess", "Aluno atualizado com sucesso");
+    } else {
+      setTimeout(() => {
+        setIsOpenModal(true);
+      }, [3000]);
+      Notification("error", "Alunos não atualizado");
+    }
+  };
+
   return (
     <div className="pb-8">
       <header className="flex items-center gap-6 pb-2 mb-6 border-b border-b-cinza-200">
@@ -187,7 +165,8 @@ export function StudentDetails({ student }) {
           </div>
 
           <h4 className="text-fun2 text-cinza-700">
-            Curso:{/* <span className="uppercase">{curso}</span> */}
+            Curso atual: <span className="uppercase">{student.curso}</span>
+            <span className="block">Novo curso:</span>
           </h4>
           <select
             name="curso"
@@ -195,6 +174,7 @@ export function StudentDetails({ student }) {
             className="border-2 border-cinza-100 rounded-lg text-ct-2 w-full p-5 mb-4"
             onChange={(e) => setCurso(e.target.value)}
           >
+            <option value=""></option>
             {courseData &&
               courseData.map((course) => (
                 <option value={course.id_curso}>{course.nome}</option>
@@ -205,7 +185,7 @@ export function StudentDetails({ student }) {
       </div>
 
       <div className="flex justify-end">
-        <PinkButton text="Atualizar" action={handleSubmit} />
+        <PinkButton text="Atualizar" action={handleSubmit} loading={loading} />
       </div>
     </div>
   );
