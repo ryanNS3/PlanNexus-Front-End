@@ -85,8 +85,8 @@ export const UserProvider = ({ children }) => {
 
       if (response && response.res.status === 200) {
         const { token, NIF, nome, nome_cargo, email, foto } = response.json.response;
-        setToken(token);
-        setUser(NIF);
+        setTokenString(token);
+        setUserString(NIF);
         setRawUserData(JSON.stringify({ NIF, nome, nome_cargo, email, foto }));
         return true;
       }
@@ -125,8 +125,8 @@ export const UserProvider = ({ children }) => {
       console.log(response);
 
       if (response && response.res.status === 200) {
-        setToken(null);
-        setUser(null);
+        setTokenString(null);
+        setUserString(null);
         setRawUserData(null);
         navegar("/login");
         console.log("Logout deu certo.");
