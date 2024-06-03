@@ -12,8 +12,7 @@ export function EmployeeProvider({ children }) {
   const [updatedEmployee, setUpdatedEmployee] = React.useState(null);
   const queryClient = useQueryClient()
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem('token')
-  const user = localStorage.getItem('user')
+  const {token, user} = useContext(UserGlobal)
  
   const FetchAllEmploye = React.useCallback(async () => {
     try {
