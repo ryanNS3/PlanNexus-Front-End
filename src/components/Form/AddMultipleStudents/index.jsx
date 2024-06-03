@@ -35,7 +35,7 @@ export function AddMultipleStudents() {
     <div className="mt-10">
       <p className="text-sub1 text-cinza-950 mb-6">Método de cadastro:</p>
       <label
-        htmlFor="file-upload"
+        htmlFor="alunosFile"
         className="flex flex-col gap-4 items-center justify-center py-6 px-14 w-full h-full border-4 border-cinza-200 rounded-lg mb-6"
       >
         <svg
@@ -113,10 +113,10 @@ export function AddMultipleStudents() {
       </label>
       <input
         className="hidden"
-        id="file-upload"
+        id="alunosFile"
         name="alunosFile"
         type="file"
-        onChange={(event) => setAlunosFile(event.target.files)}
+        onChange={(event) => setAlunosFile(event.target.files[0])}
       />
 
       {alunosFile && (
@@ -134,7 +134,7 @@ export function AddMultipleStudents() {
           <p className="text-sub1">Pré Visualização:</p>
           <div>
             <header className="flex justify-between px-16 py-4 border-b-2 border-b-cinza-200">
-              <p className="text-fun2">N ome</p>
+              <p className="text-fun2">Nome</p>
               <p className="text-fun2">Status</p>
             </header>
             <div className="py-5 flex flex-col gap-5">
