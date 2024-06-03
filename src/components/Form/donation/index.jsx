@@ -3,17 +3,16 @@ import { InputText } from "../../Inputs/input-text/inputTextComp";
 import { PinkButton } from "../../Buttons/pinkButton";
 import { ProductContext } from "../../../context/ProductContext";
 import { GhostButton } from "../../Buttons/ghostButton";
-import { studentContext } from "../../../context/studentsContext";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { DonatorContext } from "../../../context/donatorContext";
+import { studentContext } from "../../../context/studentsContext";
 
-export function DonationForm({cpfSearch}) {
+export function DonationForm() {
   const { GetProducts } = useContext(ProductContext);
   const { resProductData } = GetProducts();
   const {mutateProductDonation} = useContext(DonatorContext)
-
-// console.log(resProductData)
-
+  const {getStudents} = useContext(studentContext)
+  const resStudentsData = getStudents()
 
   const steps = [
     "Informações do aluno",
@@ -22,8 +21,6 @@ export function DonationForm({cpfSearch}) {
   ];
 
   const [selectedOption, setSelectedOption] = React.useState('productDonation');
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -34,16 +31,16 @@ export function DonationForm({cpfSearch}) {
   const [email, setEmail] = React.useState('');
   const [cellphone, setCellphone] = React.useState('');
   const [quantity, setQuantity] = React.useState('');
-  const [contract, setContract] = React.useState('');
+  const [contract, setContract] = React.useState(null);
   const [studentId, setStudentId] = React.useState('');
   const [productId, setProductId] = React.useState('');
   const [lockerNumber, setLockerNumber] = React.useState('');
   const [moneyAmount, setMoney] = React.useState('');
-  const [search, setSearch] = React.useState(() => {
-    return cpfSearch.json.response?.filter((student) => {cpfSearch === student.cpf ? student.cpf : null})
-  });
+  const [search, setSearch] = React.useState();
   const [date, setDate] = React.useState(Date.now());
   const [currentStep, setCurrentStep] = React.useState(1);
+
+  const [filteredStudent, setFilteredStudent] = useState(''); 
 
   const [DonateDebounce] = useDebounce(cpf, 2000);
 
@@ -51,20 +48,21 @@ export function DonationForm({cpfSearch}) {
     setCurrentStep(step);
   }
 
-  const searchStudents = useCallback(async (cpf) => {
-    try {
-      const result = await SearchStudents(cpf);
-      setSearch(result);
-    } catch (error) {
-      console.error("Error fetching student data:", error);
-    }
-  }, [SearchStudents]);
+  function handleCPF(event) {
+    const cpfValue = event.target.value
+    setCpf(cpfValue);
+    console.log('valor pesquisa: '+cpfValue)
 
-  useEffect(() => {
-    if (DonateDebounce) {
-      searchStudents(DonateDebounce);
-    }
-  }, [DonateDebounce, searchStudents]);
+    const filter = resStudentsData.json.response?.filter((student) => {
+      return student.CPF === cpfValue ? student: null;
+    });
+
+    if (filter.length > 0) {
+      setFilteredStudent(filter);  
+    } 
+    console.log('valor q devia ser achado no banco supostamente: ' + filteredStudent)
+  }
+
 
   const handleSelect = (event, item) => {
     event.preventDefault();
@@ -156,12 +154,14 @@ export function DonationForm({cpfSearch}) {
       <form >
         <Step currentStep={currentStep} step={1}>
           <div className="flex flex-col gap-6">
-            <InputText id="cpf" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => setCpf(e.target.value)} value={cpf} />
-            {search && search.json.response.map((student) => (
-              <ul>
-                <button onClick={() => setStudentId(student.id_aluno)}><li> {student.cpf === search ? student.nome : null} </li></button>
-              </ul>
-            ))}
+            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} />
+            {filteredStudent && (
+              
+              <>
+                <button onClick={() => setStudentId(filteredStudent.id_aluno)}> {filteredStudent.nome} </button>
+              </>
+            )
+            }
             <InputText id="name" type="text" name="Nome completo" placeholder="José da Silva" onChange={(e) => setName(e.target.value)} value={name} />
             <InputText id="email" type="email" name="Email" placeholder="jose@gmail.com" onChange={(e) => setEmail(e.target.value)} value={email} />
             <InputText id="cellphone" type="text" name="telefone" placeholder="55 11 111111111" onChange={(e) => setCellphone(e.target.value)} value={cellphone} />
@@ -227,6 +227,7 @@ export function DonationForm({cpfSearch}) {
         <Step currentStep={currentStep} step={3}>
           <div>
             <div className="mt-4 flex justify-end gap-2">
+            <input type="file" name="contrato" id="contrato" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={ (e) => setContract(e.target.value) } />
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
               <PinkButton text="Finalizar" action={handleSubmit} typeButton="submit" />
             </div>

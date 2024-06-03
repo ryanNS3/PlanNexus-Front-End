@@ -9,6 +9,7 @@ import { studentContext } from "../../context/studentsContext";
 export function Donate() {
   const [modal, setModalOpen] = useState(false)
   const {getStudents} = useContext(studentContext)
+  const resStudentsData = getStudents()
 
 
   return (
@@ -18,8 +19,8 @@ export function Donate() {
         <h1 className="col-span-full text-h5">Visão geral</h1>
         {/* <VariableModal type='Basic' isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" > */}
         <UniqueModal componentForOpenModal={<button>teste</button>} isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" labelButton='fazer doação'>
-          {getStudents && 
-            <DonationForm cpfSearch={getStudents} />
+          {resStudentsData && 
+            <DonationForm cpfSearch={resStudentsData} />
           }
         </UniqueModal>
         {/* </VariableModal> */}

@@ -25,14 +25,14 @@ export function StudentProvider({ children }) {
         const resStudentsData = AllStudentsData.data
         return resStudentsData
     }
-    const resStudentsLoading = AllStudentsData.isLoading
-    const resStudentError = AllStudentsData.isError
+    // const resStudentsLoading = AllStudentsData.isLoading
+    // const resStudentError = AllStudentsData.isError
 
 
 
 
     return (
-        <studentContext.Provider value={{AllStudentsData, getStudents}}>
+        <studentContext.Provider value={{getStudents}}>
             {children}
         </studentContext.Provider>
     )
