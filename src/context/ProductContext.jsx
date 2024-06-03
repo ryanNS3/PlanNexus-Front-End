@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import useAxios from "../hooks/useAxios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toastifyContext } from "./toastifyContext";
+import {  useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const ProductContext = React.createContext();
 
@@ -11,8 +10,82 @@ export function ProductProvider({ children }) {
   const token = window.localStorage.getItem('token');
   const user = window.localStorage.getItem('user');
   const queryClient = useQueryClient()
-  const {Notification} = useContext(toastifyContext)
 
+  const useGroupDataProducts = (resProductData) => {
+    const [groupProduct, setGroupProduct] = React.useState(null)
+
+    React.useEffect(() => {
+      if (resProductData && resProductData.json && resProductData.json.response) {
+      const groupedProducts = resProductData?.json?.response?.reduce((acc, product) => {
+        if (!acc[product.nome]) {
+          acc[product.nome] = { 
+            nome: product.nome, 
+            descricao: product.descricao,
+            porcentagem: product.porcentagem,
+            desconto_associado : product.desconto_associado,
+            brinde: product.brinde,
+            produtos: [] 
+          }
+        }
+
+        const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
+
+        const uniqueFotos = [...new Set(product.foto)]
+
+        if (existingProduct) {
+          existingProduct.tamanhos.push({
+            id_produto: product.id_produto,
+            tamanho: product.tamanho,
+            qtd_estoque: product.qtd_estoque,
+            qtd_reservada: product.qtd_reservada,
+            valor: product.valor
+          })
+          existingProduct.fotos.push(...uniqueFotos)
+        } else {
+          acc[product.nome].produtos.push({
+            cor: product.cor,
+            tamanhos: [{
+              id_produto: product.id_produto,
+              tamanho: product.tamanho,
+              qtd_estoque: product.qtd_estoque,
+              qtd_reservada: product.qtd_reservada,
+              valor: product.valor
+            }],
+            fotos: uniqueFotos
+          })
+        }
+
+        return acc
+        }, {})
+  
+        const result = Object.values(groupedProducts)
+        setGroupProduct(result)
+     
+      }
+    }, [resProductData])
+
+    return {groupProduct}
+  }
+
+  const CalcAllStockForOneProduct = (product) => {
+    const allStock = product?.reduce((acc, item) => {
+      const allSize = item.tamanhos.reduce((acc, size) => {
+        return acc + size.qtd_estoque
+      }, 0)
+      return acc + allSize
+    }, 0)
+    
+    const allReserved = product?.reduce((acc, item) => {
+      const allSize = item.tamanhos.reduce((acc, size) => acc + size.qtd_reservada, 0)
+      return acc + allSize
+    },0)
+
+    return { allStock : allStock, allReserved : allReserved }
+  }
+
+  const {groupProduct} = useGroupDataProducts();
+
+ 
 
   const FetchPostProduct = async ( dataCreateProduct) =>{
     try{
@@ -26,7 +99,6 @@ export function ProductProvider({ children }) {
 
     }
     catch (error) {
-      console.log(error)
       throw new Error(error.message || 'Erro ao fazer a requisição');
       
     }
@@ -46,10 +118,9 @@ export function ProductProvider({ children }) {
         nif: user
       })
 
-      if (!requestApiProducts.ok) {
+      if (!requestApiProducts.res.status >= 400) {
         throw new Error(responseData.message || 'Erro ao fazer a requisição');
       }
-      
       return requestApiProducts
     } 
     catch (error) {
@@ -97,62 +168,37 @@ export function ProductProvider({ children }) {
       const resProductData = AllProductsData.data
       return { resProductData };
   };
-  
-  const useGroupDataProducts = (resProductData) => {
-    const [groupProduct, setGroupProduct] = React.useState(null)
 
-    React.useEffect(() => {
+    
+    // get brindes ativos
+    const FetchGift = async() => {
+      const req = await requisicao(`${BASE_URL}/produto/unico`, null, "GET", {
+        authorization: `bearer ${token}`,
+        nif: user,
+      })
+      return req
+    }
 
-      if (resProductData && resProductData.json && resProductData.json.response) {
-        const groupedProducts = resProductData.json.response.reduce((acc, product) => {
-          if (!acc[product.nome]) {
-            acc[product.nome] = {
-              nome: product.nome,
-              descricao: product.descricao,
-              brinde: product.brinde,
-              produtos: []
-            }
-          }
-  
-          const existingProduct = acc[product.nome].produtos.find(p => p.cor === product.cor)
-  
-          if (existingProduct) {
-            existingProduct.tamanhos.push({
-              id_produto: product.id_produto,
-              tamanho: product.tamanho,
-              qtd_estoque: product.qtd_estoque,
-              qtd_reservada: product.qtd_reservada,
-              valor: product.valor
-            })
-            existingProduct.fotos.push(...product.foto)
-          } else {
-            acc[product.nome].produtos.push({
-              cor: product.cor,
-              tamanhos: [{
-                id_produto: product.id_produto,
-                tamanho: product.tamanho,
-                qtd_estoque: product.qtd_estoque,
-                qtd_reservada: product.qtd_reservada,
-                valor: product.valor
-              }],
-              fotos: [...product.foto]
-            })
-          }
-  
-          return acc
-        }, {})
-  
-        const result = Object.values(groupedProducts)
-        setGroupProduct(result)
-     
-      }
-    }, [resProductData])
+    const GetGiftProduct = () => {
+      const {data, isLoading} = useQuery({queryKey : ['giftData'], queryFn: FetchGift})
+      const resOneProduct = data
+      return {resOneProduct}
+    }
+ 
 
-    return {groupProduct}
-  }
+
+    // atualizar brinde
+    const SwitchGift = async(listId) => {
+      const req = await requisicao(`${BASE_URL}/produto/trocarBrinde`, {listaIdProduto : listId}, 'PATCH', {
+          authorization: `bearer ${token}`,
+          nif: user
+      })
+      return req
+    }    
+
 
   return (
-    <ProductContext.Provider value={{ GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts }}>
+    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift }}>
       {children}
     </ProductContext.Provider>
   );

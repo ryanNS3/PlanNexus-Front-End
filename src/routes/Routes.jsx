@@ -15,6 +15,7 @@ import { LockerProvider } from "../context/lockerContext";
 import { ProductProvider } from "../context/ProductContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Donate } from "../pages/Donate"
+import { StudentProvider } from "../context/studentsContext";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
 
@@ -24,95 +25,60 @@ export function Router() {
   return (
     <QueryClientProvider client={clientLocal}>
       <ToastifyProvider>
-      <UserProvider>
-        <EmployeeProvider>
-          <ProductProvider>
-            <LockerProvider>
-                <ModalProvider>
-                  <ToastContainer />
-                  <Routes>
-                    <Route element={<Layout />} path="/">
-                      <Route
-                        path="/"
-                        element={
-                          // <ProtectRouter> 
-                          <Home />
-                          // </ProtectRouter>
-                        }
-                      />
+        <UserProvider>
+          <EmployeeProvider>
+            <StudentProvider>
+              <ProductProvider>
+                <LockerProvider>
+                    <ModalProvider>
+                      <ToastContainer />
+                      <Routes>
+                        <Route element={<Layout />} path="/">
+                          <Route
+                            path="/"
+                            element={
+                              <ProtectRouter> 
+                                <Home />
+                              </ProtectRouter>
+                            }
+                          />
 
-                      <Route
-                        path="/estoque"
-                        element={
-                          // <ProtectRouter>
-                          <Stock />
-                          // </ProtectRouter>
-                        }
-                      />
+                          <Route
+                            path="/estoque"
+                            element={
+                              <ProtectRouter>
+                                <Stock />
+                              </ProtectRouter>
+                            }
+                          />
 
-                      <Route
-                        path="/doacao"
-                        element={
-                          // <>
-                            <Donate />
-                          // </>
-                        }
-                      />
+                          <Route
+                            path="/doacao"
+                            element={
+                              <ProtectRouter>
+                                <Donate />
+                              </ProtectRouter>
+                            }
+                          />
+                          <Route
+                            path="/config"
+                            element={
+                              <ProtectRouter>
+                                <Donate />
+                              </ProtectRouter>
+                            }
+                          />
+                          <Route path="/gestao">
 
-                      <Route
-                        path="/financeiro"
-                        element={
-                          // <ProtectRouter>
-                            <Home />
-                          // </ProtectRouter>
-                        }
-                      />
-
-                      <Route
-                        path="/calendario"
-                        element={
-                          // <ProtectRouter>
-                            <Home />
-                          // </ProtectRouter>
-                        }
-                      />
-
-                      <Route
-                        path="/historico"
-                        element={
-                          // <ProtectRouter>
-                            <Home />
-                          // </ProtectRouter>
-                        }
-                      />
-                      <Route path="/gestao">
-
-                        <Route
-                          path="/gestao"
-                          element={
-                            <Management />
-                            // <ProtectRouter>
-                            // </ProtectRouter>
-                          }
-                        />
-
-                        <Route
-                          path="/gestao/turmas"
-                          element={
-                            <Management />
-                            // <ProtectRouter>
-                            // </ProtectRouter>
-                          }
-                        />
-                        <Route
-                          path="/gestao/funcionarios"
-                          element={
-                            <Management />
-                            // <ProtectRouter>
-                            // </ProtectRouter>
-                          }
-                        />
-                      </Route>
+                            <Route
+                              path="/gestao"
+                              element={
+                                <ProtectRouter>
+                                  <Management />
+                                </ProtectRouter>
+                              }
+                            />
+                          </Route>
 
                     </Route>
                     <Route path="/login" element={<Login />} />
@@ -122,6 +88,7 @@ export function Router() {
                 </ModalProvider>
             </LockerProvider>
           </ProductProvider>
+          </StudentProvider>
         </EmployeeProvider>
       </UserProvider>
       </ToastifyProvider>
