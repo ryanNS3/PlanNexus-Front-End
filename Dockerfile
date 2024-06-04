@@ -10,6 +10,10 @@ COPY package*.json ./
 # Instala as dependências antes de copiar o resto dos arquivos
 RUN npm install
 
+# Define a variável de ambiente e cria o arquivo .env antes do build
+ARG VITE_API_URL
+RUN echo "VITE_API_URL=${VITE_API_URL}" > .env
+
 # Copia o restante do código
 COPY . .
 
