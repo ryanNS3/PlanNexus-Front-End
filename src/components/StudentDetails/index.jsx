@@ -4,6 +4,8 @@ import useAxios from "../../hooks/useAxios";
 import { PinkButton } from "../Buttons/pinkButton";
 import { toastifyContext } from "../../context/toastifyContext";
 import { modalContext } from "../../context/modalContext";
+import axios from "axios";
+import { useCookies } from "../../hooks/useCookies";
 
 export function StudentDetails({ student }) {
   const [nome, setNome] = useState(student.nome);
@@ -15,23 +17,27 @@ export function StudentDetails({ student }) {
   const [curso, setCurso] = useState(student.curso);
   const [courseData, setCourseData] = useState();
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  const [userString, setUserString] = useCookies("user", null);
+  const user = userString === "null" ? null : userString;
+  const [tokenString, setTokenString] = useCookies("token", null);
+  const token = tokenString === "null" ? null : tokenString;
 
-  const { requisicao, loading } = useAxios();
+  const { requisicao, loading, erro } = useAxios();
   const { Notification } = useContext(toastifyContext);
   const { setIsOpenModal } = useContext(modalContext);
 
   useEffect(() => {
-    async function courseData() {
-      const req = await requisicao(`${BASE_URL}/turma/todos`, null, "GET", {
-        authorization: `bearer ${token}`,
-        nif: user,
+    async function courses() {
+      const req = await axios.get(`${BASE_URL}/turma/todos`, {
+        headers: {
+          authorization: `bearer ${token}`,
+          nif: user,
+        },
       });
-      setCourseData(req.json.response);
+      setCourseData(req.data.response);
     }
-
-    courseData();
+    
+    courses();
   }, []);
 
   const handleSubmit = async () => {

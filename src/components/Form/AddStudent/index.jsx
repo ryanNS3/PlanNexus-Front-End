@@ -4,6 +4,8 @@ import { InputText } from "../../Inputs/input-text/inputTextComp";
 import useAxios from "../../../hooks/useAxios";
 import { toastifyContext } from "../../../context/toastifyContext";
 import { modalContext } from "../../../context/modalContext";
+import { useCookies } from "../../../hooks/useCookies";
+import axios from "axios";
 
 export function AddStudent() {
   const steps = [
@@ -30,8 +32,10 @@ export function AddStudent() {
   // Consumo da API - POST (cadastrar/adicionar alunos)
   const { requisicao, loading } = useAxios();
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  const [userString, setUserString] = useCookies("user", null);
+  const user = userString === "null" ? null : userString;
+  const [tokenString, setTokenString] = useCookies("token", null);
+  const token = tokenString === "null" ? null : tokenString;
   const { Notification } = React.useContext(toastifyContext);
   const { setIsOpenModal } = React.useContext(modalContext);
 
@@ -47,16 +51,12 @@ export function AddStudent() {
       celular: celular,
     };
 
-    const success = await requisicao(
-      `${BASE_URL}/aluno/cadastro/unico`,
-      data,
-      "POST",
-      {
+    const success = await axios.post(`${BASE_URL}/aluno/cadastro/unico`, data, {
+      headers: {
         authorization: `bearer ${token}`,
         nif: user,
-      }
-    );
-
+      },
+    });
 
     if (success) {
       setTimeout(() => {
@@ -80,7 +80,6 @@ export function AddStudent() {
         nif: user,
       });
       setCourseData(req.json.response);
-      console.log(req.json.response);
     }
 
     courseData();
@@ -192,6 +191,7 @@ export function AddStudent() {
               className="border-2 border-cinza-100 rounded-lg text-ct-2 w-full p-5 mb-4"
               onChange={(e) => setCourse(e.target.value)}
             >
+              <option value=""></option>
               {courseData &&
                 courseData.map((course) => (
                   <option value={course.id_curso}>{course.nome}</option>

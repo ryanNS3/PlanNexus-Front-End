@@ -4,6 +4,7 @@ import { PinkButton } from "../../Buttons/pinkButton";
 import useAxios from "../../../hooks/useAxios";
 import { toastifyContext } from "../../../context/toastifyContext";
 import { modalContext } from "../../../context/modalContext";
+import { useCookies } from "../../../hooks/useCookies";
 
 export function AddMultipleStudents() {
   const [alunosFile, setAlunosFile] = React.useState();
@@ -13,8 +14,10 @@ export function AddMultipleStudents() {
   const { Notification } = React.useContext(toastifyContext);
   const { setIsOpenModal } = React.useContext(modalContext);
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  const [userString, setUserString] = useCookies("user", null);
+  const user = userString === "null" ? null : userString;
+  const [tokenString, setTokenString] = useCookies("token", null);
+  const token = tokenString === "null" ? null : tokenString;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
