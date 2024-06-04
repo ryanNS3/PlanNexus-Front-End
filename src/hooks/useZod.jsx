@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { array, z } from 'zod';
 
 // Função para validar o CPF
 function validateCPF(value) {
@@ -43,9 +43,15 @@ export const nameSchema = z.string()
     .max(100, "O nome não deve ultrapassar 100 caracteres")
 
 // Esquema de validação para Email
-const emailSchema = z.string()
+export const emailSchema = z.string()
     .nonempty("Email é obrigatório.")
     .email("Email deve ser um email válido."
+);
+
+export const employeeEmailSchema = z.string()
+  .nonempty("Email é obrigatório.")
+  .email("Email deve ser um email válido.")
+  .regex(/^[^@]+@senaisp.edu.br$/, 'Email deve terminar com @senaisp.edu.br'
 );
 
 export const imageUniqueValidate = z.array()
@@ -104,13 +110,24 @@ export const addEmployeeSchema = z.object({
 });
 
 export const ProductSchema = z.object({
-    nome: z.string().min(1, "O nome não pode estar vazio").max(100,"O nome pode ter no máximo 100 caracteres"),
-    cores: z.array(z.string()).min(1, "As cores não podem estar vazias"),
+    nome: z.string().min(3, "O nome não pode estar vazio").max(100,"O nome pode ter no máximo 100 caracteres"),
+    cores: z.array(z.string().min(3, "A cor deve estar preenchida")).min(1, "As cores não podem estar vazias"),
     tamanhos: z.array(z.string()).min(1, "Os tamanhos não podem estar vazios"),
     valor: z.number().min(1, "O valor não pode estar vazio"),
     desconto: z.number().min(1, "O desconto não pode estar vazio"),
     descricao: z.string().max(150).nullable(),
-    fotos: z.array(),
+  //   fotos: z.array(
+  //     z.array(
+  //       z.object(
+  //         z.object({
+  //           file: z.instanceof(File, "é necesário uma imgem aqui")
+
+  //         })
+  //       )
+
+  //     )
+  // ).refine((fotos) => fotos.length > 0, "É necessário preencher todas imagens"),
+    // fotos: z.array(),
     brinde: z.enum(["false","true"])
 
 }).superRefine((data, ctx) => {
@@ -125,11 +142,10 @@ export const ProductSchema = z.object({
 
 // Esquema de validação Login
 export const loginSchema = z.object({
-    email: z.string()
-        .nonempty("Preencha todos os campos!")
-        .email("Email deve ser um email válido.")
-        .regex(/^[^@]+@senaisp.edu.br$/, 'Email deve terminar com @senaisp.edu.br'),
+    email: employeeEmailSchema,
     password: z.string().nonempty("Preencha todos os campos!"),
 });
 
-
+export const passwordSchema = z.string()
+  .min(6, "A senha deve ter no mínimo 6 caracteres")
+  .nonempty("Preencha todos os campos!");

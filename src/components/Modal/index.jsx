@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Close } from "../../assets/Close";
 import { PinkButton } from "../Buttons/pinkButton";
+import { useMedia } from "../../hooks/useMedia";
 import { modalContext } from "../../context/modalContext";
 import { iconButton } from "@material-tailwind/react";
 import zIndex from "@mui/material/styles/zIndex";
@@ -37,6 +38,29 @@ const InnerModalDuo = {
   zIndex: 10,
 };
 
+export function VariableModal({ type, children, componentForOpenModal, configModal }) {
+  function renderModal() {
+    switch (type) {
+      case "Basic": {
+        return <BasicModal>{ children}</BasicModal>
+      } 
+      case "UniqueModal": {
+        return <UniqueModal componentForOpenModal={componentForOpenModal}>{ children}</UniqueModal>
+      } 
+      case "ExtendModal": {
+        return <ExtendModal isExtend={configModal?.isExtend} setIsExtend={configModal?.setIsExtend} componentForOpenModal={componentForOpenModal}>{ children}</ExtendModal>
+      } 
+      
+    }
+    
+  }
+  return (
+    <div>
+      {renderModal()}
+    </div>
+  )
+}
+
 export default function BasicModal({ children, TextButton, labelButton, Button, isOpenModal, setIsOpenModal }) {
   const [isHoverButton, setIsHoverButton] = React.useState(false)
 
@@ -61,7 +85,7 @@ export default function BasicModal({ children, TextButton, labelButton, Button, 
             <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
               <Close isHover={isHoverButton} />
             </button>
-            <main className="w-full h-full">
+            <main className="w-full h-max overflow-y-scroll">
               {children}
             </main>
           </div>
@@ -72,7 +96,7 @@ export default function BasicModal({ children, TextButton, labelButton, Button, 
   );
 }
 
-export function UniqueModal({ children, setSelectedId, selectedId }) {
+export function UniqueModal({ children, setSelectedId, selectedId, componentForOpenModal }) {
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   
@@ -88,11 +112,9 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
   
   return (
     <>
-      <button className="flex gap-1 cursor-pointer p-2 hover:bg-cinza-100 rounded" onClick={() => handleOpen(selectedId)}>
-        <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-        <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-        <div className="rounded-full bg-cinza-400 height w-2 h-2"></div>
-      </button>
+      <div className="" onClick={() => handleOpen(selectedId)}>
+       {componentForOpenModal}
+      </div>
       <Modal
         open={isOpenModal}
         onClose={handleClose}
@@ -117,20 +139,32 @@ export function UniqueModal({ children, setSelectedId, selectedId }) {
 }
 
 
-export function ExtendModal({ children, TextButton, onCloseCallBack, isExtend=true, setIsExtend, componentForOpenModal }) {
+export function ExtendModal({ children, onCloseCallBack, isExtend = true, setIsExtend, componentForOpenModal }) {
+  const [matches] = useMedia("(max-width: 900px)");
+  const [extendResponsive, setExtendResponsive] = React.useState(isExtend);
+  
+  React.useEffect(() => {
+    if (matches) {
+      setExtendResponsive(true);
+    } else {
+      setExtendResponsive(isExtend);
+    }
+  }, [matches, isExtend]);
 
-  const [isHoverButton, setIsHoverButton] = React.useState(false)
-  const [isOpenModal, setIsOpenModal] = React.useState(false)
+  const [isHoverButton, setIsHoverButton] = React.useState(false);
+  const [isOpenModal, setIsOpenModal] = React.useState(false);
+  
   const handleOpen = () => setIsOpenModal(true);
   const handleClose = () => {
     setIsHoverButton(false);
     setIsOpenModal(false);
     setIsExtend(false);
+    onCloseCallBack();
   };
 
   return (
-    <> 
-      <div onClick={handleOpen} >
+    <>
+      <div onClick={handleOpen}>
         {componentForOpenModal}
       </div>
       <Modal
@@ -141,22 +175,20 @@ export function ExtendModal({ children, TextButton, onCloseCallBack, isExtend=tr
         sx={modalStyle}
       >
         <Box sx={InnerModal}>
-          <div className={`flex flex-col gap-4 ${ isExtend ? "w-full" : "w-1/2" } max-h-[100%] overflow-y-hidden py-10 px-10  translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl`}>
+          <div className={`flex flex-col gap-4 ${extendResponsive ? "w-full" : "w-1/2"} max-h-[100%] overflow-y-hidden py-10 px-10 translate-x-10 opacity-0 duration-500 animate-modalAnimation bg-branco rounded-2xl`}>
             <div className="flex justify-end w-full">
               <button aria-label="sair" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
                 <Close isHover={isHoverButton} />
               </button>
-
             </div>
             <>
               {children}
             </>
-          </div>          
+          </div>
         </Box>
       </Modal>
     </>
   );
-  
 }
 
 export function FlexibleModal({ children, TextButton, isOpenModal, setIsOpenModal }){
@@ -275,44 +307,42 @@ export function DuoModalOptions({ contentOne, contentDuo, Button }) {
 
   const [isHoverButton, setIsHoverButton] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false);
-  const [isOpenModalDuo, setIsOpenModalDuo] = React.useState(false);
 
   const handleOpen = () => {
     setIsOpenModal(true);
-    setIsOpenModalDuo(true);
   }
 
   const handleClose = () => {
     setIsHoverButton(false)
     setIsOpenModal(false)
-    setIsOpenModalDuo(false)
   };
 
   return (
     <>
       <div onClick={handleOpen}>{Button}</div>
+      
       <Modal
         open={isOpenModal}
         sx={modalStyle}>
         <Box sx={InnerModal}>
-          <div className="flex w-2/4 duration-500 rounded-2xl ">
-            <main className="flex h-full">
-              {contentOne}
-            </main>
-          </div>
+          <div className="flex w-full h-full flex-col overflow-y-auto sm:flex-row gap-2" >
+            <div className="flex w-full sm:w-full duration-500 rounded-2xl ">
+              <main className="flex w-full h-full">
+                {contentOne}
+              </main>
+            </div>
 
-          <div className="flex flex-col gap-4 w-5/12 py-10 px-10 md:w-1/2 duration-500 animate-modalAnimation bg-branco rounded-2xl items-end">
-            <button onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
-              <Close isHover={isHoverButton} />
-            </button>
-            <main className="flex w-full h-full">
-              {contentDuo}
-            </main>
+            <div className="flex flex-col pt-10 px-10 sm:w-1/2 duration-500 animate-modalAnimation bg-branco rounded-2xl " style={{ scrollbarWidth: "none" }}>
+              <button className="flex self-end" onMouseEnter={() => setIsHoverButton(true)} onMouseLeave={() => setIsHoverButton(false)} onClick={handleClose}>
+                <Close isHover={isHoverButton} />
+              </button>
+              <main className="flex w-full h-full">
+                {contentDuo}
+              </main>
+            </div>
           </div>
         </Box>
       </Modal>
-
-
     </>
   );
 }

@@ -24,13 +24,14 @@ export const TextArea = ({ cols = 50, rows = 6,
        focus:border-rosa-destaque
         disabled:bg-cinza-100'
         id={name}
+        name={name}
         cols={cols}
         rows={rows}
         value={value}
         placeholder={placeholder}
         required={required}
         disabled={disabled}
-        onChange
+        onChange={onChange}
         {...props}/>
        {isEditable && (
           <button type="button" onClick={onEditClick} className=" text-fun2 text-vermelho-300 absolute right-4  top-6 transform -translate-y-1/2">

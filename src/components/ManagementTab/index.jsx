@@ -10,18 +10,16 @@ import {
 import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
-import { AllLocker } from "../AllLocker/index";
-import { LockerForm } from "../Form/lockerNotice";
-import { AddStudent } from "../Form/AddStudent";
-import { SelectLocker } from "../SelectLocker";
-import { AapmManage } from "../aapmManagement";
-import { AddMultipleStudents } from "../Form/AddMultipleStudents";
-import { AddStudentMethod } from "../Form/AddStudentMethod";
 
-export function ManagementTab() {
+const AapmManage = React.lazy(() => import("../aapmManagement"));
+const AllLocker = React.lazy(() => import("../AllLocker/index"));
+const TabClass = React.lazy(() => import("./tabs/class"));
+const TabEmployee = React.lazy(() => import("./tabs/employee/index"));
+const TabAapm = React.lazy(() => import("./tabs/aapm"));
 
-  const [isOpenModalFormClasses, setIsOpenModalFormClasses] = React.useState(false)
-  const [isOpenModalFormEmployee, setIsOpenModalFormEmployee] = React.useState(false)
+export default function ManagementTab() {
+  const [activeTab, setActiveTab] = React.useState("turmas");
+
   const customTheme = withMT({
     theme: {
       // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
@@ -32,40 +30,55 @@ export function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: <TemplateView statusUser={'AAPM'} role={"teste"} isOpenModal={isOpenModalFormClasses} setIsOpenModal={setIsOpenModalFormClasses} formModal={<AddStudentMethod />} name="Turmas" header_data={["AAPM"]} type="students" />,
+      element: () => (
+        activeTab === "turmas" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <TabClass />
+          </React.Suspense>
+        )
+      ),
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: <TemplateView statusUser={'Status'} isOpenModal={isOpenModalFormEmployee} setIsOpenModal={setIsOpenModalFormEmployee} formModal={<EmployeeForm/>} name="Funcionários" role={'cargo'} header_data={['Nome', 'Cargo']} type="employees" />,
+      element: () => (
+        activeTab === "funcionarios" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <TabEmployee />
+          </React.Suspense>
+        )
+      ),
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element: <>
-      <AapmManage/>
-      <TemplateView formModal={<></>} name="Contribuidores" header_data={["AAPM"]} type="students" />
-      </>,
+      element: () => (
+        activeTab === "AAPM" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <AapmManage />
+            <TabAapm />
+          </React.Suspense>
+        )
+      ),
     },
     {
       label: "Armários",
       value: "armarios",
-      // element: (
-      //   <AllLocker
-      //   statusUser={"Status"}
-      //   name="Funcionário"
-      //   role={"cargo"}
-      // />
-      // ),
+      element: () => (
+        activeTab === "armarios" && (
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <AllLocker typeUser={'armários'} />
+          </React.Suspense>
+        )
+      ),
     },
   ];
 
-  const [activeTab, setActiveTab] = React.useState("turmas");
   return (
     <ThemeProvider value={customTheme}>
       <Tabs value={activeTab}>
         <TabsHeader
-          className="w-full gap-4 mt-12 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 "
+          className="w-full gap-4 mt-4 bg-cinza-50 text-preto rounded-lg h-[2.75rem] p-0 "
           indicatorProps={{
             className:
               "w-[8rem] bg-gradient-to-r z-[1] from-[#1A1A1A] to-[#494747] text-cinza-50 rounded-lg",
@@ -78,8 +91,8 @@ export function ManagementTab() {
               onClick={() => setActiveTab(value)}
               className={
                 activeTab === value
-                  ? "text-cinza-50 z-[9]   w-[8rem] h-[2.75rem] py-0"
-                  : "w-[8rem] "
+                  ? "text-cinza-50 z-[9] w-[8rem] h-[2.75rem] py-0"
+                  : "w-[8rem]"
               }
             >
               <button className="text-fun2 relative z-[5]" onClick={(event) => event.preventDefault()}>
@@ -90,8 +103,8 @@ export function ManagementTab() {
         </TabsHeader>
         <TabsBody>
           {content.map(({ value, element }) => (
-            <TabPanel className=" px-0" key={value} value={value}>
-              {element}
+            <TabPanel className="px-0" key={value} value={value}>
+              {element()}
             </TabPanel>
           ))}
         </TabsBody>
