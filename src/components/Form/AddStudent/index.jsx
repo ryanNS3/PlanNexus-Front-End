@@ -2,6 +2,8 @@ import React from "react";
 import { PinkButton } from "../../Buttons/pinkButton";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import useAxios from "../../../hooks/useAxios";
+import { toastifyContext } from "../../../context/toastifyContext";
+import { modalContext } from "../../../context/modalContext";
 
 export function AddStudent() {
   const steps = [
@@ -15,9 +17,7 @@ export function AddStudent() {
   const [email, setEmail] = React.useState(null);
   const [celular, setCelular] = React.useState();
   const [telefone, setTelefone] = React.useState();
-  const [course, setCourse] = React.useState(
-    "Análise e Desenvolvimento de Sistemas"
-  );
+  const [course, setCourse] = React.useState();
   const [fic, setFic] = React.useState(false);
   const [partner, setPartner] = React.useState(false);
 
@@ -32,6 +32,8 @@ export function AddStudent() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
+  const { Notification } = React.useContext(toastifyContext);
+  const { setIsOpenModal } = React.useContext(modalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,13 +41,13 @@ export function AddStudent() {
       CPF: cpf,
       nome: name,
       email: email,
-      fk_curso: "13",
-      socioAapm: partner,
-      telefone: celular,
+      fk_curso: course,
+      socioAapm: String(partner),
+      telefone: telefone,
       celular: celular,
     };
 
-    const req = await requisicao(
+    const success = await requisicao(
       `${BASE_URL}/aluno/cadastro/unico`,
       data,
       "POST",
@@ -55,7 +57,18 @@ export function AddStudent() {
       }
     );
 
-    console.log(req);
+
+    if (success) {
+      setTimeout(() => {
+        setIsOpenModal(false);
+      }, [3000]);
+      Notification("sucess", "Aluno cadastrado com sucesso");
+    } else {
+      setTimeout(() => {
+        setIsOpenModal(true);
+      }, [3000]);
+      Notification("error", "Aluno não cadastrado");
+    }
   };
 
   const [courseData, setCourseData] = React.useState();
@@ -177,7 +190,7 @@ export function AddStudent() {
               name="curso"
               id="curso"
               className="border-2 border-cinza-100 rounded-lg text-ct-2 w-full p-5 mb-4"
-              onChange={(e) => setCurso(e.target.value)}
+              onChange={(e) => setCourse(e.target.value)}
             >
               {courseData &&
                 courseData.map((course) => (
@@ -255,7 +268,11 @@ export function AddStudent() {
               />
               <PinkButton
                 text="Continuar"
-                action={() => setCurrentStep(currentStep + 1)}
+                action={() =>
+                  name && cpf && email && celular && course
+                    ? setCurrentStep(currentStep + 1)
+                    : null
+                }
                 typeButton="button"
               />
             </div>
@@ -305,7 +322,7 @@ export function AddStudent() {
               type="text"
               name="curso"
               placeholder="Curso"
-              value={celular}
+              value={course}
               disabled={true}
             />
             <InputText
