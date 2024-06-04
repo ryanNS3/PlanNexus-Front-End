@@ -79,13 +79,11 @@ export function Header() {
  
         <div className="w-20 col-span-1 hidden sm:flex justify-around items-center rounded-2xl bg-cinza-100 ">
           <div className="w-8 h-8 rounded-full bg-cinza-50 flex items-center justify-center overflow-hidden">
-            {userData.foto &&(
               <img
-                src={userData.foto || defaultPhoto}
+                src={defaultPhoto}
                 alt="Foto do usuário"
                 className='w-full h-full object-cover'
             />
-            )}
           </div>
  
           <button  onClick={toggleDropdown} htmlFor="profile-image" className="ml-2 relative cursor-pointer">
