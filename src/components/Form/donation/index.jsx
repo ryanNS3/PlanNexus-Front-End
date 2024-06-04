@@ -10,7 +10,7 @@ import { studentContext } from "../../../context/studentsContext";
 export function DonationForm() {
   const { GetProducts } = useContext(ProductContext);
   const { resProductData } = GetProducts();
-  const {mutateProductDonation} = useContext(DonatorContext)
+  const {mutateProductDonation, postProductDonation} = useContext(DonatorContext)
   const {getStudents} = useContext(studentContext)
   const resStudentsData = getStudents()
 
@@ -36,10 +36,8 @@ export function DonationForm() {
   const [productId, setProductId] = React.useState('');
   const [lockerNumber, setLockerNumber] = React.useState('');
   const [moneyAmount, setMoney] = React.useState('');
-  const [search, setSearch] = React.useState();
-  const [date, setDate] = React.useState(Date.now());
+  const [date, setDate] = React.useState(null);
   const [currentStep, setCurrentStep] = React.useState(1);
-
   const [filteredStudent, setFilteredStudent] = useState(''); 
 
   const [DonateDebounce] = useDebounce(cpf, 2000);
@@ -49,20 +47,26 @@ export function DonationForm() {
   }
 
   function handleCPF(event) {
+    event.preventDefault()
     const cpfValue = event.target.value
     setCpf(cpfValue);
     console.log('valor pesquisa: '+cpfValue)
 
     const filter = resStudentsData.json.response?.filter((student) => {
-      return student.CPF === cpfValue ? student: null;
+      return student.CPF === cpfValue ? student : null;
     });
 
     if (filter.length > 0) {
-      setFilteredStudent(filter);  
+      setFilteredStudent(filter[0]); 
+      setStudentId(filteredStudent.id_aluno)
     } 
-    console.log('valor q devia ser achado no banco supostamente: ' + filteredStudent)
+    console.log(studentId)
   }
 
+
+  const handleContractChange = (event) => {
+    setContract(event.target.files[0]);
+  };
 
   const handleSelect = (event, item) => {
     event.preventDefault();
@@ -70,17 +74,14 @@ export function DonationForm() {
     setProductId(item);
   };
 
-
-  const commonDataDonation = { studentId, date, contract };
-  // let postDataDonation = { ...commonDataDonation };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let postDataDonation = { idAluno: studentId, data: date, contrato: contract, produtoId: productId, quantidade: quantity };
-    // setError(false)
-    // setLoading(true)
+    const DonateTime = new Date();
+    setDate(DonateTime.toISOString())
+    const postDataDonation = { idAluno: studentId,  idProduto: productId, quantidade: quantity, contrato: contract, data: date };
 
     try {
-      mutateProductDonation.mutate(postDataDonation)
+      postProductDonation(postDataDonation)
     } catch (error) {
       console.log(error)
     }
@@ -151,20 +152,19 @@ export function DonationForm() {
         </ul>
       </nav>
 
-      <form >
+      <form onSubmit={handleSubmit} >
         <Step currentStep={currentStep} step={1}>
           <div className="flex flex-col gap-6">
             <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} />
             {filteredStudent && (
               
               <>
-                <button onClick={() => setStudentId(filteredStudent.id_aluno)}> {filteredStudent.nome} </button>
+                <InputText id={filteredStudent.id_aluno} type="text" name="Nome completo" placeholder="José da Silva" value={filteredStudent.nome}  />
+                <InputText id="email" type="email" name="Email" placeholder="jose@gmail.com" value={filteredStudent.email} />
+                <InputText id="cellphone" type="text" name="telefone" placeholder="55 11 111111111" value={filteredStudent.telefone_celular} />
               </>
             )
             }
-            <InputText id="name" type="text" name="Nome completo" placeholder="José da Silva" onChange={(e) => setName(e.target.value)} value={name} />
-            <InputText id="email" type="email" name="Email" placeholder="jose@gmail.com" onChange={(e) => setEmail(e.target.value)} value={email} />
-            <InputText id="cellphone" type="text" name="telefone" placeholder="55 11 111111111" onChange={(e) => setCellphone(e.target.value)} value={cellphone} />
           </div>
           <div className="mt-4">
             <PinkButton text="Continuar" action={() => setCurrentStep(currentStep + 1)} typeButton="button" />
@@ -173,36 +173,6 @@ export function DonationForm() {
 
         <Step currentStep={currentStep} step={2}>
           <div>
-            {/* <div>
-            <label>
-            <input
-              type="radio"
-              value="productDonation"
-              checked={selectedOption === 'productDonation'}
-              onChange={handleOptionChange}
-            />
-            Doação de Produto
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="moneyDonation"
-              checked={selectedOption === 'moneyDonation'}
-              onChange={handleOptionChange}
-            />
-            Doação de Dinheiro
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="lockerDonation"
-              checked={selectedOption === 'lockerDonation'}
-              onChange={handleOptionChange}
-            />
-            Doação de armário
-          </label>
-            </div> */}
-
             
             {resProductData && resProductData.json.response.map((product)=> {
               return(
@@ -227,9 +197,11 @@ export function DonationForm() {
         <Step currentStep={currentStep} step={3}>
           <div>
             <div className="mt-4 flex justify-end gap-2">
-            <input type="file" name="contrato" id="contrato" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={ (e) => setContract(e.target.value) } />
+
+            <input type="file" name="contrato" id="contrato" onChange={handleContractChange} />
+
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
-              <PinkButton text="Finalizar" action={handleSubmit} typeButton="submit" />
+              <PinkButton text="Finalizar" typeButton="submit" />
             </div>
           </div>
         </Step>
