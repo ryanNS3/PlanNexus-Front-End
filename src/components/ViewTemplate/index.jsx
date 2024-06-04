@@ -120,7 +120,7 @@ export function TemplateView({
             {element}
           </p>
         ))}
-        <p className="text-center text-fun2 text-cinza-700 m-auto">Ações</p>
+        <p className="text-center text-fun2 text-cinza-700 m-auto">Ações</p> {/* A gente pode remover essa parte, uma vez que não tem mais os botões e as ações são abertas ao clicar em qualquer parte do container. Dessa maneira, podemos reduzir também o número de colunas do componente pai e dos <Line /> em um */}
       </section>
       <section className="flex flex-col col-span-10 gap-7 max-h-[50vh] overflow-scroll">
         {children}

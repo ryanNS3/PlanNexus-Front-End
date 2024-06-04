@@ -13,7 +13,7 @@ export function EmployeeProvider({ children }) {
   const queryClient = useQueryClient()
   const BASE_URL = import.meta.env.VITE_API_URL;
   const {token, user} = useContext(UserGlobal)
- 
+
   const FetchAllEmploye = React.useCallback(async () => {
     try {
       const res = await requisicao(
@@ -33,11 +33,11 @@ export function EmployeeProvider({ children }) {
       console.log("Requisição falhou:", error);
       return false;
     }
-  }, []);
+  }, [token, user, requisicao, BASE_URL]);
 
 
   function GetAllEmployees() {
-    const AllEmployees = useQuery({ queryKey : ['AllEmployees'], queryFn : FetchAllEmploye});
+    const AllEmployees = useQuery({ queryKey : ['AllEmployees'], queryFn : FetchAllEmploye, enabled: !!token && !!user});
     const resAllEmployees = AllEmployees.data
     const resProductLoading = AllEmployees.isLoading
     const resProductError = AllEmployees.isError

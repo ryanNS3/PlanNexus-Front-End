@@ -10,7 +10,10 @@ export function AddStudentMethod() {
         <div className="flex flex-col gap-6">
           <p className="text-sub1">Método de cadastro</p>
 
-          <div className="flex gap-4 items-start" onClick={() => setMethod("excel")}>
+          <div
+            className="flex gap-4 items-start"
+            onClick={() => setMethod("excel")}
+          >
             <div className="py-10 px-9 bg-cinza-100 rounded border-4 border-transparent hover:border-rosa-300 cursor-pointer">
               <svg
                 width="62"
@@ -98,7 +101,10 @@ export function AddStudentMethod() {
             </div>
           </div>
 
-          <div className="flex gap-4 items-start" onClick={() => setMethod("manual")}>
+          <div
+            className="flex gap-4 items-start"
+            onClick={() => setMethod("manual")}
+          >
             <div className="py-10 px-9 bg-cinza-100 rounded border-4 border-transparent hover:border-rosa-300 cursor-pointer">
               <svg
                 width="62"
@@ -115,21 +121,17 @@ export function AddStudentMethod() {
             </div>
 
             <div className="max-w-[280px]">
-              <p className="text-sub2 text-rosa-400">Adicionar por excel</p>
+              <p className="text-sub2 text-rosa-400">Adicionar manualmente</p>
               <p className="text-ct2 text-cinza-700">
-                Selecione um arquivo do excel e faça o cadastro automatizado dos
-                alunos.
+                Faça o cadastro manual de apenas um aluno, preenchendo todas as
+                informações de cadastro.
               </p>
             </div>
           </div>
         </div>
       )}
-      {method === "excel" && (
-        <AddMultipleStudents />
-      )}
-      {method === "manual" && (
-        <AddStudent />
-      )}
+      {method === "excel" && <AddMultipleStudents />}
+      {method === "manual" && <AddStudent />}
     </>
   );
 }
