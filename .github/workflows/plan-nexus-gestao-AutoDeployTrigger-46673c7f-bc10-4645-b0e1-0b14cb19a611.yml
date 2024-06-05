@@ -30,7 +30,7 @@ jobs:
           node-version: '20'
 
       - name: Set VITE_API_URL environment variable
-        run: echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
+        run: echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
 
       - name: Azure Login
         uses: azure/login@v1
