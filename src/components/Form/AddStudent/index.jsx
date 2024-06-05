@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { PinkButton } from "../../Buttons/pinkButton";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
 import useAxios from "../../../hooks/useAxios";
@@ -6,6 +6,7 @@ import { toastifyContext } from "../../../context/toastifyContext";
 import { modalContext } from "../../../context/modalContext";
 import { useCookies } from "../../../hooks/useCookies";
 import axios from "axios";
+import { StudentContext } from "../../../context/StudentsContext";
 
 export function AddStudent() {
   const steps = [
@@ -36,12 +37,14 @@ export function AddStudent() {
   const user = userString === "null" ? null : userString;
   const [tokenString, setTokenString] = useCookies("token", null);
   const token = tokenString === "null" ? null : tokenString;
+  const { mutatePostStudent } = React.useContext(StudentContext);
   const { Notification } = React.useContext(toastifyContext);
   const { setIsOpenModal } = React.useContext(modalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+
+    mutatePostStudent.mutate({
       CPF: cpf,
       nome: name,
       email: email,
@@ -49,26 +52,7 @@ export function AddStudent() {
       socioAapm: String(partner),
       telefone: telefone,
       celular: celular,
-    };
-
-    const success = await axios.post(`${BASE_URL}/aluno/cadastro/unico`, data, {
-      headers: {
-        authorization: `bearer ${token}`,
-        nif: user,
-      },
     });
-
-    if (success) {
-      setTimeout(() => {
-        setIsOpenModal(false);
-      }, [3000]);
-      Notification("sucess", "Aluno cadastrado com sucesso");
-    } else {
-      setTimeout(() => {
-        setIsOpenModal(true);
-      }, [3000]);
-      Notification("error", "Aluno não cadastrado");
-    }
   };
 
   const [courseData, setCourseData] = React.useState();
