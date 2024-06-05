@@ -1,11 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import { InputText } from "../Inputs/input-text/inputTextComp";
-import useAxios from "../../hooks/useAxios";
-import { PinkButton } from "../Buttons/pinkButton";
-import { toastifyContext } from "../../context/toastifyContext";
-import { modalContext } from "../../context/modalContext";
+
 import axios from "axios";
 import { useCookies } from "../../hooks/useCookies";
+import { StudentContext } from "../../context/StudentsContext";
+
+import { InputText } from "../Inputs/input-text/inputTextComp";
+import { PinkButton } from "../Buttons/pinkButton";
 
 export function StudentDetails({ student }) {
   const [nome, setNome] = useState(student.nome);
@@ -16,15 +16,14 @@ export function StudentDetails({ student }) {
   const [associado, setAssociado] = useState(student.associado);
   const [curso, setCurso] = useState(student.curso);
   const [courseData, setCourseData] = useState();
+
   const BASE_URL = import.meta.env.VITE_API_URL;
   const [userString, setUserString] = useCookies("user", null);
   const user = userString === "null" ? null : userString;
   const [tokenString, setTokenString] = useCookies("token", null);
   const token = tokenString === "null" ? null : tokenString;
 
-  const { requisicao, loading, erro } = useAxios();
-  const { Notification } = useContext(toastifyContext);
-  const { setIsOpenModal } = useContext(modalContext);
+  const { mutatePatchStudents } = useContext(StudentContext);
 
   useEffect(() => {
     async function courses() {
@@ -36,41 +35,21 @@ export function StudentDetails({ student }) {
       });
       setCourseData(req.data.response);
     }
-    
+
     courses();
   }, []);
 
   const handleSubmit = async () => {
-    const success = await requisicao(
-      `${BASE_URL}/aluno/atualizar`,
-      {
-        idAluno: `${student.id_aluno}`,
-        CPF: cpf,
-        nome: nome,
-        email: email,
-        fk_curso: curso,
-        socioAapm: `${!!associado}`,
-        telefone: telefone,
-        celular: celular,
-      },
-      "PATCH",
-      {
-        authorization: `bearer ${token}`,
-        nif: user,
-      }
-    );
-
-    if (success) {
-      setTimeout(() => {
-        setIsOpenModal(false);
-      }, [3000]);
-      Notification("sucess", "Aluno atualizado com sucesso");
-    } else {
-      setTimeout(() => {
-        setIsOpenModal(true);
-      }, [3000]);
-      Notification("error", "Alunos não atualizado");
-    }
+    mutatePatchStudents.mutate({
+      idAluno: `${student.id_aluno}`,
+      CPF: cpf,
+      nome: nome,
+      email: email,
+      fk_curso: curso,
+      socioAapm: `${!!associado}`,
+      telefone: telefone,
+      celular: celular,
+    });
   };
 
   return (
@@ -191,7 +170,7 @@ export function StudentDetails({ student }) {
       </div>
 
       <div className="flex justify-end">
-        <PinkButton text="Atualizar" action={handleSubmit} loading={loading} />
+        <PinkButton text="Atualizar" action={handleSubmit} loading={mutatePatchStudents.isLoading} />
       </div>
     </div>
   );
