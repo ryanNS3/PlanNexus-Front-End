@@ -15,7 +15,7 @@ import { LockerProvider } from "../context/lockerContext";
 import { ProductProvider } from "../context/ProductContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Donate } from "../pages/Donate"
-import { StudentProvider } from "../context/studentsContext";
+import { StudentProvider } from "../context/StudentsContext";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
 import { Profile } from "../pages/ViewProfile";
