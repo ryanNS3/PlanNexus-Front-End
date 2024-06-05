@@ -6,11 +6,13 @@ import { GhostButton } from "../../Buttons/ghostButton";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { DonatorContext } from "../../../context/donatorContext";
 import { studentContext } from "../../../context/studentsContext";
+import { InputRadioInformation } from "../../Inputs/input-radio-information";
+import {AllLocker} from "../../AllLocker";
 
 export function DonationForm() {
   const { GetProducts } = useContext(ProductContext);
   const { resProductData } = GetProducts();
-  const {mutateProductDonation, postProductDonation} = useContext(DonatorContext)
+  const {postProductDonation, postMoneyDonation, postLockerDonation} = useContext(DonatorContext)
   const {getStudents} = useContext(studentContext)
   const resStudentsData = getStudents()
 
@@ -20,7 +22,7 @@ export function DonationForm() {
     "Contrato"
   ];
 
-  const [selectedOption, setSelectedOption] = React.useState('productDonation');
+  const [selectedOption, setSelectedOption] = React.useState('moneyDonation');
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -36,11 +38,11 @@ export function DonationForm() {
   const [productId, setProductId] = React.useState('');
   const [lockerNumber, setLockerNumber] = React.useState('');
   const [moneyAmount, setMoney] = React.useState('');
+  const [assistanceType, setType] = React.useState('')
   const [date, setDate] = React.useState(null);
   const [currentStep, setCurrentStep] = React.useState(1);
   const [filteredStudent, setFilteredStudent] = useState(''); 
-
-  const [DonateDebounce] = useDebounce(cpf, 2000);
+  const [error, setError] = useState('')
 
   const setStep = (step) => {
     setCurrentStep(step);
@@ -50,7 +52,6 @@ export function DonationForm() {
     event.preventDefault()
     const cpfValue = event.target.value
     setCpf(cpfValue);
-    console.log('valor pesquisa: '+cpfValue)
 
     const filter = resStudentsData.json.response?.filter((student) => {
       return student.CPF === cpfValue ? student : null;
@@ -59,8 +60,12 @@ export function DonationForm() {
     if (filter.length > 0) {
       setFilteredStudent(filter[0]); 
       setStudentId(filteredStudent.id_aluno)
+      console.log(studentId)
     } 
-    console.log(studentId)
+
+    if(studentId === null){
+      setError('id aluno não encontrado')
+    }
   }
 
 
@@ -70,7 +75,6 @@ export function DonationForm() {
 
   const handleSelect = (event, item) => {
     event.preventDefault();
-    console.log('Item selecionado:', item);
     setProductId(item);
   };
 
@@ -78,43 +82,37 @@ export function DonationForm() {
     e.preventDefault();
     const DonateTime = new Date();
     setDate(DonateTime.toISOString())
-    const postDataDonation = { idAluno: studentId,  idProduto: productId, quantidade: quantity, contrato: contract, data: date };
 
-    try {
-      postProductDonation(postDataDonation)
-    } catch (error) {
-      console.log(error)
+    const commonData = {idAluno: studentId, contrato: contract, data: date }
+    let postDataDonation;
+  
+    
+    if (selectedOption === 'productDonation') {
+      postDataDonation = { ...commonData, idProduto: productId, quantidade: quantity};
+    } else if (selectedOption === 'moneyDonation') {
+      postDataDonation = { ...commonData, valorDoado : moneyAmount, auxilio : assistanceType};
+    } else {
+      postDataDonation = {...commonData, numeroArmario : lockerNumber }
     }
 
-    // if (selectedOption === 'productDonation') {
-    // } else if (selectedOption === 'moneyDonation') {
-    //   postDataDonation = { ...postDataDonation, moneyAmount };
-    // } else {
-    //   postDataDonation = {...postDataDonation, lockerNumber }
-    // }
-
-    // try {
-    //   let donationType;
-    //   switch (selectedOption) {
-    //     case 'productDonation':
-    //       donationType = await postDoacaoProduto(postDataDonation);
-    //       break;
-    //     case 'moneyDonation':
-    //       donationType = await postDoacaoDinheiro(postDataDonation);
-    //       break;
-    //     case 'LockerDonation':
-    //       donationType = await postDoacaoArmario(postDataDonation);
-    //       break;
-    //     default:
-    //       throw new Error('Opção desconhecida');
-    //   }
-    //   setResponseData(donationType);
-    // } catch (error) {
-    //   setError(error.message);
-    // } finally {
-    //   setLoading(false);
-    // }
-
+    try {
+      let donationType;
+      switch (selectedOption) {
+        case 'productDonation':
+          donationType = await postProductDonation(postDataDonation);
+          break;
+        case 'moneyDonation':
+          donationType = await postMoneyDonation(postDataDonation);
+          break;
+        case 'LockerDonation':
+          donationType = await postLockerDonation(postDataDonation);
+          break;
+        default:
+          throw new Error('Opção desconhecida');
+      }
+    } catch (error) {
+      setError(error.message);
+    } 
   };
 
   return (
@@ -169,10 +167,42 @@ export function DonationForm() {
           <div className="mt-4">
             <PinkButton text="Continuar" action={() => setCurrentStep(currentStep + 1)} typeButton="button" />
           </div>
+          <p>{error}</p>
         </Step>
 
         <Step currentStep={currentStep} step={2}>
-          <div>
+        <div>
+          
+          <InputRadioInformation
+            type="radio"
+            value="moneyDonation"
+            checked={selectedOption === 'moneyDonation'}
+            onChange={handleOptionChange}
+            placeholder={'Doação de dinheiro'}
+          />
+
+            <InputRadioInformation
+              type="radio"
+              value="productDonation"
+              checked={selectedOption === 'productDonation'}
+              onChange={handleOptionChange}
+              placeholder={'doação de produto'}
+            />
+            
+          
+            <InputRadioInformation
+              type="radio"
+              value="lockerDonation"
+              checked={selectedOption === 'lockerDonation'}
+              onChange={handleOptionChange}
+              placeholder={'Doação de armário'}
+            />
+            
+          
+        </div>
+
+          {selectedOption === 'productDonation' && (
+            <div>
             
             {resProductData && resProductData.json.response.map((product)=> {
               return(
@@ -184,22 +214,63 @@ export function DonationForm() {
                 </div>
               )
             })}
-            <InputText id="quantidade" type="number" name="Quantidade" placeholder="0" onChange={(e) => setQuantity(e.target.value)} value={quantity} />
-            
+            <InputText id="quantidade" type="number" name="Quantidade" placeholder="0" onChange={(e) => setQuantity(e.target.value)} min='1' max='10' value={quantity} />
+             
+          </div>
+          )}
+          {
+            selectedOption === 'moneyDonation' && (
+              <div>
+                  <div>
+                  
+                    <InputRadioInformation
+                      type="radio"
+                      value="fixed"
+                      checked={assistanceType === 1}
+                      id='fixedAssistence'
+                      onChange={() => {setType(1)}}
+                      description={'Pago mensalmente como valor fixo durante o semestre'}
+                      placeholder={'Doação comum'}
+                    />
+                    
+
+                  
+                    <InputRadioInformation
+                      type="radio"
+                      value="commum "
+                      checked={assistanceType === 0}
+                      id='fixedAssistence'
+                      onChange={() => {setType(0)}}
+                      description={'Pago apenas uma vez'}
+                      placeholder={'Doação fixa'}
+                    />
+                    
+                  </div>
+                <InputText id="valorDoado" type="number" name="Valor a ser doado" placeholder="0" onChange={(e) => setMoney(e.target.value)} value={moneyAmount} min='1' max='1000' />
+
+              </div>
+            )
+          }{
+            selectedOption === 'lockerDonation' && (
+              // <AllLocker />
+              <p>saia do armario</p>
+            )
+          }
+          <p>{error}</p>
 
             <div className="mt-4 flex justify-end gap-2">
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
               <PinkButton text="Continuar" action={() => setCurrentStep(currentStep + 1)} typeButton="button" />
             </div>
-          </div>
         </Step>
 
         <Step currentStep={currentStep} step={3}>
           <div>
             <div className="mt-4 flex justify-end gap-2">
 
-            <input type="file" name="contrato" id="contrato" onChange={handleContractChange} />
+              <input type="file" name="contrato" id="contrato" onChange={handleContractChange} />
 
+              <p>{error}</p> 
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
               <PinkButton text="Finalizar" typeButton="submit" />
             </div>
