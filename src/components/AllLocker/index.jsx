@@ -152,7 +152,7 @@ export function Lockers({ size }) {
           </TabsHeader>
           <TabsBody>
             {content.map((key, value) => (
-              <TabPanel key={key.value} value={value} >
+              <TabPanel key={key.value} value={value}>
                 <div className="hidden">{value}</div>
               </TabPanel>
             ))}
@@ -163,10 +163,11 @@ export function Lockers({ size }) {
   );
 }
 
-// Cada armário
+// Cada armário 
 
 export function Locker({ nome, numero, status, idStudent }) {
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
+  const [direction, setDirection] = React.useState("-right-2");
 
   let menuRefLocker = useRef();
 
@@ -174,8 +175,23 @@ export function Locker({ nome, numero, status, idStudent }) {
     event.preventDefault();
     setIsOpenOptions(!isOpenOptions);
   }
-
   const unlocker = status == "desocupado" ? "hidden" : "";
+
+  const screenWidth = window.innerWidth; // Obtém a largura da tela
+
+// Calcula 10% da largura da tela
+  let screen = screenWidth * 0.8;
+  
+  useEffect(() => {
+    const screenWidth = window.innerWidth; // Obtém a largura da tela
+    let screen = screenWidth * 0.8; // Calcula 10% da largura da tela
+    let right = menuRefLocker.current.getBoundingClientRect().right;
+
+    if (right >= screen) {
+      console.log("offset right", right, numero);
+      setDirection("right-64");
+    }
+  }, [menuRefLocker]);
 
   return (
     <>
@@ -184,8 +200,10 @@ export function Locker({ nome, numero, status, idStudent }) {
         key={numero}
         id={numero}
         nome={nome}
-        className={`relative col-span-1 ${status == "desocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
-          } h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
+        ref={menuRefLocker}
+        className={`relative col-span-1 ${
+          status == "desocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"
+        } h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
       >
         <div className={`absolute top-1 right-1  ${unlocker}`}>
           <LockBlack />
@@ -193,7 +211,8 @@ export function Locker({ nome, numero, status, idStudent }) {
 
         <p className="text-h5">{numero}</p>
 
-        <div className="absolute z-1000 top-0 -right-2" ref={menuRefLocker}>
+        <div
+          className={`absolute z-1000 top-0 ${direction}`}>
           {isOpenOptions && (
             <>
               <Options
@@ -201,8 +220,12 @@ export function Locker({ nome, numero, status, idStudent }) {
                 numero={numero}
                 status={status}
                 idStudent={idStudent}
+
               />
-              <div className="w-screen h-screen top-0 fixed left-0 z-20" onClick={() => setIsOpenOptions(!isOpenOptions)}></div>
+              <div
+                className="w-screen h-screen top-0 fixed left-0 z-20"
+                onClick={() => setIsOpenOptions(!isOpenOptions)}
+              ></div>
             </>
           )}
         </div>
