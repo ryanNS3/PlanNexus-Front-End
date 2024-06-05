@@ -7,7 +7,7 @@ import { useDebounce } from "../../../hooks/useDebounce";
 import { DonatorContext } from "../../../context/donatorContext";
 import { studentContext } from "../../../context/studentsContext";
 import { InputRadioInformation } from "../../Inputs/input-radio-information";
-import {AllLocker} from "../../AllLocker";
+import { Lockers } from "../../AllLocker";
 
 export function DonationForm() {
   const { GetProducts } = useContext(ProductContext);
@@ -58,15 +58,26 @@ export function DonationForm() {
     });
 
     if (filter.length > 0) {
-      setFilteredStudent(filter[0]); 
-      setStudentId(filteredStudent.id_aluno)
-      console.log(studentId)
-    } 
-
-    if(studentId === null){
-      setError('id aluno não encontrado')
+      setFilteredStudent(filter[0]);
+      setError(null)
+    } else {
+      setFilteredStudent(null);
+      setStudentId(null); 
+      setError('identificador do aluno não encontrado');
     }
   }
+
+  useEffect(() => {
+    if (filteredStudent) {
+      setStudentId(filteredStudent.id_aluno);
+    }
+  }, [studentId, filteredStudent]);
+
+  useEffect(() => {
+    if (studentId === null && filteredStudent === null) {
+      setError('id aluno não encontrado');
+    }
+  }, [studentId, filteredStudent]);
 
 
   const handleContractChange = (event) => {
@@ -153,21 +164,21 @@ export function DonationForm() {
       <form onSubmit={handleSubmit} >
         <Step currentStep={currentStep} step={1}>
           <div className="flex flex-col gap-6">
-            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} />
+            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} min='11' max='14'/>
             {filteredStudent && (
-              
+
               <>
-                <InputText id={filteredStudent.id_aluno} type="text" name="Nome completo" placeholder="José da Silva" value={filteredStudent.nome}  />
-                <InputText id="email" type="email" name="Email" placeholder="jose@gmail.com" value={filteredStudent.email} />
-                <InputText id="cellphone" type="text" name="telefone" placeholder="55 11 111111111" value={filteredStudent.telefone_celular} />
+                <InputText id={filteredStudent.id_aluno} type="text" name="Nome completo" placeholder="José da Silva" value={filteredStudent.nome}  onChange={() => setName(filteredStudent.nome)}/>
+                <InputText id="email" type="email" name="Email" placeholder="jose@gmail.com" value={filteredStudent.email} onChange={() => setEmail(filteredStudent.email)}/>
+                <InputText id="cellphone" type="text" name="telefone" placeholder="55 11 111111111" value={filteredStudent.telefone_celular} onChange={() => setCellphone(filteredStudent.telefone_celular)} />
               </>
             )
             }
           </div>
+            <p>{error}</p>
           <div className="mt-4">
             <PinkButton text="Continuar" action={() => setCurrentStep(currentStep + 1)} typeButton="button" />
           </div>
-          <p>{error}</p>
         </Step>
 
         <Step currentStep={currentStep} step={2}>
@@ -230,7 +241,7 @@ export function DonationForm() {
                       id='fixedAssistence'
                       onChange={() => {setType(1)}}
                       description={'Pago mensalmente como valor fixo durante o semestre'}
-                      placeholder={'Doação comum'}
+                      placeholder={'Doação fixa'}
                     />
                     
 
@@ -239,10 +250,10 @@ export function DonationForm() {
                       type="radio"
                       value="commum "
                       checked={assistanceType === 0}
-                      id='fixedAssistence'
+                      id='commonAssistence'
                       onChange={() => {setType(0)}}
                       description={'Pago apenas uma vez'}
-                      placeholder={'Doação fixa'}
+                      placeholder={'Doação comum'}
                     />
                     
                   </div>
@@ -252,8 +263,8 @@ export function DonationForm() {
             )
           }{
             selectedOption === 'lockerDonation' && (
-              // <AllLocker />
-              <p>saia do armario</p>
+              <Lockers/>
+              // <p>saia do armario</p>
             )
           }
           <p>{error}</p>
@@ -268,7 +279,10 @@ export function DonationForm() {
           <div>
             <div className="mt-4 flex justify-end gap-2">
 
-              <input type="file" name="contrato" id="contrato" onChange={handleContractChange} />
+              <div>
+                <input type="file" name="contrato" id="contrato" onChange={handleContractChange} />
+              </div>
+              
 
               <p>{error}</p> 
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
