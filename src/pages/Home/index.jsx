@@ -8,6 +8,7 @@ export function Home() {
   return (
     <>
       <Main>
+        <div className="overflow-y-auto max-h-screen">
         <Statistic />
         <div className="grid grid-cols-[1fr_auto] mt-18 gap-6">
           <h1 className="col-span-full text-h5">Geral</h1>
@@ -16,6 +17,7 @@ export function Home() {
             <Grafico />
           </div>
           <Schedule/>
+        </div>
         </div>
 
       </Main>

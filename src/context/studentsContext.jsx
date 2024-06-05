@@ -1,14 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import useAxios from "../hooks/useAxios";
+import { UserGlobal } from "./userContext";
 import { useQuery,useQueryClient, useMutation } from "@tanstack/react-query";
 
 export const studentContext = React.createContext()
 
 export function StudentProvider({ children }) {
     const BASE_URL = import.meta.env.VITE_API_URL;
-    const token = localStorage.getItem('token')
     const queryClient = useQueryClient()
-    const user = localStorage.getItem('user')
+    const {token, user} = useContext(UserGlobal)
     const {requisicao} = useAxios()
 
     async function FetchAllStudents() {

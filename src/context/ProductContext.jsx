@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import useAxios from "../hooks/useAxios";
+import { UserGlobal } from "./userContext";
 import {  useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const ProductContext = React.createContext();
@@ -7,8 +8,7 @@ export const ProductContext = React.createContext();
 export function ProductProvider({ children }) {
   const { dados, requisicao } = useAxios();
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = window.localStorage.getItem('token');
-  const user = window.localStorage.getItem('user');
+  const {token, user} = useContext(UserGlobal)
   const queryClient = useQueryClient()
 
   const useGroupDataProducts = (resProductData) => {

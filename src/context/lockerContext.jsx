@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import useAxios from "../hooks/useAxios";
+import { UserGlobal } from "./userContext";
 
 export const LockerContext = React.createContext();
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function LockerProvider({ children }) {
-
+    const {token, user} = useContext(UserGlobal)
     const [dataLocker, setDataLocker] = useState([]);
     const { dados, requisicao } = useAxios();
 
     async function GetLocker() {
         const reqLocker = await requisicao(`${BASE_URL}/armario/todos`, null, "GET", {
-            authorization: `bearer ${localStorage.getItem('token')}`,
-            nif: localStorage.getItem('user'),
+            authorization: `bearer ${token}`,
+            nif: user,
         })
         setDataLocker(reqLocker.json.response)
     }
@@ -24,8 +25,8 @@ export function LockerProvider({ children }) {
                 "idAluno": dataLocker.id_aluno,
                 "statusArmario": dataLocker.status
         }, "PATCH", {
-            authorization: `bearer ${localStorage.getItem('token')}`,
-            nif: localStorage.getItem('user'),
+            authorization: `bearer ${token}`,
+            nif: user,
         })
         return reqStatus , console.log(reqStatus,"aqui poh");
         

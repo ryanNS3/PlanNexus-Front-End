@@ -18,6 +18,7 @@ import { Donate } from "../pages/Donate"
 import { StudentProvider } from "../context/studentsContext";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
+import { Profile } from "../pages/ViewProfile";
 import { DonatorProvider } from "../context/donatorContext";
 
 export function Router() {
@@ -70,6 +71,15 @@ export function Router() {
                               </ProtectRouter>
                             }
                           />
+
+                          <Route path="/funcionario/perfil" 
+                          element={
+                            <ProtectRouter>
+                                <Profile />
+                            </ProtectRouter>
+                          } />
+
+
                           <Route path="/gestao">
 
                             <Route

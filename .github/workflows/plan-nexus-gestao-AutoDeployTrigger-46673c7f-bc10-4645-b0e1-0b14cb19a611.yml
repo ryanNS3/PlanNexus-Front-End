@@ -8,7 +8,7 @@ on:
       [ main ]
     paths:
     - '**'
-    - '.github/workflows/plan-nexus-gestao-AutoDeployTrigger-4c7f7ee6-9a72-42bf-affc-874bcefb5571.yml'
+    - '.github/workflows/plan-nexus-gestao-AutoDeployTrigger-46673c7f-bc10-4645-b0e1-0b14cb19a611.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
@@ -23,6 +23,14 @@ jobs:
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Set VITE_API_URL environment variable
+        run: echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
 
       - name: Azure Login
         uses: azure/login@v1
@@ -43,5 +51,3 @@ jobs:
           imageToBuild: acrplannexus.azurecr.io/plan-nexus-gestao:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-
-

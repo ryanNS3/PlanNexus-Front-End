@@ -9,13 +9,13 @@ export function DonatorProvider({ children }) {
   const { requisicao } = useAxios();
   const [updatedDonator, setUpdatedDonator] = React.useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem('token')
-  const user = localStorage.getItem('user')
+  const {token, user} = useContext(UserGlobal)
+  const [DonatorData, setDonatorData] = React.useState(null);
 
-
-  const FetchAllMoney = React.useCallback(async () => {
-
-      const AllMoneyDonation = await requisicao(
+  
+  const GetAllDonators = React.useCallback(async () => {
+    try {
+      const res = await requisicao(
         `${BASE_URL}/doacaoDinheiro/todos`,
         null,
         `GET`,

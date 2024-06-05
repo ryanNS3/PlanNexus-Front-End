@@ -12,9 +12,8 @@ export function EmployeeProvider({ children }) {
   const [updatedEmployee, setUpdatedEmployee] = React.useState(null);
   const queryClient = useQueryClient()
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const token = localStorage.getItem('token')
-  const user = localStorage.getItem('user')
- 
+  const {token, user} = useContext(UserGlobal)
+
   const FetchAllEmploye = React.useCallback(async () => {
     try {
       const res = await requisicao(
@@ -34,11 +33,11 @@ export function EmployeeProvider({ children }) {
       console.log("Requisição falhou:", error);
       return false;
     }
-  }, []);
+  }, [token, user, requisicao, BASE_URL]);
 
 
   function GetAllEmployees() {
-    const AllEmployees = useQuery({ queryKey : ['AllEmployees'], queryFn : FetchAllEmploye});
+    const AllEmployees = useQuery({ queryKey : ['AllEmployees'], queryFn : FetchAllEmploye, enabled: !!token && !!user});
     const resAllEmployees = AllEmployees.data
     const resProductLoading = AllEmployees.isLoading
     const resProductError = AllEmployees.isError
@@ -169,7 +168,6 @@ const EditEmployee = React.useCallback(async (editedData) => {
            `POST`,
            null
          );
-         console.log(senha)
          if (res && res.res.status === 200) {
            return true;
          }
