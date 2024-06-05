@@ -39,7 +39,8 @@ export function DonatorProvider({ children }) {
     try{
       const reqMoneyDonation = await requisicao(`${BASE_URL}/doacaoDinheiro/cadastro`, dataMoneyDonation, "POST", {
         authorization : `bearer ${token}`,
-        nif: user
+        nif: user,
+        'Content-Type': 'multipart/form-data'
       })
       
       return reqMoneyDonation
@@ -51,13 +52,6 @@ export function DonatorProvider({ children }) {
       
     }
   }
-
-  const mutateMoneyDonation = useMutation({
-    mutationFn: postMoneyDonation,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['AllMoneyDonation']);
-    }
-  });
 
 
   const postLockerDonation = async (dataLockerDonation) =>{
@@ -78,15 +72,8 @@ export function DonatorProvider({ children }) {
     }
   }
 
-  const mutateLockerDonation = useMutation({
-    mutationFn: postLockerDonation,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['AllLockerDonation']);
-    }
-  });
 
-
-  const postProductDonation = async ({dataProductDonation}) =>{
+  const postProductDonation = async (dataProductDonation) =>{
     try{
       const reqProductDonation = await requisicao(`${BASE_URL}/doacaoProduto/cadastro`, dataProductDonation, "POST", {
         authorization : `bearer ${token}`,
@@ -104,18 +91,11 @@ export function DonatorProvider({ children }) {
     }
   }
 
-  const mutateProductDonation = useMutation({
-    mutationFn: postProductDonation,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['AllProductDonation']);
-    }
-  });
-
 
 
   return (
     <DonatorContext.Provider
-      value={{ useGetMoneyDonation, mutateLockerDonation, mutateMoneyDonation, mutateProductDonation, postProductDonation }}
+      value={{ useGetMoneyDonation, postLockerDonation, postMoneyDonation, postProductDonation }}
     >
       {children}
     </DonatorContext.Provider>
