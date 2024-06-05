@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { TemplateViewTab } from "../ViewTemplateTab";
+import { LineTable, TemplateView } from "../ViewTemplate";
 import { EmployeeForm } from "../Form/employee";
 import {
   Tabs,
@@ -9,11 +10,17 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
+import { DonatorContext } from "../../context/donatorContext";
 
 export function DonateTab() {
+  const {useGetMoneyDonation, useGetLockerDonation, useGetProductDonation} = useContext(DonatorContext)
+  const resMoneyData = useGetMoneyDonation()
+  const resProductData = useGetProductDonation()
+  const resLockerData = useGetLockerDonation()
+
   const customTheme = withMT({
     theme: {
       // só é necessário para que a TABS dessa biblioteca funcione, não foi preciso passar nenhum estilo novo
@@ -22,23 +29,48 @@ export function DonateTab() {
 
   const content = [
     {
-      label: "Transporte",
-      value: "transporte",
-      element: <TemplateViewTab />,
+      label: "Produtos",
+      value: "Produtos",
+      element: <TemplateView header_data={['Valor']} children={
+        resProductData && resProductData?.resProductData?.json?.response?.map((donate) => {
+          
+          return(
+            <LineTable  grid={`67px 1fr repeat(${3}, 100px)`} name={donate.nome} />
+            
+          )
+        })
+      }/>,
     },
     {
-      label: "Alimentícios",
-      value: "alimenticios",
-      element: <TemplateViewTab />,
+      label: "Armários",
+      value: "Armários",
+      element: <TemplateView header_data={[ 'Valor']} children={
+        resLockerData && resLockerData?.resLockerData?.json?.response?.map((donate) => {
+          
+          return(
+            <LineTable  grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} />
+            
+          )
+        })
+      }/>,
     },
     {
       label: "Dinheiro",
       value: "dinheiro",
-      element: <TemplateViewTab />,
+      element: <TemplateView header_data={['Valor']} children={
+        resMoneyData && resMoneyData?.resMoneyData?.json?.response?.map((donate) => {
+          
+          return(
+            <LineTable grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} />
+            
+          )
+        })
+      }/>,
     },
   ];
 
-  const [activeTab, setActiveTab] = React.useState("transporte");
+
+  const [activeTab, setActiveTab] = React.useState("Produtos");
   return (
     <ThemeProvider value={customTheme}>
       <Tabs className="w-full" value={activeTab}>

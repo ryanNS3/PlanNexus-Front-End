@@ -19,11 +19,9 @@ export function Donate() {
         <h1 className="col-span-full text-h5">Visão geral</h1>
         {/* <VariableModal type='Basic' isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" > */}
         <UniqueModal componentForOpenModal={<button>teste</button>} isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" labelButton='fazer doação'>
-          {resStudentsData && 
-            <DonationForm cpfSearch={resStudentsData} />
-          }
+            <DonationForm  />
         </UniqueModal>
-        {/* </VariableModal> */}
+
         </header>
         <div className="grid grid-cols-2 gap-2">
           <DonateChart />
@@ -31,7 +29,7 @@ export function Donate() {
         </div>
       </div>
       <div className="w-full flex mt-10">
-        {/* <DonateTab /> */}
+        <DonateTab />
       </div>
     </Main>
   );
