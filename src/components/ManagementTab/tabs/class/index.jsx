@@ -3,12 +3,15 @@ import { LineTable, TemplateView } from '../../../ViewTemplate'
 import { AddStudentMethod } from '../../../Form/AddStudentMethod';
 import useAxios from '../../../../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
+import { useCookies } from '../../../../hooks/useCookies';
 import { StudentDetails } from '../../../StudentDetails';
 
 export default function TabClass() {
     const BASE_URL = import.meta.env.VITE_API_URL;
-    const token = localStorage.getItem('token')
-    const user = localStorage.getItem('user')
+    const [userString, setUserString] = useCookies("user", null);
+    const user = userString === "null" ? null : userString;
+    const [tokenString, setTokenString] = useCookies("token", null);
+    const token = tokenString === "null" ? null : tokenString;
 
     const gridHeaderData = ["AAPM"]
     const {requisicao} = useAxios()
