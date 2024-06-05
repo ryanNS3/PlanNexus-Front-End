@@ -28,9 +28,6 @@ export function StudentProvider({ children }) {
     // const resStudentsLoading = AllStudentsData.isLoading
     // const resStudentError = AllStudentsData.isError
 
-
-
-
     return (
         <studentContext.Provider value={{getStudents}}>
             {children}

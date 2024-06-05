@@ -8,10 +8,11 @@ import { DonatorContext } from "../../../context/donatorContext";
 import { studentContext } from "../../../context/studentsContext";
 import { InputRadioInformation } from "../../Inputs/input-radio-information";
 import { Lockers } from "../../AllLocker";
+import { InputNumber } from "../../Inputs/input-number";
 
 export function DonationForm() {
-  const { GetProducts } = useContext(ProductContext);
-  const { resProductData } = GetProducts();
+  const { GetActiveProducts } = useContext(ProductContext);
+  const { resActiveProducts } = GetActiveProducts();
   const {postProductDonation, postMoneyDonation, postLockerDonation} = useContext(DonatorContext)
   const {getStudents} = useContext(studentContext)
   const resStudentsData = getStudents()
@@ -33,16 +34,17 @@ export function DonationForm() {
   const [email, setEmail] = React.useState('');
   const [cellphone, setCellphone] = React.useState('');
   const [quantity, setQuantity] = React.useState('');
-  const [contract, setContract] = React.useState(null);
+  const [contract, setContract] = React.useState('aaaaaaaaaaaaaaaaaaaaaaaa');
   const [studentId, setStudentId] = React.useState('');
   const [productId, setProductId] = React.useState('');
-  const [lockerNumber, setLockerNumber] = React.useState('');
+  const [lockerNumber, setLockerNumber] = React.useState();
   const [moneyAmount, setMoney] = React.useState('');
   const [assistanceType, setType] = React.useState('')
   const [date, setDate] = React.useState(null);
   const [currentStep, setCurrentStep] = React.useState(1);
   const [filteredStudent, setFilteredStudent] = useState(''); 
   const [error, setError] = useState('')
+  const [success, setSucess] = useState(null)
 
   const setStep = (step) => {
     setCurrentStep(step);
@@ -70,6 +72,12 @@ export function DonationForm() {
   useEffect(() => {
     if (filteredStudent) {
       setStudentId(filteredStudent.id_aluno);
+      setEmail(filteredStudent.email)
+      setCellphone(filteredStudent.telefone_celular)
+      setName(filteredStudent.nome)
+
+      const DonateTime = new Date();
+      setDate(DonateTime.toISOString())
     }
   }, [studentId, filteredStudent]);
 
@@ -97,12 +105,11 @@ export function DonationForm() {
     const commonData = {idAluno: studentId, contrato: contract, data: date }
     let postDataDonation;
   
-    
     if (selectedOption === 'productDonation') {
       postDataDonation = { ...commonData, idProduto: productId, quantidade: quantity};
     } else if (selectedOption === 'moneyDonation') {
       postDataDonation = { ...commonData, valorDoado : moneyAmount, auxilio : assistanceType};
-    } else {
+    } else if(selectedOption === 'lockerDonation') {
       postDataDonation = {...commonData, numeroArmario : lockerNumber }
     }
 
@@ -115,12 +122,15 @@ export function DonationForm() {
         case 'moneyDonation':
           donationType = await postMoneyDonation(postDataDonation);
           break;
-        case 'LockerDonation':
-          donationType = await postLockerDonation(postDataDonation);
+        case 'lockerDonation':
+          donationType = await postLockerDonation(postDataDonation)
           break;
         default:
           throw new Error('Opção desconhecida');
       }
+      
+      donationType ? setSucess('Doação realizada com sucesso') : setError('Erro ao realizar doação')
+
     } catch (error) {
       setError(error.message);
     } 
@@ -164,7 +174,7 @@ export function DonationForm() {
       <form onSubmit={handleSubmit} >
         <Step currentStep={currentStep} step={1}>
           <div className="flex flex-col gap-6">
-            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} min='11' max='14'/>
+            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} minlength='11' maxlength='14'/>
             {filteredStudent && (
 
               <>
@@ -177,7 +187,15 @@ export function DonationForm() {
           </div>
             <p>{error}</p>
           <div className="mt-4">
-            <PinkButton text="Continuar" action={() => setCurrentStep(currentStep + 1)} typeButton="button" />
+          <PinkButton
+                  text="Continuar"
+                  action={() =>
+                    name && cpf && email && cellphone
+                      ? setCurrentStep(currentStep + 1)
+                      : null
+                  }
+                  typeButton="button"
+                />
           </div>
         </Step>
 
@@ -215,7 +233,7 @@ export function DonationForm() {
           {selectedOption === 'productDonation' && (
             <div>
             
-            {resProductData && resProductData.json.response.map((product)=> {
+            {resActiveProducts && resActiveProducts.json.response.map((product)=> {
               return(
                 <div>
                   <button key={product.id_produto} onClick={(e) => handleSelect(e, product.id_produto)} >
@@ -248,7 +266,7 @@ export function DonationForm() {
                   
                     <InputRadioInformation
                       type="radio"
-                      value="commum "
+                      value="commum"
                       checked={assistanceType === 0}
                       id='commonAssistence'
                       onChange={() => {setType(0)}}
@@ -257,14 +275,18 @@ export function DonationForm() {
                     />
                     
                   </div>
-                <InputText id="valorDoado" type="number" name="Valor a ser doado" placeholder="0" onChange={(e) => setMoney(e.target.value)} value={moneyAmount} min='1' max='1000' />
+                <InputText id="valorDoado" type="number" name="Valor a ser doado" placeholder="R$00" onChange={(e) => setMoney(e.target.value)} value={moneyAmount} min='1' max='1000' />
 
               </div>
             )
           }{
             selectedOption === 'lockerDonation' && (
-              <Lockers/>
-              // <p>saia do armario</p>
+              <div>
+                <label>Digite o número do armário</label>
+                <InputText id="numeroArmario" type="number" name="Número do armário" placeholder="0" onChange={(e) => setLockerNumber(e.target.value)} value={lockerNumber} min='1' max='1000' />
+                <Lockers/>
+
+              </div>
             )
           }
           <p>{error}</p>
@@ -285,6 +307,7 @@ export function DonationForm() {
               
 
               <p>{error}</p> 
+              <p>{success}</p> 
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
               <PinkButton text="Finalizar" typeButton="submit" />
             </div>
