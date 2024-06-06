@@ -97,13 +97,12 @@ export function StudentProvider({ children }) {
 
   const mutatePostStudents = useMutation({
     mutationFn: createStudents,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(["AllStudentsData"]);
-      Notification("sucess", "Aluno atualizado com sucesso");
-      setPostStudentResponse(data)
+      Notification("sucess", "Alunos adicionados com sucesso");
     },
     onError: () => {
-      Notification("error", "Aluno não atualizado");
+      Notification("error", "Alunos não adicionados");
     },
   });
 

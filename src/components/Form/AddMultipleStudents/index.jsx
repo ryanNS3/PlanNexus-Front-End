@@ -15,15 +15,16 @@ export function AddMultipleStudents() {
     e.preventDefault();
 
     mutatePostStudents.mutate(alunosFile);
-    setResponse(mutatePostStudents.data);
-    console.log(response)
-  };
-
-  React.useEffect(() => {
     if (mutatePostStudents.data) {
       setResponse(mutatePostStudents.data);
     }
-  }, [mutatePostStudents.data]);
+  };
+
+  // React.useEffect(() => {
+  //   if (mutatePostStudents.data) {
+  //     setResponse(mutatePostStudents.data);
+  //   }
+  // }, [mutatePostStudents.data]);
 
   if (response) {
     return (
@@ -137,6 +138,7 @@ export function AddMultipleStudents() {
         name="alunosFile"
         type="file"
         onChange={(event) => setAlunosFile(event.target.files[0])}
+        accept=".xlsx"
       />
 
       {alunosFile && (
