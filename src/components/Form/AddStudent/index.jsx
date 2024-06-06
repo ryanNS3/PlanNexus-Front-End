@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+
+import useAxios from "../../../hooks/useAxios";
+import { useCookies } from "../../../hooks/useCookies";
+import { StudentContext } from "../../../context/studentsContext";
+
 import { PinkButton } from "../../Buttons/pinkButton";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
-import useAxios from "../../../hooks/useAxios";
-import { toastifyContext } from "../../../context/toastifyContext";
-import { modalContext } from "../../../context/modalContext";
-import { useCookies } from "../../../hooks/useCookies";
-import axios from "axios";
-import { StudentContext } from "../../../context/StudentsContext";
 
 export function AddStudent() {
   const steps = [
@@ -31,15 +30,13 @@ export function AddStudent() {
   }
 
   // Consumo da API - POST (cadastrar/adicionar alunos)
-  const { requisicao, loading } = useAxios();
+  const { requisicao } = useAxios();
   const BASE_URL = import.meta.env.VITE_API_URL;
   const [userString, setUserString] = useCookies("user", null);
   const user = userString === "null" ? null : userString;
   const [tokenString, setTokenString] = useCookies("token", null);
   const token = tokenString === "null" ? null : tokenString;
   const { mutatePostStudent } = React.useContext(StudentContext);
-  const { Notification } = React.useContext(toastifyContext);
-  const { setIsOpenModal } = React.useContext(modalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -325,7 +322,10 @@ export function AddStudent() {
                 action={() => setCurrentStep(currentStep - 1)}
                 typeButton="button"
               />
-              <PinkButton text="Cadastrar" loading={loading} />
+              <PinkButton
+                text="Cadastrar"
+                loading={mutatePostStudent.isPending}
+              />
             </div>
           </Step>
         </form>
