@@ -51,26 +51,26 @@ export function DonateTab() {
         })
       }/>,
     },
-    // {
-    //   label: "Armários",
-    //   value: "Armários",
-    //   element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
-    //   header_data={[ 'Valor']} 
-    //   children={resLockerData && resLockerData?.resLockerData?.json?.response?.map((donate) => {
-    //       return(
-    //         <LineTable  grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} detailsModal={
-    //           <div>
-    //             <h4 className="my-2 text-h4" >Dados da doação</h4>
+    {
+      label: "Armários",
+      value: "Armários",
+      element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
+      header_data={[ 'Valor']} 
+      children={resLockerData && resLockerData?.resLockerData?.json?.response?.map((donate) => {
+          return(
+            <LineTable  grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} detailsModal={
+              <div>
+                <h4 className="my-2 text-h4" >Dados da doação</h4>
 
-    //             <p>Nome do aluno: {donate.nome} </p>
-    //             <p>Número do armário doado: {donate.fk_numero} </p>
-    //             <p>Data da doação: {donate.data} </p>
-    //           </div>
-    //         }/>
-    //       )
-    //     })
-    //   }/>, 
-    // },
+                <p>Nome do aluno: {donate.nome} </p>
+                <p>Número do armário doado: {donate.fk_numero} </p>
+                <p>Data da doação: {donate.data} </p>
+              </div>
+            }/>
+          )
+        })
+      }/>, 
+    },
     {
       label: "Dinheiro",
       value: "dinheiro",
