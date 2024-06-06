@@ -5,7 +5,7 @@ import { ProductContext } from "../../../context/ProductContext";
 import { GhostButton } from "../../Buttons/ghostButton";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { DonatorContext } from "../../../context/donatorContext";
-import { studentContext } from "../../../context/studentsContext";
+import { StudentContext } from "../../../context/studentsContext";
 import { InputRadioInformation } from "../../Inputs/input-radio-information";
 import { Lockers } from "../../AllLocker";
 import { toastifyContext } from "../../../context/toastifyContext";
@@ -14,7 +14,7 @@ export function DonationForm() {
   const { GetActiveProducts } = useContext(ProductContext);
   const { resActiveProducts } = GetActiveProducts();
   const {postProductDonation, postMoneyDonation, postLockerDonation} = useContext(DonatorContext)
-  const {getStudents} = useContext(studentContext)
+  const {getStudents} = useContext(StudentContext)
   const resStudentsData = getStudents()
   const { Notification } = React.useContext(toastifyContext)
 

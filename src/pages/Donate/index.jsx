@@ -4,11 +4,11 @@ import { DonateTab } from "../../components/DonateTab";
 import React, { useContext, useState } from "react";
 import BasicModal, { UniqueModal } from "../../components/Modal";
 import { DonationForm } from "../../components/Form/donation";
-import { studentContext } from "../../context/studentsContext";
+import { StudentContext } from "../../context/studentsContext";
 
 export function Donate() {
   const [modal, setModalOpen] = useState(false)
-  const {getStudents} = useContext(studentContext)
+  const {getStudents} = useContext(StudentContext)
   const resStudentsData = getStudents()
 
 
