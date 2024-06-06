@@ -169,6 +169,20 @@ export function ProductProvider({ children }) {
       return { resProductData };
   };
 
+  const FetchActiveProducts = async () => {
+    const requestApiProducts = await requisicao(`${BASE_URL}/produto/todosAtivos`, null, "GET", {
+      authorization: `bearer ${token}`,
+      nif: user,
+    });
+    return requestApiProducts;
+  };
+
+  const GetActiveProducts = () => {
+      const AllProductsData = useQuery({ queryKey : ['AllActiveProducts'], queryFn : FetchActiveProducts});
+      const resActiveProducts = AllProductsData.data
+      return { resActiveProducts };
+  };
+
     
     // get brindes ativos
     const FetchGift = async() => {
@@ -198,7 +212,7 @@ export function ProductProvider({ children }) {
 
 
   return (
-    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift }}>
+    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift, GetActiveProducts }}>
       {children}
     </ProductContext.Provider>
   );

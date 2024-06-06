@@ -19,14 +19,17 @@ export function StudentProvider({ children }) {
 
         return requestAllStudents
     }
-    const AllStudentsData = useQuery({ queryKey : ['AllStudentsData'], queryFn : FetchAllStudents});
-    const resStudentsData = AllStudentsData.data
-    const resStudentsLoading = AllStudentsData.isLoading
-    const resStudentError = AllStudentsData.isError
 
+    const getStudents = () => {
+        const AllStudentsData = useQuery({ queryKey : ['AllStudentsData'], queryFn : FetchAllStudents});
+        const resStudentsData = AllStudentsData.data
+        return resStudentsData
+    }
+    // const resStudentsLoading = AllStudentsData.isLoading
+    // const resStudentError = AllStudentsData.isError
 
     return (
-        <studentContext.Provider value={{AllStudentsData}}>
+        <studentContext.Provider value={{getStudents}}>
             {children}
         </studentContext.Provider>
     )
