@@ -5,6 +5,7 @@ import { CalendarioIcon, CalendarioIconLight } from "../../assets/Calendario";
 import { HistoricoIcon, HistoricoIconLight } from "../../assets/Historico";
 import { GestaoIcon, GestaoIconLight } from "../../assets/Gestao";
 import { HomeIcon, HomeIconLight } from "../../assets/Home";
+import { SettingsIcon, SettingsIconLight } from "../../assets/Settings";
 import Logo from "../../assets/logo.svg";
 import CompactLogo from "../../assets/compactLogo.svg";
 
@@ -121,6 +122,16 @@ export function SidebarElement({ text, href, icon }) {
           <GestaoIconLight size={24} />
         ) : (
           <GestaoIcon size={24} />
+        );
+
+      case "configuração":
+      case "Configuração":
+        return isActive ? (
+          <SettingsIconLight size={24} />
+        ) : isHovered ? (
+          <SettingsIconLight size={24} />
+        ) : (
+          <SettingsIcon size={24} />
         );
 
       default:
