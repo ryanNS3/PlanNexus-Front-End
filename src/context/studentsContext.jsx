@@ -141,7 +141,7 @@ export function StudentProvider({ children }) {
   });
 
   return (
-    <StudentContext.Provider value={{ mutatePostStudent, mutatePostStudents, mutatePatchStudents }}>
+    <StudentContext.Provider value={{ queryGetStudents, mutatePostStudent, mutatePostStudents, mutatePatchStudents }}>
       {children}
     </StudentContext.Provider>
   );
