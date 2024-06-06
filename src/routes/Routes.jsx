@@ -19,7 +19,7 @@ import { StudentProvider } from "../context/studentsContext";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
 import { Profile } from "../pages/ViewProfile";
-
+import { DonatorProvider } from "../context/donatorContext";
 
 export function Router() {
   const clientLocal = new QueryClient()
@@ -31,6 +31,8 @@ export function Router() {
             <StudentProvider>
               <ProductProvider>
                 <LockerProvider>
+                  <DonatorProvider>
+
                     <ModalProvider>
                       <ToastContainer />
                       <Routes>
@@ -96,6 +98,7 @@ export function Router() {
                     <Route path="/recuperar-senha/:token" element={<ResetPassword />} />
                   </Routes>
                 </ModalProvider>
+                  </DonatorProvider>
             </LockerProvider>
           </ProductProvider>
           </StudentProvider>

@@ -1,12 +1,10 @@
-import { LockerContext } from "../../context/lockerContext";
-import { Lockers } from "./../AllLocker";
+import { LockersSelect } from "./../AllLocker";
 import { CheckBox } from "./../Inputs/input-CheckBox/index";
 import { useState } from "react";
 import React from "react";
 
 export function SelectLocker() {
   const [selectAll, setSelectAll] = useState(false);
-  // const isSelect = dataLocker.filter((locker) => locker.status === "ocupado");
 
   function handleSelectAll(event) {
     setSelectAll(event.target.checked);
@@ -23,7 +21,7 @@ export function SelectLocker() {
         className="flex flex-col h-1/3 sm:h-1/4 lg:h-3/4 bg-branco px-6 rounded-lg overflow-y-auto mt-3"
         style={{ scrollbarWidth: "none" }}
       >
-        <Lockers size={"small"} />
+        <LockersSelect size={"small"} />
       </div>
     </div>
   );

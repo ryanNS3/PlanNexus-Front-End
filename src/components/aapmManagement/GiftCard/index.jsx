@@ -11,7 +11,7 @@ export function GiftCard({ activeGift }){
 const [isOpenDrop, setOpenDrop] = React.useState(false);
 
 const [gift, setGift] = React.useState(() => {
-  return activeGift.json.response?.filter((product) => {return product.brinde})
+  return activeGift.json.response?.filter((product) => {product.brinde > 0 ?  product.brinde : null })
 })
 
   const handleOpenDropDown = () => {
@@ -25,15 +25,25 @@ const [gift, setGift] = React.useState(() => {
               <h4 className="text-sub1 text-cinza-950 mt-1 ml-2" >Brinde do semestre</h4>
           </div>
           
-              
-              <div className="pt-4" >
-                <div className="flex align-center justify-between mt-2 border-2 border-cinza-100 rounded-lg p-2">
-                  <img src={ gift[0].foto } className="max-w-18" />
-                  <p className="text-fun2 my-auto ml-2" >{gift[0].nome}</p> 
-                  <button className="flex my-auto mx-12" onClick={handleOpenDropDown}><RepeatIcon/></button>
-                </div>
-            </div> 
 
+                <div className="pt-4" >
+                  <div className="flex align-center justify-between mt-2 border-2 border-cinza-100 rounded-lg p-2">
+                    {gift.length != 0 ?
+                    <>
+                      <img src={ gift[0].foto } className="max-w-18" />
+                      <p className="text-fun2 my-auto ml-2" >{gift[0].nome}</p>  
+                      <button className="flex my-auto mx-12" onClick={handleOpenDropDown}><RepeatIcon/></button>
+                    
+                    </>
+                    :
+
+                    <>
+                    
+                    <p>Nenhum brinde</p>
+                    </>
+                    }
+                  </div>
+                </div> 
           
         <DropDown isOpenDrop={isOpenDrop}/>
       </div>
