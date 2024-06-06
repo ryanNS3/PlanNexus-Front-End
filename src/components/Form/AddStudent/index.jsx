@@ -1,11 +1,11 @@
 import React from "react";
+
+import useAxios from "../../../hooks/useAxios";
+import { useCookies } from "../../../hooks/useCookies";
+import { StudentContext } from "../../../context/studentsContext";
+
 import { PinkButton } from "../../Buttons/pinkButton";
 import { InputText } from "../../Inputs/input-text/inputTextComp";
-import useAxios from "../../../hooks/useAxios";
-import { toastifyContext } from "../../../context/toastifyContext";
-import { modalContext } from "../../../context/modalContext";
-import { useCookies } from "../../../hooks/useCookies";
-import axios from "axios";
 
 export function AddStudent() {
   const steps = [
@@ -30,18 +30,18 @@ export function AddStudent() {
   }
 
   // Consumo da API - POST (cadastrar/adicionar alunos)
-  const { requisicao, loading } = useAxios();
+  const { requisicao } = useAxios();
   const BASE_URL = import.meta.env.VITE_API_URL;
   const [userString, setUserString] = useCookies("user", null);
   const user = userString === "null" ? null : userString;
   const [tokenString, setTokenString] = useCookies("token", null);
   const token = tokenString === "null" ? null : tokenString;
-  const { Notification } = React.useContext(toastifyContext);
-  const { setIsOpenModal } = React.useContext(modalContext);
+  const { mutatePostStudent } = React.useContext(StudentContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+
+    mutatePostStudent.mutate({
       CPF: cpf,
       nome: name,
       email: email,
@@ -49,26 +49,7 @@ export function AddStudent() {
       socioAapm: String(partner),
       telefone: telefone,
       celular: celular,
-    };
-
-    const success = await axios.post(`${BASE_URL}/aluno/cadastro/unico`, data, {
-      headers: {
-        authorization: `bearer ${token}`,
-        nif: user,
-      },
     });
-
-    if (success) {
-      setTimeout(() => {
-        setIsOpenModal(false);
-      }, [3000]);
-      Notification("sucess", "Aluno cadastrado com sucesso");
-    } else {
-      setTimeout(() => {
-        setIsOpenModal(true);
-      }, [3000]);
-      Notification("error", "Aluno não cadastrado");
-    }
   };
 
   const [courseData, setCourseData] = React.useState();
@@ -341,7 +322,10 @@ export function AddStudent() {
                 action={() => setCurrentStep(currentStep - 1)}
                 typeButton="button"
               />
-              <PinkButton text="Cadastrar" loading={loading} />
+              <PinkButton
+                text="Cadastrar"
+                loading={mutatePostStudent.isPending}
+              />
             </div>
           </Step>
         </form>

@@ -1,53 +1,30 @@
 import React from "react";
+
+import { StudentContext } from "../../../context/studentsContext";
+
 import { Check, Close } from "../../../assets/Check";
 import { PinkButton } from "../../Buttons/pinkButton";
-import useAxios from "../../../hooks/useAxios";
-import { toastifyContext } from "../../../context/toastifyContext";
-import { modalContext } from "../../../context/modalContext";
-import { useCookies } from "../../../hooks/useCookies";
 
 export function AddMultipleStudents() {
   const [alunosFile, setAlunosFile] = React.useState();
   const [response, setResponse] = React.useState();
 
-  const { requisicao, loading } = useAxios();
-  const { Notification } = React.useContext(toastifyContext);
-  const { setIsOpenModal } = React.useContext(modalContext);
-  const BASE_URL = import.meta.env.VITE_API_URL;
-  const [userString, setUserString] = useCookies("user", null);
-  const user = userString === "null" ? null : userString;
-  const [tokenString, setTokenString] = useCookies("token", null);
-  const token = tokenString === "null" ? null : tokenString;
+  const { mutatePostStudents } = React.useContext(StudentContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const success = await requisicao(
-      `${BASE_URL}/aluno/cadastro/multiplos`,
-      { alunosFile: alunosFile },
-      "POST",
-      {
-        authorization: `bearer ${token}`,
-        nif: user,
-        "Content-Type": "multipart/form-data",
-      }
-    );
-
-    if (success) {
-      setTimeout(() => {
-        setIsOpenModal(false);
-      }, [3000]);
-      setResponse(success.json.response);
-      Notification("sucess", "Alunos cadastrados com sucesso");
-    } else {
-      setTimeout(() => {
-        setIsOpenModal(true);
-      }, [3000]);
-      Notification("error", "Alunos não cadastrados");
+    mutatePostStudents.mutate(alunosFile);
+    if (mutatePostStudents.data) {
+      setResponse(mutatePostStudents.data);
     }
-
-    // console.log("REQ", req.json.response.alunosCadastrados)
   };
+
+  // React.useEffect(() => {
+  //   if (mutatePostStudents.data) {
+  //     setResponse(mutatePostStudents.data);
+  //   }
+  // }, [mutatePostStudents.data]);
 
   if (response) {
     return (
@@ -59,12 +36,12 @@ export function AddMultipleStudents() {
             <p className="text-fun2">Status</p>
           </header>
           <div className="py-5 flex flex-col gap-5">
-            {response.alunosCadastrados.map((aluno) => (
+            {response.res.data.response.alunosCadastrados?.map((aluno) => (
               <>
                 <Line nome={aluno.aluno.nome} status={aluno.status} />
               </>
             ))}
-            {response.alunosNaoCadastrados.map((aluno) => (
+            {response.res.data.response.alunosNaoCadastrados?.map((aluno) => (
               <>
                 <Line nome={aluno.aluno.nome} status={aluno.status} />
               </>
@@ -161,6 +138,7 @@ export function AddMultipleStudents() {
         name="alunosFile"
         type="file"
         onChange={(event) => setAlunosFile(event.target.files[0])}
+        accept=".xlsx"
       />
 
       {alunosFile && (
@@ -168,7 +146,7 @@ export function AddMultipleStudents() {
           <PinkButton
             text="Cadastrar alunos"
             action={handleSubmit}
-            loading={loading}
+            loading={mutatePostStudents.isPending}
           />
         </div>
       )}
