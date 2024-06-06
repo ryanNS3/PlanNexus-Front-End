@@ -8,7 +8,7 @@ import { DonatorContext } from "../../../context/donatorContext";
 import { studentContext } from "../../../context/studentsContext";
 import { InputRadioInformation } from "../../Inputs/input-radio-information";
 import { Lockers } from "../../AllLocker";
-import { InputNumber } from "../../Inputs/input-number";
+import { toastifyContext } from "../../../context/toastifyContext";
 
 export function DonationForm() {
   const { GetActiveProducts } = useContext(ProductContext);
@@ -16,6 +16,7 @@ export function DonationForm() {
   const {postProductDonation, postMoneyDonation, postLockerDonation} = useContext(DonatorContext)
   const {getStudents} = useContext(studentContext)
   const resStudentsData = getStudents()
+  const { Notification } = React.useContext(toastifyContext)
 
   const steps = [
     "Informações do aluno",
@@ -23,6 +24,7 @@ export function DonationForm() {
     "Contrato"
   ];
 
+  // opção do tipo de doação
   const [selectedOption, setSelectedOption] = React.useState('moneyDonation');
 
   const handleOptionChange = (e) => {
@@ -34,7 +36,7 @@ export function DonationForm() {
   const [email, setEmail] = React.useState('');
   const [cellphone, setCellphone] = React.useState('');
   const [quantity, setQuantity] = React.useState('');
-  const [contract, setContract] = React.useState('aaaaaaaaaaaaaaaaaaaaaaaa');
+  const [contract, setContract] = React.useState('contrato');
   const [studentId, setStudentId] = React.useState('');
   const [productId, setProductId] = React.useState('');
   const [lockerNumber, setLockerNumber] = React.useState();
@@ -44,12 +46,13 @@ export function DonationForm() {
   const [currentStep, setCurrentStep] = React.useState(1);
   const [filteredStudent, setFilteredStudent] = useState(''); 
   const [error, setError] = useState('')
-  const [success, setSucess] = useState(null)
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   const setStep = (step) => {
     setCurrentStep(step);
   }
 
+  // pesquisando se o cpf existe no banco
   function handleCPF(event) {
     event.preventDefault()
     const cpfValue = event.target.value
@@ -69,42 +72,67 @@ export function DonationForm() {
     }
   }
 
+  // setando os demais valores do aluno corresponde ao cpf digitado
   useEffect(() => {
     if (filteredStudent) {
       setStudentId(filteredStudent.id_aluno);
       setEmail(filteredStudent.email)
       setCellphone(filteredStudent.telefone_celular)
       setName(filteredStudent.nome)
-
       const DonateTime = new Date();
       setDate(DonateTime.toISOString())
     }
+
   }, [studentId, filteredStudent]);
 
   useEffect(() => {
     if (studentId === null && filteredStudent === null) {
       setError('id aluno não encontrado');
     }
+
+    if (currentStep === 2) {
+      setError(null)
+    }
   }, [studentId, filteredStudent]);
 
 
+  // setando o arquivo de contrato enviado
   const handleContractChange = (event) => {
     setContract(event.target.files[0]);
   };
 
+  // setando o id do produto escolhido para doar
   const handleSelect = (event, item) => {
     event.preventDefault();
     setProductId(item);
+    setSelectedProductId(item);
   };
+
+  const handleDonateValidate = () => {
+
+    
+
+    if (selectedOption === 'lockerDonation' && lockerNumber) {
+      setCurrentStep(currentStep + 1)
+      
+    } else if (selectedOption === 'productDonation' && productId && quantity) {
+      setCurrentStep(currentStep + 1)
+      
+    } else if(selectedOption === 'moneyDonation' && moneyAmount > '0'  && assistanceType !== null){
+      setCurrentStep(currentStep + 1)
+      
+    } else {
+      Notification("error", "Preencha todos os dados!")
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const DonateTime = new Date();
-    setDate(DonateTime.toISOString())
 
     const commonData = {idAluno: studentId, contrato: contract, data: date }
     let postDataDonation;
   
+    // checando qual o tipo de doação e adicionando aos dados comuns de doação as variações de acordo com cada caso
     if (selectedOption === 'productDonation') {
       postDataDonation = { ...commonData, idProduto: productId, quantidade: quantity};
     } else if (selectedOption === 'moneyDonation') {
@@ -113,6 +141,7 @@ export function DonationForm() {
       postDataDonation = {...commonData, numeroArmario : lockerNumber }
     }
 
+    // enviado os dados para requisição
     try {
       let donationType;
       switch (selectedOption) {
@@ -129,16 +158,15 @@ export function DonationForm() {
           throw new Error('Opção desconhecida');
       }
       
-      donationType ? setSucess('Doação realizada com sucesso') : setError('Erro ao realizar doação')
+      donationType ? Notification("sucess", "Doação realizada com sucesso") : Notification("error", "Cadastro de doação falhou.")
 
     } catch (error) {
-      setError(error.message);
+      Notification("error", error.message)
     } 
   };
 
   return (
     <div>
-      <h4 className="text-h4 mb-11">DOAÇÃO</h4> 
       <nav className="mb-9">
         <ul className="flex justify-between">
           {steps?.map((step, index) => (
@@ -185,14 +213,14 @@ export function DonationForm() {
             )
             }
           </div>
-            <p>{error}</p>
+
           <div className="mt-4">
           <PinkButton
                   text="Continuar"
                   action={() =>
-                    name && cpf && email && cellphone
-                      ? setCurrentStep(currentStep + 1)
-                      : null
+                    // cpf ? setCurrentStep(currentStep + 1)
+                    // : Notification("error", "Preencha todos os dados!")
+                    setCurrentStep(currentStep + 1)
                   }
                   typeButton="button"
                 />
@@ -200,8 +228,8 @@ export function DonationForm() {
         </Step>
 
         <Step currentStep={currentStep} step={2}>
-        <div>
-          
+        <p className="text-fun2 my-4">Selecione o tipo de doação: </p>
+        <div className="flex gap-6 max-w-40 mb-4" >
           <InputRadioInformation
             type="radio"
             value="moneyDonation"
@@ -232,25 +260,30 @@ export function DonationForm() {
 
           {selectedOption === 'productDonation' && (
             <div>
-            
+            <p className="text-fun2 my-2">Escolha um produto:</p>
+              <div className="grid grid-cols-4 gap-2" >
+
             {resActiveProducts && resActiveProducts.json.response.map((product)=> {
+              const isSelected = product.id_produto === selectedProductId;
               return(
-                <div>
-                  <button key={product.id_produto} onClick={(e) => handleSelect(e, product.id_produto)} >
-                {product.nome}
+                  <button className={`max-h-16 min-h-14 border-2 rounded-lg ${isSelected ? 'border-rosa-200' : 'border-cinza-200'}`} 
+                  key={product.id_produto} onClick={(e) => handleSelect(e, product.id_produto)} >
+                  <p className="text-ct2" >{product.nome}</p>
               </button>
 
-                </div>
-              )
+            )
             })}
-            <InputText id="quantidade" type="number" name="Quantidade" placeholder="0" onChange={(e) => setQuantity(e.target.value)} min='1' max='10' value={quantity} />
+            </div>
+            <div className="my-4">
+              <InputText id="quantidade" type="number" name="Quantidade" placeholder="0" onChange={(e) => setQuantity(e.target.value)} min='1' max='10' value={quantity} />
+            </div>
              
           </div>
           )}
-          {
-            selectedOption === 'moneyDonation' && (
+          {selectedOption === 'moneyDonation' && (
               <div>
-                  <div>
+                <p className="text-fun2 mt-6">Selecione o tipo de auxílio: </p>
+                  <div className="flex my-4 gap-2">
                   
                     <InputRadioInformation
                       type="radio"
@@ -261,9 +294,7 @@ export function DonationForm() {
                       description={'Pago mensalmente como valor fixo durante o semestre'}
                       placeholder={'Doação fixa'}
                     />
-                    
-
-                  
+    
                     <InputRadioInformation
                       type="radio"
                       value="commum"
@@ -275,43 +306,43 @@ export function DonationForm() {
                     />
                     
                   </div>
-                <InputText id="valorDoado" type="number" name="Valor a ser doado" placeholder="R$00" onChange={(e) => setMoney(e.target.value)} value={moneyAmount} min='1' max='1000' />
+                <InputText id="valorDoado" type="number" name="Valor a ser doado" placeholder="R$00" onChange={(e) => setMoney(e.target.value)} value={moneyAmount} min='1' max='1000' error='Digite um valor maior que 1' />
 
               </div>
             )
-          }{
-            selectedOption === 'lockerDonation' && (
-              <div>
-                <label>Digite o número do armário</label>
-                <InputText id="numeroArmario" type="number" name="Número do armário" placeholder="0" onChange={(e) => setLockerNumber(e.target.value)} value={lockerNumber} min='1' max='1000' />
-                <Lockers/>
+          }{selectedOption === 'lockerDonation' && (
+              <div className="my-6">
+                <InputText id="numeroArmario" type="number" name="Digite o número do armário" placeholder="0" onChange={(e) => setLockerNumber(e.target.value)} value={lockerNumber} min='1' max='1000' />
+                <Lockers size='small' />
 
               </div>
             )
           }
-          <p>{error}</p>
 
             <div className="mt-4 flex justify-end gap-2">
               <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
-              <PinkButton text="Continuar" action={() => setCurrentStep(currentStep + 1)} typeButton="button" />
+              <PinkButton text="Continuar" action={handleDonateValidate} typeButton="button" />
             </div>
         </Step>
 
         <Step currentStep={currentStep} step={3}>
-          <div>
-            <div className="mt-4 flex justify-end gap-2">
 
-              <div>
-                <input type="file" name="contrato" id="contrato" onChange={handleContractChange} />
+              <div className="my-2">
+                <p className="text-sub1">Dados do aluno: </p>
+                <p>Nome: {name} </p>
+                <p>Email: {email} </p>
+                <p>Senha: {cpf} </p>
+                <p>Número de celular: {cellphone} </p>
+
+                <p className="text-sub1 mt-4">Contrato: </p>
+                <input className=" w-full border-2 border-cinza-200 rounded-md p-2 file:rounded-md file:bg-rosa-300 file:border-none file:text-branco hover:file:scale-105 file:mr-2" 
+                type="file" name="contrato" id="contrato" onChange={handleContractChange} />
               </div>
-              
 
-              <p>{error}</p> 
-              <p>{success}</p> 
-              <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
-              <PinkButton text="Finalizar" typeButton="submit" />
-            </div>
-          </div>
+              <div className="flex mt-4 justify-end gap-2">
+                <GhostButton action={() => setCurrentStep(currentStep - 1)} text="voltar" />
+                <PinkButton text="Finalizar" typeButton="submit" />
+              </div>
         </Step>
       </form>
     </div>
