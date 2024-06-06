@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 
 import axios from "axios";
 import { useCookies } from "../../hooks/useCookies";
-import { StudentContext } from "../../context/StudentsContext";
+import { StudentContext } from "../../context/studentsContext";
 
 import { InputText } from "../Inputs/input-text/inputTextComp";
 import { PinkButton } from "../Buttons/pinkButton";

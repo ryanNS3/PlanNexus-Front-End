@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import useAxios from "../hooks/useAxios";
 import { UserGlobal } from "./userContext";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
@@ -10,8 +10,8 @@ export function StudentProvider({ children }) {
   const queryClient = useQueryClient();
 
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const { token, user } = useContext(UserGlobal);
-  const { Notification } = useContext(toastifyContext);
+  const { token, user } = React.useContext(UserGlobal);
+  const { Notification } = React.useContext(toastifyContext);
   const { requisicao } = useAxios();
 
   // GET (/aluno/todos): Recuperar todos os alunos existentes
@@ -49,7 +49,7 @@ export function StudentProvider({ children }) {
         }
       );
 
-      if (!requestUpdateStudent.res.status >= 400) {
+      if (!requestCreateStudent.res.status >= 400) {
         throw new Error(responseData.message || "Erro ao fazer a requisição");
       }
 
@@ -61,7 +61,7 @@ export function StudentProvider({ children }) {
 
   const mutatePostStudent = useMutation({
     mutationFn: createStudent,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["AllStudentsData"]);
       Notification("sucess", "Aluno adicionado com sucesso");
     },
@@ -85,7 +85,7 @@ export function StudentProvider({ children }) {
         }
       );
 
-      if (!requestUpdateStudent.res.status >= 400) {
+      if (!requestCreateStudents.res.status >= 400) {
         throw new Error(responseData.message || "Erro ao fazer a requisição");
       }
 
@@ -97,9 +97,10 @@ export function StudentProvider({ children }) {
 
   const mutatePostStudents = useMutation({
     mutationFn: createStudents,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["AllStudentsData"]);
       Notification("sucess", "Aluno atualizado com sucesso");
+      setPostStudentResponse(data)
     },
     onError: () => {
       Notification("error", "Aluno não atualizado");
