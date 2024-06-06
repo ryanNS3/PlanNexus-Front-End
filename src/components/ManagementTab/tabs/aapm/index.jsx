@@ -8,7 +8,12 @@ export default function TabAapm() {
   const { queryGetStudents } = React.useContext(StudentContext);
 
   return (
-    <TemplateView name="AAPM" header_data={gridHeaderData}>
+    <TemplateView
+      name="AAPM"
+      header_data={gridHeaderData}
+      loading={queryGetStudents.isPending}
+      error={queryGetStudents.error}
+    >
       {queryGetStudents.data &&
         queryGetStudents.data.json.response.map((student) => {
           const condition = student.associado > 0;

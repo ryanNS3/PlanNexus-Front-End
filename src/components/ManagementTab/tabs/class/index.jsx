@@ -15,6 +15,8 @@ export default function TabClass() {
       name="Turmas"
       formModal={<AddStudentMethod />}
       header_data={gridHeaderData}
+      loading={queryGetStudents.isPending}
+      error={queryGetStudents.error}
     >
       {StudentsData &&
         StudentsData.json.response.map((student) => {

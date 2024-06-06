@@ -39,7 +39,7 @@ export function EmployeeProvider({ children }) {
   function GetAllEmployees() {
     const AllEmployees = useQuery({ queryKey : ['AllEmployees'], queryFn : FetchAllEmploye, enabled: !!token && !!user});
     const resAllEmployees = AllEmployees.data
-    const resProductLoading = AllEmployees.isLoading
+    const resProductLoading = AllEmployees.isPending
     const resProductError = AllEmployees.isError
     return { resAllEmployees, resProductLoading, resProductError };
   }
