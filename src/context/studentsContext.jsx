@@ -31,8 +31,9 @@ export function StudentProvider({ children }) {
   };
 
   const queryGetStudents = useQuery({
-    queryKey: ["AllStudentsData"],
+    queryKey: ["all-students"],
     queryFn: getStudents,
+    enabled: !!token && !!user
   });
 
   // POST (/aluno/cadastro/unico): Adiciona um único aluno
@@ -61,8 +62,8 @@ export function StudentProvider({ children }) {
 
   const mutatePostStudent = useMutation({
     mutationFn: createStudent,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(["AllStudentsData"]);
+    onSuccess: () => {
+      queryClient.invalidateQueries(["all-students"]);
       Notification("sucess", "Aluno adicionado com sucesso");
     },
     onError: () => {
@@ -98,7 +99,7 @@ export function StudentProvider({ children }) {
   const mutatePostStudents = useMutation({
     mutationFn: createStudents,
     onSuccess: () => {
-      queryClient.invalidateQueries(["AllStudentsData"]);
+      queryClient.invalidateQueries(["all-students"]);
       Notification("sucess", "Alunos adicionados com sucesso");
     },
     onError: () => {
@@ -131,7 +132,7 @@ export function StudentProvider({ children }) {
   const mutatePatchStudents = useMutation({
     mutationFn: updateStudent,
     onSuccess: () => {
-      queryClient.invalidateQueries(["AllStudentsData"]);
+      queryClient.invalidateQueries(["all-students"]);
       Notification("sucess", "Aluno atualizado com sucesso");
     },
     onError: () => {
@@ -140,7 +141,14 @@ export function StudentProvider({ children }) {
   });
 
   return (
-    <StudentContext.Provider value={{ queryGetStudents, mutatePostStudent, mutatePostStudents, mutatePatchStudents }}>
+    <StudentContext.Provider
+      value={{
+        queryGetStudents,
+        mutatePostStudent,
+        mutatePostStudents,
+        mutatePatchStudents,
+      }}
+    >
       {children}
     </StudentContext.Provider>
   );
