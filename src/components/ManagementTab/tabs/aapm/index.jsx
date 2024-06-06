@@ -14,13 +14,15 @@ export default function TabAapm() {
           const condition = student.associado > 0;
           if (condition) {
             return (
-              <LineTable
-                name={student.nome}
-                photo={student.foto}
-                grid={`67px 1fr repeat(${gridHeaderData.length + 1}, 100px)`}
-                typeModal="UniqueModal"
-                detailsModal={<StudentDetails student={student} />}
-              ></LineTable>
+              <React.Fragment key={student}>
+                <LineTable
+                  name={student.nome}
+                  photo={student.foto}
+                  grid={`67px 1fr repeat(${gridHeaderData.length + 1}, 100px)`}
+                  typeModal="UniqueModal"
+                  detailsModal={<StudentDetails student={student} />}
+                ></LineTable>
+              </React.Fragment>
             );
           }
         })}
