@@ -14,6 +14,7 @@ import React, { useContext, useState } from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
 import { DonatorContext } from "../../context/donatorContext";
+import { DonationForm } from "../Form/donation";
 
 export function DonateTab() {
   const {useGetMoneyDonation, useGetLockerDonation, useGetProductDonation} = useContext(DonatorContext)
@@ -31,38 +32,62 @@ export function DonateTab() {
     {
       label: "Produtos",
       value: "Produtos",
-      element: <TemplateView header_data={['Valor']} children={
-        resProductData && resProductData?.resProductData?.json?.response?.map((donate) => {
-          
+      element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
+      header_data={['Produto']} 
+      children={resProductData && resProductData?.resProductData?.json?.response?.map((donate) => {
+        const date = donate.data
           return(
-            <LineTable  grid={`67px 1fr repeat(${3}, 100px)`} name={donate.nome} />
-            
+            <LineTable  grid={`67px 1fr repeat(${3}, 100px)`} name={donate.nome} detailsModal={
+              <div>
+                <h4 className="my-2 text-h4" >Dados da doação</h4>
+
+                <p>Nome do aluno: {donate.nome} </p>
+                <p>Produto doado: {donate.produto} </p>
+                <p>Quantidade de produtos: {donate.quantidade} </p>
+                <p>Data da doação: {donate.data} </p>
+              </div>
+            }/>
           )
         })
       }/>,
     },
-    {
-      label: "Armários",
-      value: "Armários",
-      element: <TemplateView header_data={[ 'Valor']} children={
-        resLockerData && resLockerData?.resLockerData?.json?.response?.map((donate) => {
-          
-          return(
-            <LineTable  grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} />
-            
-          )
-        })
-      }/>,
-    },
+    // {
+    //   label: "Armários",
+    //   value: "Armários",
+    //   element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
+    //   header_data={[ 'Valor']} 
+    //   children={resLockerData && resLockerData?.resLockerData?.json?.response?.map((donate) => {
+    //       return(
+    //         <LineTable  grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} detailsModal={
+    //           <div>
+    //             <h4 className="my-2 text-h4" >Dados da doação</h4>
+
+    //             <p>Nome do aluno: {donate.nome} </p>
+    //             <p>Número do armário doado: {donate.fk_numero} </p>
+    //             <p>Data da doação: {donate.data} </p>
+    //           </div>
+    //         }/>
+    //       )
+    //     })
+    //   }/>, 
+    // },
     {
       label: "Dinheiro",
       value: "dinheiro",
-      element: <TemplateView header_data={['Valor']} children={
-        resMoneyData && resMoneyData?.resMoneyData?.json?.response?.map((donate) => {
-          
+      element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
+      header_data={['Valor']} 
+      children={resMoneyData && resMoneyData?.resMoneyData?.json?.response?.map((donate) => {
           return(
-            <LineTable grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} />
-            
+            <LineTable grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} detailsModal={
+              <div>
+                <h4 className="my-2 text-h4" >Dados da doação</h4>
+
+                <p>Nome do aluno: {donate.nome} </p>
+                <p>Valor em reais: {donate.quantia} </p>
+                <p>Tipo de auxilio: {donate.auxilio} </p>
+                <p>Data da doação: {donate.data} </p>
+              </div>
+            } />
           )
         })
       }/>,

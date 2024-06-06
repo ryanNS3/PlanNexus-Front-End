@@ -15,14 +15,9 @@ export function Donate() {
   return (
     <Main>
       <div className="grid grid-cols-[1fr_auto] mt-18 gap-6">
-        <header>
-        <h1 className="col-span-full text-h5">Visão geral</h1>
-        {/* <VariableModal type='Basic' isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" > */}
-        <UniqueModal componentForOpenModal={<button>teste</button>} isOpenModal={modal} setIsOpenModal={setModalOpen} TextButton="Fazer doação" labelButton='fazer doação'>
-            <DonationForm  />
-        </UniqueModal>
 
-        </header>
+        <h1 className="col-span-full text-h5">Visão geral</h1>
+
         <div className="grid grid-cols-2 gap-2">
           <DonateChart />
           <DonateChart2 />
