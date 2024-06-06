@@ -6,15 +6,15 @@ import { UserProvider } from "../context/userContext";
 import { ProtectRouter } from "../components/protectRouter/protectRouter";
 import { ModalProvider } from "../context/modalContext";
 import { ToastifyProvider } from "../context/toastifyContext";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { EmployeeProvider } from "../context/Employee";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { Stock } from "../pages/Stock";
 import { Layout } from "../Layout/Layout";
 import { LockerProvider } from "../context/lockerContext";
 import { ProductProvider } from "../context/ProductContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Donate } from "../pages/Donate"
+import { Donate } from "../pages/Donate";
 import { StudentProvider } from "../context/studentsContext";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
@@ -22,7 +22,7 @@ import { Profile } from "../pages/ViewProfile";
 import { DonatorProvider } from "../context/donatorContext";
 
 export function Router() {
-  const clientLocal = new QueryClient()
+  const clientLocal = new QueryClient();
   return (
     <QueryClientProvider client={clientLocal}>
       <ToastifyProvider>
@@ -32,7 +32,6 @@ export function Router() {
               <ProductProvider>
                 <LockerProvider>
                   <DonatorProvider>
-
                     <ModalProvider>
                       <ToastContainer />
                       <Routes>
@@ -40,7 +39,7 @@ export function Router() {
                           <Route
                             path="/"
                             element={
-                              <ProtectRouter> 
+                              <ProtectRouter>
                                 <Home />
                               </ProtectRouter>
                             }
@@ -72,16 +71,16 @@ export function Router() {
                             }
                           />
 
-                          <Route path="/funcionario/perfil" 
-                          element={
-                            <ProtectRouter>
+                          <Route
+                            path="/funcionario/perfil"
+                            element={
+                              <ProtectRouter>
                                 <Profile />
-                            </ProtectRouter>
-                          } />
-
+                              </ProtectRouter>
+                            }
+                          />
 
                           <Route path="/gestao">
-
                             <Route
                               path="/gestao"
                               element={
@@ -91,20 +90,22 @@ export function Router() {
                               }
                             />
                           </Route>
-
-                    </Route>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/forgot" element={<ForgotPassword />} />
-                    <Route path="/recuperar-senha/:token" element={<ResetPassword />} />
-                  </Routes>
-                </ModalProvider>
+                        </Route>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/forgot" element={<ForgotPassword />} />
+                        <Route
+                          path="/recuperar-senha/:token"
+                          element={<ResetPassword />}
+                        />
+                      </Routes>
+                    </ModalProvider>
                   </DonatorProvider>
-            </LockerProvider>
-          </ProductProvider>
-          </StudentProvider>
-        </EmployeeProvider>
-      </UserProvider>
+                </LockerProvider>
+              </ProductProvider>
+            </StudentProvider>
+          </EmployeeProvider>
+        </UserProvider>
       </ToastifyProvider>
     </QueryClientProvider>
   );
-};
+}
