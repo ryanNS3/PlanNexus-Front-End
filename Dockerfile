@@ -1,4 +1,4 @@
-# Usa a imagem base menor e mais segura
+# Estágio de construção
 FROM node:20-alpine AS builder
 
 # Define o diretório de trabalho
@@ -16,8 +16,8 @@ COPY . .
 # Executa o comando de construção do projeto
 RUN npm run build
 
-# Muda para a imagem Nginx
-FROM nginx:1.15.0
+# Estágio de produção
+FROM nginx:1.26.1-alpine
 
 # Remove o arquivo de configuração padrão do Nginx
 RUN rm /etc/nginx/conf.d/default.conf
