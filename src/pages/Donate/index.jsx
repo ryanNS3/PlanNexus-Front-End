@@ -8,9 +8,6 @@ import { StudentContext } from "../../context/studentsContext";
 
 export function Donate() {
   const [modal, setModalOpen] = useState(false)
-  const {getStudents} = useContext(StudentContext)
-  const resStudentsData = getStudents()
-
 
   return (
     <Main>
