@@ -209,10 +209,30 @@ export function ProductProvider({ children }) {
       })
       return req
     }    
+    
 
+    // GET GRÁFICOS
+    const chartReq = async () => {
+      const reqAllCharts = await requisicao(
+        `${BASE_URL}/graficos/resultado`,
+        null,
+        "GET",
+        {
+          authorization: `bearer ${token}`,
+          nif: user,
+        }
+      );
+      return reqAllCharts;
+    };
+    
+    function getChartData(){
+      const chartRes = useQuery({ queryKey: ['allCharts'],  queryFn: chartReq})
+      const chartData = chartRes.data
+      return {chartData}
+    }
 
   return (
-    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift, GetActiveProducts }}>
+    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift, GetActiveProducts, getChartData }}>
       {children}
     </ProductContext.Provider>
   );
