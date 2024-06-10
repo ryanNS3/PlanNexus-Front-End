@@ -14,8 +14,8 @@ export function DonationForm() {
   const { GetActiveProducts } = useContext(ProductContext);
   const { resActiveProducts } = GetActiveProducts();
   const {postProductDonation, postMoneyDonation, postLockerDonation} = useContext(DonatorContext)
-  const {getStudents} = useContext(StudentContext)
-  const resStudentsData = getStudents()
+  const {queryGetStudents} = useContext(StudentContext)
+  const resStudentsData = queryGetStudents.data
   const { Notification } = React.useContext(toastifyContext)
 
   const steps = [
@@ -202,7 +202,7 @@ export function DonationForm() {
       <form onSubmit={handleSubmit} >
         <Step currentStep={currentStep} step={1}>
           <div className="flex flex-col gap-6">
-            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} minlength='11' maxlength='14'/>
+            <InputText id="CPF" type="text" name="CPF" placeholder="000.000.000-00" onChange={(e) => handleCPF(e)} value={cpf} minLength='11' maxLength='14'/>
             {filteredStudent && (
 
               <>
@@ -218,9 +218,9 @@ export function DonationForm() {
           <PinkButton
                   text="Continuar"
                   action={() =>
-                    // cpf ? setCurrentStep(currentStep + 1)
-                    // : Notification("error", "Preencha todos os dados!")
-                    setCurrentStep(currentStep + 1)
+                    cpf ? setCurrentStep(currentStep + 1)
+                    : Notification("error", "Preencha todos os dados!")
+                    
                   }
                   typeButton="button"
                 />

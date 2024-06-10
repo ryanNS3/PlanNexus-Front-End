@@ -1,6 +1,7 @@
 import { Doughnut, Line } from "react-chartjs-2";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { CardMedium } from "../Cards/Card";
+import { ProductContext } from "../../context/ProductContext";
 
 const dadosMock = [124, 63, 71];
 const colorsData = ["#D9A5EC", "#45DDA8", "#527661"];
@@ -18,16 +19,7 @@ const data = {
   ],
 };
 
-const data2 = {
-  labels: [],
-  datasets: [
-    {
-      label: "Quantidade",
-      data: dadosMock2.map((item) => item),
-      backgroundColor: colorsData.map((item) => item),
-    },
-  ],
-};
+
 
 const config = {
   type: "doughnut",
@@ -43,22 +35,7 @@ const config = {
   },
 };
 
-const config2 = {
-  type: "doughnut",
-  data: data2,
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: "right",
-      },
-    },
-  },
-};
 
-// dados do gráfico
-const DATA_COUNT = 3;
 
 export function DonateChart() {
   return (
@@ -81,18 +58,35 @@ export function DonateChart() {
 }
 
 export function DonateChart2() {
+  const {getChartData} = useContext(ProductContext)
+  const chartData = getChartData()
+  const labels = chartData?.chartData?.json?.ProdutosMaisDoados?.Label || []
+  const dataValues = chartData?.json?.ProdutosMaisDoados?.Data || []
+
+
+  const data2 = {   
+    labels: labels,
+    datasets: [
+      {
+        label: 'Quantidade',
+        data: dataValues,
+        backgroundColor: colorsData.map((item) => item),
+      },
+    ],
+  };
+
   return (
     <>
       <CardMedium>
         <div className=" max-w-[250px]">
             <h2 className="text-sub2">Produtos mais doados</h2>
             <div className="flex">
-              <Doughnut  options={config2} data={data2} />
-              <div className="flex-col p-10">
+              <Doughnut  options={config} data={data2} />
+              {/* <div className="flex-col p-10">
                 <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#D9A5EC]"></div>Camiseta</div>
                 <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#45DDA8]"></div>Copo</div>
                 <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#527661]"></div>Caneta</div>
-              </div>
+              </div> */}
             </div>
 
         </div>
