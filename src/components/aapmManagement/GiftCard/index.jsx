@@ -68,7 +68,6 @@ const DropDown = ({isOpenDrop}) => {
       location.reload()
     } catch (error) {
       Notification("error", "troca falhou")
-      console.log('erro ao ativar brinde: ', error)
     }
   }
 

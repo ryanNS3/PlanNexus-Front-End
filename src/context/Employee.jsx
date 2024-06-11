@@ -30,7 +30,6 @@ export function EmployeeProvider({ children }) {
         return res;
       }
     } catch (error) {
-      console.log("Requisição falhou:", error);
       return false;
     }
   }, [token, user, requisicao, BASE_URL]);
@@ -55,13 +54,12 @@ export function EmployeeProvider({ children }) {
           nif: user,
         }
       );
-      console.log(res)
+
       if (res && res.res.status === 200) {
         setEmployeeData(res.json.response);
         return true;
       }
     } catch (error) {
-      console.log("Requisição falhou:", error);
       return false;
     }
   }, []);
@@ -82,7 +80,6 @@ export function EmployeeProvider({ children }) {
         return true;;
       }
     } catch (error) {
-      console.log("Requisição falhou:", error);
       return false;
     }
   }, []);
@@ -96,7 +93,6 @@ export function EmployeeProvider({ children }) {
  
 const EditEmployee = React.useCallback(async (editedData) => {
     try {
-      console.log('Dados mandados:', editedData)
       const res = await requisicao(
         `${BASE_URL}/funcionario/atualizar`,
         editedData,
@@ -120,7 +116,6 @@ const EditEmployee = React.useCallback(async (editedData) => {
         throw new Error('Falha na atualização do funcionário');
       }
     } catch (error) {
-      console.log("Requisição falhou:", error);
       return false;
     }
   }, [requisicao, BASE_URL, token, user]);

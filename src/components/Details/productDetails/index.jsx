@@ -114,7 +114,6 @@ export function ProductDetails({ isExtendModalForEdit, setIsExtendModalForEdit, 
                                             <h4 className=" text-h5 mb-2">Estoque</h4>
                                             <div className="flex flex-col gap-2">
                                                 {dataUniqueProduct?.produtos[idColorOfProduct].tamanhos?.map((size) => {
-                                                    console.log(size)
                                                 return (
                                                     
                                                 <div className="flex justify-between items-center px-8 py-2 border-2 border-cinza-100">

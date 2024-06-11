@@ -58,7 +58,7 @@ export function LockerProvider({ children }) {
         nif: user,
       }
     );
-    return reqStatus, console.log(reqStatus, "aqui poh");
+    return reqStatus;
   }
 
   return (

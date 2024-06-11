@@ -18,6 +18,20 @@ export function EmployeeDetails({ employee }) {
     email: false
   });
 
+  console.log(employee)
+  let nivel_acesso = ''
+  switch (employee.nome_cargo) {
+    case 'Administração':
+        nivel_acesso = '3';
+      break;
+    case 'Diretoria':
+        nivel_acesso = '2';
+      break;
+    case 'Conselho':
+        nivel_acesso = '1';
+      break;
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedEmployee((prev) => ({
@@ -48,20 +62,17 @@ export function EmployeeDetails({ employee }) {
       NIF: editedEmployee.NIF,
       nome: editedEmployee.nome,
       email: editedEmployee.email,
-      nivel_acesso: "3",
+      nivel_acesso: nivel_acesso,
       foto: null
     };
 
-    console.log('Edited Data:', editedData);
 
     const success = await EditEmployee(editedData);
 
     if (success) {
-        console.log(editedEmployee)
       setIsOpenModal(false);
       Notification("sucess", "Funcionário atualizado com sucesso");
     } else {
-        console.log(editedEmployee)
       setIsOpenModal(true);
       Notification("error", "Falha ao atualizar funcionário");
     }

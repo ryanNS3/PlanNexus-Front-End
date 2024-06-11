@@ -26,9 +26,7 @@ export function Options({ nome, numero, status, idStudent }) {
       };
 
       const req = await UpdateLocker(newStatusLocker);
-      console.log(req);
     } catch (error) {
-      console.error("Erro ao trancar o armário:", error);
     }
   };
 
@@ -42,11 +40,9 @@ export function Options({ nome, numero, status, idStudent }) {
   useEffect(() => {
     const screenWidth = window.innerWidth; // Obtém a largura da tela
     let screen = screenWidth * 0.8; // Calcula 10% da largura da tela
-    console.log(screen);
     let right = menuRefLocker.current.getBoundingClientRect().right;
 
     if (right >= screen) {
-      console.log("offset right", right, numero);
       setAlight("items-end");
     }
   }, [menuRefLocker]);

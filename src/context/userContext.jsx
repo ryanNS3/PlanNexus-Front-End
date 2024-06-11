@@ -27,7 +27,6 @@ export const UserProvider = ({ children }) => {
     try {
       return rawUserData ? JSON.parse(rawUserData) : null;
     } catch (e) {
-      console.error("Failed to parse user data:", e);
       return null;
     }
   }, [rawUserData]);
@@ -51,18 +50,11 @@ export const UserProvider = ({ children }) => {
             if (url.pathname === '/login') {
               navegar('/');
             }
-            console.log("Token validado");
           }
         } catch (error) {
-          if (error.response && error.response.status === 403) {
-            console.log("Sem token / token inválido.");
+          if (error.response && error.response.status >= 403 &&
+            error.response.status <= 500) {
             navegar('/login');
-          } else if (
-            error.response &&
-            error.response.status >= 400 &&
-            error.response.status <= 500
-          ) {
-            console.log("Sistema validação falhou.");
           }
         } finally {
           setLoading(false);
@@ -91,7 +83,6 @@ export const UserProvider = ({ children }) => {
         return true;
       }
     } catch (error) {
-      console.log(error);
       if (error.response && error.response.status === 400) {
         setError("Email ou senha inválidos. Tente novamente.");
       } else if (
@@ -122,25 +113,21 @@ export const UserProvider = ({ children }) => {
           authorization: `bearer ${token}`,
         }
       );
-      console.log(response);
 
       if (response && response.res.status === 200) {
         setTokenString(null);
         setUserString(null);
         setRawUserData(null);
         navegar("/login");
-        console.log("Logout deu certo.");
         return true;
       }
     } catch (error) {
-      console.log("Logout falhou.");
       if (error.response && error.response.status === 400) {
       } else if (
         error.response &&
         error.response.status >= 400 &&
         error.response.status <= 500
       ) {
-        console.log("Sistema logout falhou.");
         return false;
       }
     } finally {

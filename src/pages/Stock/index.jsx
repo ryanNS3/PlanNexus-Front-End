@@ -19,7 +19,6 @@ export function Stock() {
   const configModal = { isExtend: isExtendModalFormEditing, setIsExtend: setIsExtendModalFormEditing}
   const { groupProduct } = useGroupDataProducts(resProductData)
   const allProductsLowStock = groupProduct?.filter((product) => Number(product.porcentagem) < 30.00)
-  console.log(allProductsLowStock)
   const [isOpenModalForm, setIsOpenModalForm] = React.useState(false)
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
 

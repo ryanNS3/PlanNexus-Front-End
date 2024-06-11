@@ -37,7 +37,7 @@ export function ProductReplacent({ idOfColor, product, setOpenReplacentModal }) 
                     idProduto: size.id,
                     quantidade: size.qtd_estoque + size.add_estoque
                 })  
-                // console.log(mutateReplacentProducts)
+
                 if (mutateReplacentProducts.isSuccess) {
                     setLoadingButton(false)
                     setDataProductReplacent((prevState) => {
@@ -92,13 +92,11 @@ export function ProductReplacent({ idOfColor, product, setOpenReplacentModal }) 
         setDataProductReplacent((prevState) => {
             return prevState.map((size) => {
                 if (size.id == productIdSelected) {
-                    console.log(size)
                     return {...size, add_estoque: size.add_estoque + 1 }
                 }
                 return size
             })
         })
-        // console.log(dataProductReplacent)
     }
     function handleRemoveProductForStock(event) {
         event.preventDefault()
@@ -106,7 +104,6 @@ export function ProductReplacent({ idOfColor, product, setOpenReplacentModal }) 
         setDataProductReplacent((prevState) => {
             return prevState.map((size) => {
                 if (size.id == productIdSelected) {
-                    console.log(size)
                     return {...size, add_estoque: size.add_estoque - 1 }
                 }
                 return size

@@ -10,7 +10,7 @@ export function CardEvents({ urgency }) {
     useEffect(() => {
         axios.get('https://apiurl')
             .then(response => setData(response.data))
-            .catch(error => console.error("Erro:", error));
+            .catch(error);
     }, []);
 
     return (

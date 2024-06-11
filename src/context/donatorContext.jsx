@@ -90,7 +90,6 @@ const useGetProductDonation = () => {
 
     }
     catch (error) {
-      console.log(error)
       throw new Error(error.message || 'Erro ao fazer a requisição');
       
     }
@@ -109,7 +108,6 @@ const useGetProductDonation = () => {
 
     }
     catch (error) {
-      console.log(error)
       throw new Error(error.message || 'Erro ao fazer a requisição');
       
     }
@@ -128,7 +126,6 @@ const useGetProductDonation = () => {
 
     }
     catch (error) {
-      console.log(error)
       throw new Error(error.message || 'Erro ao fazer a requisição');
       
     }

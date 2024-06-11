@@ -50,7 +50,6 @@ export function LockerBox({ numero, status, ref }) {
 
   const handleSelect = () => {
     setSelect(!select)
-    console.log('Clicado', numero)
   }
 
   return (

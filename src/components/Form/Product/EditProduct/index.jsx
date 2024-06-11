@@ -47,7 +47,6 @@ export function EditProductForm({ dataProduct, setIsEditForm, idColor = 0 }) {
     const [isDisabledButtonNotEditing, setIsDisableButtonNotEditing] = React.useState(true)
     const allIdsProduct = dataProduct.produtos.map((product) => product.tamanhos.map((size) => size.id_produto))
     const [editedProduct, setEditedProduct] = React.useState({});
-    // console.log(dataProduct)
     const colorSelected = dataProduct.produtos[idColor].cor;
     const sizes = [
         {

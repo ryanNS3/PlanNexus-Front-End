@@ -15,7 +15,6 @@ export const useInputValidate = (type) => {
     function onChange({target}){
         if (error) validate(target.value)
         setValue(target.value)
-        console.log(validate(value))
     
     }
 
@@ -25,12 +24,10 @@ export const useInputValidate = (type) => {
         //     return false
         // }
         if (!typeValidation[type].regex.test(value)){
-            console.log("deu errado")
             setError(typeValidation[type].message)
             return false
         }
         else{
-            console.log("deu certo")
             setError(null)
             return true
         }

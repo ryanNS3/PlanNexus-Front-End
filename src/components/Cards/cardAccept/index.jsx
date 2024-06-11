@@ -10,20 +10,20 @@ export function CardAccept() {
     useEffect(() => {
         axios.get('https://apiurl')
             .then(response => setData(response.data))
-            .catch(error => console.error("Erro:", error));
+            .catch(error);
     }, []);
 
     // Será necessário um endpoint para enviar a resposta (confirmed / cancelled)
     const handleConfirm = () => {
         axios.post('https://apiurl/confirm', { confirmed: true }) 
             .then(() => setResponseSent(true))
-            .catch(error => console.error("Erro ao confirmar:", error));
+            .catch(error);
     };
 
     const handleCancel = () => {
         axios.post('https://apiurl/cancel', { cancelled: true })
             .then(() => setResponseSent(true))
-            .catch(error => console.error("Erro ao cancelar:", error));
+            .catch(error);
     };
 
 

@@ -128,7 +128,6 @@ export function ProductForm({ setIsOpenProductModal }) {
     setLoadingButtonSubmit(false)
     if (Array.isArray(error.errors)) {
       error.errors.forEach((err) => {
-        // console.log(err);
         setErrorValidate(validationErrors);
         setLoadingButtonSubmit(false);
         validationErrors[err.path[0]] = err.message;
@@ -141,7 +140,6 @@ export function ProductForm({ setIsOpenProductModal }) {
     event.preventDefault()
     const keyOfColor = event.target.id
     const filteredColor = colorsProduct.filter((color, index) => index != keyOfColor)
-    // console.log(image.flat().filter((image) => image))
     dispatch({
         type: "HANDLE_REMOVE_COLOR",
         payload: keyOfColor
@@ -234,7 +232,6 @@ export function ProductForm({ setIsOpenProductModal }) {
     })
   },[selectedColor])
   
-  console.log(errorValidate)
   return (
     <form
     className="grid md:grid-cols-2 gap-14 max-h-full w-full overflow-y-scroll"

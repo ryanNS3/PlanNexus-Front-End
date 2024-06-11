@@ -59,12 +59,9 @@ export function Login() {
 
     if (success) {
       navegar('/')
-      console.log('Login bem-sucedido');
     } else {
-      console.log(error);
       setErrorMessage(error || 'Erro durante o login. Por favor, tente novamente.');
     }
-    console.log(finalEmail, password)
   };
 
   return (

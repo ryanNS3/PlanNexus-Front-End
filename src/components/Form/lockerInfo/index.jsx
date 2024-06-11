@@ -25,9 +25,8 @@ export function LockerInfo({ nome, numero, status, idStudent }) {
       };
 
       const req = await UpdateLocker(newStatusLocker);
-      console.log(req);
+      
     } catch (error) {
-      console.error("Erro ao trancar o armário:", error);
     }
   };
 
