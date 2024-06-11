@@ -20,20 +20,8 @@ const generateRandomColors = (numColors) => {
   return colors;
 };
 
-const data = {
-  labels: [],
-  datasets: [
-    {
-      label: "Valor (em R$)",
-      data: dadosMock.map((item) => item),
-      backgroundColor: colorsData.map((item) => item),
-    },
-  ],
-};
-
 const config = {
   type: "doughnut",
-  data: data,
   options: {
     responsive: true,
     plugins: {
@@ -43,15 +31,15 @@ const config = {
       },
     },
   },
-};
+};  
 
 
 
 export function DonateChart() {
   const {getChartData} = useContext(ProductContext)
-    const chartData = getChartData()
-    const labels = chartData?.chartData?.json?.Doacao.Label || []
-    const dataValues = chartData?.chartData?.json?.Doacao.Data || []
+    const {chartData} = getChartData()
+    const labels = chartData?.json?.Doacao.Label || []
+    const dataValues = chartData?.json?.Doacao.Data || []
     const bgColors = generateRandomColors(dataValues.length)
 
     const data = {   
@@ -94,9 +82,9 @@ export function DonateChart() {
   
   export function DonateChart2() {
     const {getChartData} = useContext(ProductContext)
-    const chartData = getChartData()
-    const labels = chartData?.chartData?.json?.ProdutosMaisDoados.Label || []
-    const dataValues = chartData?.chartData?.json?.ProdutosMaisDoados.Data || []
+    const {chartData} = getChartData()
+    const labels = chartData?.json?.ProdutosMaisDoados.Label || []
+    const dataValues = chartData?.json?.ProdutosMaisDoados.Data || []
     const bgColors = generateRandomColors(dataValues.length)
 
   const data2 = {   
