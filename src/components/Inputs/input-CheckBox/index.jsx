@@ -44,37 +44,38 @@ export function CheckBox({ name, value, setvalue, check, onChange, ...props }) {
 }
 
 
-export function LockerBox({ numero, status, ref }) {
-  const unlocker = status == "desocupado" ? "hidden" : "";
+export function LockerBox({ numero, status}) {
   const [select, setSelect] = React.useState(false);
 
   const handleSelect = () => {
-    setSelect(!select)
-    console.log('Clicado', numero)
-  }
+    setSelect(!select);
+    console.log("Clicado", numero);
+  };
+
+  const busyLock = status === "ocupado" ? "relative" : "hidden";
 
   return (
-    <>
-      <div
-        onClick={handleSelect}
-        ref={ref}
-        className={`relative col-span-1 ${status == "desocupado" ? "bg-[#A0E29E]" : "bg-cinza-100"} h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
-        >
-          {select && (
-            <div className={`flex w-full bg-[#346C32] h-14 md:h-20 lg:h-22 xl:h-24 items-center justify-center rounded-lg`}>
-              <Lock/>
-            </div>
-          )
-        }
-        {!select && (
-          <div>
-            <div className={`absolute top-1 right-1 ${unlocker}`}>
-              <LockBlack />
-            </div>
-            <p className="text-h5">{numero}</p>
+    <div
+      onClick={handleSelect}
+      className={`${busyLock} col-span-1 bg-cinza-100 h-14 md:h-20 lg:h-22 xl:h-24 flex items-center justify-center rounded-lg`}
+    >
+      {!select && (
+        <>
+          <div className={`absolute top-1 right-1`}>
+            <LockBlack />
           </div>
-        )}
-      </div >
-    </>
+          <p className="text-h5">{numero}</p>
+        </>
+      )}
+
+      {select && (
+        <div
+          className={`flex w-full bg-[#346C32] h-14 md:h-20 lg:h-22 xl:h-24 items-center justify-center rounded-lg`}
+        >
+          <Lock />
+        </div>
+      )}
+
+    </div>
   );
 }
