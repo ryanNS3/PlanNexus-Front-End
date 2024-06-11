@@ -1,20 +1,32 @@
 import { useParams, Link } from "react-router-dom";
+import { ProductContext } from '../../context/ProductContext'
 
 export function Statistic() {
+  const {getStaticData} = useContext(ProductContext)
+  const {statisticData} = getStaticData()
+ 
   const [period, setPeriod] = useState("dia");
 
   // Construir lógica para mostrar valores de acordo com o período selecionado
+  let associates
+  if(period === 'dia'){
+    associates = statisticData?.json?.Associado?.Dia || []
+  }else if (period === 'mes') {
+    associates = statisticData?.json?.Associado?.Mes || []
+  }else{
+    associates = statisticData?.json?.Associado?.Semana || []
+  }
 
   return (
     <section className="flex flex-col gap-5">
       <StatisticHeader period={period} setPeriod={setPeriod} />
 
       <div className="grid  sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
-        <StatisticOverview title="Associados" situation={16} value={354} />
-        <StatisticOverview title="Ganhos" situation={16} value={"R$ 3200"} />
-        <StatisticOverview title="Vendas" situation={16} value={85} />
-        <StatisticOverview title="Estoque" situation={-16} value={354} />
-        <StatisticOverview title="Funcionário" situation={16} value={354} />
+        <StatisticOverview title="Associados" comparativeValue={associates.valor} value={associates.total} />
+        <StatisticOverview title="Ganhos" comparativeValue={16} value={`R$ 2`} />
+        <StatisticOverview title="Vendas" comparativeValue={16} value={85} />
+        <StatisticOverview title="Estoque" comparativeValue={-16} value={354} />
+        <StatisticOverview title="Funcionário" comparativeValue={16} value={354} />
       </div>
     </section>
   );
@@ -76,9 +88,9 @@ import { GanhosIcon } from "../../assets/Ganhos";
 import { VendasIcon } from "../../assets/Vendas";
 import { EstoqueIcon } from "../../assets/Estoque";
 import { FuncionarioIcon } from "../../assets/Funcionario";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-function StatisticOverview({ title, situation, value }) {
+function StatisticOverview({ title, comparativeValue, value }) {
   let icon, bgColor;
 
   switch (title) {
@@ -125,11 +137,11 @@ function StatisticOverview({ title, situation, value }) {
 
       <div className="flex flex-col gap-4 text-xl">
         <p className="text-ct3">
-          {situation >= 0 ? "aumento" : "Baixo"}
+          {comparativeValue >= 0 ? "aumento" : "Baixo"}
           <span
             className={`p-1 rounded-md inline-block ml-[0.188rem] ${bgColor}`}
           >
-            {(situation > 0 && `+${situation}`) || situation}
+            {(comparativeValue > 0 && `+${comparativeValue}`) || comparativeValue}
           </span>
         </p>
         <p className="font-semibold text-h5">{value}</p>
