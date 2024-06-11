@@ -8,6 +8,7 @@ export function SelectLocker() {
 
   function handleSelectAll(event) {
     setSelectAll(event.target.checked);
+    console.log('clicado')
   }
 
   return (

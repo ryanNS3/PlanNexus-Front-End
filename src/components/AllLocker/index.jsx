@@ -227,11 +227,6 @@ export function Locker({ nome, numero, status, idStudent }) {
   );
 }
 
-
-
-
-
-
 export function LockersSelect({ size }) {
   const { dataLocker } = React.useContext(LockerContext);
   const [pagination, setPagination] = React.useState(0);
@@ -277,6 +272,7 @@ export function LockersSelect({ size }) {
       {/* Renderiza o component com grid de todos os armários */}
       <div className={`${sizeLockers}`}>
         {currentLockers?.map((element, index) => {
+          console.log(index)
           return (
             <LockerSelect
               key={index}
@@ -285,6 +281,7 @@ export function LockersSelect({ size }) {
               idStudent={element.id_aluno}
               status={element.status}
             />
+            
           );
         })}
       </div>
@@ -330,11 +327,9 @@ export function LockersSelect({ size }) {
   );
 }
 
-export function LockerSelect({ nome, numero, status }) {
-  const [isOpenOptions, setIsOpenOptions] = React.useState(false);
-  const [select, setSelect] = React.useState("-right-2");
+export function LockerSelect({ numero, status }) {
 
-  let menuRefLocker = useRef('console');
+  let menuRefLocker = useRef();
 
   return (
     <>
