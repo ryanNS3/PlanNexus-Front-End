@@ -3,8 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import { CardMedium } from "../Cards/Card";
 import { ProductContext } from "../../context/ProductContext";
 
-const dadosMock = [124, 63, 71];
-
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -21,9 +19,6 @@ const generateRandomColors = (numColors) => {
   }
   return colors;
 };
-const colorsData = ["#D9A5EC", "#45DDA8", "#527661", "#5E38A7", '#62097b'];
-
-const dadosMock2 = [58, 26, 128];
 
 const data = {
   labels: [],
@@ -35,8 +30,6 @@ const data = {
     },
   ],
 };
-
-
 
 const config = {
   type: "doughnut",
