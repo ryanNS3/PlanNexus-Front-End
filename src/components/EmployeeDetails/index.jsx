@@ -4,9 +4,11 @@ import { EmployeeContext } from "../../context/Employee";
 import { PinkButton } from '../Buttons/pinkButton';
 import { toastifyContext } from '../../context/toastifyContext';
 import { modalContext } from '../../context/modalContext';
+import { UserGlobal } from '../../context/userContext';
 
 export function EmployeeDetails({ employee }) {
-  const { EditEmployee, DisableEmployee } = useContext(EmployeeContext);
+  const { EditEmployee, DisableEmployee, } = useContext(EmployeeContext);
+  const { accessLevel } = useContext(UserGlobal)
   const { Notification } = useContext(toastifyContext);
   const { setIsOpenModal } = useContext(modalContext);
   const [editedEmployee, setEditedEmployee] = useState(employee);
@@ -17,20 +19,6 @@ export function EmployeeDetails({ employee }) {
     NIF: false,
     email: false
   });
-
-  console.log(employee)
-  let nivel_acesso = ''
-  switch (employee.nome_cargo) {
-    case 'Administração':
-        nivel_acesso = '3';
-      break;
-    case 'Diretoria':
-        nivel_acesso = '2';
-      break;
-    case 'Conselho':
-        nivel_acesso = '1';
-      break;
-  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +50,7 @@ export function EmployeeDetails({ employee }) {
       NIF: editedEmployee.NIF,
       nome: editedEmployee.nome,
       email: editedEmployee.email,
-      nivel_acesso: nivel_acesso,
+      nivel_acesso: String(accessLevel),
       foto: null
     };
 

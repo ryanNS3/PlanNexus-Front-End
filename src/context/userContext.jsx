@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
   const user = userString === "null" ? null : userString;
   const [tokenString, setTokenString] = useCookies("token", null);
   const token = tokenString === "null" ? null : tokenString;
+  const [accessLevel, setAccessLevel] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -79,6 +80,19 @@ export const UserProvider = ({ children }) => {
         const { token, NIF, nome, nome_cargo, email, foto } = response.json.response;
         setTokenString(token);
         setUserString(NIF);
+        let nivel_acesso = ''
+        switch (response.json.response.nome_cargo) {
+          case 'Administração':
+              nivel_acesso = 3;
+            break;
+          case 'Diretoria':
+              nivel_acesso = 2;
+            break;
+          case 'Conselho':
+              nivel_acesso = 1;
+            break;
+        }
+        setAccessLevel(nivel_acesso);
         setRawUserData(JSON.stringify({ NIF, nome, nome_cargo, email, foto }));
         return true;
       }
@@ -118,6 +132,7 @@ export const UserProvider = ({ children }) => {
         setTokenString(null);
         setUserString(null);
         setRawUserData(null);
+        setAccessLevel(null);
         navegar("/login");
         return true;
       }
@@ -142,6 +157,7 @@ export const UserProvider = ({ children }) => {
         userData,
         token,
         userLogin,
+        accessLevel,
         loading,
         error,
         userLoginRequest,
