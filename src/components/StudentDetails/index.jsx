@@ -170,7 +170,7 @@ export function StudentDetails({ student }) {
       </div>
 
       <div className="flex justify-end">
-        <PinkButton text="Atualizar" action={handleSubmit} loading={mutatePatchStudents.isLoading} />
+        <PinkButton text="Atualizar" action={handleSubmit} loading={mutatePatchStudents.isPending} />
       </div>
     </div>
   );
