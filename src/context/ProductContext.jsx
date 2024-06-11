@@ -231,8 +231,27 @@ export function ProductProvider({ children }) {
       return {chartData}
     }
 
+    const statisticReq = async () => {
+      const reqAllStatics = await requisicao(
+        `${BASE_URL}/graficos/comparativo`,
+        null,
+        "GET",
+        {
+          authorization: `bearer ${token}`,
+          nif: user,
+        }
+      );
+      return reqAllStatics;
+    };
+    
+    function getStaticData(){
+      const statisticRes = useQuery({ queryKey: ['allStatistics'],  queryFn: statisticReq})
+      const statisticData = statisticRes.data
+      return {statisticData}
+    }
+
   return (
-    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift, GetActiveProducts, getChartData }}>
+    <ProductContext.Provider value={{CalcAllStockForOneProduct, GetProducts,mutateCreateNewProduct, mutateReplacentProducts, mutatePatchProduct, useGroupDataProducts,  GetGiftProduct, SwitchGift, GetActiveProducts, getChartData, getStaticData }}>
       {children}
     </ProductContext.Provider>
   );
