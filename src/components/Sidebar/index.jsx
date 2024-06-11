@@ -12,30 +12,51 @@ import CompactLogo from "../../assets/compactLogo.svg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-export function Sidebar() {
-  return (
-    <aside className="flex flex-col items-center gap-12 py-10 min-[1471px]:pr-9 min-[1471px]:col-span-2 max-[1024px]:absolute max-[1024px]:left-[-100%]">
-      <Link to="/" className="w-full">
-        <img
-          className="max-[1471px]:hidden rounded-lg w-full"
-          src={Logo}
-          alt=""
-        />
-        <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />
-      </Link>
+export function Sidebar({ sidebarControllers }) {
+  const { isSidebarOpen, setIsSidebarOpen } = sidebarControllers;
 
-      <nav
-        className="min-[1471px]:w-full"
+  return (
+    <>
+      <aside
+        className={`flex flex-col items-center gap-12 py-10 min-[1471px]:pr-9 min-[1471px]:col-span-2 max-[1024px]:absolute max-[1024px]:left-[-100%] max-[1024px]:bg-branco max-[1024px]:h-screen max-[1024px]:overflow-y-auto  max-[1024px]:px-20 z-50 ${
+          isSidebarOpen ? "max-[1024px]:left-[0]" : "max-[1024px]:left-[-100%]"
+        }`}
       >
-        <ul className="flex flex-col gap-9">
-          <SidebarElement text="Home" icon="Home" href="/" />
-          <SidebarElement text="Estoque" icon="Estoque" href="/estoque" />
-          <SidebarElement text="Doação" icon="Doação" href="/doacao" />
-          <SidebarElement text="Gestão" icon="Gestão" href="/gestao" />
-          <SidebarElement text="Configuração" icon="Configuração" href="/config" />
-        </ul>
-      </nav>
-    </aside>
+        <div>
+          <Link to="/" className="w-full">
+            <img
+              className="max-[1471px]:hidden rounded-lg w-full"
+              src={Logo}
+              alt=""
+            />
+            <img className="min-[1471px]:hidden" src={CompactLogo} alt="" />
+          </Link>
+
+          <div className="min-[1024px]:hidden absolute top-10 right-10 text-fun2 p-3 h-10 w-10 text-branco bg-rosa-300 flex items-center justify-center rounded cursor-pointer hover:opacity-90" onClick={() => setIsSidebarOpen(previous => !previous)}>X</div>
+        </div>
+
+        <nav className="min-[1471px]:w-full">
+          <ul className="flex flex-col gap-9">
+            <SidebarElement text="Home" icon="Home" href="/" />
+            <SidebarElement text="Estoque" icon="Estoque" href="/estoque" />
+            <SidebarElement text="Doação" icon="Doação" href="/doacao" />
+            <SidebarElement text="Gestão" icon="Gestão" href="/gestao" />
+            <SidebarElement
+              text="Configuração"
+              icon="Configuração"
+              href="/config"
+            />
+          </ul>
+        </nav>
+      </aside>
+
+      <div
+        className={`min-[1024px]:hidden ${
+          isSidebarOpen ? "fixed" : "hidden"
+        } w-screen h-screen bg-preto bg-opacity-50 top-0 left-0 z-40`}
+        onClick={() => setIsSidebarOpen((previous) => !previous)}
+      ></div>
+    </>
   );
 }
 
@@ -170,12 +191,10 @@ export function SidebarElement({ text, href, icon }) {
       >
         {navIcon(icon)}
 
-        <span className="max-[1471px]:hidden">
-          {text}
-        </span>
+        <span className="max-[1471px]:hidden max-[1024px]:block">{text}</span>
 
         {isHovered && (
-          <span className="min-[1471px]:hidden block max-[1471px]:absolute max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco z-10">
+          <span className="min-[1471px]:hidden block max-[1471px]:absolute max-[1024px]:hidden max-[1471px]:left-20 max-[1471px]:px-4 max-[1471px]:py-2 max-[1471px]:bg-rosa-300 max-[1471px]:text-ct3 rounded-md text-branco z-10">
             {text}
           </span>
         )}

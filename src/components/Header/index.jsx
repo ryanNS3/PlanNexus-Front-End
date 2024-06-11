@@ -8,7 +8,7 @@ import ArrowDownSvg from "../../assets/header/nav-arrow-down.svg";
 import ClearSvg from "../../assets/header/xmark.svg";
 import LogoutSvg from "../../assets/header/logout.svg";
 
-export function Header() {
+export function Header({ sidebarControllers }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { userLogoutRequest, userData } = useContext(UserGlobal);
@@ -37,10 +37,18 @@ export function Header() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const { setIsSidebarOpen } = sidebarControllers;
+
   return (
     <header className="col-span-10 mb-8">
       <form className="mt-10 grid grid-cols-12 gap-2">
-        <div className="col-start-1 col-end-11 relative">
+        <div className="min-[1024px]:hidden flex flex-col gap-1 p-2 pl-0 self-center" onClick={() => setIsSidebarOpen((previous) => !previous)}>
+          <span className="block w-8 h-[4px] rounded bg-rosa-400"></span>
+          <span className="block w-7 h-[4px] rounded bg-rosa-400"></span>
+          <span className="block w-6 h-[4px] rounded bg-rosa-400"></span>
+        </div>
+
+        <div className="min-[1024px]:col-start-1 col-start-2 col-end-11 relative">
           <input
             type="text"
             placeholder="Pesquisar"
