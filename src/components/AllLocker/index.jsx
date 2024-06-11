@@ -18,7 +18,7 @@ import {
 } from "@material-tailwind/react";
 import { ThemeProvider } from "@material-tailwind/react";
 import withMT from "@material-tailwind/react/utils/withMT";
-import { LockerBox, SquareCheckBox } from "../Inputs/input-CheckBox";
+import { LockerBox } from "../Inputs/input-CheckBox";
 
 export default function AllLocker({ typeUser }) {
   // Dados da API
@@ -227,6 +227,11 @@ export function Locker({ nome, numero, status, idStudent }) {
   );
 }
 
+
+
+
+
+
 export function LockersSelect({ size }) {
   const { dataLocker } = React.useContext(LockerContext);
   const [pagination, setPagination] = React.useState(0);
@@ -327,37 +332,12 @@ export function LockersSelect({ size }) {
 
 export function LockerSelect({ nome, numero, status }) {
   const [isOpenOptions, setIsOpenOptions] = React.useState(false);
-  // const [direction, setDirection] = React.useState("-right-2");
+  const [select, setSelect] = React.useState("-right-2");
 
-  let menuRefLocker = useRef();
-
-  // function onClickRight(event) {
-  //   event.preventDefault();
-  //   setIsOpenOptions(!isOpenOptions);
-  // }
-
-  // const unlocker = status == "desocupado" ? "hidden" : "";
-
-  // const screenWidth = window.innerWidth; // Obtém a largura da tela
-
-  // // Calcula 10% da largura da tela
-  // let screen = screenWidth * 0.8;
-
-  // useEffect(() => {
-  //   const screenWidth = window.innerWidth; // Obtém a largura da tela
-  //   let screen = screenWidth * 0.8; // Calcula 10% da largura da tela
-  //   let right = menuRefLocker.current.getBoundingClientRect().right;
-
-  //   if (right >= screen) {
-  //     setDirection("right-64");
-  //   }
-  // }, [menuRefLocker]);
+  let menuRefLocker = useRef('console');
 
   return (
     <>
-      {/* <SquareCheckBox ref={menuRefLocker}>
-        <p className="text-h5">{numero}</p>
-      </SquareCheckBox> */}
       <LockerBox status={status} numero={numero} ref={menuRefLocker}/>
     </>
   );
