@@ -56,14 +56,14 @@ export function DonateChart() {
   return (
     <>
       <CardMedium>
-        <div className="w-full max-w-full p-4">
+        <div className="  lg:w-50 md:w-42 sm-32 p-4">
           <h2 className="text-sub2">Custo de doação</h2>
           <div className="flex flex-col sm:flex-row gap-2 mt-2">
             <div className="w-full sm:w-1/2">
               <Doughnut options={config} data={data} />
             </div>
 
-            <div className="flex flex-col justify-center w-full sm:w-1/2 lg:w-2/3 xl:w-3/4">
+            <div className="flex flex-col justify-center w-full ">
               {labels && labels.map((item, index) => {
                 return (
                   <div key={index} className="flex items-center gap-2 mt-2">
@@ -101,7 +101,7 @@ export function DonateChart() {
   return (
     <>
       <CardMedium>
-        <div className="w-full max-w-full p-4">
+        <div className="w-full sm:w-1/2 lg:w-2/3 xl:w-3/4 max-w-full p-4">
           <h2 className="text-sub2">Produtos mais doados</h2>
           <div className="flex flex-col sm:flex-row gap-2 mt-2">
             <div className="w-full sm:w-1/2">
