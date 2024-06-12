@@ -18,9 +18,9 @@ import { DonationForm } from "../Form/donation";
 
 export function DonateTab() {
   const {useGetMoneyDonation, useGetLockerDonation, useGetProductDonation} = useContext(DonatorContext)
-  const resMoneyData = useGetMoneyDonation()
-  const resProductData = useGetProductDonation()
-  const resLockerData = useGetLockerDonation()
+  const {resMoneyData} = useGetMoneyDonation()
+  const {resProductData} = useGetProductDonation()
+  const {resLockerData} = useGetLockerDonation()
 
   const customTheme = withMT({
     theme: {
@@ -34,7 +34,7 @@ export function DonateTab() {
       value: "Produtos",
       element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
       header_data={['Produto']} 
-      children={resProductData && resProductData?.resProductData?.json?.response?.map((donate) => {
+      children={resProductData && resProductData?.json?.response?.map((donate) => {
         const date = donate.data
           return(
             <LineTable  grid={`67px 1fr repeat(${3}, 100px)`} name={donate.nome} detailsModal={
@@ -56,7 +56,7 @@ export function DonateTab() {
       value: "Armários",
       element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
       header_data={[ 'Valor']} 
-      children={resLockerData && resLockerData?.resLockerData?.json?.response?.map((donate) => {
+      children={resLockerData && resLockerData?.json?.response?.map((donate) => {
           return(
             <LineTable  grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} detailsModal={
               <div>
@@ -76,11 +76,11 @@ export function DonateTab() {
       value: "dinheiro",
       element: <TemplateView name={'doações'} formModal={ <DonationForm/> } 
       header_data={['Valor']} 
-      children={resMoneyData && resMoneyData?.resMoneyData?.json?.response?.map((donate) => {
+      children={resMoneyData && resMoneyData?.json?.response?.map((donate) => {
           return(
             <LineTable grid={`67px 1fr repeat(${3}, 100px)`}  name={donate.nome} detailsModal={
               <div>
-                <h4 className="my-2 text-h4" >Dados da doação</h4>
+                <h4 className="my-2 text-h4">Dados da doação</h4>
 
                 <p>Nome do aluno: {donate.nome} </p>
                 <p>Valor em reais: {donate.quantia} </p>
@@ -119,7 +119,7 @@ export function DonateTab() {
                     : "w-[8rem] py-4"
                 }
               >
-                <p className=" text-fun2 relative z-[5]"> {label}</p>
+                <p className=" text-fun2 relative z-[5]"> {label} </p>
               </Tab>
             ))}
           </TabsHeader>
