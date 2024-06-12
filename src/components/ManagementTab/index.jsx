@@ -30,47 +30,43 @@ export default function ManagementTab() {
     {
       label: "Turmas",
       value: "turmas",
-      element: () => (
+      element: () =>
         activeTab === "turmas" && (
           <React.Suspense fallback={<div>Carregando...</div>}>
             <TabClass />
           </React.Suspense>
-        )
-      ),
+        ),
     },
     {
       label: "Funcionários",
       value: "funcionarios",
-      element: () => (
+      element: () =>
         activeTab === "funcionarios" && (
           <React.Suspense fallback={<div>Carregando...</div>}>
             <TabEmployee />
           </React.Suspense>
-        )
-      ),
+        ),
     },
     {
       label: "AAPM",
       value: "AAPM",
-      element: () => (
+      element: () =>
         activeTab === "AAPM" && (
           <React.Suspense fallback={<div>Carregando...</div>}>
             <AapmManage />
             <TabAapm />
           </React.Suspense>
-        )
-      ),
+        ),
     },
     {
       label: "Armários",
       value: "armarios",
-      element: () => (
+      element: () =>
         activeTab === "armarios" && (
           <React.Suspense fallback={<div>Carregando...</div>}>
-            <AllLocker typeUser={'armários'} />
+            <AllLocker typeUser={"armários"} />
           </React.Suspense>
-        )
-      ),
+        ),
     },
   ];
 
@@ -85,27 +81,34 @@ export default function ManagementTab() {
           }}
         >
           {content.map(({ label, value }) => (
-            <Tab
-              key={value}
-              value={value}
-              onClick={() => setActiveTab(value)}
-              className={
-                activeTab === value
-                  ? "text-cinza-50 z-[9] w-[8rem] h-[2.75rem] py-0"
-                  : "w-[8rem]"
-              }
-            >
-              <button className="text-fun2 relative z-[5]" onClick={(event) => event.preventDefault()}>
-                {label}
-              </button>
-            </Tab>
+            <React.Fragment key={value}>
+              <Tab
+                key={value}
+                value={value}
+                onClick={() => setActiveTab(value)}
+                className={
+                  activeTab === value
+                    ? "text-cinza-50 z-[9] w-[8rem] h-[2.75rem] py-0"
+                    : "w-[8rem]"
+                }
+              >
+                <button
+                  className="text-fun2 relative z-[5]"
+                  onClick={(event) => event.preventDefault()}
+                >
+                  {label}
+                </button>
+              </Tab>
+            </React.Fragment>
           ))}
         </TabsHeader>
         <TabsBody>
           {content.map(({ value, element }) => (
-            <TabPanel className="px-0" key={value} value={value}>
-              {element()}
-            </TabPanel>
+            <React.Fragment key={value}>
+              <TabPanel className="px-0" key={value} value={value}>
+                {element()}
+              </TabPanel>
+            </React.Fragment>
           ))}
         </TabsBody>
       </Tabs>

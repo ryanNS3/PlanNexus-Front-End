@@ -6,7 +6,7 @@ import { UserProvider } from "../context/userContext";
 import { ProtectRouter } from "../components/protectRouter/protectRouter";
 import { ModalProvider } from "../context/modalContext";
 import { ToastifyProvider } from "../context/toastifyContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { EmployeeProvider } from "../context/Employee";
 import "react-toastify/dist/ReactToastify.css";
 import { Stock } from "../pages/Stock";
@@ -20,9 +20,12 @@ import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
 import { Profile } from "../pages/ViewProfile";
 import { DonatorProvider } from "../context/donatorContext";
+import React from "react";
 
 export function Router() {
   const clientLocal = new QueryClient();
+
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   return (
     <QueryClientProvider client={clientLocal}>
       <ToastifyProvider>
@@ -35,7 +38,17 @@ export function Router() {
                     <ModalProvider>
                       <ToastContainer />
                       <Routes>
-                        <Route element={<Layout />} path="/">
+                        <Route
+                          element={
+                            <Layout
+                              sidebarControllers={{
+                                isSidebarOpen,
+                                setIsSidebarOpen,
+                              }}
+                            />
+                          }
+                          path="/"
+                        >
                           <Route
                             path="/"
                             element={
