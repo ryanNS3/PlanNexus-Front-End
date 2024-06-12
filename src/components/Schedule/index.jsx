@@ -1,111 +1,21 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { ReservaContext } from "../../context/reservaContext";
 
 export function Schedule() {
-  const events = [
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-    {
-      text: "Entrega da camiseta",
-      time: "10:00",
-      name: "Ryan",
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRKmdmsr7UB8ikmVUrGPh2OB1SMuDXCJw5oblKsPYbTQ&s",
-    },
-  ];
-  const [currentStep, setCurrentStep] = React.useState(1);
+  const { GetAllReservas, reservas } = useContext(ReservaContext);
+
+  useEffect(() => {
+    GetAllReservas();
+  }, [GetAllReservas]);
+
   const steps = ["S", "T", "Q", "Q", "S", "S", "D"];
+  const [currentStep, setCurrentStep] = React.useState(1);
 
   return (
-    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[1168px] overflow-auto max-[1024px]:col-span-full" style={{scrollbarWidth: "none"}}>
+    <section
+      className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[1168px] overflow-auto max-[1024px]:col-span-full"
+      style={{ scrollbarWidth: "none" }}
+    >
       <h2 className="text-sub2 mb-7">Agenda</h2>
 
       <nav>
@@ -115,13 +25,11 @@ export function Schedule() {
               <li
                 key={index}
                 className="flex flex-col items-center cursor-pointer gap-2"
-                onClick={() =>
-                  setCurrentStep(index + 1)
-                }
+                onClick={() => setCurrentStep(index + 1)}
               >
                 <div
                   className={`flex rounded-full w-11 h-11 text-fun2 items-center justify-center hover:bg-rosa-300 hover:text-branco ${
-                    currentStep == index + 1
+                    currentStep === index + 1
                       ? "bg-rosa-300 text-branco"
                       : "bg-[#D9D9D9] text-cinza-700"
                   }`}
@@ -131,68 +39,24 @@ export function Schedule() {
               </li>
             </React.Fragment>
           ))}
-
-          {/* <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-rosa-300 text-fun2 text-branco">
-            S
-          </li>
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
-            T
-          </li>
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
-            Q
-          </li>
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
-            Q
-          </li>
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
-            S
-          </li>
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
-            S
-          </li>
-          <li className="cursor-pointer w-8 h-8 rounded-full flex items-center justify-center bg-cinza-100 text-fun2 text-cinza-500 hover:bg-rosa-300 hover:text-branco">
-            D
-          </li> */}
         </ul>
       </nav>
 
       <div className="flex flex-col mt-9 gap-11 overflow-auto pt-3">
-        <Step currentStep={currentStep} step={1}>
-          {events.map((task, index) => (
-            <React.Fragment key={index}>
+        {reservas.length > 0 ? (
+          reservas.map((reserva, index) => (
+            <Step currentStep={currentStep} step={index + 1} key={reserva.id_reserva}>
               <Task
-                text={task.text}
-                time={task.time}
-                name={task.name}
-                picture={task.picture}
+                text={`Reserva de ${reserva.nome}`}
+                time={new Date(reserva.retirada).toLocaleTimeString()}
+                name={reserva.nome}
+                picture="https://via.placeholder.com/150"
               />
-            </React.Fragment>
-          ))}
-        </Step>
-        <Step currentStep={currentStep} step={2}>                                                                                                   
-          {events.map((task, index) => (
-            <React.Fragment key={index}>
-              <Task
-                text={task.text}
-                time={task.time}
-                name={task.name}
-                picture={task.picture}
-              />
-            </React.Fragment>
-          ))}
-        </Step>
-        <Step currentStep={currentStep} step={3}>                                                                         
-          {events.map((task, index) => (
-            <React.Fragment key={index}>
-              <Task
-                text={task.text}
-                time={task.time}
-                name={task.name}
-                picture={task.picture}
-              />
-            </React.Fragment>
-          ))}
-        </Step>
+            </Step>
+          ))
+        ) : (
+          <p>Carregando reservas...</p>
+        )}
       </div>
     </section>
   );
@@ -206,12 +70,12 @@ function Task({ text, time, name, picture }) {
       </span>
 
       <div className="flex justify-between gap-3 items-center rounded-lg border-2 border-cinza-200 px-4 py-6 w-full">
-        <p className="text-fun2">
-          {text.length <= 25 ? text : text.slice(0, 25) + "..."}
-        </p>{" "}
-        {/*11 */}
+        <p className="text-fun2">{text.length <= 25 ? text : text.slice(0, 25) + "..."}</p>
         <div className="flex gap-2">
-          <button type="button" className="py-1 px-3 bg-[#71d16e] hover:opacity-85 rounded">
+          <button
+            type="button"
+            className="py-1 px-3 bg-[#71d16e] hover:opacity-85 rounded"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="20"
@@ -225,7 +89,10 @@ function Task({ text, time, name, picture }) {
             </svg>
           </button>
 
-          <button type="button" className="px-3 py-1 bg-cinza-500 hover:opacity-85 rounded">
+          <button
+            type="button"
+            className="px-3 py-1 bg-cinza-500 hover:opacity-85 rounded"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="20"
@@ -250,6 +117,5 @@ function Task({ text, time, name, picture }) {
 
 function Step({ currentStep, step, children }) {
   const show = currentStep === step;
-
   return show ? <>{children}</> : null;
 }

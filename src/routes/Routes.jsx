@@ -8,6 +8,7 @@ import { ModalProvider } from "../context/modalContext";
 import { ToastifyProvider } from "../context/toastifyContext";
 import { ToastContainer } from "react-toastify";
 import { EmployeeProvider } from "../context/Employee";
+import { ReservaProvider } from "../context/reservaContext";
 import "react-toastify/dist/ReactToastify.css";
 import { Stock } from "../pages/Stock";
 import { Layout } from "../Layout/Layout";
@@ -31,91 +32,93 @@ export function Router() {
       <ToastifyProvider>
         <UserProvider>
           <EmployeeProvider>
-            <StudentProvider>
-              <ProductProvider>
-                <LockerProvider>
-                  <DonatorProvider>
-                    <ModalProvider>
-                      <ToastContainer />
-                      <Routes>
-                        <Route
-                          element={
-                            <Layout
-                              sidebarControllers={{
-                                isSidebarOpen,
-                                setIsSidebarOpen,
-                              }}
-                            />
-                          }
-                          path="/"
-                        >
+            <ReservaProvider>
+              <StudentProvider>
+                <ProductProvider>
+                  <LockerProvider>
+                    <DonatorProvider>
+                      <ModalProvider>
+                        <ToastContainer />
+                        <Routes>
                           <Route
+                            element={
+                              <Layout
+                                sidebarControllers={{
+                                  isSidebarOpen,
+                                  setIsSidebarOpen,
+                                }}
+                              />
+                            }
                             path="/"
-                            element={
-                              <ProtectRouter>
-                                <Home />
-                              </ProtectRouter>
-                            }
-                          />
-
-                          <Route
-                            path="/estoque"
-                            element={
-                              <ProtectRouter>
-                                <Stock />
-                              </ProtectRouter>
-                            }
-                          />
-
-                          <Route
-                            path="/doacao"
-                            element={
-                              <ProtectRouter>
-                                <Donate />
-                              </ProtectRouter>
-                            }
-                          />
-                          <Route
-                            path="/config"
-                            element={
-                              <ProtectRouter>
-                                <Donate />
-                              </ProtectRouter>
-                            }
-                          />
-
-                          <Route
-                            path="/funcionario/perfil"
-                            element={
-                              <ProtectRouter>
-                                <Profile />
-                              </ProtectRouter>
-                            }
-                          />
-
-                          <Route path="/gestao">
+                          >
                             <Route
-                              path="/gestao"
+                              path="/"
                               element={
                                 <ProtectRouter>
-                                  <Management />
+                                  <Home />
                                 </ProtectRouter>
                               }
                             />
+
+                            <Route
+                              path="/estoque"
+                              element={
+                                <ProtectRouter>
+                                  <Stock />
+                                </ProtectRouter>
+                              }
+                            />
+
+                            <Route
+                              path="/doacao"
+                              element={
+                                <ProtectRouter>
+                                  <Donate />
+                                </ProtectRouter>
+                              }
+                            />
+                            <Route
+                              path="/config"
+                              element={
+                                <ProtectRouter>
+                                  <Donate />
+                                </ProtectRouter>
+                              }
+                            />
+
+                            <Route
+                              path="/funcionario/perfil"
+                              element={
+                                <ProtectRouter>
+                                  <Profile />
+                                </ProtectRouter>
+                              }
+                            />
+
+                            <Route path="/gestao">
+                              <Route
+                                path="/gestao"
+                                element={
+                                  <ProtectRouter>
+                                    <Management />
+                                  </ProtectRouter>
+                                }
+                              />
+                            </Route>
                           </Route>
-                        </Route>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/forgot" element={<ForgotPassword />} />
-                        <Route
-                          path="/recuperar-senha/:token"
-                          element={<ResetPassword />}
-                        />
-                      </Routes>
-                    </ModalProvider>
-                  </DonatorProvider>
-                </LockerProvider>
-              </ProductProvider>
-            </StudentProvider>
+                          <Route path="/login" element={<Login />} />
+                          <Route path="/forgot" element={<ForgotPassword />} />
+                          <Route
+                            path="/recuperar-senha/:token"
+                            element={<ResetPassword />}
+                          />
+                        </Routes>
+                      </ModalProvider>
+                    </DonatorProvider>
+                  </LockerProvider>
+                </ProductProvider>
+              </StudentProvider>
+            </ReservaProvider>
           </EmployeeProvider>
         </UserProvider>
       </ToastifyProvider>
