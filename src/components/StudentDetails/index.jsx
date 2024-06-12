@@ -4,7 +4,7 @@ import axios from "axios";
 import { useCookies } from "../../hooks/useCookies";
 import { StudentContext } from "../../context/studentsContext";
 
-import { InputText } from "../Inputs/input-text/inputTextComp";
+import { EditableInput, InputText } from "../Inputs/input-text/inputTextComp";
 import { PinkButton } from "../Buttons/pinkButton";
 
 export function StudentDetails({ student }) {
@@ -52,6 +52,35 @@ export function StudentDetails({ student }) {
     });
   };
 
+  const [isEditing, setIsEditing] = useState({
+    nome: false,
+    CPF: false,
+    telefone_fixo: false,
+    telefone_celular: false,
+    email: false,
+  });
+
+  const handleEditClick = (field) => {
+    setIsEditing((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "Nome") {
+      setNome((prev) => prev, )
+    }
+
+    console.log(value)
+    // setEditedEmployee((prev) => ({
+    //   ...prev,
+    //   [name]: value
+    // }));
+  };
+
   return (
     <div className="pb-8">
       <header className="flex items-center gap-6 pb-2 mb-6 border-b border-b-cinza-200">
@@ -78,35 +107,50 @@ export function StudentDetails({ student }) {
           Informações pessoais:
         </p>
         <div className="flex flex-wrap gap-4">
-          <InputText
+          <EditableInput
             id="Nome"
             name="Nome:"
-            placeholder={student.nome}
-            onChange={(e) => setNome(e.target.value)}
+            value={student.nome}
+            disabled={!isEditing.nome}
+            onChange={handleInputChange}
+            onEditClick={() => handleEditClick("nome")}
+            isEditable
           />
-          <InputText
+          <EditableInput
             id="CPF"
             name="CPF:"
-            placeholder={student.CPF}
+            value={student.CPF}
+            disabled={!isEditing.CPF}
             onChange={(e) => setCpf(e.target.value)}
+            onEditClick={() => handleEditClick("CPF")}
+            isEditable
           />
-          <InputText
+          <EditableInput
             id="Telefone"
             name="Telefone:"
-            placeholder={student.telefone_fixo}
+            value={student.telefone_fixo}
+            disabled={!isEditing.telefone_fixo}
             onChange={(e) => setTelefone(e.target.value)}
+            onEditClick={() => handleEditClick("telefone_fixo")}
+            isEditable
           />
-          <InputText
+          <EditableInput
             id="Celular"
             name="Celular:"
-            placeholder={student.telefone_celular}
+            value={student.telefone_celular}
+            disabled={!isEditing.telefone_celular}
             onChange={(e) => setCelular(e.target.value)}
+            onEditClick={() => handleEditClick("telefone_celular")}
+            isEditable
           />
-          <InputText
+          <EditableInput
             id="Email"
             name="Email:"
-            placeholder={student.email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={student.email}
+            disabled={!isEditing.email}
+            onChange={(e) => setCelular(e.target.value)}
+            onEditClick={() => handleEditClick("email")}
+            isEditable
           />
           {/* Nome, CPF, Telefone, Email */}
         </div>
@@ -170,7 +214,11 @@ export function StudentDetails({ student }) {
       </div>
 
       <div className="flex justify-end">
-        <PinkButton text="Atualizar" action={handleSubmit} loading={mutatePatchStudents.isPending} />
+        <PinkButton
+          text="Atualizar"
+          action={handleSubmit}
+          loading={mutatePatchStudents.isPending}
+        />
       </div>
     </div>
   );
