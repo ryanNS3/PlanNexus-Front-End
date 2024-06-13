@@ -70,15 +70,27 @@ export function StudentDetails({ student }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "Nome") {
-      setNome((prev) => prev, )
+    switch (name) {
+      case "Nome:":
+        console.log(name)
+        setNome(value);
+        break;
+        case "CPF:":
+        console.log(name)
+        setCpf(value);
+        break;
+      case "Telefone:":
+        setTelefone(value);
+        break;
+      case "Celular:":
+        setCelular(value);
+        break;
+      case "Email:":
+        setEmail(value);
+        break;
+      default:
+        break;
     }
-
-    console.log(value)
-    // setEditedEmployee((prev) => ({
-    //   ...prev,
-    //   [name]: value
-    // }));
   };
 
   return (
@@ -110,7 +122,7 @@ export function StudentDetails({ student }) {
           <EditableInput
             id="Nome"
             name="Nome:"
-            value={student.nome}
+            value={nome}
             disabled={!isEditing.nome}
             onChange={handleInputChange}
             onEditClick={() => handleEditClick("nome")}
@@ -119,36 +131,36 @@ export function StudentDetails({ student }) {
           <EditableInput
             id="CPF"
             name="CPF:"
-            value={student.CPF}
+            value={cpf}
             disabled={!isEditing.CPF}
-            onChange={(e) => setCpf(e.target.value)}
+            onChange={handleInputChange}
             onEditClick={() => handleEditClick("CPF")}
             isEditable
           />
           <EditableInput
             id="Telefone"
             name="Telefone:"
-            value={student.telefone_fixo}
+            value={telefone}
             disabled={!isEditing.telefone_fixo}
-            onChange={(e) => setTelefone(e.target.value)}
+            onChange={handleInputChange}
             onEditClick={() => handleEditClick("telefone_fixo")}
             isEditable
           />
           <EditableInput
             id="Celular"
             name="Celular:"
-            value={student.telefone_celular}
+            value={celular}
             disabled={!isEditing.telefone_celular}
-            onChange={(e) => setCelular(e.target.value)}
+            onChange={handleInputChange}
             onEditClick={() => handleEditClick("telefone_celular")}
             isEditable
           />
           <EditableInput
             id="Email"
             name="Email:"
-            value={student.email}
+            value={email}
             disabled={!isEditing.email}
-            onChange={(e) => setCelular(e.target.value)}
+            onChange={handleInputChange}
             onEditClick={() => handleEditClick("email")}
             isEditable
           />
