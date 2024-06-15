@@ -3,27 +3,25 @@ import { useState, useEffect, useContext } from "react";
 import { CardMedium } from "../Cards/Card";
 import { ProductContext } from "../../context/ProductContext";
 
-const dadosMock = [124, 63, 71];
-const colorsData = ["#D9A5EC", "#45DDA8", "#527661"];
-
-const dadosMock2 = [58, 26, 128];
-
-const data = {
-  labels: [],
-  datasets: [
-    {
-      label: "Valor (em R$)",
-      data: dadosMock.map((item) => item),
-      backgroundColor: colorsData.map((item) => item),
-    },
-  ],
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 };
 
-
+const generateRandomColors = (numColors) => {
+  const colors = [];
+  for (let i = 0; i < numColors; i++) {
+    colors.push(getRandomColor());
+  }
+  return colors;
+};
 
 const config = {
   type: "doughnut",
-  data: data,
   options: {
     responsive: true,
     plugins: {
@@ -33,44 +31,69 @@ const config = {
       },
     },
   },
-};
+};  
 
 
 
 export function DonateChart() {
+  const {getChartData} = useContext(ProductContext)
+    const {chartData} = getChartData()
+    const labels = chartData?.json?.Doacao.Label || []
+    const dataValues = chartData?.json?.Doacao.Data || []
+    const bgColors = generateRandomColors(dataValues.length)
+
+    const data = {   
+      labels: [],
+      datasets: [
+        {
+          label: 'Valor em R$',
+          data: dataValues,
+          backgroundColor: bgColors.map(item => item),
+        },
+      ],
+    };
+
   return (
     <>
       <CardMedium>
-        <div className=" max-w-[250px]">
-            <h2 className="text-sub2">Custo de Doação</h2>
-            <div className="flex">
-              <Doughnut  options={config} data={data} />
-              <div className="flex-col p-10">
-                <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#D9A5EC]"></div>Transporte</div>
-                <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#45DDA8]"></div>Alimentício</div>
-                <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#527661]"></div>Dinheiro</div>
-              </div>
+        <div className="  lg:w-50 md:w-42 sm-32 p-4">
+          <h2 className="text-sub2">Custo de doação</h2>
+          <div className="flex flex-col sm:flex-row gap-2 mt-2">
+            <div className="w-full sm:w-1/2">
+              <Doughnut options={config} data={data} />
             </div>
+
+            <div className="flex flex-col justify-center w-full ">
+              {labels && labels.map((item, index) => {
+                return (
+                  <div key={index} className="flex items-center gap-2 mt-2">
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: bgColors[index] }}></div>
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </CardMedium>
     </>
   );
-}
-
-export function DonateChart2() {
-  const {getChartData} = useContext(ProductContext)
-  const chartData = getChartData()
-  const labels = chartData?.chartData?.json?.ProdutosMaisDoados?.Label || []
-  const dataValues = chartData?.json?.ProdutosMaisDoados?.Data || []
-
+  }
+  
+  export function DonateChart2() {
+    const {getChartData} = useContext(ProductContext)
+    const {chartData} = getChartData()
+    const labels = chartData?.json?.ProdutosMaisDoados.Label || []
+    const dataValues = chartData?.json?.ProdutosMaisDoados.Data || []
+    const bgColors = generateRandomColors(dataValues.length)
 
   const data2 = {   
-    labels: labels,
+    labels: [],
     datasets: [
       {
         label: 'Quantidade',
         data: dataValues,
-        backgroundColor: colorsData.map((item) => item),
+        backgroundColor: bgColors.map(item => item),
       },
     ],
   };
@@ -78,17 +101,24 @@ export function DonateChart2() {
   return (
     <>
       <CardMedium>
-        <div className=" max-w-[250px]">
-            <h2 className="text-sub2">Produtos mais doados</h2>
-            <div className="flex">
-              <Doughnut  options={config} data={data2} />
-              {/* <div className="flex-col p-10">
-                <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#D9A5EC]"></div>Camiseta</div>
-                <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#45DDA8]"></div>Copo</div>
-                <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-[#527661]"></div>Caneta</div>
-              </div> */}
+        <div className="w-full sm:w-1/2 lg:w-2/3 xl:w-3/4 max-w-full p-4">
+          <h2 className="text-sub2">Produtos mais doados</h2>
+          <div className="flex flex-col sm:flex-row gap-2 mt-2">
+            <div className="w-full sm:w-1/2">
+              <Doughnut options={config} data={data2} />
             </div>
 
+            <div className="flex flex-col justify-center w-full sm:w-1/2 lg:w-2/3 xl:w-3/4">
+              {labels && labels.map((item, index) => {
+                return (
+                  <div key={index} className="flex items-center gap-2 mt-2">
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: bgColors[index] }}></div>
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </CardMedium>
     </>
