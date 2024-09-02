@@ -74,8 +74,7 @@ export const UserProvider = ({ children }) => {
         { email: email, senha: password },
         'POST',
         null
-      );
-
+      )
       if (response && response.res.status === 200) {
         const { token, NIF, nome, nome_cargo, email, foto } = response.json.response;
         setTokenString(token);

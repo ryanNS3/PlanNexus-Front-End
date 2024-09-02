@@ -52,27 +52,27 @@ export function Router() {
                           <Route
                             path="/"
                             element={
-                              <ProtectRouter>
+                              // <ProtectRouter>
                                 <Home />
-                              </ProtectRouter>
+//                              </ProtectRouter>
                             }
                           />
 
                           <Route
                             path="/estoque"
                             element={
-                              <ProtectRouter>
+  //                            <ProtectRouter>
                                 <Stock />
-                              </ProtectRouter>
+    //                          </ProtectRouter>
                             }
                           />
 
                           <Route
                             path="/doacao"
                             element={
-                              <ProtectRouter>
+      //                        <ProtectRouter>
                                 <Donate />
-                              </ProtectRouter>
+        //                      </ProtectRouter>
                             }
                           />
                           <Route
@@ -97,9 +97,9 @@ export function Router() {
                             <Route
                               path="/gestao"
                               element={
-                                <ProtectRouter>
+          //                      <ProtectRouter>
                                   <Management />
-                                </ProtectRouter>
+            //                    </ProtectRouter>
                               }
                             />
                           </Route>
