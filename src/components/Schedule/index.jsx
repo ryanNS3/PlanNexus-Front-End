@@ -105,7 +105,7 @@ export function Schedule() {
   const steps = ["S", "T", "Q", "Q", "S", "S", "D"];
 
   return (
-    <section className="px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[1168px] overflow-auto max-[1024px]:col-span-full" style={{scrollbarWidth: "none"}}>
+    <section className=" row-span-2 px-6 py-9 shadow-[0_4px_8px_0px_rgba(227,227,227)] border border-cinza-100 rounded-lg max-h-[99%] overflow-auto max-[1024px]:col-span-full" style={{scrollbarWidth: "none"}}>
       <h2 className="text-sub2 mb-7">Agenda</h2>
 
       <nav>

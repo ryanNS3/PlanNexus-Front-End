@@ -24,7 +24,7 @@ export function SearchBar(){
                             placeholder="pesquisar"
                             value={searchTerm}
                             onChange={handleChange}
-                            className="w-full py-2 pl-10 pr-4 focus:outline-none border-2 focus:border-rosa-destaque border-cinza-100 rounded-lg"
+                            className="w-full py-2 pl-10 pr-4 focus:outline-none border-[3px] focus:border-rosa-destaque border-cinza-100 rounded-lg"
                         />
 
                 {searchTerm && (

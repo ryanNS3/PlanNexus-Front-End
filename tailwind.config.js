@@ -98,8 +98,8 @@ export default {
       'h4': ['2.5rem', {
         lineHeight: '48px',
         letterSpacing: '-1%',
-        fontWeight: '600',
-        case: 'upper',
+        fontWeight: '700',
+        
       }],
       'h5': ['2rem', {
         lineHeight: '38px',
@@ -109,8 +109,8 @@ export default {
       'sub1': ['1.5rem', {
         lineHeight: '31px',
         letterSpacing: '2%',
-        fontWeight: '700',
-        case: 'upper',
+        fontWeight: '600',
+        
       }],
       'sub2': ['1.25rem', {
         lineHeight: '28px',
@@ -121,13 +121,13 @@ export default {
         lineHeight: '28px',
         letterSpacing: '2%',
         fontWeight: '700',
-        case: 'upper',
+        
       }],
       'fun2': ['0.938rem', {
         lineHeight: '21px',
         letterSpacing: '2%',
         fontWeight: '600',
-        case: 'upper',
+        
       }],
       'ct1': ['1.375rem', {
         lineHeight: '29px',
@@ -170,7 +170,7 @@ export default {
         'destaque': '#cb6ce6'
       },
       'cinza': {
-        50: '#F9F9F9',
+        50: '#EEEEEE',
         100: '#E6E6E6',
         200: '#CCCCCC',
         300: '#999999',

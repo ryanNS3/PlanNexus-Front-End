@@ -108,7 +108,7 @@ export const data = {
 export function SalesChart() {
   return (
     
-      <figure title="Gráfico de vendas realizadas pela AAPM" className="shadow-[0_4px_8px_0px_rgba(227,227,227)] rounded-lg p-6">
+      <figure title="Gráfico de vendas realizadas pela AAPM" className="shadow-[0_4px_8px_0px_rgba(227,227,227)] border-2 border-cinza-100 rounded-lg p-6">
         <h2 className="text-sub2">Vendas AAPM</h2>
         <Line options={options} data={data} aria-label="linha do gráfico"/>
       </figure>

@@ -54,7 +54,7 @@ export function TemplateView({
             setIsOpenModal={setIsOpenModalForm}
             TextButton={`Adicionar ${name}`}
           >
-            <h1 className=" text-h5">Adicionar {name}</h1>
+            <h1 className=" text-h5 uppercase">Adicionar {name}</h1>
             {formModal}
           </BasicModal>
         )}
