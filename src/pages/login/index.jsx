@@ -56,6 +56,7 @@ export function Login() {
     }
 
     const success = await userLoginRequest(finalEmail,password );
+    console.log(success)
 
     if (success) {
       navegar('/')

@@ -10,13 +10,15 @@ export function Home() {
       <Main>
         <div className="overflow-y-auto max-h-screen">
         <Statistic />
-        <div className="grid grid-cols-[1fr_auto] mt-18 gap-6">
+        <div className=" max-h-[900px]  mt-18 gap-6">
           <h1 className="col-span-full text-h5">Geral</h1>
-          <div className="gap-6 max-[1024px]:col-span-full">
-            <SalesChart />
-            <Grafico />
+          <div className=" grid grid-cols-2 grid-rows-2 gap-8 max-h-[400px] lg:max-h-[1000px] max-[1024px]:col-span-full">
+            <div className=" row-span-2">
+              <Grafico />
+              <SalesChart />
+            </div>
+            <Schedule/>
           </div>
-          <Schedule/>
         </div>
         </div>
 
