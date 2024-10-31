@@ -164,7 +164,7 @@ export function SidebarElement({ text, href, icon }) {
     <li>
       <Link
         to={href}
-        className={`relative flex items-center justify-start gap-9 m-auto w-full px-4 py-5 bg-red-500 rounded-lg font-poppins font-medium bg-transparent
+        className={`relative flex items-center justify-start gap-9 m-auto w-full px-5 py-5 bg-red-500 rounded-2xl font-poppins font-medium bg-transparent
 
         // ESTILOS DO PSEUDO ELEMENTO AFTER
         

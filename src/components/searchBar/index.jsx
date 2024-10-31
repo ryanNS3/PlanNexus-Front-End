@@ -17,7 +17,7 @@ export function SearchBar(){
       return(
         <>
             {/* BARRA DE PESQUISA */}
-            <div className="w-full col-start-1 col-end-11 flex align-center py-2 my-5" aria-label="Barra de pesquisa de usuário">
+            <div className=" p-4 bg-branco w-full col-start-1 col-end-11 flex align-center py-2 my-5" aria-label="Barra de pesquisa de usuário">
 
                         <input
                             type="text"
