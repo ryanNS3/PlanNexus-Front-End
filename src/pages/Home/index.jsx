@@ -8,7 +8,7 @@ export function Home() {
   return (
     <>
       <Main>
-        <div className="overflow-y-auto max-h-screen">
+        <div className=" bg-branco p-12 rounded-2xl overflow-y-auto max-h-screen">
         <Statistic />
         <div className=" max-h-[900px]  mt-18 gap-6">
           <h1 className="col-span-full text-h5">Geral</h1>

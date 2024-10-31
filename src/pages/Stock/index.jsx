@@ -23,7 +23,7 @@ export function Stock() {
   const [isOpenModalAddStock, setIsOpenModalAddStock] = React.useState(false)
 
   return (
-    <>
+    <div className='bg-branco p-12 rounded-2xl'>
       {allProductsLowStock?.length != 0 &&
         <>
         <h1 id='BaixoEstoque' className='text-h5 mb-6'>Baixo estoque</h1>
@@ -120,6 +120,6 @@ export function Stock() {
 
         </TemplateView>
       
-    </>
+    </div>
   )
 }

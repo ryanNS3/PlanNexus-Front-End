@@ -12,9 +12,9 @@ function App() {
   // },[])
 
   return (
-    <>
+    <div className=" bg-cinza-50">
       <Router />
-    </>
+    </div>
   );
 }
 
