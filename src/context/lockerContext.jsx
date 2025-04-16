@@ -9,20 +9,25 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export function LockerProvider({ children }) {
   const { token, user } = useContext(UserGlobal);
   const [dataLocker, setDataLocker] = useState([]);
-  const { dados, requisicao } = useAxios();
+  const { requisicao } = useAxios();
   const queryClient = useQueryClient()
 
   async function GetLocker() {
-    const reqLocker = await requisicao(
-      `${BASE_URL}/armario/todos`,
-      null,
-      "GET",
-      {
-        authorization: `bearer ${token}`,
-        nif: user,
-      }
-    );
-    setDataLocker(reqLocker.json.response);
+    try {
+      const reqLocker = await requisicao(
+        `${BASE_URL}/armario/todos`,
+        null,
+        "GET",
+        {
+          authorization: `bearer ${token}`,
+          nif: user,
+        }
+      );
+      setDataLocker(reqLocker.json.response);
+      return reqLocker.json.response;
+    } catch (error) {
+      console.error("Erro ao obter armários:", error);
+    }
   }
 
   function allGetLockers() {
@@ -42,29 +47,42 @@ export function LockerProvider({ children }) {
     onSuccess: () => {
       queryClient.invalidateQueries(['Lockers'])
     },
+  
   })
 
   async function UpdateLocker(dataLocker) {
-    const reqStatus = await requisicao(
-      `${BASE_URL}/armario/atualizar`,
-      {
-        numeroArmario: dataLocker.numero,
-        idAluno: dataLocker.id_aluno,
-        statusArmario: dataLocker.status,
-      },
-      "PATCH",
-      {
-        authorization: `bearer ${token}`,
-        nif: user,
-      }
-    );
-    return reqStatus;
+    try {
+      const reqStatus = await requisicao(
+        `${BASE_URL}/armario/atualizar`,
+        {
+          numeroArmario: dataLocker.numero,
+          idAluno: dataLocker.id_aluno,
+          statusArmario: dataLocker.status,
+        },
+        "PATCH",
+        {
+          authorization: `bearer ${token}`,
+          nif: user,
+        }
+      );
+      return reqStatus;
+    } catch (error) {
+      console.error("Erro ao atualizar armário:", error);
+      throw error;
+    }
   }
+
+  const mutatePatchLock = useMutation({
+    mutationFn: UpdateLocker,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["Lockers"]);
+    },
+  });
 
   return (
     // desserializa os valores que passo para ele
     <LockerContext.Provider
-      value={{ dados, dataLocker, UpdateLocker, allGetLockers, mutateLock }}
+      value={{ dataLocker, UpdateLocker, allGetLockers, mutateLock, mutatePatchLock}}
     >
       {children}
     </LockerContext.Provider>
